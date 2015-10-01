@@ -1,9 +1,12 @@
 
 EOSAI
-Genie AI
+Genie
 FrostGiant
 Gorilla
 Hydra
 
-I could use a variety of "release" names (like how Android names their versions): Stark, Loki, Sherlock, Xavier, MindFlayer, Githyanki, Gandolf, DrWho, DocBrown
+I could use a variety of "release" names (like how Android names their versions): 
+  Stark, Loki, Octavius (DoctorOctopus), Sherlock, Xavier, Gandolf, DoctorWho, DocBrown, Banner (Hulk), Wayne (Batman), LexLuthor
+  Musk, Tesla, Edison
+  MindFlayer, Githyanki, Cthulu
 
