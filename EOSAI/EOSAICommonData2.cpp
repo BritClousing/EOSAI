@@ -307,6 +307,13 @@ bool CCommonData2::HasSetSneakAttack( long iAttacker, long iTarget )
 	return false;
 }
 
+void CCommonData2::AddNewPlayerInteractionAndSendFeelingsUpdate(CEOSAIPlayerInteraction* pPlayerInteraction)
+{
+	ASSERT(pPlayerInteraction->m_iEventTurn > 0);
+	m_PlayerInteractions.AddTail(pPlayerInteraction);
+	CalculateForeignRelationsFeelingsBasedOnPlayerInteractionHistory();
+}
+
 long CCommonData2::GetPlayerInteraction_WarDuration( long iPlayer1, long iPlayer2 )
 {
 	if( GetForeignRelations( iPlayer1, iPlayer2 ) != EOSAIEnumForeignRelations::enum_War ) return -1;
@@ -337,6 +344,25 @@ long CCommonData2::GetPlayerInteraction_WarDuration( long iPlayer1, long iPlayer
 		}
 	}
 	return g_pEOSAIInterface->GetCurrentTurn() - iStartTurn;
+}
+
+void CCommonData2::CalculateForeignRelationsFeelingsBasedOnPlayerInteractionHistory()
+{
+	// Clear Feelings and Stance
+	m_AIGlobalForeignRelations.ResetFeelings();
+
+	int iCurrentTurn = g_pEOSAIInterface->GetCurrentTurn();
+
+	//CWorldDescServer* pWorldDescServer = GetCommonState()->GetWorldDescServer();
+	//CString strA = m_CurrentForeignRelations.OutputDebugString();
+	POSITION pos = GetPlayerInteractions()->GetHeadPosition();
+	while (pos)
+	{
+		CEOSAIPlayerInteraction* pInteraction = GetPlayerInteractions()->GetNext(pos);
+		pInteraction->UpdateForeignRelationsFeelings( iCurrentTurn,
+			m_AIGlobalForeignRelations.GetForeignRelations(),
+			m_AIGlobalForeignRelations.GetFeelings());
+	}
 }
 
 // Might need to fix this

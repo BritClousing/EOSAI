@@ -411,6 +411,7 @@
     <ClInclude Include="EOSAIPoiObjectProximity.h" />
     <ClInclude Include="MessageFromAI_TradeDesires.h" />
     <ClInclude Include="MessageFromAI_TradeOfferOpinion.h" />
+    <ClInclude Include="MessageFromAI_TradeOfferResponse.h" />
     <ClInclude Include="PoiObjectState.h" />
     <ClInclude Include="EOSAIPublic.h" />
     <ClInclude Include="EOSAIQuickCombatCalculation.h" />
@@ -517,6 +518,7 @@
     <None Include="_UpdateVersion.bat" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="NamesForTheAI.txt" />
     <Text Include="ToDo.txt" />
     <Text Include="_NotesOnInterfaces.txt" />
   </ItemGroup>

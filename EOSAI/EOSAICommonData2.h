@@ -109,10 +109,12 @@ class DLLIMPEXP CCommonData2
 
 		// Player Interactions
 		//
-			void  AddNewPlayerInteractionAndSendFeelingsUpdate( CEOSAIPlayerInteraction* p ){ ASSERT( false ); }
+			void  AddNewPlayerInteractionAndSendFeelingsUpdate(CEOSAIPlayerInteraction* p);
 			long  GetPlayerInteraction_WarDuration( long iPlayer1, long iPlayer2 );
 			CList< CEOSAIPlayerInteraction* >* GetPlayerInteractions(){ return &m_PlayerInteractions; }
 			CList< CEOSAIPlayerInteraction* >  m_PlayerInteractions;
+
+			void CalculateForeignRelationsFeelingsBasedOnPlayerInteractionHistory();
 
 		//
 		// AIGeos - These are the "player neutral" AIGeos. They should get (duplicated?) and set to the player number

@@ -2,7 +2,6 @@
 #pragma once
 
 #include "MessageFromAI.h"
-//#include <string>
 #include <map>
 
 #ifdef _USRDLL

@@ -16,6 +16,7 @@
 #include "EOSAINationalSummary3.h"
 
 #include "MessageFromAI_TradeDesires.h"
+#include "MessageFromAI_TradeOfferResponse.h"
 
 #include "EOSAIStrategicAI.h"
 #include "AIPlayer.h"
@@ -33,6 +34,7 @@
 //#include "BuildingDescription.h"
 
 #include "EOSAIPlayerInteraction_DeclaredWar.h"
+#include "EOSAIPlayerInteraction_Trade.h"
 #include "EOSAITradeAgreement.h"
 #include "EOSAITradeAgreementMultiplier.h"
 #include "EOSAITechnologyDesc.h"
@@ -1936,8 +1938,36 @@ void CEOSAIStrategicAI::EvaluateAndRespondToTradeAgreement( CEOSAITradeAgreement
 	//if( iResult == +1 )
 	if( TradeEvaluationResult.m_fTradeValue11 >= 0.0f )//fOpinion01 >= 1.0f )
 	{
-		ASSERT( false );
-		dfsdf
+		EOSAI::MessageFromAI_TradeOfferResponse* pResponse = new EOSAI::MessageFromAI_TradeOfferResponse();
+		pResponse->m_iFromAIPlayer = this->GetPlayerNumber();
+		pResponse->m_iSendToPlayer = pTradeAgreement->GetOtherPlayerNumber(pResponse->m_iFromAIPlayer);
+		pResponse->m_strTradeAgreementId = pTradeAgreement->m_strTradeAgreementId;
+		pResponse->m_eResponse = EOSAIEnumTradeAgreementResponse_Accept;
+		g_pEOSAIInterface->AddNewMessageFromAI(pResponse);
+
+		if (TradeEvaluationResult.m_fForeignRelationsBonus > 0.1f)
+		{
+			long iPlayerWhoMadeTheOffer = pTradeAgreement->GetPlayerWhoMadeTheOffer();
+			long iPlayerWhoDidntMakeTheOffer = pTradeAgreement->GetOtherPlayerNumber(iPlayerWhoMadeTheOffer);
+			CEOSAIPlayerInteraction_Trade* pTradeInteraction = new CEOSAIPlayerInteraction_Trade();
+			pTradeInteraction->m_iEventTurn = g_pEOSAIInterface->GetCurrentTurn();
+			pTradeInteraction->m_fImprovedForeignRelationsValue01 = TradeEvaluationResult.m_fForeignRelationsBonus;
+			pTradeInteraction->m_iImprovedForeignRelationsAIPlayer = this->GetPlayerNumber();
+			pTradeInteraction->m_iImprovedForeignRelationsHumanPlayer = pTradeAgreement->GetOtherPlayerNumber(pResponse->m_iFromAIPlayer);
+			pTradeInteraction->m_eResponse = EOSAIEnumTradeAgreementResponse_Accept;
+			pTradeInteraction->m_strTradeAgreement = pTradeAgreement->m_strTradeAgreementId;
+			g_pEOSAICommonData->AddNewPlayerInteractionAndSendFeelingsUpdate(pTradeInteraction);
+			/*
+			pTrade->Set(
+				GetWorldDescServer()->GetCurrentTurn(),
+				iPlayerWhoMadeTheOffer, iPlayerWhoDidntMakeTheOffer, pTradeAgreement->m_strTradeAgreementId,
+				CTradeAgreement::enum_Accept, iPlayerWhoDidntMakeTheOffer,
+				iPlayerWhoMadeTheOffer, TradeEvaluationResult.m_fForeignRelationsBonus);
+			g_pCommonState->GetWorldDescServer()->AddNewPlayerInteractionAndSendFeelingsUpdate(pTrade);
+			*/
+		}
+
+		//ASSERT( false );
 		#ifdef GAME_CODE
 		I need to send back a StrategicAIOrder_TradeAgreementResponse
 		g_pMessageManager->SendMessage_PlayerToServer_TradeAgreementResponse(
@@ -1961,7 +1991,13 @@ void CEOSAIStrategicAI::EvaluateAndRespondToTradeAgreement( CEOSAITradeAgreement
 	}
 	else
 	{
-		ASSERT( false );
+		EOSAI::MessageFromAI_TradeOfferResponse* pResponse = new EOSAI::MessageFromAI_TradeOfferResponse();
+		pResponse->m_iFromAIPlayer = this->GetPlayerNumber();
+		pResponse->m_iSendToPlayer = pTradeAgreement->GetOtherPlayerNumber(pResponse->m_iFromAIPlayer);
+		pResponse->m_strTradeAgreementId = pTradeAgreement->m_strTradeAgreementId;
+		pResponse->m_eResponse = EOSAIEnumTradeAgreementResponse_Decline;
+		g_pEOSAIInterface->AddNewMessageFromAI(pResponse);
+
 		#ifdef GAME_CODE
 		I need to send back a StrategicAIOrder_TradeAgreementResponse
 		g_pMessageManager->SendMessage_PlayerToServer_TradeAgreementResponse(
