@@ -1,0 +1,141 @@
+
+#pragma once
+
+#include "ListOwned.h"
+#include "ListUnowned.h"
+class CGeoLand;
+class CPoiObject;
+class CAIPlayer;
+class CAICoastalLocationDistance2;
+class CAICoastalLocation;
+
+//#include "AINationalDesires.h"
+//#include "AIMilitaryCapability.h"
+//#include "AIGeoStrategy.h"
+//#include "AIFunction.h"
+#include "EnumGeoStrategicSituation.h"
+
+class CAIGeoConsolidation
+{
+	public:
+		CAIGeoConsolidation( long iPlayer ){ m_iPlayer = iPlayer; m_fCitResConsolidation = m_fMilitaryPower = 0.0f; }
+
+		long  m_iPlayer;
+
+		// Indicates CitRes control
+		float m_fCitResConsolidation;  // ranges from >0.0 to 1.0
+		float m_fMilitaryPower;  // (units) ranges from >0.0 to <infinity.
+};
+
+class CAIGeoLandProxy
+{
+	public:
+		CAIGeoLandProxy( CAIPlayer* pAIPlayer, CGeoLand* pGeo );
+
+		void CreateCoastalDistanceList();
+		CAICoastalLocationDistance2* GetCoastalLocationDistance( CAICoastalLocation* pStartLocation );
+
+		CGeoLand*                  GetGeo(){ return m_pGeo; }
+		EnumGeoStrategicSituation  GetStrategicSituation(){ return m_GeoStrategicSituation; }
+		//
+
+		//
+		//
+/*
+		// INCOMPLETE: need to differenciate between ground-combat forces (includes planes),
+		//    and CitRes hunters (doesn't include planes).
+		void  CalculatePlannedGroundForces( CAIPlayer* pAIPlayer );
+
+		// positive numbers mean "needs more ground forces", negative means more ground forces than needed.
+		float GetNeedForGroundForces(){ return m_fBaseNeedForGroundForces - m_fPlannedGroundForce; }
+		float GetExcessGroundForces(){ return -m_fBaseNeedForGroundForces + m_fPlannedGroundForce; }
+*/
+
+		//
+		// Information
+		//
+			bool  OneOrMorePlayersHaveAPresence();
+
+			float GetMyPresence(){ return GetMyCitResPresence() + GetMyLandWarfarePresence(); }
+			float GetMyCityPresence();
+			float GetMyLandCitResHunterPresence();
+			float GetMyCitResPresence();
+			float GetMyLandWarfarePresence();  // emphasis on taking and retaining land
+
+			// Combined value of all other players
+			float GetOtherPresence(){ return GetOtherPlayerCitResPresence() + GetOtherPlayerLandWarfarePresence(); }
+			float GetOtherPlayerCityPresence();
+			float GetOtherPlayerCitResHunterPresence();
+			float GetOtherPlayerCitResPresence();
+			float GetOtherPlayerLandWarfarePresence();
+
+			//
+			float GetAlliesCitResPresence();
+			float GetAlliesLandWarfarePresence();
+			float GetNeutralCitResPresence();      // potential enemy
+			float GetNeutralLandWarfarePresence();
+			float GetEnemyCitResPresence();
+			float GetEnemyLandWarfarePresence();
+
+			//
+			float GetTotalCitResValue(){ return m_fTotalCitResValue; }
+			float GetUnownedCitResValue(){ return m_fUnownedCitResValue; }
+			long  GetNumberOfUnownedCitRes();
+
+		//
+			//float ExcessGroundUnitCapacity(){}
+			float GetDangerIndex(){ return m_fDangerIndex; }
+			//float GetNeedForGroundForces(){ return m_fNeedForGroundForces; }
+
+			//
+			//
+			//
+			float GetDistanceFromMyClosestCitRes(){ return m_fDistanceFromMyClosestCitRes; }
+			float GetDistanceFromOtherPlayersClosestCitRes(){ return m_fDistanceFromOtherPlayersClosestCitRes; }
+			float GetContextualValue(){ return 100.0f * m_fTotalCitResValue / ( m_fDistanceFromMyClosestCitRes + 100.0f ); }
+
+		//
+		// Command
+		//
+			void  IncreaseMyCitiesDesireToBuildLandCitResHunters( float fIncrement );
+
+
+	private:
+
+		void                  EvaluateAndCategorizeThisGeo();
+
+		CAIGeoConsolidation*  InvokeGeoConsolidation( long iPlayer );
+	//
+	//
+	//
+		// Distance is the distance of the geo from my closest CitRes (rough estimate of distance from my nation).
+		float m_fDistanceFromMyClosestCitRes;
+		float m_fDistanceFromOtherPlayersClosestCitRes;
+
+		CListOwned< CAIGeoConsolidation*, CAIGeoConsolidation* >  m_ConsolidationList;
+		CListUnowned< CPoiObject*, CPoiObject* >  m_PoiObjectList;
+
+		CAIPlayer* m_pAIPlayer;  // the player is doing the evaluating
+		CGeoLand*  m_pGeo;
+
+		// Strategic Situation
+		float  m_fTotalCitResValue;
+		float  m_fMyCitResValue;
+		float  m_fMyMilitaryPresence;
+		float  m_fOtherPlayerCitResValue;       // cummulative for all players
+		float  m_fOtherPlayerMilitaryPresence;  // cummulative for all players
+		float  m_fUnownedCitResValue;
+		float  m_fExplorationIndex;  // 0 - 1 (guestimate)
+		float  m_fDangerIndex;
+
+		//float  m_fNeedForGroundForces;
+		//float  m_fBaseNeedForGroundForces;
+		//float  m_fPlannedGroundForce;
+
+		// A simplistic version of GeoSituation
+		EnumGeoStrategicSituation  m_GeoStrategicSituation;
+
+		CListOwned< CAICoastalLocationDistance2*, CAICoastalLocationDistance2* >  m_CoastalDistanceList;
+};
+
+bool SortByContextualValue( CAIGeoLandProxy*, CAIGeoLandProxy* );

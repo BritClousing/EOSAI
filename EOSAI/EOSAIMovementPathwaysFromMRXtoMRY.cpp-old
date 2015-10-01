@@ -1,0 +1,277 @@
+
+#include "stdafx.h"
+//#include "9MovementPathwaysFromEverywhereToMRX.h"
+#include "EOSAIMovementPathwaysFromMRXtoMRY.h"
+#include "EOSAIMultiRegionManager2.h"
+#include "EOSAIUnitTemplate2.h"
+
+
+void CEOSAIMovementPathwaysFromMRXtoMRY::AddAirPathway( CEOSAIRegionPathwayItem* pMultiRegionResult )
+{
+	// Grab the pathway details
+	if( m_AirMovementPathways.IsEmpty() )
+	{
+		m_fAirPathway_MinSighting = pMultiRegionResult->m_fSightings;
+		m_fAirPathway_MinDanger = pMultiRegionResult->m_fDanger;
+		m_fAirPathway_MinDistance = pMultiRegionResult->m_fDistance;
+		m_fAirPathway_MinPresence = pMultiRegionResult->m_fPresence;
+	}
+	else
+	{
+		if( m_fAirPathway_MinSighting > pMultiRegionResult->m_fSightings )
+		{
+			m_fAirPathway_MinSighting = pMultiRegionResult->m_fSightings;
+		}
+		if( m_fAirPathway_MinDanger > pMultiRegionResult->m_fDanger )
+		{
+			m_fAirPathway_MinDanger = pMultiRegionResult->m_fDanger;
+		}
+		if( m_fAirPathway_MinDistance > pMultiRegionResult->m_fDistance )
+		{
+			m_fAirPathway_MinDistance = pMultiRegionResult->m_fDistance;
+		}
+		if( m_fAirPathway_MinPresence > pMultiRegionResult->m_fPresence )
+		{
+			m_fAirPathway_MinPresence = pMultiRegionResult->m_fPresence;
+		}
+	}
+	m_AirMovementPathways.AddTail( pMultiRegionResult );
+}
+
+void CEOSAIMovementPathwaysFromMRXtoMRY::AddLandPathway( CEOSAIRegionPathwayItem* pMultiRegionResult )
+{
+	// Sometimes there will be no "Land" pathways
+	if( pMultiRegionResult == NULL ) return;
+
+	// Grab the pathway details
+	if( m_LandMovementPathways.IsEmpty() )
+	{
+		m_fLandPathway_MinSighting = pMultiRegionResult->m_fSightings;
+		m_fLandPathway_MinDanger = pMultiRegionResult->m_fDanger;
+		m_fLandPathway_MinDistance = pMultiRegionResult->m_fDistance;
+		m_fLandPathway_MinPresence = pMultiRegionResult->m_fPresence;
+	}
+	else
+	{
+		if( m_fLandPathway_MinSighting > pMultiRegionResult->m_fSightings )
+		{
+			m_fLandPathway_MinSighting = pMultiRegionResult->m_fSightings;
+		}
+		if( m_fLandPathway_MinDanger > pMultiRegionResult->m_fDanger )
+		{
+			m_fLandPathway_MinDanger = pMultiRegionResult->m_fDanger;
+		}
+		if( m_fLandPathway_MinDistance > pMultiRegionResult->m_fDistance )
+		{
+			m_fLandPathway_MinDistance = pMultiRegionResult->m_fDistance;
+		}
+		if( m_fLandPathway_MinPresence > pMultiRegionResult->m_fPresence )
+		{
+			m_fLandPathway_MinPresence = pMultiRegionResult->m_fPresence;
+		}
+	}
+	m_LandMovementPathways.AddTail( pMultiRegionResult );
+}
+
+
+void CEOSAIMovementPathwaysFromMRXtoMRY::AddWaterPathway( CEOSAIRegionPathwayItem* pMultiRegionResult )
+{
+	// Sometimes there will be no "Water" pathways
+	if( pMultiRegionResult == NULL ) return;
+
+	// Grab the pathway details
+	if( m_WaterMovementPathways.IsEmpty() )
+	{
+		m_fWaterPathway_MinSighting = pMultiRegionResult->m_fSightings;
+		m_fWaterPathway_MinDanger = pMultiRegionResult->m_fDanger;
+		m_fWaterPathway_MinDistance = pMultiRegionResult->m_fDistance;
+		m_fWaterPathway_MinPresence = pMultiRegionResult->m_fPresence;
+	}
+	else
+	{
+		if( m_fWaterPathway_MinSighting > pMultiRegionResult->m_fSightings )
+		{
+			m_fWaterPathway_MinSighting = pMultiRegionResult->m_fSightings;
+		}
+		if( m_fWaterPathway_MinDanger > pMultiRegionResult->m_fDanger )
+		{
+			m_fWaterPathway_MinDanger = pMultiRegionResult->m_fDanger;
+		}
+		if( m_fWaterPathway_MinDistance > pMultiRegionResult->m_fDistance )
+		{
+			m_fWaterPathway_MinDistance = pMultiRegionResult->m_fDistance;
+		}
+		if( m_fWaterPathway_MinPresence > pMultiRegionResult->m_fPresence )
+		{
+			m_fWaterPathway_MinPresence = pMultiRegionResult->m_fPresence;
+		}
+	}
+	m_WaterMovementPathways.AddTail( pMultiRegionResult );
+}
+
+void CEOSAIMovementPathwaysFromMRXtoMRY::AddOneTransportPathway( CEOSAIRegionPathwayItem* pMultiRegionResult )
+{
+	// Sometimes there will be no "OneTransport" pathways
+	if( pMultiRegionResult == NULL ) return;
+
+	// If there are no geo-switches, then this is simply a "NoTransport" Pathway
+	//   (Because we do similar "NoTransport" calculations, I don't need to push this
+	//   data into the "NoTransport" list.  It's already there.)
+	if( pMultiRegionResult->m_iGeoSwitches == 0 ) return;
+
+	// Grab the pathway details
+	if( m_OneTransportMovementPathways.IsEmpty() )
+	{
+		m_fOneTransportPathway_MinSighting = pMultiRegionResult->m_fSightings;
+		m_fOneTransportPathway_MinDanger = pMultiRegionResult->m_fDanger;
+		m_fOneTransportPathway_MinDistance = pMultiRegionResult->m_fDistance;
+		m_fOneTransportPathway_MinPresence = pMultiRegionResult->m_fPresence;
+	}
+	else
+	{
+		if( m_fOneTransportPathway_MinSighting > pMultiRegionResult->m_fSightings )
+		{
+			m_fOneTransportPathway_MinSighting = pMultiRegionResult->m_fSightings;
+		}
+		if( m_fOneTransportPathway_MinDanger > pMultiRegionResult->m_fDanger )
+		{
+			m_fOneTransportPathway_MinDanger = pMultiRegionResult->m_fDanger;
+		}
+		if( m_fOneTransportPathway_MinDistance > pMultiRegionResult->m_fDistance )
+		{
+			m_fOneTransportPathway_MinDistance = pMultiRegionResult->m_fDistance;
+		}
+		if( m_fOneTransportPathway_MinPresence > pMultiRegionResult->m_fPresence )
+		{
+			m_fOneTransportPathway_MinPresence = pMultiRegionResult->m_fPresence;
+		}
+	}
+	m_OneTransportMovementPathways.AddTail( pMultiRegionResult );
+}
+
+
+/*
+void CEOSAIMovementPathwaysFromMRXtoMRY::AddPathway( CEOSAIRegionPathwayItem* pMultiRegionResult )
+{
+	// Grab the pathway details
+	if( m_MovementPathways.IsEmpty() )
+	{
+		m_fMinSighting = pMultiRegionResult->m_fSightings;
+		m_fMinDanger = pMultiRegionResult->m_fDanger;
+		m_fMinDistance = pMultiRegionResult->m_fDistance;
+		m_fMinPresence = pMultiRegionResult->m_fPresence;
+		m_iMinNumberOfGeoSwitches = pMultiRegionResult->m_iGeoSwitches;
+	}
+	else
+	{
+		if( m_fMinSighting > pMultiRegionResult->m_fSightings )
+		{
+			m_fMinSighting = pMultiRegionResult->m_fSightings;
+		}
+		if( m_fMinDanger > pMultiRegionResult->m_fDanger )
+		{
+			m_fMinDanger = pMultiRegionResult->m_fDanger;
+		}
+		if( m_fMinDistance > pMultiRegionResult->m_fDistance )
+		{
+			m_fMinDistance = pMultiRegionResult->m_fDistance;
+		}
+		if( m_fMinPresence > pMultiRegionResult->m_fPresence )
+		{
+			m_fMinPresence = pMultiRegionResult->m_fPresence;
+		}
+		if( m_iMinNumberOfGeoSwitches > pMultiRegionResult->m_iGeoSwitches )
+		{
+			m_iMinNumberOfGeoSwitches = pMultiRegionResult->m_iGeoSwitches;
+		}
+	}
+	m_MovementPathways.AddTail( pMultiRegionResult );
+}
+*/
+
+// If this is an ground unit:
+//   If there is a NoTransport-MinimizeDistance pathway, return it.
+//   If there is a OneTransport-MinimizeDistance pathway, return it.
+//   If there is a AirTransport-MinimizeDistance pathway, return it.
+// If this is an sea unit:
+//   If there is a NoTransport-MinimizeDistance pathway, return it.
+// If this is an air unit:
+//   If there is a AirTransport-MinimizeDistance pathway, return it.
+// Otherwise return NULL.
+CEOSAIRegionPathwayItem* CEOSAIMovementPathwaysFromMRXtoMRY::GetSimplestUnitPathway( CEOSAIUnitTemplate2* pAIUnitTemplate )
+{
+	ASSERT( pAIUnitTemplate );
+	CEOSAIRegionPathwayItem* pResult = NULL;
+	if( pAIUnitTemplate->IsGroundUnit() )
+	{
+		pResult = m_pParentEverywhereToMRX->m_LandPathMinimizeDistancePathway.GetRegionResult( m_iMultiRegionId );
+		if( pResult ){ return pResult; }
+		pResult = m_pParentEverywhereToMRX->m_AllowOneTransportMinimizeDistancePathway.GetRegionResult( m_iMultiRegionId );
+		if( pResult ){ return pResult; }
+		pResult = m_pParentEverywhereToMRX->m_AirMinimizeDistancePathway.GetRegionResult( m_iMultiRegionId );
+		if( pResult ){ return pResult; }
+		return NULL;
+	}
+	if( pAIUnitTemplate->IsSeaUnit() )
+	{
+		pResult = m_pParentEverywhereToMRX->m_WaterPathMinimizeDistancePathway.GetRegionResult( m_iMultiRegionId );
+		if( pResult ){ return pResult; }
+		return NULL;
+	}
+	if( pAIUnitTemplate->IsAirUnit() )
+	{
+		pResult = m_pParentEverywhereToMRX->m_AirMinimizeDistancePathway.GetRegionResult( m_iMultiRegionId );
+		if( pResult ){ return pResult; }
+		return NULL;
+	}
+	ASSERT( false );
+	return NULL;
+}
+
+CEOSAIRegionPathwayMap* CEOSAIMovementPathwaysFromMRXtoMRY::GetSimplestUnitPathwayResult( CEOSAIUnitTemplate2* pAIUnitTemplate )
+{
+	ASSERT( pAIUnitTemplate );
+	CEOSAIRegionPathwayItem* pResult = NULL;
+	if( pAIUnitTemplate->GetUnitTemplate()->IsGroundUnit() )
+	{
+		pResult = m_pParentEverywhereToMRX->m_LandPathMinimizeDistancePathway.GetRegionResult( m_iMultiRegionId );
+		if( pResult ){ return &m_pParentEverywhereToMRX->m_LandPathMinimizeDistancePathway; }
+		pResult = m_pParentEverywhereToMRX->m_AllowOneTransportMinimizeDistancePathway.GetRegionResult( m_iMultiRegionId );
+		if( pResult ){ return &m_pParentEverywhereToMRX->m_AllowOneTransportMinimizeDistancePathway; }
+		pResult = m_pParentEverywhereToMRX->m_AirMinimizeDistancePathway.GetRegionResult( m_iMultiRegionId );
+		if( pResult ){ return &m_pParentEverywhereToMRX->m_AirMinimizeDistancePathway; }
+		return NULL;
+	}
+	if( pAIUnitTemplate->GetUnitTemplate()->IsSeaUnit() )
+	{
+		pResult = m_pParentEverywhereToMRX->m_WaterPathMinimizeDistancePathway.GetRegionResult( m_iMultiRegionId );
+		if( pResult ){ return &m_pParentEverywhereToMRX->m_WaterPathMinimizeDistancePathway; }
+		return NULL;
+	}
+	if( pAIUnitTemplate->GetUnitTemplate()->IsAirUnit() )
+	{
+		pResult = m_pParentEverywhereToMRX->m_AirMinimizeDistancePathway.GetRegionResult( m_iMultiRegionId );
+		if( pResult ){ return &m_pParentEverywhereToMRX->m_AirMinimizeDistancePathway; }
+		return NULL;
+	}
+	ASSERT( false );
+	return NULL;
+}
+
+
+/*
+CEOSAIRegionPathwayItem* CEOSAIMovementPathwaysFromMRXtoMRY::GetSimplestGroundUnitPathway()
+{
+	CEOSAIRegionPathwayItem* pResult;
+	pResult = m_pParentEverywhereToMRX->m_NoGeoSwitchMinimizeDistancePathway.GetRegionResult( m_iMultiRegionId );
+	if( pResult ){ return pResult; }
+
+	pResult = m_pParentEverywhereToMRX->m_AllowOneTransportMinimizeDistancePathway.GetRegionResult( m_iMultiRegionId );
+	if( pResult ){ return pResult; }
+
+	pResult = m_pParentEverywhereToMRX->m_AirMinimizeDistancePathway.GetRegionResult( m_iMultiRegionId );
+	if( pResult ){ return pResult; }
+
+	return NULL;
+}
+*/

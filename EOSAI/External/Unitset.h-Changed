@@ -1,0 +1,567 @@
+
+#pragma once
+
+/*
+	A BuildOptionList defines the set of units/production targets that
+	can be built.
+*/
+
+#include <list>
+class CBuildOption;
+class CUnitTemplate;
+class CTechnologyDesc;
+class CTechTreeNode;
+class CAnimationTemplate;
+class CBuildingDescription;
+#include "MovementDescription.h"
+#include "MovementUnitType.h"
+#include "CombatUnitType.h"
+#include "ViewRange.h"
+#include "StringAndFloat.h"
+class CUnitsubsetPermission;
+class CAirfieldImprovement;
+class CUnitset;
+class CAnalysisUnitTemplateList;
+class CAttritionBalanceResult;
+class CUnitCategory;
+//typedef CList< CStringANSI8, CStringANSI8 >  CStringANSI8List;
+
+class CUnitsetBriefDesc
+{
+	public:
+		CString  GetTitle();
+		CString  GetAuthor();
+
+		CString  m_strLocalFile;
+		CString  m_strFileId;
+		CString  m_strApplicationVersionRequired;
+};
+/*
+class CItemAndUnitsubset
+{
+	public:
+		CItemAndUnitsubset( CUnitset* pUnitset ){ m_bListContainsPositiveItems = false; m_pUnitset = pUnitset; }
+		//void  AddUnitsubset( CString strUnitsubset );
+		//void  RemoveUnitsubset( CString strUnitsubset );
+		//bool  UnitsubsetAdded( CString strUnitsubset );
+
+		void  SetUnitsubsetToPositive( CString strUnitsubset );
+		void  SetUnitsubsetToNegative( CString strUnitsubset );
+		bool  UnitsubsetIsPositive( CString strUnitsubset );
+
+		void  ToggleState( CString strUnitsubset );
+		void  SwitchPositiveNegative();
+
+		//bool  GetNoUnitsubsetsAdded();
+		long  GetNumberOfPositiveUnitsubsets();
+		bool  AllUnitsubsetsArePositive();
+
+		void  ReadXMLData( CBCXMLItem* pItem );
+		void  AppendDataToXMLString( CStringANSI8& strData );
+
+		CUnitset* m_pUnitset;
+		CString   m_strItemName;
+		bool      m_bListContainsPositiveItems;
+
+		bool  ExistsInList( CString strUnitsubset );
+		CStringList  m_Unitsubsets;
+};
+*/
+
+class CUnitsubsetValue
+{
+	public:
+		CUnitsubsetValue(){}
+		CUnitsubsetValue( CString strUnitsubset, CString strValue ){ m_strUnitsubset = strUnitsubset; m_strValue = strValue; }
+
+		CString m_strUnitsubset;
+		CString m_strValue;
+};
+
+class CUnitsubsetStringLongValue
+{
+	public:
+		CUnitsubsetStringLongValue(){ m_iValue = 0; }
+		CUnitsubsetStringLongValue( CString strUnitsubset, CString strValue, long iValue ){ m_strUnitsubset = strUnitsubset; m_strValue = strValue; m_iValue = iValue; }
+
+		CString m_strUnitsubset;
+		CString m_strValue;
+		long    m_iValue;
+};
+
+
+class CUnitset //CBuildOptionSet
+{
+	public:
+		static void                ReadAvailableUnitsets();
+		static CUnitsetBriefDesc*  GetUnitsetBriefDescFromIdentifier( CString strUnitsetIdentifier );
+		static std::list< CUnitsetBriefDesc* >  s_AvailableUnitsets;
+
+	public:
+		CUnitset();
+		virtual ~CUnitset(){}
+
+		// Initialization
+		void     SetCombatRandomness01( float f );
+		float    GetCombatRandomness01(){ return m_fCombatRandomness01; }//m_bFlag_LoadAnimations; }
+		void     SetFlagLoadAnimations( bool b ){ m_bFlag_LoadAnimations = b; }
+		bool     GetFlagLoadAnimations(){ return true; }//m_bFlag_LoadAnimations; }
+
+		bool     GetGoodChecksum(){ return m_bGoodChecksum; }
+
+		void     SetFileUID( CString strFileUID ){ m_strFileUID = strFileUID; }
+		CString  GetFileUID(){ return m_strFileUID; }
+
+		CString  GetLocalFile(){ return m_strLocalFile; }
+		CString  GetLocalPath(){ return m_strLocalPath; }
+		CString  GetFileId(){ return m_strTitle + _T(".") + m_strAuthor + _T(".") + m_strVersionAsTimestamp + _T(".unitset"); }
+		CString  GetFileThread(){ return m_strTitle + _T(".") + m_strAuthor + _T(".unitset"); }
+
+		void     SetTitle( CString strTitle ){ m_strTitle = strTitle; }
+		CString  GetTitle(){ return m_strTitle; }
+		void     SetAuthor( CString strAuthor ){ m_strAuthor = strAuthor; }
+		CString  GetAuthor(){ return m_strAuthor; }
+//		void     SetUnitsetUniqueId( CString strUnitsetUniqueId ){ m_strUnitsetUniqueId = strUnitsetUniqueId; }
+//		CString  GetUnitsetUniqueId(){ return m_strUnitsetUniqueId; }
+		void     SetDerivedFromAuthor( CString strAuthor ){ m_strDerivedFromAuthor = strAuthor; }
+		CString  GetDerivedFromAuthor(){ return m_strDerivedFromAuthor; }
+		CString  RemoveDerivedFromAuthor( CString strAuthor );
+		void     SetVersion( CString strVersion ){ m_strVersionAsTimestamp = strVersion; }
+
+		void     SetDescription( CString str ){ m_strDescription = str; }
+		CString  GetDescription(){ return m_strDescription; }
+		CString  GetDescriptionInSafeHtmlFormat();
+		CString  GetTerrainSummaryInSafeHtmlFormat();
+		CString  GetBuildingSummaryInSafeHtmlFormat();
+		CString  GetUnitSummaryInSafeHtmlFormat();
+		CString  GetTechSummaryInSafeHtmlFormat();
+
+		//void Clear();
+
+		void     CalculateMediaFileDependencies( CStringList* pMediaFileDependencies ){ pMediaFileDependencies->RemoveAll(); return; }
+
+		//bool            LoadUnitSet( CString strUnitset );  // name of the directory e.g. "Offical", "Official1940"
+		//void            LoadCityDesc( CString strUnitset );
+		//void            LoadResourceDesc( CString strUnitset );
+		//void            LoadAirfieldDesc( CString strUnitset );
+		//CUnitTemplate*  LoadUnitTemplate( CString strDirectoryName );
+		//void            WriteUnitTemplate( CString strDirectoryName, CUnitTemplate* pUnitTemplate );
+		bool  LoadUnitset( CString strFullFilename );
+		//
+		void  WriteUnitsetBinaryFile( CString strFullFilename, bool bChangeFileUID );
+		void  Serialize( CSerial *pSerial );
+		void    SerializeChecksum( CSerial* pSerial, long iStartHeader, long iEndHeader, long iStartBody, long iEndBody );
+		void    SerializeHeader( CSerial* pSerial );
+		void    SerializeBody( CSerial* pSerial );
+		bool  ReadUnitsetBinaryFile( CString strFullFilename );
+		bool  Deserialize( CSerial *pSerial );
+		bool    DeserializeChecksum( CSerial* pSerial );
+		void    DeserializeHeader( CSerial* pSerial );
+		void    DeserializeBody( CSerial* pSerial );
+		//
+#ifdef DO_NOT_COMPILE_OLD_FUNCTIONS
+		void  WriteUnitsetXMLFile( CString strFullFilename, bool bChangeFileUID );
+		void  WriteUnitsetXMLToString( CStringANSI8& strXMLString ); // All the unitset data
+		void  WriteUnitsetChecksumXMLToString( CStringANSI8& strXMLString, CStringANSI8 strHeader, CStringANSI8 strBody );
+		void  WriteUnitsetHeaderXMLToString( CStringANSI8& strXMLString );
+		void  WriteUnitsetBodyXMLToString( CStringANSI8& strXMLString );
+#endif DO_NOT_COMPILE_OLD_FUNCTIONS
+		bool     LoadUnitsetFileDataAndValidateChecksum( CString strFullFilename, CStringANSI8& strFileData );
+		bool     ReadUnitsetXMLFile( CString strFullFilename );
+		//
+		void     SetNumValuesOfUnitTemplates();
+		//void     ReadUnitsetXMLFile_old( CString strFullFilename );
+		//
+		//void                LoadAnimationTemplates();
+		//CAnimationTemplate* LoadAnimationTemplate( CString strName );
+
+		void    CalculateWhichUnitsAreSubmarines();
+
+		bool    CanBuild( long iPlayer, CAirfieldImprovement* pAirfieldImprovement, bool bAllowOldTechnologies );
+		bool    CanBuild( long iPlayer, CBuildOption* pBuildOption, bool bAllowOldTechnologies );
+		//bool    CanBuild_old( long iPlayer, CBuildOption* pBuildOption, bool bAllowOldTechnologies );
+		bool    CanBuildUnit( long iPlayer, CString strUnit );
+		bool    CanBuildBuilding( long iPlayer, CString strBuilding );
+		bool    CanEverBuild( CString strUnitsubset, CUnitTemplate* pUnitTemplate );
+		bool    CanInitiallyBuild( CString strUnitsubset, CBuildOption* pBuildOption );
+		bool    CanInitiallyBuild( CString strUnitsubset, CUnitTemplate* pUnitTemplate );
+		//bool    GetResearchAllowed( CString strUnitsubset, CString strTech );
+
+		bool           UnitsubsetExists( CString strUnitsubset );
+		void           AddUnitsubset( CString strUnitsubset ){ m_UnitsubsetList.AddTail( strUnitsubset ); }
+		void           DuplicateUnitsubset( CString strUnitsubsetToDuplicate, CString strUnitsubset );
+		void           RemoveUnitsubset( CString strUnitsubset );
+		long           GetNumberOfUnitsubsets(){ return (long) m_UnitsubsetList.GetCount(); }
+		long           GetUnitsubsetIndex( CString strUnitsubset );
+		CStringList*   GetUnitsubsetList(){ return &m_UnitsubsetList; }
+		//
+		bool           AllUnitTemplateImagesExistLocally( CStringList* pMissingUnitTemplateImages );
+
+		void           UpdatePlayerProxyInformation();
+
+		//void           SetToDefault();
+	//	void           LoadUnitTexturesAndAnimations();
+	//	void           FreeUnitTexturesAndAnimations();
+
+		void           AddBuildOption( CBuildOption* pBuildOption );
+		CBuildOption*  GetBuildOption( CString strBuildTarget );
+
+		void           AddUnitTemplate( CUnitTemplate* pUnitTemplate );
+		CUnitTemplate* GetUnitTemplate( CString strUnitName );
+		void           GetUnitTemplates( CString strInTag, CList< CUnitTemplate* >* pOutUnitTemplateList );
+		void           RemoveUnitTemplate( CString strName );
+
+		CString  GetExternalUnitTemplateName( CString strInternalName );
+		CString  GetExternalTechnologyName( CString strInternalName );
+		CString  GetExternalCityImprovementName( CString strInternalName );
+		CString  GetExternalAirfieldImprovementName( CString strInternalName );
+
+		//
+		CUnitCategory* GetUnitCategory( CString strCategory );
+		void   InvokeUnitCategory( CString strCategory, bool bAddToFieldOrders );
+		void   RemoveUnitCategory( CString strCategory );
+		CList< CUnitCategory* >*  GetUnitCategories(){ return &m_UnitCategories; }
+
+		// Values < 1 favor Unit1, Value > 1 favor Unit2
+		/*
+		void GetAttritionBalance_IgnoreRangedCombat(
+					CUnitAndCombatState& UnitAndCombatState1, // Contains UnitTemplate, Terrain, Docked, Entrenched
+					CUnitAndCombatState& UnitAndCombatState2,
+					CAttritionBalanceResult* pResult );
+					//bool* pbUnit1CanAttack2, bool* pbUnit2CanAttack1,
+					//float* pfAttritionBalance,
+					//float* pfUnit1AttackRange, float* pfUnit2AttackRange,
+					//bool* pbUnit1WillHaveTroubleCatchingTarget );
+		*/
+		float  GetAttritionBalance( CUnitTemplate* pUnitTemplate, CUnitTemplate* pOtherUnitTemplate );
+		float  GetAttritionVs( CUnitTemplate* pUnitTemplate, CUnitTemplate* pOtherUnitTemplate );
+		float  GetAttackRange( CUnitTemplate* pUnitTemplate, CUnitTemplate* pOtherUnitTemplate );
+
+		//
+
+		void                         AddMovementUnitType( CMovementUnitType* pMovementUnitType );//{ m_MovementUnitTypes.AddTail( pMovementUnitType ); }
+		CMovementUnitType*           GetMovementUnitType( long iMovementUnitType );
+		CMovementUnitType*           GetMovementUnitTypeByExternalName( CString strName );
+		//CMovementUnitType*           GetMovementUnitType( CString strName );
+		CList< CMovementUnitType* >* GetMovementUnitTypes(){ return &m_MovementUnitTypes; }
+		//void                         RemoveMovementUnitType( CString strMovementUnitType );
+		void                         RemoveMovementUnitType( long iMovementUnitType );
+		//
+		void                         AddCombatUnitType( CCombatUnitType* pCombatUnitType );
+		CCombatUnitType*             GetCombatUnitType( long iCombatUnitType );
+		CCombatUnitType*             GetCombatUnitTypeByExternalName( CString strExternalName );
+		CList< CCombatUnitType* >*   GetCombatUnitTypes(){ return &m_CombatUnitTypes; }
+		void                         RemoveCombatUnitType( long iCombatUnitType );
+		void                         RemoveCombatUnitTypeByExternalName( CString strCombatUnitType );
+
+//		CAnimationManager*       GetAnimationManager(){ return &m_AnimationManager; }
+		//CCompoundAnimationDesc*  GetCompoundAnimationDesc( CString strId );
+
+		// Initial Resources
+		//
+			void  SetUnitsubsetInitialResourceValue( CString strUnitsubset, CString strResource, long iValue );
+			long  GetUnitsubsetInitialResourceValue( CString strUnitsubset, CString strResource );
+
+		// Free Units/Technology
+		//
+			void  AddInitialFreeTechnology( CString strUnitsubset, CString strTech );
+			void  RemoveFreeTech( CString strUnitsubset, CString strTech );
+			CList< CUnitsubsetValue* >* GetFreeTechnologyList(){ return &m_InitialFreeTechnologyList; }
+
+			void  AddInitialFreeUnitCoastalCity( CString strUnitsubset, CString strUnit );
+			void  RemoveFreeUnitCoastalCity( CString strUnitsubset, CString strTech );
+			CList< CUnitsubsetValue* >* GetFreeUnitCoastalCityList(){ return &m_InitialFreeUnitCoastalCityList; }
+
+			void  AddInitialFreeUnitLandlockedCity( CString strUnitsubset, CString strUnit );
+			void  RemoveFreeUnitLandlockedCity( CString strUnitsubset, CString strTech );
+			CList< CUnitsubsetValue* >* GetFreeUnitLandlockedCityList(){ return &m_InitialFreeUnitLandlockedCityList; }
+
+			void  AddInitialMilitiaUnit( CString strUnit );
+			void  RemoveMilitiaUnit( CString strUnit );
+			CStringList*   GetInitialMilitiaUnitList(){ return &m_InitialMilitiaUnitList; }
+
+			CString  GetFreighterUnitName(){ return _T("Freighter"); }
+
+		// Initial Can-Build
+		//
+			// Units
+			void  AddInitialCanBuildAllUnits( CString strUnitsubset );
+			void  AddInitialCanBuildUnit( CString strUnitsubset, CString strUnit );
+			bool  GetInitialCanBuildUnit( CString strUnitsubset, CString strUnit );
+			CList< CUnitsubsetValue* >*  GetInitialCanBuildUnitList(){ return &m_InitialCanBuildUnitList; }
+			void  RemoveInitialCanBuildUnit( CString strUnitsubset, CString strUnit );
+			// Buildings
+			void  AddInitialCanBuildAllBuildings( CString strUnitsubset );
+			void  AddInitialCanBuildBuilding( CString strUnitsubset, CString strBuilding );
+			bool  GetInitialCanBuildBuilding( CString strUnitsubset, CString strBuilding );
+			CList< CUnitsubsetValue* >*  GetInitialCanBuildBuildingList(){ return &m_InitialCanBuildBuildingList; }
+			void  RemoveInitialCanBuildBuilding( CString strUnitsubset, CString strBuilding );
+			// Airfield Improvement
+			void  AddInitialCanBuildAllAirfieldImprovements( CString strUnitsubset );
+			void  AddInitialCanBuildAirfieldImprovement( CString strUnitsubset, CString strAirfieldImprovement );
+			bool  GetInitialCanBuildAirfieldImprovement( CString strUnitsubset, CString strAirfieldImprovement );
+			CList< CUnitsubsetValue* >*  GetInitialCanBuildAirfieldImprovementList(){ return &m_InitialCanBuildAirfieldImprovementList; }
+			void  RemoveInitialCanBuildAirfieldImprovement( CString strUnitsubset, CString strAirfieldImprovement );
+
+			// Can-Build Units
+		/*
+		void  AddAllowed_BuildUnit( CString strUnit );
+		bool  GetAllowed_BuildUnit( CString strUnit );
+		void  RemoveAllowed_BuildUnit( CString strUnit );
+		*/
+
+		// Allowed Technology
+		//
+			bool  NoUnitsubsetsCanResearchThisTechnology( CString strTech );
+			bool  GetAllUnitsubsetsCanResearchThisTechnology( CString strTech );
+			CUnitsubsetPermission*  GetAllowTechnologyObj( CString strTech );
+			//CItemAndUnitsubset*     GetAllowTechnologyObj_old( CString strTech );
+			//CItemAndUnitsubset*     InvokeAllowTechnologyObj( CString strTech );
+			void  AddAllowTechnology( CString strUnitsubset, CString strTech );
+			void  RemoveAllowTechnology( CString strUnitsubset, CString strTech );
+			bool  GetAllowTechnology( CString strUnitsubset, CString strTech );
+			CString  GetAllowTechnology_UnitsubsetsString( CString strTech );
+		//
+			CUnitsubsetPermission*  GetAllowUnitObj( CString strUnit );
+			//CItemAndUnitsubset*     GetAllowUnitObj_old( CString strUnit );
+			//CItemAndUnitsubset*  InvokeAllowUnitObj( CString strUnit );
+			void  AddAllowUnit( CString strUnitsubset, CString strUnit );
+			void  RemoveAllowUnit( CString strUnitsubset, CString strUnit );
+			bool  GetAllowUnit( CString strUnitsubset, CString strUnit );
+			CString  GetAllowUnit_UnitsubsetsString( CString strUnit );
+		//
+			CUnitsubsetPermission*  GetAllowBuildingObj( CString strBuilding );
+			void  AddAllowBuilding( CString strUnitsubset, CString strBuilding );
+			void  RemoveAllowBuilding( CString strUnitsubset, CString strBuilding );
+			bool  GetAllowBuilding( CString strUnitsubset, CString strBuilding );
+			CString  GetAllowBuilding_UnitsubsetsString( CString strBuilding );
+		//
+			CUnitsubsetPermission*  GetAllowAirfieldImprovementObj( CString strAirfieldImprovement );
+			void  AddAllowAirfieldImprovement( CString strUnitsubset, CString strAirfieldImprovement );
+			void  RemoveAllowAirfieldImprovement( CString strUnitsubset, CString strAirfieldImprovement );
+			bool  GetAllowAirfieldImprovement( CString strUnitsubset, CString strAirfieldImprovement );
+			CString  GetAllowAirfieldImprovement_UnitsubsetsString( CString strAirfieldImprovement );
+		//
+		//
+		CList< CBuildOption* >*          GetBuildOptionsList(){ return &m_BuildOptionList; }
+		CList< CUnitTemplate* >*         GetUnitTemplateList(){ return &m_UnitTemplateList; }
+		//
+		//
+		void                             AddBuildingDescription( CBuildingDescription* pDesc ){ m_BuildingDescriptionList.AddTail( pDesc ); }
+		//CBuildingDescription*            GetBuildingDescriptionThatUpgradesTo( CString strInternalName );
+		CBuildingDescription*            GetBuildingDescription( CString strInternalName );
+		CList< CBuildingDescription* >*  GetBuildingDescriptionList(){ return &m_BuildingDescriptionList; }
+		void                             DeleteBuildingDescription( CString strInternalName );
+		//
+		CBuildingDescription*            GetBuildingDescriptionFromUpgradeLineAndLevel( CString strUpgradeLine, long iUpgradeLevel );
+		//
+		void                             AddAirfieldImprovement( CAirfieldImprovement* pDesc ){ m_AirfieldImprovementList.AddTail( pDesc ); }
+		CAirfieldImprovement*            GetAirfieldImprovement( CString strInternalName );
+		CList< CAirfieldImprovement* >*  GetAirfieldImprovementList(){ return &m_AirfieldImprovementList; }
+		void                             DeleteAirfieldImprovement( CString strInternalName );
+		//
+
+		float  GetResearchPoints( long iDollars );
+		long   GetSpendingRequiredForXResearchPoints( float fResearchPoints );
+
+		// Combat Experience
+		bool   UseCombatExperience();
+		void   SetUnitAgeCombatExperience( float f ){ m_fUnitAgeCombatExperience = f; }
+		float  GetUnitAgeCombatExperience(){ return m_fUnitAgeCombatExperience; }
+
+		long   GetCombatLevel( float fCombatExperience );
+		float  GetCombatMultiplierFromExperience( float fCombatExperience );
+
+		void   SetCombatLevelExperience( long iCombatLevel, float fCombatExperience );
+		float  GetCombatLevelExperience( long iLevel );
+		void   SetCombatLevelMultiplier( long iCombatLevel, float fCombatMultiplier );
+		float  GetCombatLevelMultiplier( long iLevel );
+		void   SetCombatLevelName( long iCombatLevel, CString strText );
+		CString GetCombatLevelName( long iLevel );
+
+		void                        AddTechnologyDesc( CTechnologyDesc* pTechDesc );
+		CTechnologyDesc*            GetTechnologyDesc( CString strName );
+		CList< CTechnologyDesc* >*  GetTechnologyList(){ return &m_TechnologyList; }
+		void                        DeleteTechnologyDesc( CTechnologyDesc* pTechDesc );
+
+		void  AddTechTreeNode( CTechTreeNode* pTechTreeNode ){ m_TechTreeNodes.AddTail( pTechTreeNode ); }
+		CTechTreeNode* GetTechTreeNode( CString strTechDesc );
+		void  DeleteTechTreeNodes( CString strTechDesc );
+		void  RemoveFromTechTreeNodeList( CTechTreeNode* pTechTreeNode );
+		CList< CTechTreeNode* >*    GetTechTreeNodes(){ return &m_TechTreeNodes; }
+		CTechTreeNode*  GetFirstTechTreeNode( CString strTechDesc );
+
+		// Analysis
+		CAnalysisUnitTemplateList* GetAnalysisUnitTemplateList( CString strName );
+		CList< CAnalysisUnitTemplateList* >*  GetAnalysisList(){ return &m_AnalysisList; }
+
+		//
+		// Animations
+		//
+			//CAnimationTemplate*  GetAnimationByBaseFilename( CString strTemplateName );
+			//CAnimationTemplate*  GetAnimationByName( CString strTemplateName );
+
+		//
+		// Webpage information
+		//
+			CString  m_strUnitSummary;
+			CString  m_strTechSummary;
+			//CString  m_strWebpageSummary;
+			CString  m_strBuildingSummary;
+			CString  m_strTerrainSummary;
+		//
+		// City/Resource/Airfield Attributes
+		//
+			void   SetCityDefaultViewRange( float f ){ m_fCityDefaultViewRange = f; }
+			float  GetCityDefaultViewRange(){ return m_fCityDefaultViewRange; }
+			void   InvokeCityViewRange( CString strUnitTag, float f );
+			void   RemoveCityViewRange( CString strUnitTag );
+			CList< CViewRange* >* GetCityViewRangeList(){ return &m_CityViewRangeList; }
+			void   SetCityOilConsumption( float f ){ m_fCityOilConsumption = f; }
+			float  GetCityOilConsumption(){ return m_fCityOilConsumption; }
+			void   SetCityFoodConsumption( float f ){ m_fCityFoodConsumption = f; }
+			float  GetCityFoodConsumption(){ return m_fCityFoodConsumption; }
+
+			void   SetCityGroundUnitRepairRate( float f ){ m_fCityGroundUnitRepairRate = f; }
+			float  GetCityGroundUnitRepairRate(){ return m_fCityGroundUnitRepairRate; }
+			void   SetCitySeaUnitRepairRate( float f ){ m_fCitySeaUnitRepairRate = f; }
+			float  GetCitySeaUnitRepairRate(){ return m_fCitySeaUnitRepairRate; }
+			void   SetCityAirUnitRepairRate( float f ){ m_fCityAirUnitRepairRate = f; }
+			float  GetCityAirUnitRepairRate(){ return m_fCityAirUnitRepairRate; }
+
+			void   SetResourceDefaultViewRange( float f ){ m_fResourceDefaultViewRange = f; }
+			float  GetResourceDefaultViewRange(){ return m_fResourceDefaultViewRange; }
+			void   InvokeResourceViewRange( CString strTag, float f );
+			void   RemoveResourceViewRange( CString strUnitTag );
+			CList< CViewRange* >* GetResourceViewRangeList(){ return &m_ResourceViewRangeList; }
+
+			//void   SetAirfieldConstructionCost( float f ){ m_fAirfieldConstructionCost = f; }
+			//float  GetAirfieldConstructionCost(){ return m_fAirfieldConstructionCost; }
+
+			void   InvokeAirfieldConstructionCost( CString strResource, float fValue );
+			void   RemoveAirfieldConstructionCost( CString strResource );
+			float  GetAirfieldConstructionCost( CString strResource );
+			CStringAndFloat*  GetAirfieldConstructionCostObj( CString strResource );
+			CList< CStringAndFloat* >*  GetAirfieldConstructionCostList(){ return &m_AirfieldConstructionCostList; }
+
+			void   InvokeAirfieldProductionConsumption( CString strResource, float fValue );
+			void   RemoveAirfieldProductionConsumption( CString strResource );
+			float  GetAirfieldProductionConsumption( CString strResource );
+			CStringAndFloat*  GetAirfieldProductionConsumptionObj( CString strResource );
+			CList< CStringAndFloat* >*  GetAirfieldProductionConsumptionList(){ return &m_AirfieldProductionConsumptionList; }
+
+			CViewRange*  GetAirfieldViewRangeObj( CString strTag );
+			void   SetAirfieldDefaultViewRange( float f ){ m_fAirfieldDefaultViewRange = f; }
+			float  GetAirfieldDefaultViewRange(){ return m_fAirfieldDefaultViewRange; }
+			void   InvokeAirfieldViewRange( CString strTag, float f );
+			void   RemoveAirfieldViewRange( CString strUnitTag );
+			CList< CViewRange* >* GetAirfieldViewRangeList(){ return &m_AirfieldViewRangeList; }
+
+			void   InvokeUnitDefaultViewRange( CString strUnitTag, float fViewRange );
+			void   RemoveUnitDefaultViewRange( CString strUnitTag );
+			CList< CViewRange* >* GetUnitDefaultViewRangeList(){ return &m_UnitDefaultViewRangeList; }
+
+	public://private:
+
+		bool     m_bGoodChecksum;
+
+		CString  m_strFileUID;
+
+		CString  m_strTitle; // First part of filename
+		CString  m_strAuthor;
+		//CString  m_strUnitsetUniqueId;
+		CString  m_strDerivedFromAuthor;
+		CString  m_strVersionAsTimestamp;
+		CString  m_strApplicationVersion;
+
+		// LocalFile vs ServerFileId
+		//   If a unitset has not been uploaded, it will have a LocalFile value, but no ServerFileId
+		//   If a unitset has been uploaded, it will have a LocalFile value and ServerFileId (different)
+		//   If a unitset has been downloaded, it will have a LocalFile value and ServerFileId (same)
+		CString  m_strLocalFile;        // example: "Official.unitset"
+		CString  m_strLocalPath;        // example: "c:\Programs\...\Data\Unitsets\Official.unitset"
+		//CString  m_strServerFileId;     // example: "Official.Atomicboy.1.unitset"
+		//CString  m_strServerFileThread;   // example: "Official.Atomicboy.unitset"
+		//CString  m_strFileId;     // example: "Official.Atomicboy.1.unitset"
+		//CString  m_strFileThread;   // example: "Official.Atomicboy.unitset"
+		//CString  m_strFileId;           // example: "Official.Atomicboy.1.unitset"
+		//CString  m_strFilename;         // for example, "Official"
+		//CString  m_strRelativeBasePath; // for example, "Data\Unitsets\Official"
+		//CString  m_strTitle;            // a descriptive name ("Official 1900-2030")
+		CString  m_strDescription;      // description
+
+		float    m_fCombatRandomness01;
+
+		bool     m_bFlag_LoadAnimations;
+
+		// 
+		CStringList  m_UnitTemplateImages; // Example "Infantry-213078.unit2"
+
+		CStringList  m_UnitsubsetList;
+
+		CList< CCombatUnitType* >    m_CombatUnitTypes;
+		CList< CMovementUnitType* >  m_MovementUnitTypes;
+
+		CList< CUnitCategory* >      m_UnitCategories;
+
+		// Animations
+		//CList< CCompoundAnimationDesc* >  m_CompoundAnimations; // I'm only storing this because I read flatfiles, output XML
+		//CStringList   m_AnimationsToLoad; // I'm only storing this because I read flatfiles, output XML
+		//CList< CAnimationTemplate* >  m_AnimationTemplateList;
+
+		//CList< CCompoundAnimationDesc* >  m_CompoundAnimationDescList;
+
+	//	CAnimationManager   m_AnimationManager;
+
+		float  m_fCityDefaultViewRange;
+		CList< CViewRange* >  m_CityViewRangeList;
+		float  m_fCityOilConsumption;
+		float  m_fCityFoodConsumption;
+
+		float  m_fCityGroundUnitRepairRate;
+		float  m_fCitySeaUnitRepairRate;
+		float  m_fCityAirUnitRepairRate;
+
+		float  m_fResourceDefaultViewRange;
+		CList< CViewRange* >  m_ResourceViewRangeList;
+		//float  m_fAirfieldConstructionCost;
+		CList< CStringAndFloat* >  m_AirfieldConstructionCostList;
+		float  m_fAirfieldDefaultViewRange;
+		CList< CViewRange* >  m_AirfieldViewRangeList;
+		CList< CStringAndFloat* >  m_AirfieldProductionConsumptionList;
+		CList< CViewRange* >  m_UnitDefaultViewRangeList;
+
+		DWORD  m_iNextBuildOptionId;
+		CList< CBuildOption*  >         m_BuildOptionList;
+		CList< CUnitTemplate* >         m_UnitTemplateList;
+		CList< CBuildingDescription* >  m_BuildingDescriptionList;
+		CList< CAirfieldImprovement* >  m_AirfieldImprovementList;
+
+		CStringList  m_InitialMilitiaUnitList;
+
+		// Initial Resources
+		CList< CUnitsubsetStringLongValue* >  m_InitialResources;
+		// Free Units, Technology
+		CList< CUnitsubsetValue* >  m_InitialFreeTechnologyList;
+		CList< CUnitsubsetValue* >  m_InitialFreeUnitCoastalCityList;
+		CList< CUnitsubsetValue* >  m_InitialFreeUnitLandlockedCityList;
+		// Can Build Units, Buildings
+		CList< CUnitsubsetValue* >  m_InitialCanBuildUnitList;
+		CList< CUnitsubsetValue* >  m_InitialCanBuildBuildingList;
+		CList< CUnitsubsetValue* >  m_InitialCanBuildAirfieldImprovementList;
+		// Allow Research
+		//CList< CItemAndUnitsubset* >  m_Allow_TechnologyList;
+		//CList< CItemAndUnitsubset* >  m_Allow_UnitList;
+		//CList< CItemAndUnitsubset* >  m_Allow_BuildingList;
+
+		float   m_fUnitAgeCombatExperience;
+		float   m_fCombatLevelExperience[4];
+		float   m_fCombatLevelMultiplier[4];
+		CString m_strCombatLevelName[4];
+
+		CList< CTechnologyDesc* >  m_TechnologyList;
+		CList< CTechTreeNode*   >  m_TechTreeNodes;
+
+		CList< CAnalysisUnitTemplateList* >  m_AnalysisList;
+};
+

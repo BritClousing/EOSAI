@@ -1,0 +1,36 @@
+
+#pragma once
+
+class CAICity2;
+class CAIProductionOption;
+class CBuildOption;
+class CAIUnit2;
+/*
+// Contains the actual build task of a specific city
+class CAIProductionTask
+{
+	public:
+
+		CAIProductionTask()
+		{
+			m_pParentAICity = NULL;
+			m_pProductionOption = NULL;
+			//m_fTimeUntilCompletion = 0.0f;
+		}
+		CAIProductionTask( CAICity2*             pParentAICity,
+						   CAIProductionOption* pProductionOption )
+		{
+			m_pParentAICity = pParentAICity;
+			m_pProductionOption = pProductionOption;
+			//m_fTimeUntilCompletion = 0.0f;
+		}
+
+		//void  UpdateTimeUntilCompletion();
+
+		CAICity2*             m_pParentAICity;
+		CAIProductionOption* m_pProductionOption;
+		//float                m_fTimeUntilCompletion;
+
+		//float  m_fCheckpointTimeOfCompletion;
+};
+*/

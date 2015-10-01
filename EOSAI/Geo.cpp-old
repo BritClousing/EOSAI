@@ -1,0 +1,68 @@
+
+#include "stdafx.h"
+
+//#include "WorldDesc.h"
+#include "Geo.h"
+
+#ifdef _DEBUG
+#undef THIS_FILE
+static char THIS_FILE[]=__FILE__;
+#define new DEBUG_NEW
+#endif
+
+
+void CGeo::AddConnectedGeo( CGeo* pGeo2 )
+{
+	if( pGeo2->GetGeoType() == CGeo::Unknown )
+	{
+		this->m_iBorderOnUnknown++;
+	}
+	else
+	{
+		this->m_iBorderOnKnown++;
+	}
+
+	if( this->GetGeoType() == CGeo::Unknown )
+	{
+		pGeo2->m_iBorderOnUnknown++;
+	}
+	else
+	{
+		pGeo2->m_iBorderOnKnown++;
+	}
+
+	if( m_ConnectedGeosSet.Exists( pGeo2->GetGeoNumber() ) == false )
+	{
+		//m_ConnectedGeosSet.ForceAdd( pGeo2->GetGeoNumber() );
+		//pGeo2->m_ConnectedGeosSet.ForceAdd( this->GetGeoNumber() );
+		m_ConnectedGeosSet.Add( pGeo2->GetGeoNumber() );
+		pGeo2->m_ConnectedGeosSet.Add( this->GetGeoNumber() );
+	}
+}
+
+bool CGeo::DoesGeoConnect( long iGeo )
+{
+	return m_ConnectedGeosSet.Exists( iGeo );
+}
+/*
+bool CGeo::GeoHasBeenFullyExplored()
+{
+	POSITION pos = m_ConnectedGeosSet.GetList()->GetHeadPosition();
+	while( pos )
+	{
+		int iGeo = m_ConnectedGeosSet.GetList()->GetNext( pos );
+		CGeo* pGeo = m_pWorldDesc->GetGeo( iGeo );
+		if( pGeo->GetGeoType() == CGeo::Unknown )
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
+float CGeo::GetPercentageOfTotalMap()
+{
+	int iArea = m_pWorldDesc->GetGridWidth() * m_pWorldDesc->GetGridHeight();
+	return (float) m_iSize / (float) iArea;
+}
+*/

@@ -1,0 +1,31 @@
+#summary Describes the mapping system
+
+= Introduction =
+
+The Maps system is used for pathfinding and also for figuring out which areas are vulnerable.
+
+Below is an example of a map.  The left image is the 'normal view' of the map.  The right image shows AIRegions (each colored area is an AIRegion).
+
+http://eosai.googlecode.com/files/Diagram-AIRegions.png
+
+== Creating the EOSAI Interface ==
+
+The EOSAI Interface must convert the game map into an AIRegion map.
+
+The mapping system requires several things:
+
+  * Each part of the map must belong to an AIRegion.  (In other words: there should never be a situation where a unit or city or any other point of interest exists on the map, but can't be resolved to an AIRegion.  The AI will never be able to find a parthway to any object that doesn't exist inside an AIRegion.)
+  * The AIRegions must be linked together so the AI knows what regions connect to which regions (i.e. Region A is adjacent to Region B).
+  * Each AIRegion should have the same terrain.  In other words: a region might a "water" or "forest" or "plains".  An AIRegion can't contain both forest+water or even forest+plains.  This is important for figuring out pathways because the pathway calculated for a ground unit is different than a pathway calculated for ships.  If a tank can't move through forests, then it won't be allowed to move through any AIRegions designated as "forest".
+
+== Creating the EOSAI.dll ==
+
+The EOSAI code does several things with the map: pathfinding and evaluating the vulnerable regions.
+
+Pathfinding
+
+The pathfinding system has to take several factors into account when running pathfinding calculations.  The system wants to minimize the amount of time it takes to move from point A to point B.  However, the pathfinding system may also want include other factors as well, including: avoiding enemy units and avoiding being sighted by enemies.
+
+Region Evaluation
+
+The pathfinding system is used to figure out what regions are vulnerable (this includes vulnerable regions controlled by the AI and vulnerable  regions controlled by enemy nations).  This system takes into account the movement rates of enemy units and movement ranges of aircraft.  (For example, if an enemy has aircraft with a movement range of 500 pixels, then all regions within 500 pixels of airports are vulnerable to enemy aircraft.)

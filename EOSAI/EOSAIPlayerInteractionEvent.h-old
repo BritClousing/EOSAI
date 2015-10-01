@@ -1,0 +1,59 @@
+
+#pragma once
+
+//#include "GameTime.h"
+//class CGlobalForeignRelationsFeelings;
+/*
+class CEOSAIPlayerInteractionEvent
+{
+	public:
+		enum EnumType
+		{
+			enum_Unknown,
+
+			// One-Time Events
+			//
+				// Trade
+				enum_Trade,
+				enum_TradeOffer,
+				enum_RejectedTrade,
+				// War, Combat
+				enum_DeclarationOfWar, // No combat yet, just a declaration
+				enum_SneakAttack,      // An attack without a declaration of war
+				enum_CombatEvent,      // Whenever a player attacks another player (even when they are already at war)
+				// Peace, Allies
+				enum_PeaceTreaty,
+				enum_NonAggressionPact,
+				enum_TemporaryAlliance,
+				enum_PermanentAlliance,
+				// Betrayal
+				enum_Betrayal,  // If an ally betrays a player
+
+			// Ongoing Events (added each turn)
+			//
+				// Ongoing War
+				enum_WarState,
+				// Alliance
+				enum_AllianceState,
+		};
+
+	public:
+		CEOSAIPlayerInteractionEvent();
+
+		//void DeclarationOfWar( long iActor, long iTargetPlayer, CGameTime BeginTime );
+		//void SneakAttack( long iActor, long iTargetPlayer, CGameTime BeginTime );
+		//void PeaceTreaty( long iActor, long iTargetPlayer, CGameTime BeginTime );
+		//void Initialize( EnumType eType, long iActor, long iTargetPlayer, CGameTime BeginTime );
+
+		void AffectFeelings( CEOSAIGlobalForeignRelations* pGlobalForeignRelations, float fCurrentTime );
+
+		long       m_iActor;
+		long       m_iTargetPlayer;
+		EnumType   m_eType;
+		//CGameTime  m_BeginTime; // events in the past have less weight
+		float      m_fGameTime; // This is what time the event happened (in game time).  Events in the past have less weight
+		long       m_iEventDuration; // 0 for instant events like an immediate trade; 1000000 for ongoing
+		//
+		float      m_fSignificance;
+};
+*/

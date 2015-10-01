@@ -1,0 +1,16 @@
+
+#pragma once
+/*
+#include "Geo.h"
+class CWorldDescBase;
+
+class CGeoRoad : public CGeo
+{
+	public:
+		CGeoRoad( CWorldDescBase* pWorldDesc ) : CGeo( pWorldDesc )
+		{
+			m_pWorldDesc = pWorldDesc;
+		}
+		virtual GeoType GetGeoType(){ return CGeo::Road; }
+};
+*/

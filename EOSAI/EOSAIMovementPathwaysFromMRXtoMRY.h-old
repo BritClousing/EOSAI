@@ -1,0 +1,191 @@
+
+#pragma once
+
+class C9MovementPathwaysFromEverywhereToMRX;
+class CEOSAIRegionPathwayItem;
+class CEOSAIUnitTemplate2;
+class CEOSAIRegionPathwayMap;
+
+// Movement pathways and summary from MultiRegion X to MultiRegion Y
+class CEOSAIMovementPathwaysFromMRXtoMRY
+{
+	public:
+		CEOSAIMovementPathwaysFromMRXtoMRY( C9MovementPathwaysFromEverywhereToMRX* pParent, long iMultiRegionId )
+		{
+			m_pParentEverywhereToMRX = pParent;
+			m_iMultiRegionId = iMultiRegionId;
+
+			m_fAirPathway_MinSighting = 0.0f;
+			m_fAirPathway_MinPresence = 0.0f;
+			m_fAirPathway_MinDanger = 0.0f;
+			m_fAirPathway_MinDistance = 0.0f;
+
+			m_fLandPathway_MinSighting = 0.0f;
+			m_fLandPathway_MinPresence = 0.0f;
+			m_fLandPathway_MinDanger = 0.0f;
+			m_fLandPathway_MinDistance = 0.0f;
+
+			m_fWaterPathway_MinSighting = 0.0f;
+			m_fWaterPathway_MinPresence = 0.0f;
+			m_fWaterPathway_MinDanger = 0.0f;
+			m_fWaterPathway_MinDistance = 0.0f;
+
+			m_fOneTransportPathway_MinSighting = 0.0f;
+			m_fOneTransportPathway_MinPresence = 0.0f;
+			m_fOneTransportPathway_MinDanger = 0.0f;
+			m_fOneTransportPathway_MinDistance = 0.0f;
+		}
+		~CEOSAIMovementPathwaysFromMRXtoMRY()
+		{
+			m_AirMovementPathways.RemoveAll();
+			m_LandMovementPathways.RemoveAll();
+			m_WaterMovementPathways.RemoveAll();
+			m_OneTransportMovementPathways.RemoveAll();
+		}
+
+		float GetAirDistance(){ return m_fAirPathway_MinDistance; }
+
+		// Air pathways
+		void  AddAirPathway( CEOSAIRegionPathwayItem* pResult );
+		long  GetNumberOfAirPathways(){ return (long) m_AirMovementPathways.GetCount(); }
+		// Land pathways
+		void  AddLandPathway( CEOSAIRegionPathwayItem* pResult );
+		long  GetNumberOfLandPathways(){ return (long) m_LandMovementPathways.GetCount(); }
+		// Water pathways
+		void  AddWaterPathway( CEOSAIRegionPathwayItem* pResult );
+		long  GetNumberOfWaterPathways(){ return (long) m_WaterMovementPathways.GetCount(); }
+		// AllowOneSeaTransport pathways
+		void  AddOneTransportPathway( CEOSAIRegionPathwayItem* pResult );
+		long  GetNumberOfOneTransportPathways(){ return (long) m_OneTransportMovementPathways.GetCount(); }
+
+		// If this is an ground unit:
+		//   If there is a NoTransport-MinimizeDistance pathway, return it.
+		//   If there is a OneTransport-MinimizeDistance pathway, return it.
+		//   If there is a AirTransport-MinimizeDistance pathway, return it.
+		// If this is an sea unit:
+		//   If there is a NoTransport-MinimizeDistance pathway, return it.
+		// If this is an air unit:
+		//   If there is a AirTransport-MinimizeDistance pathway, return it.
+		// Otherwise return NULL.
+		//CMultiRegionPathwayItem* GetSimplestGroundUnitPathway();
+		CEOSAIRegionPathwayItem* GetSimplestUnitPathway( CEOSAIUnitTemplate2* pAIUnitTemplate );
+		CEOSAIRegionPathwayMap* GetSimplestUnitPathwayResult( CEOSAIUnitTemplate2* pAIUnitTemplate );
+
+	protected:
+
+		C9MovementPathwaysFromEverywhereToMRX* m_pParentEverywhereToMRX;
+		long  m_iMultiRegionId;
+
+		float m_fAirPathway_MinSighting;
+		float m_fAirPathway_MinPresence;
+		float m_fAirPathway_MinDanger;
+		float m_fAirPathway_MinDistance; // Based on MultiRegion steps
+		CList< CEOSAIRegionPathwayItem* >  m_AirMovementPathways;
+
+		float m_fLandPathway_MinSighting;
+		float m_fLandPathway_MinPresence;
+		float m_fLandPathway_MinDanger;
+		float m_fLandPathway_MinDistance;
+		CList< CEOSAIRegionPathwayItem* >  m_LandMovementPathways;
+
+		float m_fWaterPathway_MinSighting;
+		float m_fWaterPathway_MinPresence;
+		float m_fWaterPathway_MinDanger;
+		float m_fWaterPathway_MinDistance;
+		CList< CEOSAIRegionPathwayItem* >  m_WaterMovementPathways;
+
+		float m_fOneTransportPathway_MinSighting;
+		float m_fOneTransportPathway_MinPresence;
+		float m_fOneTransportPathway_MinDanger;
+		float m_fOneTransportPathway_MinDistance;
+		CList< CEOSAIRegionPathwayItem* >  m_OneTransportMovementPathways;
+
+		// Add to the pathway set
+		/*
+		void AddPathway( CMultiRegionPathwayItem* pResult );
+		//
+		float  m_fMinSighting;
+		float  m_fMinPresence;
+		float  m_fMinDanger;
+		float  m_fMinDistance;
+		long   m_iMinNumberOfGeoSwitches;
+		*/
+		//
+		//CList< CMultiRegionPathwayItem* >  m_MovementPathways; // not-owned
+
+		//
+		// Flowchart for choosing a movement path:
+		//
+		// Is there a Transportless route?
+		//   What's the distance (ignoring danger)? (i.e. w/escort)
+		//   What's the distance (avoiding danger)? (avoid being seen, avoid fighting)
+		// Is there a single SeaTransport route?
+		//   What's the distance (ignoring danger)? (i.e. w/escort)
+		//   What's the distance (avoiding danger)? (avoid being seen, avoid fighting)
+		// Is there an AirTransport route? (based on availability of AirTransports, range)
+		//   What's the distance (ignoring danger)? (i.e. w/escort)
+		//   What's the distance (avoiding danger)? (avoid being seen, avoid fighting)
+		// If one or more route-types are available, compare them
+
+		// Calculate an air, low-danger route (for air, ignore GeoSwitches)
+		// Calculate an air, ignore-danger route (for air, ignore danger+GeoSwitches)
+		// Calculate an air, polite route (for air, ignore GeoSwitches)
+		// Calculate a no-GeoSwitch, low-danger route
+		// Calculate a no-GeoSwitch, ignore-danger route (escort or send attack units)
+		// Calculate a no-GeoSwitch, polite route
+		//-- Calculate a no-GeoSwitch, no-mountains route (modify MultiRegions or use AIRegions)
+		// Calculate a upto1or2-GeoSwitch, low-danger route
+		// Calculate a upto1or2-GeoSwitch, ignore-danger route (escort or send attack units)
+		// Calculate a upto1or2-GeoSwitch, polite route
+		//-- Calculate a upto1or2-GeoSwitch, no-mountains route (modify MultiRegions or use AIRegions)
+		//
+		// Transportless Routes:
+		//   float m_MinDistance;
+		//   float m_MinDanger;
+		//   float m_MinImpoliteness;
+		// Single SeaTransport Routes:
+		//   float m_MinDistance;
+		//   float m_MinDanger;
+		//   float m_MinImpoliteness;
+		// Air Transport Routes:
+		//   float m_MinDistance;
+		//   float m_MinDanger;
+		//   float m_MinImpoliteness;
+
+		/*
+		// Transportless
+		bool   TransportlessRouteExists();
+		float  GetTransportVersusNonTransportRouteDistance(); danger? // 0-1, 0.5 = equal distance
+		float  GetTransportlessDangerVersusNondangerDistances(); // 0-1 (escort?)
+		float  TransportlessDistance_IgnoringDanger();
+		float  TransportlessDistance_AvoidingDanger();
+		float  GetTransportlessPoliteVersusImpoliteDistances(); // 0-1 (should I be polite?)
+		float  GetTransportlessMounta
+
+		// One Sea-Transport
+		bool   SingleTransportRouteExists();
+		float  GetSingleTransportDangerVersusNondangerDistances(); // 0-1 (escort?)
+		float  SingleTransportDistance_IgnoringDanger();
+		float  SingleTransportDistance_AvoidingDanger();
+		float  GetSingleTransportPoliteVersusImpoliteDistances(); // 0-1 (should I be polite?)
+
+		// Air-Transport
+		float  DoesAnAirRouteExist( float fAirRange ); //
+
+		//
+		//float  GetDangerousVersusSafeRouteDistance();
+		//bool   DoesPathwayRequireATransport();
+		//bool   DoesPathwayWorkWithOneTransport();
+		//float  GetTransportVersusNonTransportRouteDistance(); Danger? Distance?
+		//float  GetStrongEscortVersusLowDangerRouteDistance();
+		//float  GetPoliteVersusImpoliteRouteDistance(); // Should I be polite?
+		//bool   NonMountainousRouteExists(); // Can tanks go there?
+		//
+		bool m_bNonTransportRouteExists;
+		CMultiRegionPathwayItem*  m_pNonTransportRoute;
+		bool m_bTransportRouteExists; // If there are excessive GeoSwitches, the answer is no
+		CMultiRegionPathwayItem*  m_pTransportRoute;
+		CMultiRegionPathwayItem*  m_pLowDangerRoute;
+		CMultiRegionPathwayItem*  m_pIgnoreDangerRoute;
+		*/
+};

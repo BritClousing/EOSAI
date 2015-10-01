@@ -1,0 +1,11 @@
+
+When integrating AIPlayer2Interface into your software, you should avoid changing the interfaces themselves.
+If you need additional functionality, your classes should derive from AIPlayer2Interface and your class should add new virtual functions.
+You'll need to link to those objects in both the EOSAI project and your own project.
+
+Conversion routines:
+
+You'll need to convert all the game objects into a format that the AI understands.
+The AI uses AIUnit, AICity, AIResource, AIAirfield, AIFort to represent the game-objects
+The map must also be converted into an AI representation using AIRegion and MultiRegion objects.
+

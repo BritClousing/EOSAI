@@ -1,0 +1,17 @@
+
+#pragma once
+
+#include "Geo.h"
+
+class CWorldDescBase;
+class CCity;
+/*
+class CGeoCity : public CGeo
+{
+	public:
+		CGeoCity( CWorldDescBase* pWorldDesc ) : CGeo( pWorldDesc ){ m_iCityObjectId = 0; }
+		virtual GeoType GetGeoType(){ return CGeo::City; }
+
+		long  m_iCityObjectId;
+};
+*/

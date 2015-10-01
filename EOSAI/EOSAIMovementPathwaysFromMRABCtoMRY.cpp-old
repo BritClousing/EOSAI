@@ -1,0 +1,45 @@
+
+#include "stdafx.h"
+//#include "EOSAIMovementPathwaysFromMRABCtoMRY.h"
+//#include "EOSAIMovementPathwaysFromMRXtoMRY.h"
+//#include "EOSAIMultiRegionManager2.h"
+/*
+void CEOSAIMovementPathwaysFromMRABCtoMRY::AddPathway( CEOSAIMovementPathwaysFromMRXtoMRY* pPathway )
+{
+	/*
+	// Grab the pathway details
+	if( m_MovementPathways.IsEmpty() )
+	{
+		m_fMinSighting = pPathway->m_fMinSighting;
+		m_fMinDanger = pPathway->m_fMinDanger;
+		m_fMinDistance = pPathway->m_fMinDistance;
+		m_fMinPresence = pPathway->m_fMinPresence;
+		m_iMinNumberOfGeoSwitches = pPathway->m_iMinNumberOfGeoSwitches;
+	}
+	else
+	{
+		if( m_fMinSighting > pPathway->m_fMinSighting )
+		{
+			m_fMinSighting = pPathway->m_fMinSighting;
+		}
+		if( m_fMinDanger > pPathway->m_fMinDanger )
+		{
+			m_fMinDanger = pPathway->m_fMinDanger;
+		}
+		if( m_fMinDistance > pPathway->m_fMinDistance )
+		{
+			m_fMinDistance = pPathway->m_fMinDistance;
+		}
+		if( m_fMinPresence > pPathway->m_fMinPresence )
+		{
+			m_fMinPresence = pPathway->m_fMinPresence;
+		}
+		if( m_iMinNumberOfGeoSwitches > pPathway->m_iMinNumberOfGeoSwitches )
+		{
+			m_iMinNumberOfGeoSwitches = pPathway->m_iMinNumberOfGeoSwitches;
+		}
+	}
+	m_MovementPathways.AddTail( pPathway );
+}
+*/
+

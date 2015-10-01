@@ -1,0 +1,250 @@
+
+#include "stdafx.h"
+#include "EOSAIGlobalForeignRelations.h"
+#include "EOSAIPlayerInteractionEvent.h"
+//#include "PlayerForeignRelations.h"
+//#include "PlayerForeignRelationsWithPlayer.h"
+//#include "ForeignRelationsPlayerProxy.h"
+//#include "FeelingsTowardsPlayer.h"
+#include "EOSAIMathFunction.h"
+#include <math.h>
+
+CEOSAIPlayerInteractionEvent::CEOSAIPlayerInteractionEvent()
+{
+	m_iActor = 0;
+	m_iTargetPlayer = 0;
+	m_eType = enum_Unknown;
+	//m_fBeginTime = 0.0f;  // events in the past have less weight
+	m_iEventDuration = 0; // 0 for instant events like an immediate trade; 1000000 for ongoing
+	//
+	m_fSignificance = 0.0f;
+}
+
+void CEOSAIPlayerInteractionEvent::AffectFeelings( CEOSAIGlobalForeignRelations* pGlobalForeignRelations, float fCurrentTime )
+{
+	ASSERT( pGlobalForeignRelations );
+	ASSERT( fCurrentTime >= m_fGameTime );
+
+	// Time Gap
+	bool  bOngoingEvent = false;
+	float fBeginToCurrent = fCurrentTime - m_fGameTime;
+	float fEndToCurrent = 0.0f;
+	if( m_iEventDuration == 1000000 )
+	//if( m_BeginTime.GetTime() + m_iEventDuration > fCurrentTime )
+	{
+		bOngoingEvent = true;
+		fEndToCurrent = 0.0f; // still ongoing
+	}
+	else
+	{
+		bOngoingEvent = false;
+		fEndToCurrent = fCurrentTime - ( m_fGameTime + m_iEventDuration );
+	}
+	float fEventDuration = fBeginToCurrent - fEndToCurrent;
+
+	/*
+	CForeignRelationsPlayerProxy* pActorProxy = pGlobalForeignRelations->m_Players[ m_iActor ];
+	ASSERT( pActorProxy );
+	CFeelingsTowardsPlayer* pActorsFeelingsTowardsTargetPlayer = pActorProxy->m_FeelingsTowardsPlayer[ m_iTargetPlayer ];
+	ASSERT( pActorsFeelingsTowardsTargetPlayer );
+	//
+	CForeignRelationsPlayerProxy* pTargetPlayerProxy = pGlobalForeignRelations->m_Players[ m_iTargetPlayer ];
+	ASSERT( pTargetPlayerProxy );
+	CFeelingsTowardsPlayer* pTargetPlayersFeelingsTowardsActor = pTargetPlayerProxy->m_FeelingsTowardsPlayer[ m_iActor ];
+	ASSERT( pTargetPlayersFeelingsTowardsActor );
+	*/
+
+/*
+	CPlayerForeignRelations* pActorProxy = pGlobalForeignRelations->m_Players[ m_iActor ];
+	ASSERT( pActorProxy );
+	CPlayerForeignRelationsWithPlayer* pActorsFeelingsTowardsTargetPlayer = pActorProxy->GetPlayerToPlayerRelations( m_iTargetPlayer );
+	ASSERT( pActorsFeelingsTowardsTargetPlayer );
+	//
+	CPlayerForeignRelations* pTargetPlayerProxy = pGlobalForeignRelations->m_Players[ m_iTargetPlayer ];
+	ASSERT( pTargetPlayerProxy );
+	CPlayerForeignRelationsWithPlayer* pTargetPlayersFeelingsTowardsActor = pTargetPlayerProxy->GetPlayerToPlayerRelations( m_iActor );
+	ASSERT( pTargetPlayersFeelingsTowardsActor );
+*/
+
+	//
+	// Trade
+	//
+	/*
+	if( m_eType == enum_Trade )
+	{
+		float fFeeling = 1.0f;
+		CAIFunction TimeBasedWeightFunction;
+		TimeBasedWeightFunction.SetInputOutput(  0.0f, 0.5f );
+		TimeBasedWeightFunction.SetInputOutput(  5.0f, 0.5f );
+		TimeBasedWeightFunction.SetInputOutput( 20.0f, 0.2f );
+		TimeBasedWeightFunction.SetInputOutput( 75.0f, 0.0f );
+		float fWeight = TimeBasedWeightFunction.GetOutput( fBeginToCurrent ) * m_fSignificance;
+		pTargetPlayersFeelingsTowardsActor->AdjustFeelings( fFeeling, fWeight );
+		pActorsFeelingsTowardsTargetPlayer->AdjustFeelings( fFeeling, fWeight/2.0f );
+	}
+	//
+	// War
+	//
+	if( m_eType == enum_DeclarationOfWar )
+	{
+		float fFeeling = 0.0f;
+		CAIFunction TimeBasedWeightFunction;
+		TimeBasedWeightFunction.SetInputOutput(  0.0f, 1.0f );
+		TimeBasedWeightFunction.SetInputOutput(  5.0f, 1.0f );
+		TimeBasedWeightFunction.SetInputOutput( 20.0f, 0.5f );
+		TimeBasedWeightFunction.SetInputOutput( 50.0f, 0.1f );
+		float fWeight = TimeBasedWeightFunction.GetOutput( fBeginToCurrent );
+		pTargetPlayersFeelingsTowardsActor->AdjustFeelings( fFeeling, fWeight );
+		pTargetPlayersFeelingsTowardsActor->LimitFeelings( 0.0f, 0.4f );
+	}
+	if( m_eType == enum_SneakAttack )
+	{
+		float fFeeling = 0.0f;
+		CAIFunction TimeBasedWeightFunction;
+		TimeBasedWeightFunction.SetInputOutput(  0.0f, 2.0f );
+		TimeBasedWeightFunction.SetInputOutput(  5.0f, 2.0f );
+		TimeBasedWeightFunction.SetInputOutput( 20.0f, 1.5f );
+		TimeBasedWeightFunction.SetInputOutput( 50.0f, 0.4f );
+		float fWeight = TimeBasedWeightFunction.GetOutput( fBeginToCurrent );
+		pTargetPlayersFeelingsTowardsActor->AdjustFeelings( fFeeling, fWeight );
+	}
+	if( m_eType == enum_WarState )
+	{
+		// Negative feelings based on the duration of the war + time since end
+		//    fEventDuration: Duration 1 = 3.0, Duration 10 = 4.3, Duration 100 = 10.4
+		//    Time since End of war: Time 0 = 0.10, Time 10 = 0.08, Time 100 = 0.02
+		float fFeeling = 0.0f;
+		CAIFunction TimeBasedWeightFunction;
+		if( bOngoingEvent ) // The war is still going on
+		{
+			TimeBasedWeightFunction.SetInputOutput(   0.0f, 0.15f );
+		}
+		else
+		{
+			TimeBasedWeightFunction.SetInputOutput(   0.0f, 0.08f );
+			TimeBasedWeightFunction.SetInputOutput( 100.0f, 0.02f );
+		}
+		float fWeight = TimeBasedWeightFunction.GetOutput( fEndToCurrent ) * (float) sqrt( fEventDuration+8.0f );
+		pTargetPlayersFeelingsTowardsActor->AdjustFeelings( fFeeling, fWeight );
+	}
+	if( m_eType == enum_CombatEvent )
+	{
+		float fFeeling = 0.0f;
+		CAIFunction TimeBasedWeightFunction;
+		TimeBasedWeightFunction.SetInputOutput(  0.0f, 0.50f );
+		TimeBasedWeightFunction.SetInputOutput( 50.0f, 0.05f );
+		float fWeight = TimeBasedWeightFunction.GetOutput( fBeginToCurrent ) * m_fSignificance;
+		pTargetPlayersFeelingsTowardsActor->AdjustFeelings( fFeeling, fWeight );
+	}
+	//
+	// Peace
+	//
+	if( m_eType == enum_PeaceTreaty )
+	{
+		// I handle the peace treaty feelings adjustment via the [War State] event
+		/-*
+		float fFeeling = 1.0f;
+		TimeBasedWeightFunction.SetInputOutput(  0.0f, 0.5f );
+		TimeBasedWeightFunction.SetInputOutput( 50.0f, 0.0f );
+		float fWeight = TimeBasedWeightFunction.GetOutput( fBeginToCurrent );
+		pTargetPlayersFeelingsTowardsActor->AdjustFeelings( fFeeling, fWeight );
+		*-/
+	}
+	if( m_eType == enum_NonAggressionPact )
+	{
+		float fFeeling = 1.0f;
+		CAIFunction TimeBasedWeightFunction;
+		if( bOngoingEvent && m_iEventDuration >= 25 ) // The non-aggression pact is still in effect
+		{
+			TimeBasedWeightFunction.SetInputOutput(  0.0f, 0.5f );
+			//TimeBasedWeightFunction.SetInputOutput( 50.0f, 0.0f );
+		}
+		else // The non-aggression pact has ended
+		{
+			TimeBasedWeightFunction.SetInputOutput(  0.0f, 0.3f );
+			TimeBasedWeightFunction.SetInputOutput( 50.0f, 0.0f );
+		}
+		float fWeight = TimeBasedWeightFunction.GetOutput( fEndToCurrent );
+		pTargetPlayersFeelingsTowardsActor->AdjustFeelings( fFeeling, fWeight );
+		pActorsFeelingsTowardsTargetPlayer->AdjustFeelings( fFeeling, fWeight/2.0f );
+	}
+	if( m_eType == enum_TemporaryAlliance )
+	{
+		float fFeeling = 1.0f;
+		CAIFunction TimeBasedWeightFunction;
+		if( bOngoingEvent && m_iEventDuration >= 25 ) // The non-aggression pact is still in effect
+		{
+			TimeBasedWeightFunction.SetInputOutput(  0.0f, 2.0f );
+		}
+		else // The alliance has ended
+		{
+			TimeBasedWeightFunction.SetInputOutput(  0.0f, 0.75f );
+			TimeBasedWeightFunction.SetInputOutput( 50.0f, 0.00f );
+		}
+		float fWeight = TimeBasedWeightFunction.GetOutput( fEndToCurrent );
+		pTargetPlayersFeelingsTowardsActor->AdjustFeelings( fFeeling, fWeight );
+		pActorsFeelingsTowardsTargetPlayer->AdjustFeelings( fFeeling, fWeight/2.0f );
+	}
+	if( m_eType == enum_PermanentAlliance )
+	{
+		// We don't want past or future events to adjust the feelings very much
+		float fFeeling = 1.0f;
+		float fWeight = 50.0f;
+		pTargetPlayersFeelingsTowardsActor->AdjustFeelings( fFeeling, fWeight );
+		pTargetPlayersFeelingsTowardsActor->LimitFeelings( 0.95f, 1.0f );
+		pActorsFeelingsTowardsTargetPlayer->AdjustFeelings( fFeeling, fWeight );
+		pActorsFeelingsTowardsTargetPlayer->LimitFeelings( 0.95f, 1.0f );
+	}
+	*/
+
+	// Ongoing events
+	/*
+	if( m_eType == enum_WarState )
+	{
+		float fFeeling = 0.0f;
+		TimeBasedWeightFunction.SetInputOutput(  0.0f, 0.05f );
+		TimeBasedWeightFunction.SetInputOutput( 50.0f, 0.00f );
+		float fWeight = TimeBasedWeightFunction.GetOutput( fBeginToCurrent );
+		pTargetPlayersFeelingsTowardsActor->AdjustFeelings( fFeeling, fWeight );
+	}
+	*/
+}
+/*
+void CEOSAIPlayerInteractionEvent::DeclarationOfWar( long iActor, long iTargetPlayer, CGameTime BeginTime )
+{
+	m_eType = enum_DeclarationOfWar;
+	m_iActor = iActor;
+	m_iTargetPlayer = iTargetPlayer;
+	m_BeginTime = BeginTime;
+	m_iEventDuration = 0;
+}
+
+void CEOSAIPlayerInteractionEvent::SneakAttack( long iActor, long iTargetPlayer, CGameTime BeginTime )
+{
+	m_eType = enum_SneakAttack;
+	m_iActor = iActor;
+	m_iTargetPlayer = iTargetPlayer;
+	m_BeginTime = BeginTime;
+	m_iEventDuration = 0;
+}
+
+void CEOSAIPlayerInteractionEvent::PeaceTreaty( long iActor, long iTargetPlayer, CGameTime BeginTime )
+{
+	m_eType = enum_PeaceTreaty;
+	m_iActor = iActor;
+	m_iTargetPlayer = iTargetPlayer;
+	m_BeginTime = BeginTime;
+	m_iEventDuration = 0;
+}
+*/
+/*
+void CEOSAIPlayerInteractionEvent::Initialize( EnumType eType, long iActor, long iTargetPlayer, CGameTime BeginTime )
+{
+	m_iActor = iActor;
+	m_iTargetPlayer = iTargetPlayer;
+	m_eType = eType;
+	m_BeginTime = BeginTime; // events in the past have less weight
+	m_iEventDuration = 1000000; // 0 for instant events like an immediate trade; 1000000 for ongoing
+}
+*/
+

@@ -1,0 +1,22 @@
+
+#include "stdafx.h"
+#include "AIProductionTask.h"
+#include "AICity2.h"
+//#include "City.h"
+#include "AIProductionOption.h"
+
+/*
+void CAIProductionTask::UpdateTimeUntilCompletion()
+{
+	ASSERT( m_pParentAICity );
+	ASSERT( m_pProductionOption );
+
+	// I assume that this is the only ProductionTask
+
+	m_fTimeUntilCompletion =
+		m_pParentAICity->GetCity()->GetTimeLeftForBuildOption( m_pProductionOption->m_pBuildOption );
+	int x=0;
+}
+*/
+
+

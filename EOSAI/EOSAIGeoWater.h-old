@@ -1,0 +1,31 @@
+
+#ifndef _WATER_H_
+#define _WATER_H_
+
+#include "Geo.h"
+
+class CWorldDescBase;
+//class CCity;
+
+class CEOSAIGeoWater : public CEOSAIGeo
+{
+	public:
+		CGeoWater( CWorldDescBase* pWorldDesc ) : CGeo( pWorldDesc ){}
+		virtual GeoType GetGeoType(){ return CGeo::Water; }
+
+		bool    IAmAMajorBodyOfWater();
+		//CCity*  CreateACoastalCity( int iGridX, int iGridY );
+		//void    WanderToCoast( CPoint ptPlayerGridLocation, CPoint* ptCityGridLocation );
+
+	//private:
+		//int m_x;  // A location which is part of the island
+		//int m_y;
+		//int m_iWaterNumber;
+		//int m_iSize;
+
+		//CWorldDesc*  m_pWorldDesc;
+		//CWorldMap* m_pWorldMap;
+};
+
+#endif _WATER_H_
+

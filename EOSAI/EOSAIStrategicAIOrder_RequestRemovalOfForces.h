@@ -1,0 +1,2 @@
+
+// CForeignProposal_RequestToRemoveForces

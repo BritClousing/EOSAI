@@ -1,0 +1,5 @@
+#summary One-sentence summary of this page.
+
+= Why Doesn't EOS use EOSAI? =
+
+The code in EOSAI was originally inside EOS.exe.  It's being split off into a separate dll, and during the process of separating the two, some things stopped working.  They stopped working because the EOSAI no longer had access to some of the classes specific to EOS.  Since EOSAI is being turned into a general AI system, I needed to introduce more separation between EOS and EOSAI.

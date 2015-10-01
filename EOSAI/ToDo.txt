@@ -1,0 +1,298 @@
+
+See if this is necessary in EOS:
+It's used in other places, too, so just search for "#if (WINVER >= 0x0500)"
+--------------------------------
+#if (WINVER >= 0x0500)
+	HMODULE hUser32 = ::GetModuleHandle (_T("USER32.DLL"));
+	if (hUser32 != NULL)
+	{
+		typedef HMONITOR (WINAPI *FN_MonitorFromWindow) (HWND hWnd, DWORD dwFlags);
+		typedef BOOL (WINAPI *FN_GetMonitorInfo) (HMONITOR hMonitor, LPMONITORINFO lpmi);
+		FN_MonitorFromWindow pfnMonitorFromWindow = (FN_MonitorFromWindow)
+			::GetProcAddress (hUser32, _T("MonitorFromWindow"));
+		FN_GetMonitorInfo pfnGetMonitorInfo = (FN_GetMonitorInfo)
+			::GetProcAddress (hUser32, _T("GetMonitorInfoA"));
+		if (pfnMonitorFromWindow != NULL && pfnGetMonitorInfo != NULL)
+		{
+			MONITORINFO mi;
+			HMONITOR hMonitor = pfnMonitorFromWindow (m_hWnd, 
+				MONITOR_DEFAULTTONEAREST);
+			mi.cbSize = sizeof (mi);
+			pfnGetMonitorInfo (hMonitor, &mi);
+			ScreenSize.cx = mi.rcWork.right - mi.rcWork.left;
+			ScreenSize.cy = mi.rcWork.bottom - mi.rcWork.top;
+		}
+	}
+#endif
+--------------------------------
+
+Initial Work:
+- I need to add all the functionality to EOSAI, so that I can run EOS with it.  Right now, the interface is incomplete.
+
+- Write Tests - I'd like to verify that the AI is working properly at all times.
+  - I can use EOS as a test harness.
+  - I can also create some fake (non EOS) maps. It's easy enough to do. It doesn't require that an actual map exists.
+- Get a display system working, so that I can see what the AI is doing (what messages is it sending, etc)
+- Put the EOSAI under source control.
+- Move away from the EOSAI prefix on everything? It gets verbose.
+- I need to move away from "incoming message" and "outgoing message" language because it's ambiguous.
+  - I need to move to "MessageFromAI" and "MessageToAI", instead.
+
+- Read up: https://www.google.com/webhp?ion=1&espv=2&ie=UTF-8#q=strategy+game+AI
+
+- Handle the completion of trades. Right now, I hit an ASSERT when I try to complete a trade.
+
+- Start processing all the MessageToAI and MessageFromAI messages.
+
+- Build a UI that can monitor the AI's current state. e.g. How does it view the current power-balance, messages sent/received, resources, cities, units, etc
+
+- Find all the TODO, THINGS_TO_COMPILE_EVENTUALLY, GAME_CODE, "EOSAI TODO" (in EOS) messages, fix the code.
+
+- Add an ID number to the AI's Trade Offer, so that I know if the player accepts the offer or not.
+
+- Right now, it appears that there may be cases where the AI needs to have a deep understanding of the game rules.
+  For example, if iron is running low, then he needs to shift his city-build orders to construct fewer things that require iron.
+  Of course, this depends on the AI understanding that iron is a consumable resource (not an infinite "available/unavailable" resource, like Civ does).
+
+- Fix the messaging system. The AI can't send a lot of messages (CEOSAIOutgoingAIMessage_DeclareWar works, but it's the only one). 
+   x-It appears that he also can't buy resources when he runs out.
+   - The AI can't send or receive/respond to trade offers from other players.
+
+- Fix "AllMyCitiesHaveOrders()". Need to setup City Build Orders.
+
+- Get rid of the "2" -  e.g. "CEOSAIUnit2", etc
+- "EOSAIStrategicAIOrder_ConcedeGame" -> EOSAIStrategicAIOrder_AIOffersToResign
+- Create a "EOSAIStrategicAIOrder_AISuggestsYouResign"
+
+- Rename "CEOSAIMailResponse" to "EOSAI::MessageResponse", rename "m_UnprocessedIMailResponses" to "m_UnprocessedMessageResponses"
+
+- Handle CList< EOSAI::MessageFromAI* >  m_MessagesFromAI;
+
+- Look for EOSAI::AIPlayer in EOS. There are a few places where I stubbed out the AI and put an ASSERT(false) in there because I need to add
+    functionality to the AI before it will work.
+
+- How do I get the technology tree and the unitset data over, without too much entanglement with EOS?
+  - Or do I just not worry about that for now?  I could get things working and then try to increase the separation.
+  - I will eventually want a generic system for:
+    - Specifying units capabilities (build times/resources, maintenance, movement, range, terrain movement, combat, transport, etc)
+    - Technology tree (prerequisites, costs, advantages, etc)
+	- I would like to get a generic system, sort of like I do for terrain
+	- Right now, though, I think the best course of action is to copy over the code from EOS.  Hopefully, there isn't too much entanglement.
+
+- I could come up with a sequence-list of how the AI is building it's decisions 
+  - i.e. foreign relations strategy, create multiregions, create geos, create AIPoiObjects, create desires, ...
+  - It could be helpful in figuring out flaws in the sequence
+
+I'm not sure if I still use it, but I might need to bring over:
+- CAICombatPlanner, CAIQuickCombatCalculation, CAIQuickCombatResults, CAIUnitCombatCapability, CAIUnitVsUnitValue
+
+- Just in case regular EOS isn't working: double-check "Brit-Feb16"
+
+- void CEOSAIInterface_EOS::TurnPoiObjectsIntoAIPoiObjects() - I delete and recreate every AIPoiObject each turn.
+  - I might be duplicating the MultiRegion and AIRegions each turn (i.e. making multiple copies)
+  
+- I should change how I'm tracking some of the items. For example, the EOSAICity contains Buildings, but each of them is pointer to an object.
+  - I should really have a list of names. The ConvertToEOSAICity2 function is just a little unweildy.
+    I should store the building name and maybe a count, example: "Barracks" count: 1
+    pAICity->GetBuildingList()->AddTail( pAIBuildingDesc );
+
+- I should also change the way the objects are stored. If I store them as a map (instead list), I could quickly search them.
+
+- Do I need to create Geos for the AI?
+		CList< CEOSAIGeo* >*  GetGeoList(){ return &m_EOSAIGeos; }
+		CEOSAIGeo*  GetGeo( long iGeo ){ ASSERT( false ); return NULL; }
+		CEOSAIGeo*  GetGeo( CEOSAILocation Location ){ ASSERT( false ); return NULL; }
+		long        GetGeoId( CEOSAILocation Location ){ ASSERT( false ); return 0; }
+
+Do documentation
+It would be nice if the old AI and the new AI could play against each other - to make sure that the AI is getting better.
+  One easier alternative would be to setup some challenges - for example, to see how fast the AI can takeover the map.
+  This wouldn't be able to test how well the AI plans invasions, just how well it can play the beginning game.
+  Measuring how fast the AI calculates its turn would also be useful.
+
+I could have some memory leaks with stuff like "ClearPredefinedAndResultPaths".
+
+Right now, I'm using both SetCurrentHP and InitialState->SetHP.  I might want to switch to one or the other.
+	pAIUnit->SetCurrentHP( pUnit->GetCurrentHP() );
+	pAIUnit->GetInitialState()->SetHP( pUnit->GetCurrentHP() );
+
+- TransferServer doesn't work
+    The code:
+	ASSERT( false ); // We're not supporting this right now
+	g_pEOSAIInterface->InstanciateAIPlayers();
+	g_pEOSAIInterface->GetAIPlayerManager()->InstanciateThreadAndPauseIt();
+	m_pWorldDescServer->CreateAICommonData();
+	m_pWorldDescServer->ActivateAIPlayers();
+
+- I should setup a bunch of test cases for the AI, just ot make sure it's performing like I want. I want automated tests.
+  - I should make a landwar test case, where the AI has the option to build ships (there are coastal cities), but he needs to build land units.
+  - I could also setup some test cases where the AI can build an unlimited amount of city improvements. It needs to balance the city
+      improvements against unit-building. (Right now, the only reason the AI stops building certain city improvements is because it can
+      only build one copy of, say, a barracks in a city.)
+
+- Need to go through the events and write converters:
+   - CNationalGameEventTeamFormed, etc
+   
+- Might need to copy "CAITradeDesires" into EOSAI. It's currently inside EOS.
+- Might need to copy "CAIJobCapability" into EOSAI. It's currently inside EOS.
+- Do we ever have any attack records? "pSerial->Serialize( (long) m_AttackRecordList.GetCount() );"
+  - Maybe we can hard-code this to zero. I want the AI to remember all of its own data.
+
+- I should create a Unitsubset object, so that I can add things like "m_InitialCanBuildUnitList" into the unitsubset
+
+- WorldDescPlayer::Serialize is serializaing the AIPlayer: "pAIPlayer->Serialize( pSerial );"
+  - If I want backwards compatibility, I should write the (deserialize) code to do this - i.e. code to deserialize old EOS saved-games
+
+- In "CWorldDesc::ApplyAllEvents()", I think I might use the "WorldDescPlayer->AICheat_SynchrononizeAllPoiObjectsWithServer();" call,
+    but I'm not sure because I also have an ASSERT there that would get called. Maybe the AI doesn't use the WorldDescPlayer object, which
+    makes sense.  That was probably a really early version of the AI.
+
+- The AI doesn't update the "ready to submit turn" image on the player's screen (it works on the first turn, but not after that).
+
+Later Work:
+- Add to GIT source control.  I think I'll move away from Mercurial and open-source.
+- Try to make things more generic (resources, unit/tech costs, what can trigger a building/unit to be buildable, etc)
+- Can I switch it over from CEOSAIClass to EOSAI::CClass?  I already did this with EOSAIActionScheduler and EOSAIBuildManager
+- Add a negotiation engine - this would allow the AI to make decisions about buying and selling stuff, affect relations, add personality.
+  - This would involve setting values on the buy/sell cost, and limits on how much they're willing to buy and sell.
+- To do: convert everything to STL.  I should be moving away from MFC.
+  - Cross-compatibility will require that I move to STL.
+  - I need to check if the VisualStudio debugger shows stl::string values, like it does with CString
+- Can I add multicore support to the AI?  It seems like I could get things to run faster with multiple cores.
+  - Most of the slowness comes from the pathfinding system. Maybe I could have separate sections in each object for the different cores.
+  - Example: Pathfinding distance would be in an array and each core would access different variables.
+- Expand the personality variables of each AI.
+
+- EOSAINationalSummary needs to include data for:
+	CEOSAIResourceEffectsSummary  m_AIResourceEffectsSummary; - the current state of resource-shortage effects (e.g. slowed units, etc)
+    Maybe I can put these in the same place as I put: m_AICommonData.m_AINationalSummaries[iPlayer]->m_TotalResources.Set( "Money", m_pWorldDescServer->GetWorldDescPlayerProxy(iPlayer)->GetTotalMoney() );
+
+- The Autosave-AITest file:
+  - I wonder why the AI is building artillery.
+  - AIJobSolution
+    - Water - Food 6, 8, 9
+    - Water - Food 13
+    - Water - Oilfield 2
+    - Water - Oil 5
+    - Land - "Ankara" City (13 population), ObjId 12; Iron Mine 3 (ObjId 84)- the AI should send a transport / MultiRegion=12
+    - Land - "Cape Town" City (10 population), ObjId 7
+    - Land - "Belo Horizonte" City (12 population), ObjId 15; "Dallas" (7 Pop) ObjId 13
+    - Land - "Tehran" City (9 population), ObjId 9; "Lisbon" (5 Pop) ObjId 19
+
+  If you load the AIGame - Turn 10, the transport is trying to pickup something, but no units have orders to get picked up.
+    Unit ObjectId 150,151 (Infantry), 183 (Artillery)
+    Target "Iron" ObjectId 89, 97
+
+There's something wrong with the AI capturing cities. Even when I crank up m_CitResValueMultiplier.m_fCityProductionValueMultiplier to 200,
+  the AI is still going after resources rather than cities.
+
+Changed code:
+CAIPoiObject::ReleaseAllocatedUnitActionIdea( CAIUnitActionIdea* pUnitActionIdea )
+void CAIUnitActionIdea::CreatePredefinedStep() 2809
+void CAIUnitPathwayFinder::CreateOrders() 1348
+	
+--------------------------
+Long Term Goals:
+- Get rid of all references to Money, Food, Iron, and Oil. They are game-specific resources. 
+    Although money might be okay, since it's so common.
+- The AI needs to be better about responding to changes in trade states. 
+    Right now, CEOSAIStrategicAI::ProcessTradeAgreementResponse( CEOSAITradeAgreementResponse* pTradeAgreementResponse, bool* pbWasSignificant )
+	handles the case, but it doesn't handle it intelligently.
+- The CEOSAIStrategicAI::EvaluateTradeAgreement( CEOSAITradeAgreement* pTradeAgreement, CString* strOpinionText, long* pOpinionSum )
+    should be internationalizable, and it should allow for each AI to send back a different response (in line with his personality)
+--------------------------
+void CGameHostManagementDialog::OnConfirmPlayerSwitch() - make sure this works, but it's not high-priority. It changes the AI player during the middle of a game.
+
+
+WorldDesc.cpp - line 7080
+			#ifdef USE_EOSAI_DLL
+			EOSAI::AIPlayer* pAIPlayer = g_pEOSAIInterface->GetAIPlayer( GetLocalPlayerNumber() );
+			if( pAIPlayer )
+			{
+				// I should probably write a EnumTradeAgreementResponse, EnumTradeAgreementState converter here
+				ASSERT(false); //--pAIPlayer->Incoming_TradeAgreementResponse( strTradeAgreementId, iPlayerWhoResponded, eResponse, eNewState );
+			}
+
+
+
+GameEvent_IMail.cpp - line 455
+#ifdef USE_EOSAI_DLL
+				EOSAI::AIPlayer* pAIPlayer = g_pEOSAIInterface->GetAIPlayer( iReceivingPlayer );
+				ASSERT(false); // if( pAIPlayer ){ pAIPlayer->Incoming_IMail( this ); }
+#else USE_EOSAI_DLL
+
+
+
+GameEvent_TradeAgreement.cpp - line 307
+#ifdef USE_EOSAI_DLL
+				EOSAI::AIPlayer* pAIPlayer = g_pEOSAIInterface->GetAIPlayer( m_iSendToPlayerNumber );
+				if( pAIPlayer )
+				{
+					ASSERT(false); // - need converter - pAIPlayer->Incoming_TradeOffer( m_pTradeAgreement );
+				}
+				else
+				{
+					// Resend it to the target player - now the sender sends it to the target player
+				//	m_ShouldBeKnownBy.SetValue( m_iSendToPlayerNumber, true );
+				//	SendEventToShouldBeKnownByList( g_pMessageTargetManager->GetMessageTarget_ServerId() ); // Send to all players in ( m_ShouldBeKnownBy - m_aHasBeenSent )
+				}
+#else USE_EOSAI_DLL
+
+
+
+
+
+GameEvent_TradeAgreement - line 413
+#ifdef USE_EOSAI_DLL
+				EOSAI::AIPlayer* pAIPlayer = g_pEOSAIInterface->GetAIPlayer( iReceivingPlayer );
+				ASSERT(false);// need converter - if( pAIPlayer ){ pAIPlayer->Incoming_TradeOffer( m_pTradeAgreement ); }
+#else USE_EOSAI_DLL
+
+
+
+
+NationalGameEventTeamFormed - line 104
+#ifdef USE_EOSAI_DLL
+		EOSAI::AIPlayer* pAIPlayer = g_pEOSAIInterface->GetAIPlayer( pWorldDescPlayer->GetLocalPlayerNumber() );
+		if( pAIPlayer )
+		{
+			ASSERT(false);// need converter - pAIPlayer->IncomingEvent_TeamFormed( m_strTeamName );
+		}
+#else USE_EOSAI_DLL
+
+
+
+
+CMessage2_GenericXML - line 114
+				#ifdef USE_EOSAI_DLL
+				EOSAI::AIPlayer* pAIPlayer = g_pEOSAIInterface->GetAIPlayer( pPlayer->GetPlayerNumber() );
+				if( pAIPlayer )
+				{
+					ASSERT(false); // Need a EnumIMailResponse->EOSAI::EnumAIMailResponse converter
+					//pAIPlayer->Incoming_IMailResponse( iIMailId, iSendingPlayer, eResponse );
+				}
+				#else
+
+
+
+MessageManager.cpp - line 3005
+#ifdef USE_EOSAI_DLL
+			ASSERT( pPlayer->IsLocal() );
+			if( pPlayer->IsHuman() == false )
+			{
+				EOSAI::AIPlayer* pAIPlayer = g_pEOSAIInterface->GetAIPlayer( pPlayer->GetPlayerNumber() );
+				ASSERT( pAIPlayer );
+				if( pAIPlayer )
+				{
+					ASSERT(false); // Need a converter
+					//pAIPlayer->Incoming_TradeOffer( pTradeAgreement );
+				}
+			}
+			if( g_pGameAppState->GetCurrentPlayer()->GetMessageTargetId() == message.GetReceiverId() )
+			{
+				g_pGameAppState->Incoming_TradeOffer( pTradeAgreement );
+			}
+#else
+	
+	
+	

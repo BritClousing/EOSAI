@@ -1,0 +1,526 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{0EA5933C-A35D-4C8E-A098-EF2CD19D6554}</ProjectGuid>
+    <RootNamespace>EOSAI</RootNamespace>
+    <Keyword>MFCDLLProj</Keyword>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>14.0.23107.0</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(ProjectDir)\Build\Debug\</OutDir>
+    <IntDir>Build-IntermediateFiles\$(Configuration)\</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)\Build\$(Configuration)\</OutDir>
+    <IntDir>Build-IntermediateFiles\$(Configuration)\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+    </Midl>
+    <ClCompile>
+      <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>.\External;.\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <OutputFile>$(ProjectDir)\Build\Debug\$(ProjectName).dll</OutputFile>
+      <ModuleDefinitionFile>.\EOSAI.def</ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <PostBuildEvent>
+      <Command>_ConstructExportPackage.bat</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+    </Midl>
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>.\External;.\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <ModuleDefinitionFile>.\EOSAI.def</ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <PostBuildEvent>
+      <Command>_ConstructExportPackage.bat</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="AIPlayer.cpp" />
+    <ClCompile Include="AIPlayerDesc.cpp" />
+    <ClCompile Include="City.cpp" />
+    <ClCompile Include="EOSAI.cpp" />
+    <ClCompile Include="EOSAIAction.cpp" />
+    <ClCompile Include="EOSAIActionScheduler.cpp" />
+    <ClCompile Include="EOSAIAirbasesSet.cpp" />
+    <ClCompile Include="EOSAIAirfield.cpp" />
+    <ClCompile Include="EOSAIAirUnitPathwayData.cpp" />
+    <ClCompile Include="EOSAIAirUnitPathwayFinder.cpp" />
+    <ClCompile Include="EOSAIAttackVs2.cpp" />
+    <ClCompile Include="EOSAIBrain.cpp" />
+    <ClCompile Include="EOSAIBuildingDescription.cpp" />
+    <ClCompile Include="EOSAIBuildManager.cpp" />
+    <ClCompile Include="EOSAIBuildNeed.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="EOSAIBuildOption.cpp" />
+    <ClCompile Include="EOSAIBuildOrder.cpp" />
+    <ClCompile Include="EOSAICitResSummary.cpp" />
+    <ClCompile Include="EOSAICitResUnitSummary.cpp" />
+    <ClCompile Include="EOSAICitResValueMultiplier.cpp" />
+    <ClCompile Include="EOSAICityAction.cpp" />
+    <ClCompile Include="EOSAICombatUnitType.cpp" />
+    <ClCompile Include="EOSAICommonData2.cpp" />
+    <ClCompile Include="EOSAIDesire2.cpp" />
+    <ClCompile Include="EOSAIDesireBuildAirfield.cpp" />
+    <ClCompile Include="EOSAIDesireCaptureAirfield.cpp" />
+    <ClCompile Include="EOSAIDesireCaptureCitRes.cpp" />
+    <ClCompile Include="EOSAIDesireConnection.cpp" />
+    <ClCompile Include="EOSAIDesireDamageCity.cpp" />
+    <ClCompile Include="EOSAIDesireDestroyAirfield.cpp" />
+    <ClCompile Include="EOSAIDesireDestroyUnit.cpp" />
+    <ClCompile Include="EOSAIDesirePoiObject.cpp" />
+    <ClCompile Include="EOSAIDesireProtectCitRes.cpp" />
+    <ClCompile Include="EOSAIDesireProtectMultiRegion.cpp" />
+    <ClCompile Include="EOSAIDesireSpatial.cpp" />
+    <ClCompile Include="EOSAIDesire_InvadeGeo.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="EOSAIEnumForeignRelations.cpp" />
+    <ClCompile Include="EOSAIForeignRelationsSituation.cpp" />
+    <ClCompile Include="EOSAIForeignRelationsState.cpp" />
+    <ClCompile Include="EOSAIFortification.cpp" />
+    <ClCompile Include="EOSAIGamePlayer.cpp" />
+    <ClCompile Include="EOSAIGameRules.cpp" />
+    <ClCompile Include="EOSAIGenericRegion.cpp" />
+    <ClCompile Include="EOSAIGenericRegionManager.cpp" />
+    <ClCompile Include="EOSAIGeo.cpp" />
+    <ClCompile Include="EOSAIGeoView.cpp" />
+    <ClCompile Include="EOSAIGlobalForeignRelations.cpp" />
+    <ClCompile Include="EOSAIGroundUnitPathwayFinder.cpp" />
+    <ClCompile Include="EOSAIHistoricalSightings.cpp" />
+    <ClCompile Include="EOSAIInterface.cpp" />
+    <ClCompile Include="EOSAIIntSet.cpp" />
+    <ClCompile Include="EOSAIJobCapability.cpp" />
+    <ClCompile Include="EOSAIJobSolution.cpp" />
+    <ClCompile Include="EOSAIJobsToDo.cpp" />
+    <ClCompile Include="EOSAILocation.cpp" />
+    <ClCompile Include="EOSAILogFile.cpp" />
+    <ClCompile Include="EOSAILongSet.cpp" />
+    <ClCompile Include="EOSAIMath.cpp" />
+    <ClCompile Include="EOSAIMathFunction.cpp" />
+    <ClCompile Include="EOSAIMovementDescription.cpp" />
+    <ClCompile Include="EOSAIMovementUnitType.cpp" />
+    <ClCompile Include="EOSAIMultiRegion2.cpp" />
+    <ClCompile Include="EOSAIMultiRegionAttackAccess.cpp" />
+    <ClCompile Include="EOSAIMultiRegionManager2.cpp" />
+    <ClCompile Include="EOSAIMultiRegionNationwidePathways.cpp" />
+    <ClCompile Include="EOSAIMultiRegionPlan.cpp" />
+    <ClCompile Include="EOSAINationalSummary.cpp" />
+    <ClCompile Include="EOSAINationalSummary3.cpp" />
+    <ClCompile Include="EOSAIObjectActionProgression.cpp" />
+    <ClCompile Include="EOSAIPlayerInteraction.cpp" />
+    <ClCompile Include="EOSAIPlayerInteraction_BeginWar.cpp" />
+    <ClCompile Include="EOSAIPlayerInteraction_BorderViolation.cpp" />
+    <ClCompile Include="EOSAIPlayerInteraction_Combat.cpp" />
+    <ClCompile Include="EOSAIPlayerInteraction_CreatedTeam.cpp" />
+    <ClCompile Include="EOSAIPlayerInteraction_DeclaredWar.cpp" />
+    <ClCompile Include="EOSAIPlayerInteraction_SneakAttack.cpp" />
+    <ClCompile Include="EOSAIPlayerInteraction_Trade.cpp" />
+    <ClCompile Include="EOSAIPlayerManager.cpp" />
+    <ClCompile Include="EOSAIPlayerOwnershipMap.cpp" />
+    <ClCompile Include="EOSAIPoiMobile.cpp" />
+    <ClCompile Include="EOSAIPoiObjectProximity.cpp" />
+    <ClCompile Include="PoiObjectState.cpp" />
+    <ClCompile Include="EOSAIQuickCombatCalculation.cpp" />
+    <ClCompile Include="EOSAIRegion2.cpp" />
+    <ClCompile Include="EOSAIRegionManager2.cpp" />
+    <ClCompile Include="EOSAIRegionMapToEverywhere.cpp" />
+    <ClCompile Include="EOSAIRegionPathfinder.cpp" />
+    <ClCompile Include="EOSAIRegionPathwayMap.cpp" />
+    <ClCompile Include="EOSAIResource.cpp" />
+    <ClCompile Include="EOSAIResourceEffectsSummary.cpp" />
+    <ClCompile Include="EOSAIRoad2.cpp" />
+    <ClCompile Include="EOSAISeaUnitPathwayFinder.cpp" />
+    <ClCompile Include="EOSAISerial.cpp" />
+    <ClCompile Include="EOSAISettings.cpp" />
+    <ClCompile Include="EOSAISimpleCharMap.cpp" />
+    <ClCompile Include="EOSAIStopwatch2.cpp" />
+    <ClCompile Include="EOSAIStrategicAI.cpp" />
+    <ClCompile Include="EOSAIStrategicAIOrder.cpp" />
+    <ClCompile Include="EOSAIStrategicAIOrderResponseObserver.cpp" />
+    <ClCompile Include="EOSAIStrategicAIOrder_ConcedeGame.cpp" />
+    <ClCompile Include="EOSAIStrategicAIOrder_DeclareWar.cpp" />
+    <ClCompile Include="EOSAIStrategicAIOrder_OfferAlliance.cpp" />
+    <ClCompile Include="EOSAIStrategicAIOrder_OfferPeaceTreaty.cpp" />
+    <ClCompile Include="EOSAIStrategicAIOrder_RequestRemovalOfForces.cpp" />
+    <ClCompile Include="EOSAIStrategicAIOrder_Resign.cpp" />
+    <ClCompile Include="EOSAIStrategicAIOrder_SuggestMultilateralWar.cpp" />
+    <ClCompile Include="EOSAIStrategicAIOrder_SuggestTeam.cpp" />
+    <ClCompile Include="EOSAIStrategicAIOrder_Trade.cpp" />
+    <ClCompile Include="EOSAIStringAndFloatSet.cpp" />
+    <ClCompile Include="EOSAIStringAndLongSet.cpp" />
+    <ClCompile Include="EOSAITacticalProject2.cpp" />
+    <ClCompile Include="EOSAITacticalProject2Strategy.cpp" />
+    <ClCompile Include="EOSAITask.cpp" />
+    <ClCompile Include="EOSAITaskForce3.cpp" />
+    <ClCompile Include="EOSAITaskForceDesc.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="EOSAITechnologyDesc.cpp" />
+    <ClCompile Include="EOSAITechTreeNode.cpp" />
+    <ClCompile Include="EOSAITerrainBasedValue.cpp" />
+    <ClCompile Include="EOSAIThoughtDatabase.cpp" />
+    <ClCompile Include="EOSAITradeAgreement.cpp" />
+    <ClCompile Include="EOSAITradeAgreementMultiplier.cpp" />
+    <ClCompile Include="EOSAITransportAssistedPath.cpp" />
+    <ClCompile Include="EOSAITransportComboMap.cpp" />
+    <ClCompile Include="EOSAITransportsSet.cpp" />
+    <ClCompile Include="EOSAIUnit2.cpp" />
+    <ClCompile Include="EOSAIUnit2CombatCapability.cpp" />
+    <ClCompile Include="EOSAIUnit2Summary.cpp" />
+    <ClCompile Include="EOSAIUnitAction.cpp" />
+    <ClCompile Include="EOSAIUnitActionIdea.cpp" />
+    <ClCompile Include="EOSAIUnitActionStack.cpp" />
+    <ClCompile Include="EOSAIUnitPathwayFinder.cpp" />
+    <ClCompile Include="EOSAIUnitPathwayPredefinedStep.cpp" />
+    <ClCompile Include="EOSAIUnitPathwayResult.cpp" />
+    <ClCompile Include="EOSAIUnitPathwayResultStep.cpp" />
+    <ClCompile Include="EOSAIUnitsubsetPermission.cpp" />
+    <ClCompile Include="EOSAIUnitTask.cpp" />
+    <ClCompile Include="EOSAIUnitTask_CaptureCitRes.cpp" />
+    <ClCompile Include="EOSAIUnitTask_Dropoff.cpp" />
+    <ClCompile Include="EOSAIUnitTask_Enter.cpp" />
+    <ClCompile Include="EOSAIUnitTask_Exit.cpp" />
+    <ClCompile Include="EOSAIUnitTask_MoveTo.cpp" />
+    <ClCompile Include="EOSAIUnitTask_Pickup.cpp" />
+    <ClCompile Include="EOSAIUnitTemplate.cpp" />
+    <ClCompile Include="EOSAIUnitTemplatesAndFloat.cpp" />
+    <ClCompile Include="EOSAIUnitTemplateSet.cpp" />
+    <ClCompile Include="EOSAIUnitVsUnitValue.cpp" />
+    <ClCompile Include="EOSAIWorldDistanceTool.cpp" />
+    <ClCompile Include="MessageFromAI_TradeOffer.cpp" />
+    <ClCompile Include="PlayerResourceSummary.cpp" />
+    <ClCompile Include="PoiObject.cpp" />
+    <ClCompile Include="PoiObjectIdAndName.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AIPlayer.h" />
+    <ClInclude Include="AIPlayerDesc.h" />
+    <ClInclude Include="City.h" />
+    <ClInclude Include="DllExports.h" />
+    <ClInclude Include="EOSAI.h" />
+    <ClInclude Include="EOSAIAction.h" />
+    <ClInclude Include="EOSAIActionRequirement.h" />
+    <ClInclude Include="EOSAIActionScheduler.h" />
+    <ClInclude Include="EOSAIAirbasesSet.h" />
+    <ClInclude Include="EOSAIAirfield.h" />
+    <ClInclude Include="EOSAIAirUnitPathwayData.h" />
+    <ClInclude Include="EOSAIAirUnitPathwayFinder.h" />
+    <ClInclude Include="EOSAIAttackVs2.h" />
+    <ClInclude Include="EOSAIBCArray.h" />
+    <ClInclude Include="EOSAIBCArray2.h" />
+    <ClInclude Include="EOSAIBCDumbArray1D.h" />
+    <ClInclude Include="EOSAIBCDumbArray2D.h" />
+    <ClInclude Include="EOSAIBrain.h" />
+    <ClInclude Include="EOSAIBuildCompletion.h" />
+    <ClInclude Include="EOSAIBuildingDescription.h" />
+    <ClInclude Include="EOSAIBuildManager.h" />
+    <CustomBuild Include="EOSAIBuildNeed.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </CustomBuild>
+    <ClInclude Include="EOSAIBuildOption.h" />
+    <ClInclude Include="EOSAIBuildOrder.h" />
+    <ClInclude Include="EOSAICitResSummary.h" />
+    <ClInclude Include="EOSAICitResUnitSummary.h" />
+    <ClInclude Include="EOSAICitResValueMultiplier.h" />
+    <ClInclude Include="EOSAICityAction.h" />
+    <ClInclude Include="EOSAICombatUnitType.h" />
+    <ClInclude Include="EOSAICommonData2.h" />
+    <ClInclude Include="EOSAIDesire2.h" />
+    <ClInclude Include="EOSAIDesireBuildAirfield.h" />
+    <ClInclude Include="EOSAIDesireCaptureAirfield.h" />
+    <ClInclude Include="EOSAIDesireCaptureCitRes.h" />
+    <CustomBuild Include="EOSAIDesireCaptureMultiRegion.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </CustomBuild>
+    <CustomBuild Include="EOSAIDesireCaptureMultiRegions.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </CustomBuild>
+    <ClInclude Include="EOSAIDesireCompound.h" />
+    <ClInclude Include="EOSAIDesireConnection.h" />
+    <ClInclude Include="EOSAIDesireDamageCity.h" />
+    <ClInclude Include="EOSAIDesireDestroyAirfield.h" />
+    <ClInclude Include="EOSAIDesireDestroyUnit.h" />
+    <ClInclude Include="EOSAIDesireGeneral.h" />
+    <ClInclude Include="EOSAIDesireLocation.h" />
+    <ClInclude Include="EOSAIDesireMultiRegions.h" />
+    <ClInclude Include="EOSAIDesirePoiObject.h" />
+    <ClInclude Include="EOSAIDesireProtectCitRes.h" />
+    <ClInclude Include="EOSAIDesireProtectMultiRegion.h" />
+    <ClInclude Include="EOSAIDesireSatisfactionSummary.h" />
+    <ClInclude Include="EOSAIDesireSpatial.h" />
+    <CustomBuild Include="EOSAIDesire_InvadeGeo.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </CustomBuild>
+    <ClInclude Include="EOSAIEnumAIDesireType.h" />
+    <ClInclude Include="EOSAIEnumAIMovementType.h" />
+    <ClInclude Include="EOSAIEnumAITypeOfUnit.h" />
+    <ClInclude Include="EOSAIEnumAttackGoal.h" />
+    <ClInclude Include="EOSAIEnumFieldOrders.h" />
+    <ClInclude Include="EOSAIEnumForeignRelations.h" />
+    <ClInclude Include="EOSAIEnumGeoPlan.h" />
+    <ClInclude Include="EOSAIEnumGeoSituation.h" />
+    <ClInclude Include="EnumAIMailResponse.h" />
+    <ClInclude Include="EOSAIEnumMultiRegionPlan.h" />
+    <ClInclude Include="EOSAIEnumTradeAgreementResponse.h" />
+    <ClInclude Include="EOSAIEnumTradeAgreementState.h" />
+    <ClInclude Include="EOSAIEnumTypeOfUnit.h" />
+    <ClInclude Include="EOSAIForeignRelationsSituation.h" />
+    <ClInclude Include="EOSAIForeignRelationsState.h" />
+    <ClInclude Include="EOSAIFortification.h" />
+    <ClInclude Include="EOSAIGamePlayer.h" />
+    <ClInclude Include="EOSAIGameRules.h" />
+    <ClInclude Include="EOSAIGenericRegion.h" />
+    <ClInclude Include="EOSAIGenericRegionManager.h" />
+    <ClInclude Include="EOSAIGeo.h" />
+    <ClInclude Include="EOSAIGeoView.h" />
+    <ClInclude Include="EOSAIGlobalForeignRelations.h" />
+    <ClInclude Include="EOSAIGroundUnitPathwayFinder.h" />
+    <ClInclude Include="EOSAIHistoricalSightings.h" />
+    <ClInclude Include="EOSAIIncludes.h" />
+    <ClInclude Include="EOSAIInterface.h" />
+    <ClInclude Include="EOSAIIntSet.h" />
+    <ClInclude Include="EOSAIJobCapability.h" />
+    <ClInclude Include="EOSAIJobRole.h" />
+    <ClInclude Include="EOSAIJobSolution.h" />
+    <ClInclude Include="EOSAIJobsToDo.h" />
+    <ClInclude Include="EOSAILimitedList.h" />
+    <ClInclude Include="EOSAIListOwned.h" />
+    <ClInclude Include="EOSAIListSort.h" />
+    <ClInclude Include="EOSAIListUnowned.h" />
+    <ClInclude Include="EOSAILocation.h" />
+    <ClInclude Include="EOSAILogFile.h" />
+    <ClInclude Include="EOSAILongSet.h" />
+    <ClInclude Include="EOSAIMail.h" />
+    <ClInclude Include="EOSAIMailResponse.h" />
+    <ClInclude Include="EOSAIMath.h" />
+    <ClInclude Include="EOSAIMathFunction.h" />
+    <ClInclude Include="EOSAIMovementDescription.h" />
+    <ClInclude Include="EOSAIMovementUnitType.h" />
+    <ClInclude Include="EOSAIMultiRegion2.h" />
+    <ClInclude Include="EOSAIMultiRegionAttackAccess.h" />
+    <ClInclude Include="EOSAIMultiRegionHistory.h" />
+    <ClInclude Include="EOSAIMultiRegionManager2.h" />
+    <ClInclude Include="EOSAIMultiRegionNationwidePathways.h" />
+    <ClInclude Include="EOSAIMultiRegionPlan.h" />
+    <ClInclude Include="EOSAINationalSummary.h" />
+    <ClInclude Include="EOSAINationalSummary3.h" />
+    <ClInclude Include="EOSAIObjectActionProgression.h" />
+    <ClInclude Include="EOSAIPathfinderPoint.h" />
+    <ClInclude Include="EOSAIPlayerInteraction.h" />
+    <ClInclude Include="EOSAIPlayerInteraction_BeginWar.h" />
+    <ClInclude Include="EOSAIPlayerInteraction_BorderViolation.h" />
+    <ClInclude Include="EOSAIPlayerInteraction_Combat.h" />
+    <ClInclude Include="EOSAIPlayerInteraction_CreatedTeam.h" />
+    <ClInclude Include="EOSAIPlayerInteraction_DeclaredWar.h" />
+    <ClInclude Include="EOSAIPlayerInteraction_SneakAttack.h" />
+    <ClInclude Include="EOSAIPlayerInteraction_Trade.h" />
+    <ClInclude Include="EOSAIPlayerManager.h" />
+    <ClInclude Include="EOSAIPlayerOwnershipMap.h" />
+    <ClInclude Include="EOSAIPoiMobile.h" />
+    <ClInclude Include="EOSAIPoiObjectIdAndName.h" />
+    <ClInclude Include="EOSAIPoiObjectProximity.h" />
+    <ClInclude Include="MessageFromAI_TradeDesires.h" />
+    <ClInclude Include="MessageFromAI_TradeOfferOpinion.h" />
+    <ClInclude Include="PoiObjectState.h" />
+    <ClInclude Include="EOSAIPublic.h" />
+    <ClInclude Include="EOSAIQuickCombatCalculation.h" />
+    <ClInclude Include="EOSAIQuickCombatResults.h" />
+    <ClInclude Include="EOSAIRegion2.h" />
+    <ClInclude Include="EOSAIRegionManager2.h" />
+    <ClInclude Include="EOSAIRegionMapToEverywhere.h" />
+    <ClInclude Include="EOSAIRegionPathfinder.h" />
+    <ClInclude Include="EOSAIRegionPathwayMap.h" />
+    <ClInclude Include="EOSAIResource.h" />
+    <ClInclude Include="EOSAIResourceEffectsSummary.h" />
+    <ClInclude Include="EOSAIRoad2.h" />
+    <ClInclude Include="EOSAISeaUnitPathwayFinder.h" />
+    <ClInclude Include="EOSAISerial.h" />
+    <ClInclude Include="EOSAISettings.h" />
+    <ClInclude Include="EOSAISimpleCharMap.h" />
+    <ClInclude Include="EOSAISimpleMap.h" />
+    <ClInclude Include="EOSAIStopwatch2.h" />
+    <ClInclude Include="EOSAIStrategicAI.h" />
+    <ClInclude Include="EOSAIStrategicAIOrder.h" />
+    <ClInclude Include="EOSAIStrategicAIOrder_ConcedeGame.h" />
+    <ClInclude Include="EOSAIStrategicAIOrder_DeclareWar.h" />
+    <ClInclude Include="EOSAIStrategicAIOrder_OfferAlliance.h" />
+    <ClInclude Include="EOSAIStrategicAIOrder_OfferPeaceTreaty.h" />
+    <ClInclude Include="EOSAIStrategicAIOrder_RequestRemovalOfForces.h" />
+    <ClInclude Include="EOSAIStrategicAIOrder_Resign.h" />
+    <ClInclude Include="EOSAIStrategicAIOrder_SendReinforcePeaceMail.h" />
+    <ClInclude Include="EOSAIStrategicAIOrder_SuggestMultilateralWar.h" />
+    <ClInclude Include="EOSAIStrategicAIOrder_SuggestTeam.h" />
+    <ClInclude Include="EOSAIStrategicAIOrder_Trade.h" />
+    <ClInclude Include="EOSAIStrategicAIOrderResponseObserver.h" />
+    <ClInclude Include="EOSAIStringAndFloat.h" />
+    <ClInclude Include="EOSAIStringAndFloatSet.h" />
+    <ClInclude Include="EOSAIStringAndLongSet.h" />
+    <ClInclude Include="EOSAITacticalProject2.h" />
+    <ClInclude Include="EOSAITacticalProject2Strategy.h" />
+    <ClInclude Include="EOSAITask.h" />
+    <ClInclude Include="EOSAITaskForce3.h" />
+    <CustomBuild Include="EOSAITaskForceDesc.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </CustomBuild>
+    <ClInclude Include="EOSAITechnologyDesc.h" />
+    <ClInclude Include="EOSAITechTreeNode.h" />
+    <ClInclude Include="EOSAITerrainBasedValue.h" />
+    <ClInclude Include="EOSAIThoughtDatabase.h" />
+    <ClInclude Include="EOSAITradeAgreement.h" />
+    <ClInclude Include="EOSAITradeAgreementInterface.h" />
+    <ClInclude Include="EOSAITradeAgreementMultiplier.h" />
+    <ClInclude Include="EOSAITradeAgreementResponse.h" />
+    <ClInclude Include="EOSAITransportAssistedPath.h" />
+    <ClInclude Include="EOSAITransportComboMap.h" />
+    <ClInclude Include="EOSAITransportsSet.h" />
+    <ClInclude Include="EOSAIUnit2.h" />
+    <ClInclude Include="EOSAIUnit2CombatCapability.h" />
+    <ClInclude Include="EOSAIUnit2Summary.h" />
+    <ClInclude Include="EOSAIUnitAction.h" />
+    <ClInclude Include="EOSAIUnitActionIdea.h" />
+    <ClInclude Include="EOSAIUnitActionStack.h" />
+    <ClInclude Include="EOSAIUnitPathwayFinder.h" />
+    <ClInclude Include="EOSAIUnitPathwayPredefinedStep.h" />
+    <ClInclude Include="EOSAIUnitPathwayResult.h" />
+    <ClInclude Include="EOSAIUnitPathwayResultStep.h" />
+    <ClInclude Include="EOSAIUnitsubsetPermission.h" />
+    <ClInclude Include="EOSAIUnitTask.h" />
+    <ClInclude Include="EOSAIUnitTask_CaptureCitRes.h" />
+    <ClInclude Include="EOSAIUnitTask_Dropoff.h" />
+    <ClInclude Include="EOSAIUnitTask_Enter.h" />
+    <ClInclude Include="EOSAIUnitTask_Exit.h" />
+    <ClInclude Include="EOSAIUnitTask_MoveTo.h" />
+    <ClInclude Include="EOSAIUnitTask_Pickup.h" />
+    <ClInclude Include="EOSAIUnitTemplate.h" />
+    <ClInclude Include="EOSAIUnitTemplateAndFloat.h" />
+    <ClInclude Include="EOSAIUnitTemplatesAndFloat.h" />
+    <ClInclude Include="EOSAIUnitTemplateSet.h" />
+    <ClInclude Include="EOSAIUnitVsUnitValue.h" />
+    <ClInclude Include="EOSAIVersion.h" />
+    <ClInclude Include="EOSAIWarzoneLocation.h" />
+    <CustomBuild Include="EOSAIWorldDistanceTool.h" />
+    <ClInclude Include="MessageFromAI.h" />
+    <ClInclude Include="MessageFromAI_ConcedeGame.h" />
+    <ClInclude Include="MessageFromAI_DeclareWar.h" />
+    <ClInclude Include="MessageFromAI_ResignGame.h" />
+    <ClInclude Include="MessageFromAI_TradeOffer.h" />
+    <ClInclude Include="MessageToAI.h" />
+    <ClInclude Include="MessageToAI_IMailResponse.h" />
+    <ClInclude Include="MessageToAI_RequestTradeDesires.h" />
+    <ClInclude Include="MessageToAI_TeamFormed.h" />
+    <ClInclude Include="MessageToAI_TradeOffer.h" />
+    <ClInclude Include="MessageToAI_TradeOfferResponse.h" />
+    <ClInclude Include="PlayerResourceSummary.h" />
+    <ClInclude Include="PoiObject.h" />
+    <ClInclude Include="PoiObjectIdAndName.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="EOSAI.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="EOSAI.def" />
+    <None Include="res\EOSAI.rc2" />
+    <None Include="_ConstructExportPackage.bat" />
+    <None Include="_UpdateVersion.bat" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ToDo.txt" />
+    <Text Include="_NotesOnInterfaces.txt" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

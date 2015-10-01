@@ -1,0 +1,9 @@
+#summary Ideas for future development
+
+= Ideas for the Future =
+
+While I won't attempt to create a timeline for these features, here's some features which might be nice in the future:
+
+  * Lua Scripting. While the current AI system doesn't really need Lua to accomplish anything, having a scripting language might be useful for AI customization (so the AI plays differently in general) and customization scenario (so that the AI either performs better on a specific map, or so that the AI follows a historically accurate path).
+
+  * Multithreaded. The AI runs in a single thread. If the AI was multithreaded, then it could take advantage of multiple processors which would allow it to make decisions faster.  (One of the main roadblocks to being multithreaded is the fact that the map-pathway finder is not re-entrant. The easiest way to solve this would be to duplicate the data structures, which will increase the memory requirements.)

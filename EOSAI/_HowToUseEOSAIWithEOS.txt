@@ -1,0 +1,9 @@
+
+Getting EOS to use EOSAI:
+
+- Switch over to the build configuration "Full - Debug (EOSAI Build)"
+  It has the changes needed to build EOS with EOSAI, like defining the preprocessor command USE_EOSAI_DLL
+    EOS -> Properties -> Configuration Properties -> C++ -> Preprocessor -> Preprocessor Definitions = USE_EOSAI_DLL
+
+When EOSAI builds, it writes the dlls and includes to "[EOSAI]\Export\EOSAI.dll" / "EOSAI-Debug.dll", and "[EOSAI]\Export\Include".
+

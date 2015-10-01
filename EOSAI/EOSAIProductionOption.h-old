@@ -1,0 +1,40 @@
+
+#pragma once
+
+#include "EOSAIEnumMovementType.h"
+#include "EOSAIUnit2Summary.h"
+class CEOSAIBrain;
+class CBuildOption;
+class CCity;
+class CAIPlayer;
+/*
+// One production option exists for every build option
+class CAIProductionOption
+{
+	public:
+		CAIProductionOption();
+
+		void  Evaluate( CAIPlayer* pAIPlayer );
+
+		float GetSimpleTimeToComplete( CCity* pCity );
+
+		//bool  HasARange();
+		//float GetMovementLimit();
+		//CAIMilitarySummary  m_UnitSummary;
+/-*
+		//float  m_fRange;  // this can be very important for exploration - because I can't explore anything beyond
+		float  m_fExploreValue;
+		float  m_fCityHunterValue;
+		float  m_fResHunterValue;
+		float  m_fGroundCombatValue;
+		float  m_fAntiTransportValue; // because of their speed, aircraft do better here than with m_fShipCombatValue
+		float  m_fShipCombatValue;
+		float  m_fAntiAircraftValue;
+		float  m_fAntiSubmarineValue;
+		EnumMovementType m_MovementType;
+*-/
+		float  m_fCost; // production cost + iron*(iron value) + oil*(oil value) + food*(food value)
+
+		CBuildOption* m_pBuildOption;
+};
+*/

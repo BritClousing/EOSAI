@@ -1,0 +1,48 @@
+
+#pragma once
+
+//#include "WorldDescBase.h"
+#include "Geo.h"
+
+class CEOSAIGeoLand : public CEOSAIGeo
+{
+	public:
+		CEOSAIGeoLand( CWorldDescBase* pWorldDesc ) : CGeo( pWorldDesc )
+		{ 
+			//m_iNumberOfCities = 0;
+			//m_iNumberOfResources = 0;
+			m_pOccupiedX = new bool[ m_pWorldDesc->GetGridWidth()  ];
+			m_pOccupiedY = new bool[ m_pWorldDesc->GetGridHeight() ];
+			for( int i=0; i<m_pWorldDesc->GetGridWidth(); i++ ){ m_pOccupiedX[i] = false; }
+			for( int i=0; i<m_pWorldDesc->GetGridHeight(); i++ ){ m_pOccupiedY[i] = false; }
+			m_iPlayer = 0;
+		}
+		virtual GeoType GetGeoType(){ return CGeo::Land; }
+
+		CPoint FindGridLocationOnIsland();
+
+		// Only vadid during WorldBuilder process
+		void   IsAPlayerStartingLocation( int iPlayer ){ m_iPlayer = iPlayer; }
+		int    IsAPlayerStartingLocation(){ return m_iPlayer; }
+
+		void   AddPoint( int x, int y );
+		CEOSAICity* CreateACoastalCity( bool bOnMajorBodyOfWater );
+		CEOSAICity* CreateACity( int iX, int iY, float fMinimumDistanceToNextCity );
+
+		void   WanderToCoast( CPoint ptPlayerGridLocation, CPoint* ptCityGridLocation );
+
+	//private:
+		//int m_iSize; // record this - it can be useful for calculations
+
+	// Used by the server when building the map (but not at any other time)
+		int m_iPlayer;            // if this is a starting location, m_iPlayer > 0
+		//int m_iNumberOfCities;    // You can query for more information about them
+		//int m_iNumberOfResources; // You can query for more information about them
+	//
+
+	private:
+		bool* m_pOccupiedX;  // an array
+		bool* m_pOccupiedY;  // an array
+};
+
+

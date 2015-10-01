@@ -1,0 +1,475 @@
+
+#include "stdafx.h"
+//#include "AIGeoLandProxy.h"
+#include "AIPlayer2.h"
+//#include "Player.h"
+//#include "WorldDesc.h"
+//#include "WorldDescPlayer.h"
+//#include "City.h"
+//#include "ResourceSource.h"
+//#include "GeoLand.h"
+//#include "Unit.h"
+#include "AICoastalLocationDistance.h"
+
+CAIGeoLandProxy::CAIGeoLandProxy( CAIPlayer* pAIPlayer, CGeoLand* pGeo )
+{
+	m_pAIPlayer = pAIPlayer;
+	m_pGeo = pGeo;
+	m_fDistanceFromMyClosestCitRes = 1000000.0f;
+	m_fDistanceFromOtherPlayersClosestCitRes = 1000000.0f;
+
+	// Strategic Situation
+	m_fTotalCitResValue = 0.0f;
+	m_fMyCitResValue = 0.0f;
+	m_fMyMilitaryPresence = 0.0f;
+	m_fOtherPlayerCitResValue = 0.0f;       // cumulative for all players
+	m_fOtherPlayerMilitaryPresence = 0.0f;  // cumulative for all players
+	m_fUnownedCitResValue = 0.0f;
+	m_fExplorationIndex = 0.0f;  // 0-1
+	m_fDangerIndex = 0.0f;
+
+	//m_fNeedForGroundForces = 0.0f;
+	//m_fBaseNeedForGroundForces = 0.0f;
+	//m_fPlannedGroundForce = 0.0f;
+
+	m_GeoStrategicSituation = Undefined;
+
+	EvaluateAndCategorizeThisGeo();
+}
+
+void CAIGeoLandProxy::EvaluateAndCategorizeThisGeo()
+{
+	CWorldDesc* pWorldDesc = m_pAIPlayer->GetWorldDesc();
+
+	// Add known CitRes
+	POSITION pos = pWorldDesc->GetPoiList()->GetHeadPosition();
+	while( pos )
+	{
+		CPoi* pPoi = pWorldDesc->GetPoiList()->GetNext( pos )->GetPtr();
+
+		CPoiObject* pPoiObject = dynamic_cast< CPoiObject* >( pPoi );
+		if( pPoiObject )
+		{
+			CCity* pCity = dynamic_cast< CCity* >( pPoi );
+			CResourceSource* pResource = dynamic_cast< CResourceSource* >( pPoi );
+
+			if( pPoiObject->GetLandGeoNumber3() == m_pGeo->GetGeoNumber() )
+			{
+				m_PoiObjectList.AddTail( pPoiObject );
+
+				if( pCity )
+				{
+					m_fTotalCitResValue += m_pAIPlayer->GetValueOfCitRes( pCity ); //pCity->GetCitResValue();
+				}
+				if( pResource )
+				{
+					m_fTotalCitResValue += m_pAIPlayer->GetValueOfCitRes( pResource ); // pResource->GetCitResValue();
+				}
+
+				if( pPoiObject->GetOwner() == 0 )
+				{
+					if( pCity )
+					{
+						m_fUnownedCitResValue += m_pAIPlayer->GetValueOfCitRes( pCity );
+						//m_fUnownedCitResValue += pCity->GetCitResValue();
+					}
+					if( pResource )
+					{
+						m_fUnownedCitResValue += m_pAIPlayer->GetValueOfCitRes( pResource );
+						//m_fUnownedCitResValue += pResource->GetCitResValue();
+					}
+				}
+				else // if( pPoiObject->GetOwner() != 0 )
+				{
+					CAIGeoConsolidation* pGeoConsolidation = InvokeGeoConsolidation( pPoiObject->GetOwner() );
+					if( pCity )
+					{
+						pGeoConsolidation->m_fCitResConsolidation += m_pAIPlayer->GetValueOfCitRes( pCity );
+						//pGeoConsolidation->m_fCitResConsolidation += pCity->GetCitResValue();
+						pCity->ClearAIInformation();
+					}
+					if( pResource )
+					{
+						pGeoConsolidation->m_fCitResConsolidation += m_pAIPlayer->GetValueOfCitRes( pResource );
+						//pGeoConsolidation->m_fCitResConsolidation += pResource->GetCitResValue();
+					}
+
+					CUnit* pUnit = dynamic_cast< CUnit* >( pPoi );
+					if( pUnit )
+					{
+						//pGeoConsolidation->m_fMilitaryPower += pUnit->GetMilitaryPower();
+						pGeoConsolidation->m_fMilitaryPower += pUnit->GetPowerValue();
+					}
+				}
+			}
+
+			if( pCity || pResource )
+			{
+				if( pPoiObject->IsMine() )
+				{
+					float fDistance = m_pAIPlayer->GetSectorMap()->GetPixelDistance( pPoiObject->GetLocation(), m_pGeo->GetGeoNumber(), EnumAIMovementType3_Air );
+					if( fDistance < m_fDistanceFromMyClosestCitRes )
+					{
+						m_fDistanceFromMyClosestCitRes = fDistance;
+					}
+				}
+				else if( pPoiObject->GetOwner() != 0 )
+				{
+					float fDistance = m_pAIPlayer->GetSectorMap()->GetPixelDistance( pPoiObject->GetLocation(), m_pGeo->GetGeoNumber(), EnumAIMovementType3_Air );
+					if( fDistance < m_fDistanceFromOtherPlayersClosestCitRes )
+					{
+						m_fDistanceFromOtherPlayersClosestCitRes = fDistance;
+					}
+				}
+			}
+		}
+	}
+
+	//
+	// Strategic Situation
+	//
+	if( m_pGeo->GeoHasBeenFullyExplored() )
+	{
+		m_fExplorationIndex = 1.0f;
+	}
+	else
+	{
+		m_fExplorationIndex = 0.5f;
+	}
+
+	m_fMyCitResValue = GetMyCitResPresence();
+	m_fMyMilitaryPresence = GetMyLandWarfarePresence();
+	m_fOtherPlayerCitResValue = GetOtherPlayerCitResPresence();
+	m_fOtherPlayerMilitaryPresence = GetOtherPlayerLandWarfarePresence();
+
+	// Danger Index
+	m_fDangerIndex = 100.0f / ( m_fDistanceFromOtherPlayersClosestCitRes );
+	if( m_fDangerIndex > 1.0f ) m_fDangerIndex = 1.0f;
+	m_fDangerIndex *= 10.0f;
+	if( m_fOtherPlayerCitResValue > 0.0f || m_fOtherPlayerMilitaryPresence > 0.0f )
+	{
+		// Estimate danger based on enemy presence + proximity
+		m_fDangerIndex += m_fOtherPlayerMilitaryPresence;
+		m_fDangerIndex += m_fOtherPlayerCitResValue;
+	}
+
+	if( m_fTotalCitResValue == 0.0f && m_fOtherPlayerMilitaryPresence == 0.0f )
+	{
+		m_fDangerIndex = 0.0f;
+	}
+
+	// The need for ground forces increases with danger, unowned CitRes, and enemy presence.
+	//   It decreases when I have a lot of ground forces.
+	//m_fBaseNeedForGroundForces = m_fDangerIndex + GetNumberOfUnownedCitRes() - m_fMyMilitaryPresence;
+
+	// Situation
+	if( GetTotalCitResValue() == 0.0f )
+	{
+		m_GeoStrategicSituation = NothingOfValue;
+	}
+	else
+	{
+		if( OneOrMorePlayersHaveAPresence() == false )
+		{
+			m_GeoStrategicSituation = NoPlayerPresence;
+		}
+		else
+		{
+			float fMyPresence = GetMyPresence();
+			float fOtherPresence = GetOtherPresence();
+			if( fMyPresence > 0.0f && fOtherPresence == 0.0f )
+			{
+				m_GeoStrategicSituation = IHaveAPresence_NoOneElseDoes;
+			}
+			else if( fMyPresence == 0.0f && fOtherPresence > 0.0f )
+			{
+				m_GeoStrategicSituation = IHaveNoPresence_OtherPlayersDo;
+			}
+			else if( fMyPresence > 0.0f && fOtherPresence > 0.0f )
+			{
+				if( fMyPresence/fOtherPresence > 2.0f )
+				{
+					m_GeoStrategicSituation = IHaveAStrongPresence_OtherPlayersHaveAWeakPresence;
+				}
+				else if( fMyPresence/fOtherPresence < 0.5f )
+				{
+					m_GeoStrategicSituation = IHaveAWeakPresence_OtherPlayersHaveStrongPresence;
+				}
+				else
+				{
+					m_GeoStrategicSituation = IHaveAPresence_OtherPlayersHaveAPresence;
+				}
+			}
+			else
+			{
+				ASSERT( false );
+			}
+		}
+	}
+}
+/*
+void CAIGeoLandProxy::CalculatePlannedGroundForces()
+{
+	long iGeo = m_pGeo->GetGeoNumber();
+	m_fPlannedGroundForce = 0.0f;
+
+	POSITION pos = pAIPlayer->GetMyUnitsList()->GetHeadPosition();
+	while( pos )
+	{
+		CAIProxyPoiMobileMine* pProxyUnit = pAIPlayer->GetMyUnitsList()->GetNext( pos );
+		if( pProxyUnit->GetFinalState()->GetGeo() == iGeo )
+		{
+			m_fPlannedGroundForce += 1.0f;
+		}
+	}
+}
+*/
+
+void CAIGeoLandProxy::CreateCoastalDistanceList()
+{
+	long iThisGeo = GetGeo()->GetGeoNumber();
+
+	ASSERT( m_pAIPlayer->GetCoastalMap()->GetCoastalLocationList()->IsEmpty() == FALSE );
+
+	// Iterate over all the known coastal locations, find the fastest path
+	POSITION pos = m_pAIPlayer->GetCoastalMap()->GetCoastalLocationList()->GetHeadPosition();
+	while( pos )
+	{
+		CAICoastalLocation* pCoastalLocation = m_pAIPlayer->GetCoastalMap()->GetCoastalLocationList()->GetNext( pos );
+		// Get the distance from this point to this geo
+		CAICoastalLocation* pClosestCoastalLocation = m_pAIPlayer->GetCoastalMap()->GetClosestCoastalLocation( pCoastalLocation->m_iWaterGeo, iThisGeo, pCoastalLocation->m_Location );
+		// If they are on different bodies of water, pClosestCoastalLocation will be NULL.
+		if( pClosestCoastalLocation )
+		{
+			float fDistance = m_pAIPlayer->GetWorldDesc()->GetPixelDistance( pCoastalLocation->m_Location, pClosestCoastalLocation->m_Location );
+			//
+			CAICoastalLocationDistance2* pCoastalLocationDistance2 = new CAICoastalLocationDistance2();
+			pCoastalLocationDistance2->m_pCoastalLocation = pCoastalLocation;
+			pCoastalLocationDistance2->m_fDistanceToCoastalLocation = fDistance;
+			m_CoastalDistanceList.AddTail( pCoastalLocationDistance2 );
+		}
+	}
+}
+
+CAICoastalLocationDistance2* CAIGeoLandProxy::GetCoastalLocationDistance( CAICoastalLocation* pStartLocation )
+{
+	POSITION pos = m_CoastalDistanceList.GetHeadPosition();
+	while( pos )
+	{
+		CAICoastalLocationDistance2* pCoastalLocationDistance2 = m_CoastalDistanceList.GetNext( pos );
+		if( pCoastalLocationDistance2->m_pCoastalLocation == pStartLocation )
+		{
+			return pCoastalLocationDistance2;
+		}
+	}
+	return NULL;
+}
+
+bool CAIGeoLandProxy::OneOrMorePlayersHaveAPresence()
+{
+	return m_ConsolidationList.IsEmpty() == FALSE;
+}
+
+float CAIGeoLandProxy::GetMyCityPresence()
+{
+	float fPresence = 0.0f;
+	POSITION pos = m_PoiObjectList.GetHeadPosition();
+	while( pos )
+	{
+		CPoiObject* pPoiObject = m_PoiObjectList.GetNext( pos );
+		CCity* pCity = dynamic_cast< CCity* >( pPoiObject );
+		if( pCity )
+		{
+			if( pCity->IsMine() )
+			{
+				//fPresence += pCity->GetCitResValue();
+				fPresence += m_pAIPlayer->GetValueOfCitRes( pCity );
+			}
+		}
+	}
+	return fPresence;
+}
+
+float CAIGeoLandProxy::GetMyLandCitResHunterPresence()
+{
+	float fPresence = 0.0f;
+	POSITION pos = m_PoiObjectList.GetHeadPosition();
+	while( pos )
+	{
+		CPoiObject* pPoiObject = m_PoiObjectList.GetNext( pos );
+		//CCity* pCity = dynamic_cast< CCity* >( pPoiObject );
+		if( pPoiObject )
+		{
+			if( pPoiObject->IsMine() )
+			{
+				fPresence += pPoiObject->GetLandCitResHunterValue();
+			}
+		}
+	}
+	return fPresence;
+}
+
+float CAIGeoLandProxy::GetMyCitResPresence()
+{
+	POSITION pos = m_ConsolidationList.GetHeadPosition();
+	while( pos )
+	{
+		CAIGeoConsolidation* pConsolidation = m_ConsolidationList.GetNext( pos );
+		if( pConsolidation->m_iPlayer == m_pAIPlayer->GetPlayer()->GetPlayerNumber() )
+		{
+			return pConsolidation->m_fCitResConsolidation;
+		}
+	}
+	return 0.0f;
+}
+
+float CAIGeoLandProxy::GetMyLandWarfarePresence()
+{
+	POSITION pos = m_ConsolidationList.GetHeadPosition();
+	while( pos )
+	{
+		CAIGeoConsolidation* pConsolidation = m_ConsolidationList.GetNext( pos );
+		//if( pConsolidation->m_iPlayer == m_pAIPlayer->GetPlayer()->GetPlayerNumber() )
+		if( pConsolidation->m_iPlayer == m_pAIPlayer->GetPlayer()->GetPlayerNumber() )
+		{
+			return pConsolidation->m_fMilitaryPower;
+		}
+	}
+	return 0.0f;
+}
+
+float CAIGeoLandProxy::GetOtherPlayerCityPresence()
+{
+	float fPresence = 0.0f;
+	POSITION pos = m_PoiObjectList.GetHeadPosition();
+	while( pos )
+	{
+		CPoiObject* pPoiObject = m_PoiObjectList.GetNext( pos );
+		CCity* pCity = dynamic_cast< CCity* >( pPoiObject );
+		if( pCity )
+		{
+			if( pCity->IsMine() == false )
+			{
+				//fPresence += pCity->GetCitResValue();
+				fPresence += m_pAIPlayer->GetValueOfCitRes( pCity );//->GetCitResValue();
+			}
+		}
+	}
+	return fPresence;
+}
+
+float CAIGeoLandProxy::GetOtherPlayerCitResHunterPresence()
+{
+	float fPresence = 0.0f;
+	POSITION pos = m_PoiObjectList.GetHeadPosition();
+	while( pos )
+	{
+		CPoiObject* pPoiObject = m_PoiObjectList.GetNext( pos );
+		if( pPoiObject )
+		{
+			if( pPoiObject->IsMine() == false )
+			{
+				fPresence += pPoiObject->GetLandCitResHunterValue();
+			}
+		}
+	}
+	return fPresence;
+}
+
+float CAIGeoLandProxy::GetOtherPlayerCitResPresence()
+{
+	float fTotal = 0.0f;
+	POSITION pos = m_ConsolidationList.GetHeadPosition();
+	while( pos )
+	{
+		CAIGeoConsolidation* pConsolidation = m_ConsolidationList.GetNext( pos );
+		if( pConsolidation->m_iPlayer != m_pAIPlayer->GetPlayer()->GetPlayerNumber() )
+		{
+			fTotal += pConsolidation->m_fCitResConsolidation;
+		}
+	}
+	return fTotal;
+}
+
+float CAIGeoLandProxy::GetOtherPlayerLandWarfarePresence()
+{
+	float fTotal = 0.0f;
+	POSITION pos = m_ConsolidationList.GetHeadPosition();
+	while( pos )
+	{
+		CAIGeoConsolidation* pConsolidation = m_ConsolidationList.GetNext( pos );
+		if( pConsolidation->m_iPlayer != m_pAIPlayer->GetPlayer()->GetPlayerNumber() )
+		{
+			fTotal += pConsolidation->m_fMilitaryPower;
+		}
+	}
+	return fTotal;
+}
+
+long CAIGeoLandProxy::GetNumberOfUnownedCitRes()
+{
+	long iCount = 0;
+	POSITION pos = m_PoiObjectList.GetHeadPosition();
+	while( pos )
+	{
+		CPoiObject* pPoiObject = m_PoiObjectList.GetNext( pos );
+		CCity* pCity = dynamic_cast< CCity* >( pPoiObject );
+		CResourceSource* pResource = dynamic_cast< CResourceSource* >( pPoiObject );
+		if( pCity || pResource )
+		{
+			if( pPoiObject->GetOwner() == 0 )
+			{
+				iCount += 1;
+			}
+		}
+	}
+	return iCount;
+}
+
+
+void  CAIGeoLandProxy::IncreaseMyCitiesDesireToBuildLandCitResHunters( float fIncrement )
+{
+	POSITION pos = m_PoiObjectList.GetHeadPosition();
+	while( pos )
+	{
+		CPoiObject* pPoiObject = m_PoiObjectList.GetNext( pos );
+		CCity* pCity = dynamic_cast< CCity* >( pPoiObject );
+		if( pCity )
+		{
+			if( pCity->IsMine() )
+			{
+				pCity->IncreaseDesireToBuildLandCitResHunters( fIncrement );
+			}
+		}
+	}	
+}
+
+CAIGeoConsolidation* CAIGeoLandProxy::InvokeGeoConsolidation( long iPlayer )
+{
+	CAIGeoConsolidation* pGeoConsolidation = NULL;
+	POSITION pos = m_ConsolidationList.GetHeadPosition();
+	while( pos )
+	{
+		pGeoConsolidation = m_ConsolidationList.GetNext( pos );
+		if( pGeoConsolidation->m_iPlayer == iPlayer ) break;
+	}
+	if( pGeoConsolidation )
+	{
+		return pGeoConsolidation;
+	}
+	pGeoConsolidation = new CAIGeoConsolidation( iPlayer );
+	m_ConsolidationList.AddTail( pGeoConsolidation );
+	//
+	return pGeoConsolidation;
+}
+
+//
+
+bool SortByContextualValue( CAIGeoLandProxy* pObj1, CAIGeoLandProxy* pObj2 )
+{
+	if( pObj1->GetContextualValue() < pObj2->GetContextualValue() )
+	{
+		return false;
+	}
+	return true;
+}

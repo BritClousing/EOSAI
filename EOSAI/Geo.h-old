@@ -1,0 +1,76 @@
+
+#pragma once
+
+#include "EOSAIIntSet.h"
+class CWorldDescBase;
+
+// Geo is the base class for Islands and Sea
+/*
+	Geos are numbered starting at "1".  They are uniquely numbered - land and sea do NOT have 
+	 overlapping numbers.
+	Geo number "0" means unknown/unexplored.
+*/
+/*
+class CGeo
+{
+	public:
+		CGeo( CWorldDescBase* pWorldDesc )
+		{
+			m_x = m_y = -1;
+			m_iGeoNumber = 0;
+			m_iSize = 0;
+			m_iBorderOnUnknown = 0;
+			m_iBorderOnKnown = 0;
+			m_pWorldDesc = pWorldDesc;
+		}
+
+		enum GeoType
+		{
+			Unknown,
+			Land,
+			Water,
+			Impassible,
+			Road
+		};
+
+		virtual  GeoType GetGeoType(){ return CGeo::Unknown; }
+
+		CEOSAIIntSet* GetConnectedSet(){ return &m_ConnectedGeosSet; }
+
+		void   SetGeoNumber( int iVal ){ m_iGeoNumber = iVal; }
+		int    GetGeoNumber(){ return m_iGeoNumber; }
+
+		bool   ConnectionExists( long iGeo ){ return m_ConnectedGeosSet.Exists( iGeo ); }
+
+		void   AddConnectedGeo( CGeo* pGeo2 );  // connects both ways
+		bool   DoesGeoConnect( long iGeo );
+		//bool   GeoHasBeenFullyExplored();
+
+		// 1.0 means the geo's borders are all visible, 0.0 means no borders are visible
+		float  GetExploredPercent(){ return (float)(m_iBorderOnKnown) / (float)(m_iBorderOnUnknown+m_iBorderOnKnown); }
+		long   GetUnknownBorderSize(){ return m_iBorderOnUnknown; }
+
+		//float  GetPercentageOfTotalMap();
+		//void   IncrementSize(){ m_iSize++; }
+		void   AddToSize( long i ){ m_iSize += i; }
+		void   SetSize( long i ){ m_iSize = i; }
+		long   GetSize(){ return m_iSize; }
+
+	//
+		int m_x;  // A GRID location which is part of the island
+		int m_y;
+
+	private:
+		int         m_iGeoNumber;
+		CEOSAIIntSet     m_ConnectedGeosSet;
+
+	protected:
+		CWorldDescBase* m_pWorldDesc;
+		int             m_iSize; // record this - it can be useful for calculations
+
+		long            m_iBorderOnUnknown;
+		long            m_iBorderOnKnown;
+};
+*/
+
+

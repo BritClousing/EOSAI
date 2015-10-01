@@ -1,0 +1,1272 @@
+
+#include "stdafx.h"
+#include "EOSAISerial2.h"
+
+#ifdef _DEBUG
+#undef THIS_FILE
+static char THIS_FILE[]=__FILE__;
+#define new DEBUG_NEW
+#endif
+
+//class 
+//#define ADD_CEOSAISerial_OBJ( classid, classname ) \
+//	CEOSAISerial2::AddBCEOSAISerialObj( classid, classname::GetCEOSAISerialClassId, classname::CEOSAISerialInstanciate );
+//#define ADD_CEOSAISerial_OBJ_STRING( classid, classname ) \
+//	AddBCEOSAISerialObj( classid, &classname::m_strCEOSAISerialClassId, classname::CEOSAISerialInstanciate );
+//#define ADD_CEOSAISerial_OBJ_LONG( classid, classname ) \
+//	AddBCEOSAISerialObj( classid, classname::GetCEOSAISerialClassId, classname::CEOSAISerialInstanciate );
+//#define ADD_BCEOSAISerial_OBJ_CONTEXT( classid, classname ) 
+//	AddBCEOSAISerialObj( classid, &classname::m_iCEOSAISerialClassId, classname::CEOSAISerialInstanciate, classname::SetContext );
+
+#ifdef _UNICODE
+long iStringCharSize = sizeof(wchar_t);
+#else
+long iStringCharSize = sizeof(char);
+#endif
+
+int g9087987=0;
+std::map< CStringANSI8, CEOSAISerial2Rec* > CEOSAISerial2::s_ClassMap;
+std::vector< CEOSAISerial2Rec* >       CEOSAISerial2::s_ClassVector;
+/*
+void CEOSAISerial::Initialize()
+{
+	#ifdef EOS
+
+	//ADD_CEOSAISerial_OBJ(  1, CMessage2_ForeignProposal );
+	//ADD_CEOSAISerial_OBJ(  2, CForeignProposal_NonAggressionPact );
+	ADD_CEOSAISerial_OBJ(  3, CGameEventLocation );
+	ADD_CEOSAISerial_OBJ(  4, CMessage_TextMessage );
+	ADD_CEOSAISerial_OBJ(  5, CGunAnimation );
+	ADD_CEOSAISerial_OBJ(  6, CAnimation );
+	ADD_CEOSAISerial_OBJ(  7, CMissileAnimation );
+	//ADD_CEOSAISerial_OBJ(  8, CForeignProposal_FreeForm );
+	//ADD_CEOSAISerial_OBJ(  9, CForeignProposal_GangupOnPlayer );
+	ADD_CEOSAISerial_OBJ( 10, CMessage2_InternalMail );
+	ADD_CEOSAISerial_OBJ( 11, CMessage2_PlayerSubmittedTurn );
+	ADD_CEOSAISerial_OBJ( 12, CMessage2_PlayerUnSubmittedTurn );
+	ADD_CEOSAISerial_OBJ( 13, CGameEventLocation3D );
+	ADD_CEOSAISerial_OBJ( 14, CFlashAnimation );
+	ADD_CEOSAISerial_OBJ( 15, CGameEventPoiObjectAnimation );
+	ADD_CEOSAISerial_OBJ( 16, CMessage2_DeclareWarMessage );
+	ADD_CEOSAISerial_OBJ( 17, CLaserAnimation );
+	//ADD_CEOSAISerial_OBJ( 18, CMessage2_ForeignRelations );
+	ADD_CEOSAISerial_OBJ( 19, CMessage2_GenericXML );
+
+	ADD_CEOSAISerial_OBJ( 20, CGameEvent_PlayerDeclaration );
+	ADD_CEOSAISerial_OBJ( 21, CGameEvent_IMail );
+	ADD_CEOSAISerial_OBJ( 22, CGameEvent_ForeignRelations );
+	ADD_CEOSAISerial_OBJ( 23, CMessage2_ForeignRelationsFeelings );
+
+	ADD_CEOSAISerial_OBJ( 30, CMessage2_NationalGameEvent );
+	ADD_CEOSAISerial_OBJ( 31, CMessage2_CreatingGameSetup );
+	ADD_CEOSAISerial_OBJ( 32, CMessage2_EndedGameSetup );
+	ADD_CEOSAISerial_OBJ( 33, CMessage2_ConnectedToGameServer );//CMessage2_EnterGameSetupChat );
+	ADD_CEOSAISerial_OBJ( 34, CMessage2_DisconnectedFromGameServer );//CMessage2_ExitGameSetupChat );
+	ADD_CEOSAISerial_OBJ( 35, CMessage2_LoadingMultiplayerGame );
+	ADD_CEOSAISerial_OBJ( 36, CMessage2_RequestGameSetupUsers );
+	ADD_CEOSAISerial_OBJ( 37, CMessage2_GameServerUsers );
+	ADD_CEOSAISerial_OBJ( 38, CMessage2_TransferServerNotification );
+	ADD_CEOSAISerial_OBJ( 39, CMessage2_TransferServer );
+	ADD_CEOSAISerial_OBJ( 40, CMessage2_TransferServerCompleted );
+	ADD_CEOSAISerial_OBJ( 41, CMessage2_PauseGameTimer );
+	ADD_CEOSAISerial_OBJ( 42, CMessage2_TradeAgreementResponse );
+	//ADD_CEOSAISerial_OBJ( 43, CMessage2_RequestTradeAgreementMultipliers );
+	//ADD_CEOSAISerial_OBJ( 44, CMessage2_TradeAgreementMultipliers );
+	ADD_CEOSAISerial_OBJ( 45, CMessage2_RequestTradeAgreementOpinion );
+	ADD_CEOSAISerial_OBJ( 46, CMessage2_TradeAgreementOpinion );
+	ADD_CEOSAISerial_OBJ( 47, CMessage2_OpenRakNetConnection );
+	ADD_CEOSAISerial_OBJ( 48, CMessage2_AIPlayerReadyToSubmitTurn );
+	ADD_CEOSAISerial_OBJ( 49, CMessage2_AIPlayerNotReadyToSubmitTurn );
+	ADD_CEOSAISerial_OBJ( 50, CMessage2_RequestUnitsetP2P );
+	ADD_CEOSAISerial_OBJ( 51, CMessage2_SendUnitsetP2P );
+	//ADD_CEOSAISerial_OBJ( 52, CMessage2_NewRemoteMessageTarget );
+	ADD_CEOSAISerial_OBJ( 52, CMessage2_UserDisconnectedNotification );
+	ADD_CEOSAISerial_OBJ( 53, CMessage2_UserConnectionLostNotification );
+	ADD_CEOSAISerial_OBJ( 54, CMessage2_ReJoiningGame );
+	ADD_CEOSAISerial_OBJ( 55, CMessage2_PlayerToMessageTargetMatches );
+	ADD_CEOSAISerial_OBJ( 56, CMessage2_CreateDirectConnection );
+	ADD_CEOSAISerial_OBJ( 57, CMessage2_CreateDirectConnectionFailed );
+	ADD_CEOSAISerial_OBJ( 58, CGameEvent_TradeAgreement );
+	//
+	ADD_CEOSAISerial_OBJ( 59, CMessage2_RequestTradeDesires );
+	ADD_CEOSAISerial_OBJ( 60, CMessage2_TradeDesires );
+	
+	//ADD_CEOSAISerial_OBJ( 58, CMessage2_ServerToPlayerUpdate );
+
+	// GameEvent objects
+	ADD_CEOSAISerial_OBJ( 100, CGameEventLocationAndMovement );
+
+	// Player Interaction objects
+	ADD_CEOSAISerial_OBJ( 200, CEOSAIPlayerInteraction_DeclaredWar );
+	ADD_CEOSAISerial_OBJ( 201, CEOSAIPlayerInteraction_BeginWar );
+	ADD_CEOSAISerial_OBJ( 202, CEOSAIPlayerInteraction_CreatedTeam );
+	ADD_CEOSAISerial_OBJ( 203, CEOSAIPlayerInteraction_Trade );
+	ADD_CEOSAISerial_OBJ( 204, CEOSAIPlayerInteraction );
+	ADD_CEOSAISerial_OBJ( 205, CEOSAIPlayerInteraction_CreatedAlliance );
+	ADD_CEOSAISerial_OBJ( 206, CEOSAIPlayerInteraction_AskedToJoinInWar );
+	ADD_CEOSAISerial_OBJ( 207, CEOSAIPlayerInteraction_SneakAttack );
+	ADD_CEOSAISerial_OBJ( 208, CEOSAIPlayerInteraction_Combat );
+	ADD_CEOSAISerial_OBJ( 209, CEOSAIPlayerInteraction_BorderViolation );
+
+	// Player Interaction objects
+	ADD_CEOSAISerial_OBJ( 300, CNationalGameEvent_PeaceAgreement );
+	ADD_CEOSAISerial_OBJ( 301, CNationalGameEvent_AllianceFormed );
+	ADD_CEOSAISerial_OBJ( 302, CNationalGameEvent_SneakAttack );
+	ADD_CEOSAISerial_OBJ( 303, CNationalGameEvent_NonAggressionPact );
+
+	#endif EOS
+}
+*/
+/*
+void CEOSAISerial::AddBCEOSAISerialObj( unsigned long id,
+							  long* pClassId,
+							  void* (*pInstanciateFunction)( CEOSAISerial* pSerial, CWorldDescBase* pWorldDesc ) )
+{
+	// Don't allow duplicate ids
+	ASSERT( GetBCEOSAISerialRec( id ) == NULL );
+
+	CEOSAISerial2Rec* pRec = new CEOSAISerial2Rec();
+	pRec->m_iId = id;
+	pRec->m_pInstanciateFunction = pInstanciateFunction;
+	//pRec->m_pSetContext = pSetContext;
+	//s_ClassMap.insert( std::pair<long, CEOSAISerial2Rec*>( id, pRec ) );
+	if( s_ClassVector.size() <= id )
+	{
+		s_ClassVector.resize( id+10 );
+	}
+	s_ClassVector[id] = pRec;
+
+	(*pClassId) = id;
+}
+*/
+/*
+void CEOSAISerial2::AddBCEOSAISerialObj( CString  strClassId,
+							  CString* pClassId,
+							  void* (*pInstanciateFunction)( CEOSAISerial2* pSerial ) )
+							  //void* (*pInstanciateFunction)( CEOSAISerial* pSerial, CWorldDescBase* pWorldDesc ) )
+{
+	// Don't allow duplicate ids
+	ASSERT( GetBCEOSAISerialRec( strClassId ) == NULL );
+
+	CEOSAISerial2Rec* pRec = new CEOSAISerial2Rec();
+	pRec->m_strClassId = strClassId;
+	pRec->m_pInstanciateFunction = pInstanciateFunction;
+	//pRec->m_pSetContext = pSetContext;
+
+	s_ClassMap.insert( std::pair<CString, CEOSAISerial2Rec*>( strClassId, pRec ) );
+	/*
+	if( s_ClassVector.size() <= id )
+	{
+		s_ClassVector.resize( id+10 );
+	}
+	s_ClassVector[id] = pRec;
+	*-/
+
+	//(*pClassId) = id;
+	(*pClassId) = strClassId;
+}
+
+
+void CEOSAISerial2::AddBCEOSAISerialObj( CString  strClassId,
+							  CString (*pGetCEOSAISerialClassId)(),
+							  void* (*pInstanciateFunction)( CEOSAISerial2* pSerial ) )
+							  //void* (*pInstanciateFunction)( CEOSAISerial* pSerial, CWorldDescBase* pWorldDesc ) )
+{
+	// Don't allow duplicate ids
+	ASSERT( GetBCEOSAISerialRec( strClassId ) == NULL );
+
+	CString strClassIdAccordingToClass = (*pGetCEOSAISerialClassId)();
+	ASSERT( strClassId == strClassIdAccordingToClass );
+
+	CEOSAISerial2Rec* pRec = new CEOSAISerial2Rec();
+	pRec->m_strClassId = strClassId;
+	pRec->m_pInstanciateFunction = pInstanciateFunction;
+	//pRec->m_pSetContext = pSetContext;
+
+	s_ClassMap.insert( std::pair<CString, CEOSAISerial2Rec*>( strClassId, pRec ) );
+	/*
+	if( s_ClassVector.size() <= id )
+	{
+		s_ClassVector.resize( id+10 );
+	}
+	s_ClassVector[id] = pRec;
+	*-/
+
+	//(*pClassId) = id;
+	//(*pClassId) = strClassId;
+}
+*/
+/*
+void CEOSAISerial2::AddBCEOSAISerialObj( long  iClassId,
+							  long* pClassId,
+							  void* (*pInstanciateFunction)( CEOSAISerial2* pSerial ) )
+							  //void* (*pInstanciateFunction)( CEOSAISerial* pSerial, CWorldDescBase* pWorldDesc ) )
+{
+	// Don't allow duplicate ids
+	ASSERT( GetBCEOSAISerialRec( iClassId ) == NULL );
+
+	CEOSAISerial2Rec* pRec = new CEOSAISerial2Rec();
+	pRec->m_iClassId = iClassId;
+	pRec->m_pInstanciateFunction = pInstanciateFunction;
+	//pRec->m_pSetContext = pSetContext;
+
+	//s_ClassMap.insert( std::pair<CString, CEOSAISerial2Rec*>( strClassId, pRec ) );
+	if( s_ClassVector.size() <= (unsigned long) iClassId )
+	{
+		s_ClassVector.resize( iClassId+10 );
+	}
+	s_ClassVector[iClassId] = pRec;
+
+	(*pClassId) = iClassId;
+	//(*pClassId) = strClassId;
+}
+*/
+
+void CEOSAISerial2::AddBCEOSAISerialObj( long  iClassId,
+							  long  (*pGetCEOSAISerialClassId)(),
+							  void* (*pInstanciateFunction)( CEOSAISerial2* pSerial ) )
+							  //void* (*pInstanciateFunction)( CEOSAISerial* pSerial, CWorldDescBase* pWorldDesc ) )
+{
+	// Don't allow duplicate ids
+	ASSERT( GetBCEOSAISerialRec( iClassId ) == NULL );
+
+	long iClassIdAccordingToClass = (*pGetCEOSAISerialClassId)();
+	ASSERT( iClassId == iClassIdAccordingToClass );
+
+	CEOSAISerial2Rec* pRec = new CEOSAISerial2Rec();
+	pRec->m_iClassId = iClassId;
+	pRec->m_pInstanciateFunction = pInstanciateFunction;
+	//pRec->m_pSetContext = pSetContext;
+
+	//s_ClassMap.insert( std::pair<CString, CEOSAISerial2Rec*>( strClassId, pRec ) );
+	if( s_ClassVector.size() <= (unsigned long) iClassId )
+	{
+		s_ClassVector.resize( iClassId+10 );
+	}
+	s_ClassVector[iClassId] = pRec;
+
+	//(*pClassId) = iClassId;
+	//(*pClassId) = strClassId;
+}
+
+//CEOSAISerial2Rec* CEOSAISerial2::GetBCEOSAISerialRec( unsigned long id )
+CEOSAISerial2Rec* CEOSAISerial2::GetBCEOSAISerialRec( CStringANSI8 strClassId )
+{
+	/*
+	if( id < s_ClassVector.size() )
+	{
+		return s_ClassVector[id];
+	}
+	return NULL;
+	*/
+	std::map< CStringANSI8, CEOSAISerial2Rec* >::iterator iter = CEOSAISerial2::s_ClassMap.find( strClassId );
+	if( iter != s_ClassMap.end() )
+	{
+		return iter->second;
+	}
+	return NULL;
+}
+
+CEOSAISerial2Rec* CEOSAISerial2::GetBCEOSAISerialRec( unsigned long iClassId )
+{
+	if( iClassId < s_ClassVector.size() )
+	{
+		return s_ClassVector[iClassId];
+	}
+	return NULL;
+}
+
+//
+//
+//
+
+CEOSAISerial2::CEOSAISerial2()
+{
+	m_iSerialExpandSize = DEFAULT_SERIAL_EXPAND_SIZE;
+
+	m_bWriteCheckpointInformation = false;
+	m_iCurrentLocation = 0;
+	m_iUsedSize = 0;
+	m_iAllocatedSize = 0;
+	m_pData = 0;
+}
+
+CEOSAISerial2::~CEOSAISerial2()
+{
+	m_iCurrentLocation = 0;
+	m_iUsedSize = 0;
+	m_iAllocatedSize = 0;
+	delete m_pData;
+	m_pData = 0;
+}
+
+void  CEOSAISerial2::SetCurrentLocation( long i )
+{
+	m_iCurrentLocation = i;
+}
+
+long  CEOSAISerial2::GetCurrentLocation()
+{
+	return m_iCurrentLocation;
+}
+
+/*
+void  CEOSAISerial2::Serialize(   long     val ){ AppendLong( val ); if( m_bWriteCheckpointInformation ) Checkpoint::Write( val ); }
+void  CEOSAISerial2::Deserialize( long&    val ){ val = ExtractLong(); if( m_bWriteCheckpointInformation ) Checkpoint::Write( val ); }
+void  CEOSAISerial2::Serialize(   short    val ){ AppendShort( val ); if( m_bWriteCheckpointInformation ) Checkpoint::Write( val ); }
+void  CEOSAISerial::Deserialize( short&   val ){ val = ExtractShort(); if( m_bWriteCheckpointInformation ) Checkpoint::Write( val ); }
+void  CEOSAISerial::Serialize(   char     val ){ AppendChar( val ); if( m_bWriteCheckpointInformation ) Checkpoint::Write( val ); }
+void  CEOSAISerial::Deserialize( char&    val ){ val = ExtractChar(); if( m_bWriteCheckpointInformation ) Checkpoint::Write( val ); }
+void  CEOSAISerial::Serialize(   CString  val ){ AppendString( val ); if( m_bWriteCheckpointInformation ) Checkpoint::Write( val ); }
+void  CEOSAISerial::Deserialize( CString& val ){ val = ExtractString(); if( m_bWriteCheckpointInformation ) Checkpoint::Write( val ); }
+void  CEOSAISerial::Peek(        CString& val ){ val = PeekString(); if( m_bWriteCheckpointInformation ) Checkpoint::Write( val ); }
+void  CEOSAISerial::Serialize(   bool     val ){ AppendBool( val ); if( m_bWriteCheckpointInformation ) Checkpoint::Write( val ); }
+void  CEOSAISerial::Deserialize( bool&    val ){ val = ExtractBool(); if( m_bWriteCheckpointInformation ) Checkpoint::Write( val ); }
+void  CEOSAISerial::Serialize(   float    val ){ AppendFloat( val ); if( m_bWriteCheckpointInformation ) Checkpoint::Write( val ); }
+void  CEOSAISerial::Deserialize( float&   val ){ val = ExtractFloat(); if( m_bWriteCheckpointInformation ) Checkpoint::Write( val ); }
+
+void  CEOSAISerial::Serialize(   DWORD    val ){ AppendDWORD( val ); if( m_bWriteCheckpointInformation ) Checkpoint::Write( val ); }
+
+void  CEOSAISerial::Serialize(   CString strDesc, long     val ){ AppendLong( val ); if( m_bWriteCheckpointInformation ) Checkpoint::Write( strDesc, val ); }
+void  CEOSAISerial::Deserialize( CString strDesc, long&    val ){ val = ExtractLong(); if( m_bWriteCheckpointInformation ) Checkpoint::Write( strDesc, val ); }
+void  CEOSAISerial::Serialize(   CString strDesc, short    val ){ AppendShort( val ); if( m_bWriteCheckpointInformation ) Checkpoint::Write( strDesc, val ); }
+void  CEOSAISerial::Deserialize( CString strDesc, short&   val ){ val = ExtractShort(); if( m_bWriteCheckpointInformation ) Checkpoint::Write( strDesc, val ); }
+void  CEOSAISerial::Serialize(   CString strDesc, char     val ){ AppendChar( val ); if( m_bWriteCheckpointInformation ) Checkpoint::Write( strDesc, val ); }
+void  CEOSAISerial::Deserialize( CString strDesc, char&    val ){ val = ExtractChar(); if( m_bWriteCheckpointInformation ) Checkpoint::Write( strDesc, val ); }
+void  CEOSAISerial::Serialize(   CString strDesc, CString  val ){ AppendString( val ); if( m_bWriteCheckpointInformation ) Checkpoint::Write( strDesc, val ); }
+void  CEOSAISerial::Deserialize( CString strDesc, CString& val ){ val = ExtractString(); if( m_bWriteCheckpointInformation ) Checkpoint::Write( strDesc, val ); }
+void  CEOSAISerial::Serialize(   CString strDesc, bool     val ){ AppendBool( val ); if( m_bWriteCheckpointInformation ) Checkpoint::Write( strDesc, val ); }
+void  CEOSAISerial::Deserialize( CString strDesc, bool&    val ){ val = ExtractBool(); if( m_bWriteCheckpointInformation ) Checkpoint::Write( strDesc, val ); }
+void  CEOSAISerial::Serialize(   CString strDesc, float    val ){ AppendFloat( val ); if( m_bWriteCheckpointInformation ) Checkpoint::Write( strDesc, val ); }
+void  CEOSAISerial::Deserialize( CString strDesc, float&   val ){ val = ExtractFloat(); if( m_bWriteCheckpointInformation ) Checkpoint::Write( strDesc, val ); }
+*/
+
+//void  CEOSAISerial::Serialize(   unsigned long  val ){ AppendUnsignedLong( val ); }
+//void  CEOSAISerial::Deserialize( unsigned long& val ){ val = ExtractUnsignedLong(); }
+void  CEOSAISerial2::Serialize(   long     val ){ AppendLong( val ); }
+void  CEOSAISerial2::Deserialize( long&    val ){ val = ExtractLong(); }
+void  CEOSAISerial2::Peek(        long&    val ){ val = PeekLong(); }
+
+void  CEOSAISerial2::Serialize(   DWORD    val ){ AppendDWORD( val ); }
+void  CEOSAISerial2::Deserialize( DWORD&   val ){ val = ExtractDWORD(); }
+
+void  CEOSAISerial2::Serialize(   short    val ){ AppendShort( val ); }
+void  CEOSAISerial2::Deserialize( short&   val ){ val = ExtractShort(); }
+void  CEOSAISerial2::Serialize(   unsigned short  val ){ AppendUnsignedShort( val ); }
+void  CEOSAISerial2::Deserialize( unsigned short& val ){ val = ExtractUnsignedShort(); }
+void  CEOSAISerial2::Serialize(   char     val ){ AppendChar( val ); }
+void  CEOSAISerial2::Deserialize( char&    val ){ val = ExtractChar(); }
+void  CEOSAISerial2::Serialize(   unsigned char     val ){ AppendUnsignedChar( val ); }
+void  CEOSAISerial2::Deserialize( unsigned char&    val ){ val = ExtractUnsignedChar(); }
+
+
+#ifdef UNICODE
+void  CEOSAISerial2::SerializeUnicode( CString& val ){ AppendStringUnicode( val ); }
+void  CEOSAISerial2::DeserializeUnicode( CString& val ){ val = ExtractStringUnicode(); }
+
+void  CEOSAISerial2::SerializeANSI8( CString& val ){ AppendStringANSI8( val ); }
+void  CEOSAISerial2::DeserializeANSI8( CString& val )
+{
+	#ifdef UNICODE
+	USES_CONVERSION;
+	CStringANSI8 strTextANSI8 = ExtractStringANSI8();
+	val = A2T( strTextANSI8 );
+	#else UNICODE
+	val = ExtractStringANSI8();
+	#endif UNICODE
+}
+#endif
+
+void  CEOSAISerial2::SerializeANSI8( CStringANSI8& val ){ AppendStringANSI8( val ); }
+void  CEOSAISerial2::DeserializeANSI8( CStringANSI8& val ){ val = ExtractStringANSI8(); }
+void  CEOSAISerial2::Serialize( const char*  val ){ AppendCharString( val ); } // Used by serialize class name
+void  CEOSAISerial2::SerializeANSI8( const char*  val ){ AppendCharString( val ); }
+/*
+void  CEOSAISerial2::Serialize(   CString  val ){ AppendString( val ); }
+void  CEOSAISerial2::Deserialize( CString& val ){ val = ExtractString(); }
+void  CEOSAISerial2::Peek(        CString& val ){ val = PeekString(); }
+*/
+void  CEOSAISerial2::Serialize(   bool     val ){ AppendBool( val ); }
+void  CEOSAISerial2::Deserialize( bool&    val ){ val = ExtractBool(); }
+void  CEOSAISerial2::Serialize(   float    val ){ AppendFloat( val ); }
+void  CEOSAISerial2::Deserialize( float&   val ){ val = ExtractFloat(); }
+void  CEOSAISerial2::Serialize(   double   val ){ AppendDouble( val ); }
+void  CEOSAISerial2::Deserialize( double&  val ){ val = ExtractDouble(); }
+
+//void  CEOSAISerial2::Serialize(   DWORD    val ){ AppendDWORD( val ); }
+
+void  CEOSAISerial2::Serialize(   CString strDesc, long     val ){ AppendLong( val ); }
+void  CEOSAISerial2::Deserialize( CString strDesc, long&    val ){ val = ExtractLong(); }
+void  CEOSAISerial2::Serialize(   CString strDesc, short    val ){ AppendShort( val ); }
+void  CEOSAISerial2::Deserialize( CString strDesc, short&   val ){ val = ExtractShort(); }
+void  CEOSAISerial2::Serialize(   CString strDesc, char     val ){ AppendChar( val ); }
+void  CEOSAISerial2::Deserialize( CString strDesc, char&    val ){ val = ExtractChar(); }
+void  CEOSAISerial2::SerializeTCHAR(   CString strDesc, CString  val ){ AppendStringTCHAR( val ); }
+void  CEOSAISerial2::DeserializeTCHAR( CString strDesc, CString& val ){ val = ExtractStringTCHAR(); }
+void  CEOSAISerial2::Serialize(   CString strDesc, char*    val ){ AppendCharString( val ); }
+void  CEOSAISerial2::Serialize(   CString strDesc, bool     val ){ AppendBool( val ); }
+void  CEOSAISerial2::Deserialize( CString strDesc, bool&    val ){ val = ExtractBool(); }
+void  CEOSAISerial2::Serialize(   CString strDesc, float    val ){ AppendFloat( val ); }
+void  CEOSAISerial2::Deserialize( CString strDesc, float&   val ){ val = ExtractFloat(); }
+
+
+void CEOSAISerial2::SerializeBlock( char* data, long iBlockSize )
+{
+	// Write the size of the block
+	Serialize( iBlockSize );
+
+	//long iAppendSize = iBlockSize;
+	//
+	if( iBlockSize > 0 )
+	{
+		Reallocate( m_iCurrentLocation + iBlockSize );
+		memcpy( m_pData + m_iCurrentLocation, data, iBlockSize );
+		m_iCurrentLocation += iBlockSize;
+		// m_iUsedSize += iBlockSize;
+		m_iUsedSize = max( m_iCurrentLocation, m_iUsedSize );
+	}
+}
+
+void CEOSAISerial2::DeserializeBlock( char* data, long iExpectedBlockSize )
+{
+	// Read the size of the block
+	long iBlockSize = 0;
+	Deserialize( iBlockSize );
+	ASSERT( iBlockSize == iExpectedBlockSize );
+
+	if( iBlockSize > 0 )
+	{
+		char* pDebug_SerialStart = m_pData + m_iCurrentLocation;
+		char* pDebug_SerialEnd   = m_pData + m_iCurrentLocation + iBlockSize;
+		/*
+		for( long iPos=0; iPos<iBlockSize; iPos+=10000 )
+		{
+			long iCopySize = iBlockSize-iPos;
+			if( iCopySize > 10000 ){ iCopySize = 10000; }
+			char* pSource = m_pData+m_iCurrentLocation+iPos;
+			memcpy( data+iPos, pSource, iCopySize );
+		}
+		*/
+		memcpy( data, m_pData + m_iCurrentLocation, iBlockSize );
+		//memmove( data, m_pData + m_iCurrentLocation, iBlockSize );
+		m_iCurrentLocation += iBlockSize;
+	}
+}
+
+void CEOSAISerial2::SerializeBlockDirectly( char* data, long iBlockSize )
+{
+	Reallocate( m_iCurrentLocation + iBlockSize );
+	memcpy( m_pData + m_iCurrentLocation, data, iBlockSize );
+	m_iCurrentLocation += iBlockSize;
+	//m_iUsedSize += iBlockSize;
+	m_iUsedSize = max( m_iCurrentLocation, m_iUsedSize );
+}
+
+void CEOSAISerial2::RemoveExcessAllocation()
+{
+	ASSERT( m_pData != NULL );
+	ASSERT( m_iUsedSize != 0 );
+	ASSERT( m_iAllocatedSize != 0 );
+
+	if( m_iUsedSize != m_iAllocatedSize )
+	{
+		// 
+		char* pNewData = new char[ m_iUsedSize ];
+		if( pNewData == 0 )
+		{
+			ASSERT( false );
+			return;
+		}
+		if( m_pData ) // always true
+		{
+			memcpy( pNewData, m_pData, m_iUsedSize );
+		}
+		delete m_pData;
+		m_pData = pNewData;
+		m_iAllocatedSize = m_iUsedSize;
+	}
+}
+
+void* CEOSAISerial2::InstanciateIfBlock()// CWorldDescBase* pWorldDesc )
+{
+/*
+	// we will want to rewind the location
+	int iCurrentLocation = m_iCurrentLocation;
+	CString strClassName = this->ExtractString();
+	// Now rewind the location
+	m_iCurrentLocation = iCurrentLocation;
+*/
+	//CString strClassName = this->PeekString();
+	CStringANSI8 strClassName = this->PeekStringANSI8();
+
+	// Debug
+#ifdef _DEBUG
+	static CString strThisString;
+	static CString strLastString;
+
+	strLastString = strThisString;
+	strThisString = strClassName;
+#endif
+/*
+	if( strClassName == CCITY_SERVERTOPLAYERFLAT )
+	{
+		CCity_ServerToPlayerFlat* pObj = new CCity_ServerToPlayerFlat;
+		pObj->Deserialize( this );
+		return pObj;
+	}
+*/
+	ASSERT( false );
+	return NULL;
+}
+
+
+void* CEOSAISerial2::Instanciate()// CWorldDescBase* pWorldDesc )
+{
+	// Peek at the id
+	char cId = this->PeekChar();
+
+	// if the first char is 0, then we know it isn't a string (strings have SOME length)
+	if( cId == 0 )
+	{
+		long iClassId = this->PeekLong();
+		long iClassIdCopy = iClassId;
+		iClassId /= 256;
+
+		// Debug
+		#ifdef _DEBUG
+		static long iThisClassId = 0;
+		static long iLastClassId = 0;
+
+		iLastClassId = iThisClassId;
+		iThisClassId = iClassId;
+		#endif
+
+		CEOSAISerial2Rec* pRec = CEOSAISerial2::GetBCEOSAISerialRec( iClassId );
+		ASSERT( pRec );
+		if( pRec )
+		{
+			return pRec->m_pInstanciateFunction( this );
+		}
+		return NULL;
+	}
+	else  
+	{
+		//CString strClassId = this->PeekString();
+		CStringANSI8 strClassId = this->PeekStringANSI8();
+
+		//
+		long iDebugClassId = strClassId.GetAt(0);
+
+		// Debug
+		#ifdef _DEBUG
+		static CString strThisString;
+		static CString strLastString;
+
+		strLastString = strThisString;
+		strThisString = strClassId;
+		#endif
+
+		CEOSAISerial2Rec* pRec = CEOSAISerial2::GetBCEOSAISerialRec( strClassId );
+		//ASSERT( pRec );
+		if( pRec )
+		{
+			return pRec->m_pInstanciateFunction( this );
+		}
+		else
+		{
+			return InstanciateIfBlock();
+		}
+		return NULL;
+	}
+}
+
+bool CEOSAISerial2::WriteSanityCheckToFile( FILE* fp, long iSanityCheck )
+{
+	// Size of the data
+	size_t iReturn = fwrite( &iSanityCheck, sizeof( long ), 1, fp );
+	if( iReturn == 0 ) return false;
+	return true;
+}
+
+bool CEOSAISerial2::WriteToFile( FILE* fp )   // write a block of data from the CEOSAISerial object
+{
+	// size of the data
+	size_t iReturn = fwrite( &( this->m_iUsedSize ), sizeof( long ), 1, fp );
+	if( iReturn == 0 ) goto BadWriteError;
+
+	// The data
+	iReturn = fwrite( this->m_pData, sizeof( char ), this->m_iUsedSize, fp );
+	if( iReturn == 0 ) goto BadWriteError;
+
+	return true;
+
+BadWriteError:
+
+	CString strText;
+	strText =  "Error: Save failed.";
+	AfxMessageBox( strText );
+	return false;
+}
+
+long CEOSAISerial2::ReadSanityCheckFromFile( FILE* fp )
+{
+	long iSanityCheck = 0;
+	size_t iReturn = fread( &iSanityCheck, sizeof( long ), 1, fp );
+	return iSanityCheck;
+}
+
+long CEOSAISerial2::ReadSanityCheckFromFile( CFile* pFile )
+{
+	long iSanityCheck = 0;
+	pFile->Read( &iSanityCheck, sizeof( long ) );
+	//size_t iReturn = fread( &iSanityCheck, sizeof( long ), 1, fp );
+	return iSanityCheck;
+}
+
+bool CEOSAISerial2::ReadFromFile( FILE* fp )
+{
+	// Size of the data
+	long iSizeOfData = 0;
+	size_t iReturn = fread( &iSizeOfData, sizeof( long ), 1, fp );
+	if( iReturn == 0 )
+	{
+		AfxMessageBox( _T("Error: Load failed.  Bad data.") );
+		return false;
+	}
+
+	// The data
+	this->ForceAllocationSize( iSizeOfData );
+	iReturn = fread( this->m_pData, sizeof( char ), iSizeOfData, fp );
+	if( iReturn != iSizeOfData )
+	{
+		AfxMessageBox( _T("Error: Load failed.  Bad data.") );
+		return false;
+	}
+	return true;
+}
+
+bool CEOSAISerial2::ReadFromFile( CFile* pFile )
+{
+	// Size of the data
+	long iSizeOfData = 0;
+	UINT iReturn = pFile->Read( &iSizeOfData, sizeof( long ) );
+	//size_t iReturn = fread( &iSizeOfData, sizeof( long ), 1, fp );
+	if( iReturn == 0 )
+	{
+		AfxMessageBox( _T("Error: Load failed.  Bad data.") );
+		return false;
+	}
+
+	// The data
+	this->ForceAllocationSize( iSizeOfData );
+	iReturn = pFile->Read( this->m_pData, iSizeOfData );
+	if( iReturn != iSizeOfData )
+	{
+		AfxMessageBox( _T("Error: Load failed.  Bad data.") );
+		return false;
+	}
+	return true;
+}
+
+bool CEOSAISerial2::WriteFile2( CString strFullFilename )
+{
+	CFile File;
+	if( File.Open( strFullFilename, CFile::modeCreate | CFile::modeWrite | CFile::shareDenyNone | CFile::typeBinary ) )
+	{
+		File.Write( this->m_pData, this->m_iUsedSize );
+		return true;
+	}
+	return false;
+}
+
+bool CEOSAISerial2::ReadFile2( CString strFullFilename, ULONG uMaximumSize )
+{
+	CFile File;
+	if( File.Open( strFullFilename, CFile::modeRead | CFile::typeBinary ) )
+	{
+		ULONGLONG uBytesToRead = File.GetLength();
+		if( uMaximumSize > 0 )
+		{
+			if( uBytesToRead > uMaximumSize )
+			{
+				uBytesToRead = uMaximumSize;
+			}
+		}
+
+		// The data
+		this->ForceAllocationSize( (long) uBytesToRead );
+		UINT iReturn = File.Read( this->m_pData, (UINT) uBytesToRead );
+		if( iReturn != uBytesToRead )
+		{
+			AfxMessageBox( _T("Error: Load failed.  Bad data.") );
+			return false;
+		}
+		return true;
+	}
+	return false;
+}
+
+void CEOSAISerial2::SerializeClassId( CStringANSI8 strClassId )
+{
+	//Serialize( strClassId );
+	SerializeANSI8( strClassId );
+}
+
+void CEOSAISerial2::SerializeClassId( long iClassId )
+{
+	Serialize( iClassId*256 );  // I want the low-byte to be 0.
+}
+
+void CEOSAISerial2::ExtractAndVerifyClassId( CStringANSI8 strClassId )
+{
+	// Peek at the id
+	char cId = this->PeekChar();
+
+	// if the first char is 0, then we know it isn't a string (strings have SOME length)
+	if( cId == 0 )
+	{
+		ASSERT( false );
+	}
+	else  
+	{
+		CStringANSI8 strSerialClassId = this->ExtractStringANSI8();
+		ASSERT( strSerialClassId == strClassId );
+	}
+}
+
+void CEOSAISerial2::ExtractAndVerifyClassId( long iClassId )
+{
+	// Peek at the id
+	char cId = this->PeekChar();
+
+	// if the first char is 0, then we know it isn't a string (strings have SOME length)
+	if( cId == 0 )
+	{
+		long iSerialClassId = this->ExtractLong();
+		ASSERT( iSerialClassId/256 == iClassId );
+	}
+	else  
+	{
+		ASSERT( false );
+	}
+}
+
+void CEOSAISerial2::AppendLong( long val )
+{
+	long iAppendSize = sizeof( long );
+	//
+	Reallocate( m_iCurrentLocation + iAppendSize );
+	memcpy( m_pData + m_iCurrentLocation, &val, iAppendSize );
+	m_iCurrentLocation += iAppendSize;
+	// m_iUsedSize += iAppendSize;
+	m_iUsedSize = max( m_iCurrentLocation, m_iUsedSize );
+}
+
+long CEOSAISerial2::ExtractLong()
+{
+	long iVal = 0;
+	long iVarSize = sizeof( long );
+	//
+	//Reallocate( m_iCurrentLocation + iAppendSize );
+	memcpy( &iVal, m_pData + m_iCurrentLocation, iVarSize );
+	m_iCurrentLocation += iVarSize;
+
+	ASSERT( m_iCurrentLocation <= m_iUsedSize );
+
+	return iVal;
+}
+
+long CEOSAISerial2::PeekLong()
+{
+	long iVal = 0;
+	long iVarSize = sizeof( long );
+	//
+	//Reallocate( m_iCurrentLocation + iAppendSize );
+	memcpy( &iVal, m_pData + m_iCurrentLocation, iVarSize );
+	//m_iCurrentLocation += iVarSize;
+	ASSERT( m_iCurrentLocation + iVarSize <= m_iUsedSize );
+
+	return iVal;
+}
+
+short CEOSAISerial2::PeekShort()
+{
+	short sVal = 0;
+	short iVarSize = sizeof( short );
+	//
+	//Reallocate( m_iCurrentLocation + iAppendSize );
+	memcpy( &sVal, m_pData + m_iCurrentLocation, iVarSize );
+	//m_iCurrentLocation += iVarSize;
+	ASSERT( m_iCurrentLocation + iVarSize <= m_iUsedSize );
+
+	return sVal;
+}
+
+/*
+void CEOSAISerial2::AppendDWORD( long val )
+{
+	long iAppendSize = sizeof( DWORD );
+	//
+	Reallocate( m_iCurrentLocation + iAppendSize );
+	memcpy( m_pData + m_iCurrentLocation, &val, iAppendSize );
+	m_iCurrentLocation += iAppendSize;
+	// m_iUsedSize += iAppendSize;
+	m_iUsedSize = max( m_iCurrentLocation+iAppendSize, m_iUsedSize );
+}
+
+DWORD CEOSAISerial2::ExtractDWORD()
+{
+	DWORD iVal = 0;
+	long  iVarSize = sizeof( DWORD );
+	//
+	memcpy( &iVal, m_pData + m_iCurrentLocation, iVarSize );
+	m_iCurrentLocation += iVarSize;
+
+	ASSERT( m_iCurrentLocation <= m_iUsedSize );
+
+	return iVal;
+}
+*/
+
+void CEOSAISerial2::AppendShort( short val )
+{
+	long iAppendSize = sizeof( short );
+	//
+	Reallocate( m_iCurrentLocation + iAppendSize );
+	memcpy( m_pData + m_iCurrentLocation, &val, iAppendSize );
+	m_iCurrentLocation += iAppendSize;
+	// m_iUsedSize += iAppendSize;
+	m_iUsedSize = max( m_iCurrentLocation, m_iUsedSize );
+}
+
+short CEOSAISerial2::ExtractShort()
+{
+	short iVal = 0;
+	long iVarSize = sizeof( short );
+	//
+	//Reallocate( m_iCurrentLocation + iAppendSize );
+	memcpy( &iVal, m_pData + m_iCurrentLocation, iVarSize );
+	m_iCurrentLocation += iVarSize;
+
+	ASSERT( m_iCurrentLocation <= m_iUsedSize );
+
+	return iVal;
+}
+
+
+void CEOSAISerial2::AppendUnsignedShort( unsigned short val )
+{
+	long iAppendSize = sizeof( unsigned short );
+	//
+	Reallocate( m_iCurrentLocation + iAppendSize );
+	memcpy( m_pData + m_iCurrentLocation, &val, iAppendSize );
+	m_iCurrentLocation += iAppendSize;
+	// m_iUsedSize += iAppendSize;
+	m_iUsedSize = max( m_iCurrentLocation, m_iUsedSize );
+}
+
+unsigned short CEOSAISerial2::ExtractUnsignedShort()
+{
+	unsigned short iVal = 0;
+	long iVarSize = sizeof( unsigned short );
+	//
+	//Reallocate( m_iCurrentLocation + iAppendSize );
+	memcpy( &iVal, m_pData + m_iCurrentLocation, iVarSize );
+	m_iCurrentLocation += iVarSize;
+
+	ASSERT( m_iCurrentLocation <= m_iUsedSize );
+
+	return iVal;
+}
+
+void CEOSAISerial2::AppendChar( char val )
+{
+	long iAppendSize = sizeof( char );
+	//
+	Reallocate( m_iCurrentLocation + iAppendSize );
+	memcpy( m_pData + m_iCurrentLocation, &val, iAppendSize );
+	m_iCurrentLocation += iAppendSize;
+	// m_iUsedSize += iAppendSize;
+	m_iUsedSize = max( m_iCurrentLocation, m_iUsedSize );
+}
+
+void CEOSAISerial2::AppendUnsignedChar( unsigned char val )
+{
+	long iAppendSize = sizeof( unsigned char );
+	//
+	Reallocate( m_iCurrentLocation + iAppendSize );
+	memcpy( m_pData + m_iCurrentLocation, &val, iAppendSize );
+	m_iCurrentLocation += iAppendSize;
+	// m_iUsedSize += iAppendSize;
+	m_iUsedSize = max( m_iCurrentLocation, m_iUsedSize );
+}
+
+char CEOSAISerial2::ExtractChar()
+{
+	char iVal = 0;
+	long iVarSize = sizeof( char );
+	//
+	//Reallocate( m_iCurrentLocation + iAppendSize );
+	memcpy( &iVal, m_pData + m_iCurrentLocation, iVarSize );
+	m_iCurrentLocation += iVarSize;
+
+	ASSERT( m_iCurrentLocation <= m_iUsedSize );
+
+	return iVal;
+}
+
+unsigned char CEOSAISerial2::ExtractUnsignedChar()
+{
+	unsigned char iVal = 0;
+	long iVarSize = sizeof( unsigned char );
+	//
+	//Reallocate( m_iCurrentLocation + iAppendSize );
+	memcpy( &iVal, m_pData + m_iCurrentLocation, iVarSize );
+	m_iCurrentLocation += iVarSize;
+
+	ASSERT( m_iCurrentLocation <= m_iUsedSize );
+
+	return iVal;
+}
+
+
+char CEOSAISerial2::PeekChar()
+{
+	char iVal = 0;
+	long iVarSize = sizeof( char );
+	//
+	//Reallocate( m_iCurrentLocation + iAppendSize );
+	memcpy( &iVal, m_pData + m_iCurrentLocation, iVarSize );
+	//m_iCurrentLocation += iVarSize;
+
+	ASSERT( m_iCurrentLocation <= m_iUsedSize );
+
+	return iVal;
+}
+/*
+void CEOSAISerial2::AppendString( CString strText )
+{
+	//long iAppendSize = strText.GetLength() + 1; // include the null
+	LPCTSTR p = strText;
+	long iAppendSize = (lstrlen(p)+1)*iStringCharSize; // include the null
+	//
+	Reallocate( m_iCurrentLocation + iAppendSize );
+	memcpy( m_pData + m_iCurrentLocation, (LPCTSTR) strText, iAppendSize );
+	m_iCurrentLocation += iAppendSize;
+	// m_iUsedSize += iAppendSize;
+	m_iUsedSize = max( m_iCurrentLocation, m_iUsedSize );
+}
+
+
+CString CEOSAISerial2::ExtractString()
+{
+	CString strText;
+	//
+	//Reallocate( m_iCurrentLocation + iAppendSize );
+	strText = (TCHAR*) ((char*)(m_pData + m_iCurrentLocation));
+	//int iLength = strText.GetLength() + 1;
+	LPCTSTR p = strText;
+	long iLength = (lstrlen(p)+1)*iStringCharSize; // include the null
+	//memcpy( &iVal, m_pData + m_iCurrentLocation, iVarSize );
+	m_iCurrentLocation += iLength;
+
+	ASSERT( m_iCurrentLocation <= m_iUsedSize );
+
+	return strText;
+}
+
+
+CString CEOSAISerial2::PeekString()
+{
+	CString strText;
+	//
+	strText = m_pData + m_iCurrentLocation;
+	//int iLength = strText.GetLength() + 1;
+	//m_iCurrentLocation += iLength;
+	LPCTSTR p = strText;
+	long iLength = (lstrlen(p)+1)*iStringCharSize; // include the null
+
+	ASSERT( m_iCurrentLocation <= m_iUsedSize );
+
+	return strText;
+}
+*/
+
+#ifdef UNICODE
+void CEOSAISerial2::AppendStringUnicode( CString strText )
+{
+	ASSERT( sizeof(TCHAR) == sizeof(WCHAR) );
+	long iAppendSize = sizeof(TCHAR) * (strText.GetLength() + 1); // include the null
+	//
+	Reallocate( m_iCurrentLocation + iAppendSize );
+	memcpy( m_pData + m_iCurrentLocation, (LPCTSTR) strText, iAppendSize );
+	m_iCurrentLocation += iAppendSize;
+	// m_iUsedSize += iAppendSize;
+	m_iUsedSize = max( m_iCurrentLocation, m_iUsedSize );
+}
+#endif
+
+void CEOSAISerial2::AppendStringTCHAR( CString strText )
+{
+	long iAppendSize = sizeof(TCHAR) * (strText.GetLength() + 1); // include the null
+	//
+	Reallocate( m_iCurrentLocation + iAppendSize );
+	memcpy( m_pData + m_iCurrentLocation, (LPCTSTR) strText, iAppendSize );
+	m_iCurrentLocation += iAppendSize;
+	// m_iUsedSize += iAppendSize;
+	m_iUsedSize = max( m_iCurrentLocation, m_iUsedSize );
+}
+
+void CEOSAISerial2::AppendStringANSI8( CStringANSI8 strText )
+{
+	long iAppendSize = strText.GetLength() + 1; // include the null
+	//
+	Reallocate( m_iCurrentLocation + iAppendSize );
+	memcpy( m_pData + m_iCurrentLocation, (const char*) strText, iAppendSize );
+	m_iCurrentLocation += iAppendSize;
+	// m_iUsedSize += iAppendSize;
+	m_iUsedSize = max( m_iCurrentLocation, m_iUsedSize );
+}
+
+#ifdef UNICODE
+void CEOSAISerial2::AppendStringANSI8( CString strText )
+{
+	#ifdef UNICODE
+	USES_CONVERSION;
+	CStringANSI8 strTextANSI8 = T2A( strText );
+	#else
+	CStringANSI8 strTextANSI8 = strText;
+	#endif
+
+	long iAppendSize = strTextANSI8.GetLength() + 1; // include the null
+	//
+	Reallocate( m_iCurrentLocation + iAppendSize );
+	memcpy( m_pData + m_iCurrentLocation, (const char*) strTextANSI8, iAppendSize );
+	m_iCurrentLocation += iAppendSize;
+	// m_iUsedSize += iAppendSize;
+	m_iUsedSize = max( m_iCurrentLocation, m_iUsedSize );
+}
+#endif UNICODE
+
+void CEOSAISerial2::AppendCharString( const char* szString )
+{
+	long iAppendSize = strlen( szString ) + 1;//strText.GetLength() + 1; // include the null
+	//
+	Reallocate( m_iCurrentLocation + iAppendSize );
+	memcpy( m_pData + m_iCurrentLocation, (const char*) szString, iAppendSize );
+	m_iCurrentLocation += iAppendSize;
+	// m_iUsedSize += iAppendSize;
+	m_iUsedSize = max( m_iCurrentLocation, m_iUsedSize );
+}
+
+#ifdef UNICODE
+CString CEOSAISerial2::ExtractStringUnicode()
+{
+	ASSERT( sizeof(TCHAR) == sizeof(WCHAR) );
+	CString strText;
+	//
+	//Reallocate( m_iCurrentLocation + iAppendSize );
+	strText = (TCHAR*)( m_pData + m_iCurrentLocation );
+	int iLength = strText.GetLength() + 1;
+	//memcpy( &iVal, m_pData + m_iCurrentLocation, iVarSize );
+	m_iCurrentLocation += sizeof(WCHAR) * iLength;
+	ASSERT( m_iCurrentLocation <= m_iUsedSize );
+	return strText;
+}
+#endif UNICODE
+
+CString CEOSAISerial2::ExtractStringTCHAR()
+{
+	CString strText;
+	//
+	//Reallocate( m_iCurrentLocation + iAppendSize );
+	strText = (TCHAR*)( m_pData + m_iCurrentLocation );
+	int iLength = strText.GetLength() + 1;
+	//memcpy( &iVal, m_pData + m_iCurrentLocation, iVarSize );
+	m_iCurrentLocation += sizeof(TCHAR) * iLength;
+
+	ASSERT( m_iCurrentLocation <= m_iUsedSize );
+
+	return strText;
+}
+
+CString CEOSAISerial2::PeekStringTCHAR()
+{
+	CString strText;
+	//
+	strText = m_pData + m_iCurrentLocation;
+	int iLength = strText.GetLength() + 1;
+	//m_iCurrentLocation += iLength;
+
+	ASSERT( m_iCurrentLocation <= m_iUsedSize );
+
+	return strText;
+}
+
+CStringANSI8 CEOSAISerial2::ExtractStringANSI8()
+{
+	CStringANSI8 strText;
+	//
+	//Reallocate( m_iCurrentLocation + iAppendSize );
+	strText = m_pData + m_iCurrentLocation;
+	int iLength = strText.GetLength() + 1;
+	//memcpy( &iVal, m_pData + m_iCurrentLocation, iVarSize );
+	m_iCurrentLocation += iLength;
+
+	ASSERT( m_iCurrentLocation <= m_iUsedSize );
+
+	return strText;
+}
+
+CStringANSI8 CEOSAISerial2::PeekStringANSI8()
+{
+	CStringANSI8 strText;
+	//
+	strText = m_pData + m_iCurrentLocation;
+	int iLength = strText.GetLength() + 1;
+	//m_iCurrentLocation += iLength;
+
+	ASSERT( m_iCurrentLocation <= m_iUsedSize );
+
+	return strText;
+}
+
+void CEOSAISerial2::AppendBool( bool val )
+{
+	char bVal = val;
+	long iAppendSize = sizeof( char );
+	//
+	Reallocate( m_iCurrentLocation + iAppendSize );
+	memcpy( m_pData + m_iCurrentLocation, &bVal, iAppendSize );
+	m_iCurrentLocation += iAppendSize;
+	// m_iUsedSize += iAppendSize;
+	m_iUsedSize = max( m_iCurrentLocation, m_iUsedSize );
+}
+
+bool CEOSAISerial2::ExtractBool()
+{
+	char bVal = 0;
+	long iVarSize = sizeof( char );
+	//
+	//Reallocate( m_iCurrentLocation + iAppendSize );
+	memcpy( &bVal, m_pData + m_iCurrentLocation, iVarSize );
+	m_iCurrentLocation += iVarSize;
+
+	ASSERT( m_iCurrentLocation <= m_iUsedSize );
+
+	return ( bVal != 0 );
+}
+
+void CEOSAISerial2::AppendFloat( float fVal )
+{
+	long iAppendSize = sizeof( float );
+	//
+	Reallocate( m_iCurrentLocation + iAppendSize );
+	memcpy( m_pData + m_iCurrentLocation, &fVal, iAppendSize );
+	m_iCurrentLocation += iAppendSize;
+	// m_iUsedSize += iAppendSize;
+	m_iUsedSize = max( m_iCurrentLocation, m_iUsedSize );
+}
+
+float CEOSAISerial2::ExtractFloat()
+{
+	float fVal = 0.0f;
+	long iVarSize = sizeof( float );
+	//
+	//Reallocate( m_iCurrentLocation + iAppendSize );
+	memcpy( &fVal, m_pData + m_iCurrentLocation, iVarSize );
+	m_iCurrentLocation += iVarSize;
+
+	ASSERT( m_iCurrentLocation <= m_iUsedSize );
+
+	return fVal;
+}
+
+
+void CEOSAISerial2::AppendDouble( double fVal )
+{
+	long iAppendSize = sizeof( double );
+	//
+	Reallocate( m_iCurrentLocation + iAppendSize );
+	memcpy( m_pData + m_iCurrentLocation, &fVal, iAppendSize );
+	m_iCurrentLocation += iAppendSize;
+	// m_iUsedSize += iAppendSize;
+	m_iUsedSize = max( m_iCurrentLocation, m_iUsedSize );
+}
+
+double CEOSAISerial2::ExtractDouble()
+{
+	double fVal = 0.0f;
+	long iVarSize = sizeof( double );
+	//
+	//Reallocate( m_iCurrentLocation + iAppendSize );
+	memcpy( &fVal, m_pData + m_iCurrentLocation, iVarSize );
+	m_iCurrentLocation += iVarSize;
+
+	ASSERT( m_iCurrentLocation <= m_iUsedSize );
+
+	return fVal;
+}
+
+void CEOSAISerial2::AppendDWORD( DWORD val )
+{
+	long iAppendSize = sizeof( DWORD );
+	//
+	Reallocate( m_iCurrentLocation + iAppendSize );
+	memcpy( m_pData + m_iCurrentLocation, &val, iAppendSize );
+	m_iCurrentLocation += iAppendSize;
+	// m_iUsedSize += iAppendSize;
+	m_iUsedSize = max( m_iCurrentLocation, m_iUsedSize );
+}
+
+DWORD CEOSAISerial2::ExtractDWORD()
+{
+	DWORD dwVal = 0;
+	long iVarSize = sizeof( DWORD );
+	//
+	//Reallocate( m_iCurrentLocation + iAppendSize );
+	memcpy( &dwVal, m_pData + m_iCurrentLocation, iVarSize );
+	m_iCurrentLocation += iVarSize;
+
+	ASSERT( m_iCurrentLocation <= m_iUsedSize );
+
+	return dwVal;
+}
+
+void CEOSAISerial2::ForceAllocationSize( long iSize )
+{
+	Reallocate( iSize );
+	m_iUsedSize = iSize;
+}
+
+void CEOSAISerial2::Reallocate( long iMinimumNewSize )
+{
+	if( iMinimumNewSize > m_iAllocatedSize )
+	{
+		// 
+		long iNewSize = 0;
+		if( m_iAllocatedSize + m_iSerialExpandSize > iMinimumNewSize )
+		{
+			iNewSize = m_iAllocatedSize + m_iSerialExpandSize;
+		}
+		else
+		{
+			iNewSize = iMinimumNewSize + m_iSerialExpandSize;
+		}
+
+		char* pNewData = new char[ iNewSize ];
+		if( pNewData == 0 )
+		{
+			ASSERT( false );
+			return;
+		}
+		if( m_pData )
+		{
+			memcpy( pNewData, m_pData, m_iAllocatedSize );
+		}
+		delete m_pData;
+		m_pData = pNewData;
+		m_iAllocatedSize = iNewSize;
+	}
+}
+

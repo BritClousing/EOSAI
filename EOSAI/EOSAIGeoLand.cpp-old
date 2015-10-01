@@ -1,0 +1,224 @@
+
+#include "stdafx.h"
+
+//#include "GeoLand.h"
+//#include "GeoWater.h"
+
+//#include "City.h"
+#include "Player.h"
+#include "EOSAISettings.h"
+
+#ifdef _DEBUG
+#undef THIS_FILE
+static char THIS_FILE[]=__FILE__;
+#define new DEBUG_NEW
+#endif
+
+
+void CEOSAIGeoLand::AddPoint( int x, int y )
+{
+	m_pOccupiedX[ x ] = true;
+	m_pOccupiedY[ y ] = true;
+}
+
+CPoint CGeoLand::FindGridLocationOnIsland()
+{
+	for(;;)
+	{
+		bool bLineFound = false;
+		int iX = 0;
+		while( bLineFound == false )
+		{
+			iX = rand()%( m_pWorldDesc->GetGridWidth() );
+			if( m_pOccupiedX[ iX ] ) bLineFound = true;
+		}
+
+		bLineFound  = false;
+		int iY = 0;
+		while( bLineFound == false )
+		{
+			iY = rand()%( m_pWorldDesc->GetGridHeight() );
+			if( m_pOccupiedY[ iY ] ) bLineFound = true;
+		}
+
+		int iIslandNumber = m_pWorldDesc->GetLandGeoNumber1( iX,iY );
+		if( iIslandNumber == GetGeoNumber() )
+		{
+			return CPoint( iX,iY );
+		}
+	}
+
+}
+
+CCity* CGeoLand::CreateACoastalCity( bool bOnMajorBodyOfWater )
+{
+	float fMinimumDistanceBetweenCities = 90;
+
+	for(;;)
+	{
+		CPoint ptGridLocation = FindGridLocationOnIsland();
+		CPoint ptCityLocation;
+		WanderToCoast( ptGridLocation, &ptCityLocation );
+		CLocation CityLocation;
+		CityLocation.SetReal( ptCityLocation.x*4.0+0.1f, ptCityLocation.y*4.0+0.1f );
+
+		//float fX = (float)( ptCityLocation.x*4.0f + 2.0f );
+		//float fY = (float)( ptCityLocation.y*4.0f + 2.0f );
+
+		float fDistance = m_pWorldDesc->FindDistanceToClosestCity( CityLocation.GetRealX(), CityLocation.GetRealY() );
+		if( fDistance < fMinimumDistanceBetweenCities )
+		{
+			fMinimumDistanceBetweenCities-=2.0f;
+			continue;
+		}
+
+		if( bOnMajorBodyOfWater )
+		{
+			//long iGeoWater = m_pWorldDesc->GetWaterGeoNumber3( ptCityLocation.x, ptCityLocation.y );
+			long iGeoWater = m_pWorldDesc->GetWaterGeoNumber3( CityLocation );
+			CGeoWater* pGeoWater = m_pWorldDesc->GetWaterGeo( iGeoWater );
+			if( iGeoWater > 0 )
+			{
+				ASSERT( pGeoWater );
+			}
+			if( pGeoWater == NULL )
+			{
+				continue;
+			}
+			if( pGeoWater->IAmAMajorBodyOfWater() == false )
+			{
+				continue;
+			}
+		}
+
+		long iElevation = m_pWorldDesc->GetElevationMap().GridValue( CityLocation.GetGridX(), CityLocation.GetGridY() );
+		ASSERT( IsLand( iElevation ) );
+		//long iElevation = m_pWorldDesc->GetElevationMap().PixelValue( CityLocation.GetRealX(), CityLocation.GetRealY() );
+		//ASSERT( IsLand( iElevation ) );
+
+		CCity* pCity;
+		pCity = new CCity();
+		pCity->SetPoiObjectName( _T("X1") );
+		pCity->SetRandomPopulation();
+		pCity->SetOwner_NoEvent( 0 );
+		//pCity->SetLocation( CLocation( Pixel, (float) ptCityLocation.x*4, (float) ptCityLocation.y*4 ) );
+		pCity->SetLocation( CityLocation );
+
+		if( m_pWorldDesc->MapIsKnown() )
+		{
+			pCity->HasBeenDiscovered( true );
+		}
+
+		return pCity;
+	}
+}
+
+CCity* CGeoLand::CreateACity( int iGridX, int iGridY, float fMinimumDistanceToNextCity )
+{
+	float fPixelX = (float)( iGridX*4 + 2.0f );
+	float fPixelY = (float)( iGridY*4 + 2.0f );
+
+	float fDistance = m_pWorldDesc->FindDistanceToClosestCity( fPixelX, fPixelY );
+	if( fDistance > fMinimumDistanceToNextCity )
+	{
+		CCity* pCity;
+		pCity = new CCity();
+		pCity->SetPoiObjectName( _T("X2") );
+		pCity->SetRandomPopulation();
+		pCity->SetOwner_NoEvent( 0 );
+		pCity->SetLocation( CLocation( Pixel, fPixelX, fPixelY ) );
+
+		if( m_pWorldDesc->MapIsKnown() )
+		{
+			pCity->HasBeenDiscovered( true );
+		}
+
+		return pCity;
+	}
+	return NULL;
+}
+
+void CGeoLand::WanderToCoast( CPoint ptPlayerGridLocation, CPoint* ptCityGridLocation )
+{
+	int iCurX = ptPlayerGridLocation.x;
+	int iCurY = ptPlayerGridLocation.y;
+	long iLastX = iCurX;
+	long iLastY = iCurY;
+	int elevation = m_pWorldDesc->GetElevationMap().GridValue( iCurX, iCurY );
+	while( elevation > WATER_ELEVATION )
+	{
+		iLastX = iCurX;
+		iLastY = iCurY;
+
+		int iRandom = rand()%4;
+		if( iRandom == 0 ) iCurX++;
+		if( iRandom == 1 ) iCurX--;
+		if( iRandom == 2 ) iCurY++;
+		if( iRandom == 3 ) iCurY--;
+
+		m_pWorldDesc->GetWorldBuildDesc()->TruncateGridLocation( &iCurX, &iCurY );
+		if( m_pWorldDesc->GetWorldBuildDesc()->IsValidGridLocation( iCurX, iCurY ) == FALSE )
+		{
+			iCurX = ptPlayerGridLocation.x;
+			iCurY = ptPlayerGridLocation.y;
+		}
+		elevation = m_pWorldDesc->GetElevationMap().GridValue( iCurX, iCurY );
+	}
+	ASSERT( IsLand( m_pWorldDesc->GetElevationMap().GridValue( iLastX, iLastY ) ) );
+	ptCityGridLocation->x = iLastX;//iCurX;
+	ptCityGridLocation->y = iLastY;//iCurY;
+}
+
+/*
+void CGeoLand::WanderToCoast( CWorldDescBase* pWorldDesc, long iStartGridX, long iStartGridY, CLocation* pOutLocation )
+{
+	CLocation Current;
+	Current.SetReal( iStartGridX*4.0f+2.0f, iStartGridY*4.0f+2.0f );
+	Current = pWorldDesc->GetValidLandLocation7c( Current );
+
+	long iElevation = m_pWorldDesc->GetElevationMap().PixelValue( Current.GetRealX(), Current.GetRealY() );
+	ASSERT( IsLand( iElevation ) );
+
+	while( iElevation > WATER_ELEVATION )
+	{
+		int iRandom = rand()%4;
+		if( iRandom == 0 ) Current.AddRealX(  4.0f );
+		if( iRandom == 1 ) Current.AddRealX( -4.0f );
+		if( iRandom == 2 ) Current.AddRealY(  4.0f );
+		if( iRandom == 3 ) Current.AddRealY( -4.0f );
+	}
+
+	float fX = Location.GetRealX();
+	float fY = Location.GetRealY();
+	float fLastX = Location.GetRealX();
+	float fLastY = Location.GetRealY();
+
+	int iCurX = ptPlayerGridLocation.x;
+	int iCurY = ptPlayerGridLocation.y;
+	long iLastX = iCurX;
+	long iLastY = iCurY;
+	int elevation = m_pWorldDesc->GetElevationMap().GridValue( iCurX, iCurY );
+	while( elevation > WATER_ELEVATION )
+	{
+		iLastX = iCurX;
+		iLastY = iCurY;
+
+		int iRandom = rand()%4;
+		if( iRandom == 0 ) iCurX++;
+		if( iRandom == 1 ) iCurX--;
+		if( iRandom == 2 ) iCurY++;
+		if( iRandom == 3 ) iCurY--;
+
+		m_pWorldDesc->GetWorldBuildDesc()->TruncateGridLocation( &iCurX, &iCurY );
+		if( m_pWorldDesc->GetWorldBuildDesc()->IsValidGridLocation( iCurX, iCurY ) == FALSE )
+		{
+			iCurX = ptPlayerGridLocation.x;
+			iCurY = ptPlayerGridLocation.y;
+		}
+		elevation = m_pWorldDesc->GetElevationMap().GridValue( iCurX, iCurY );
+	}
+	ASSERT( IsLand( m_pWorldDesc->GetElevationMap().GridValue( iLastX, iLastY ) ) );
+	ptCityGridLocation->x = iLastX;//iCurX;
+	ptCityGridLocation->y = iLastY;//iCurY;
+}
+*/

@@ -1,0 +1,36 @@
+
+#pragma once
+
+//class CEOSAIMovementPathwaysFromMRXtoMRY;
+
+//
+// Movement Pathways from MultiRegions ABC to MultiRegionY
+//
+/*
+class CEOSAIMovementPathwaysFromMRABCtoMRY
+{
+	public:
+		CEOSAIMovementPathwaysFromMRABCtoMRY()
+		{
+			m_fMinSighting = 0.0f;
+			m_fMinPresence = 0.0f;
+			m_fMinDanger = 0.0f;
+			m_fMinDistance = 0.0f;
+			m_iMinNumberOfGeoSwitches = 0;
+		}
+		~CEOSAIMovementPathwaysFromMRABCtoMRY()
+		{
+			//m_MovementPathways.RemoveAll();
+		}
+		// Add to the pathway set
+//		void AddPathway( CEOSAIMovementPathwaysFromMRXtoMRY* pPathway );
+		//
+		float  m_fMinSighting;
+		float  m_fMinPresence;
+		float  m_fMinDanger;
+		float  m_fMinDistance;
+		long   m_iMinNumberOfGeoSwitches;
+		//
+//		CList< CEOSAIMovementPathwaysFromMRXtoMRY* >  m_MovementPathways; // not-owned
+};
+*/

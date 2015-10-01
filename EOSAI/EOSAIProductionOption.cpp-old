@@ -1,0 +1,107 @@
+
+#include <stdafx.h>
+#include "EOSAIProductionOption.h"
+#include "EOSAIPlayer2.h"
+#include "AIBuildOption.h"
+#include "AIUnitTemplate2.h"
+#include "AICity2.h"
+#include <math.h>
+
+CAIProductionOption::CAIProductionOption()
+{
+/*
+	m_fExploreValue = 0.0f;
+	m_fCityHunterValue = 0.0f;
+	m_fResHunterValue = 0.0f;
+	m_fGroundCombatValue = 0.0f;
+	m_fAntiTransportValue = 0.0f; // because of their speed, aircraft do better here than with m_fShipCombatValue
+	m_fShipCombatValue = 0.0f;
+	m_fAntiAircraftValue = 0.0f;
+	m_fAntiSubmarineValue = 0.0f;
+	m_MovementType = EnumAIMovementType3_Air;
+	m_fCost = 1.0f;
+*/
+	m_fCost = 1.0f;
+	m_pBuildOption = NULL;
+}
+/*
+float CAIProductionOption::GetSimpleTimeToComplete( CCity* pCity )
+{
+	//return pCity->GetTimeLeftForBuildOption( m_pBuildOption );
+	return pCity->GetCompletionTimeForNewBuildOption( m_pBuildOption );
+}
+*/
+void CAIProductionOption::Evaluate( CAIPlayer* pAIPlayer )
+{
+	ASSERT( m_pBuildOption );
+	if( m_pBuildOption )
+	{
+		if( m_pBuildOption->IsAUnit() )
+		{
+			CUnitTemplate* pTemplate = m_pBuildOption->GetUnitTemplate();
+
+			//m_UnitSummary.Set( pTemplate );
+			/*
+			// Come up with some scores
+			m_fExploreValue = pTemplate->GetMovementRate() * pTemplate->GetPixelViewRange()*2.0f; // roughly defines the amount of area explored each turn
+
+			if( pTemplate->CanCaptureCities() )
+			{
+				// Twice the speed does not mean twice the value, but speed is useful
+				m_fCityHunterValue = sqrt( pTemplate->GetMovementRate() );
+			}
+			else
+			{
+				m_fCityHunterValue = 0.0f;
+			}
+
+			if( pTemplate->CanCaptureResources() )
+			{
+				// Twice the speed does not mean twice the value, but speed is useful
+				m_fResHunterValue = sqrt( pTemplate->GetMovementRate() );
+			}
+			else
+			{
+				m_fResHunterValue = 0.0f;
+			}
+			*/
+			m_fCost = pTemplate->GetProductionCost() + 
+				//pTemplate->GetIronCost()*pAIPlayer->GetAIBrain()->GetCitResValueMultiplier()->GetIronValueMultiplier();
+				pTemplate->GetIronCost()*pAIPlayer->GetCitResValue_IronMultiplier();
+		}
+		else
+		{
+			// If this is a "build wealth" Build Option, do nothing here
+			m_fCost = 1.0f;
+		}
+	}
+}
+
+
+/*
+bool CAIProductionOption::HasARange()
+{
+	ASSERT( m_pBuildOption );
+	if( m_pBuildOption )
+	{
+		if( m_pBuildOption->GetUnitTemplate() )
+		{
+			return m_pBuildOption->GetUnitTemplate()->HasARange();
+		}
+	}
+	return false;
+}
+
+float CAIProductionOption::GetMovementLimit()
+{
+	ASSERT( m_pBuildOption );
+	if( m_pBuildOption )
+	{
+		if( m_pBuildOption->GetUnitTemplate() )
+		{
+			return m_pBuildOption->GetUnitTemplate()->GetMovementLimit();
+		}
+	}
+	return 0.0f;
+}
+*/

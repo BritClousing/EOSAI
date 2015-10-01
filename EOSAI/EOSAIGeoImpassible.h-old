@@ -1,0 +1,17 @@
+
+#pragma once
+/*
+#include "Geo.h"
+class CWorldDescBase;
+
+class CGeoImpassible : public CGeo
+{
+	public:
+		CGeoImpassible( CWorldDescBase* pWorldDesc ) : CGeo( pWorldDesc )
+		{
+			m_pWorldDesc = pWorldDesc;
+		}
+		virtual GeoType GetGeoType(){ return CGeo::Impassible; }
+};
+*/
+

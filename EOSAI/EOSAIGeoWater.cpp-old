@@ -1,0 +1,91 @@
+
+#include "stdafx.h"
+
+#include "EOSAIGeoWater.h"
+//#include "WorldDesc.h"
+//#include "CliBase.h"
+#include "EOSAISettings.h"
+//#include "EOSAICity2.h"
+//#include "EOSAICommonData2.h"
+
+#ifdef _DEBUG
+#undef THIS_FILE
+static char THIS_FILE[]=__FILE__;
+#define new DEBUG_NEW
+#endif
+
+
+bool CEOSAIGeoWater::IAmAMajorBodyOfWater()
+{
+	if( m_iSize > 4000 )
+	{
+		return true;
+	}
+	return false;
+}
+/*
+CCity* CGeoWater::CreateACoastalCity( int iGridX, int iGridY )
+{
+	float fMinimumDistanceBetweenCities = 90;
+
+	for(;;)
+	{
+		CPoint ptGridLocation( iGridX, iGridY );
+		CPoint ptCityLocation;
+		WanderToCoast( ptGridLocation, &ptCityLocation );
+
+		float fPixelX = (float)( ptCityLocation.x*4 + 2.0f );
+		float fPixelY = (float)( ptCityLocation.y*4 + 2.0f );
+
+		//float fDistance = m_pWorldDesc->FindDistanceToClosestCity( fPixelX, fPixelY );
+		float fDistance = g_pAICommonData->FindDistanceToClosestCity( fPixelX, fPixelY );
+		if( fDistance < fMinimumDistanceBetweenCities )
+		{
+			fMinimumDistanceBetweenCities-=2.0f;
+		}
+		else
+		{
+			CCity* pCity;
+			pCity = new CCity();
+			pCity->SetPoiObjectName( _T("X3") );
+			pCity->SetRandomPopulation();
+			pCity->SetOwner_NoEvent( 0 );
+			pCity->SetLocation( CEOSAILocation( Pixel, fPixelX, fPixelY ) );
+
+			if( m_pWorldDesc->MapIsKnown() )
+			{
+				pCity->HasBeenDiscovered( true );
+			}
+
+			return pCity;
+		}
+	}
+}
+
+
+void CGeoWater::WanderToCoast( CPoint ptPlayerGridLocation, CPoint* ptCityGridLocation )
+{
+	int iCurX = ptPlayerGridLocation.x;
+	int iCurY = ptPlayerGridLocation.y;
+	int elevation = m_pWorldDesc->GetElevationMap().GridValue( iCurX, iCurY );
+	while( elevation <= WATER_ELEVATION )
+	{
+		int iRandom = rand()%4;
+		if( iRandom == 0 ) iCurX++;
+		if( iRandom == 1 ) iCurX--;
+		if( iRandom == 2 ) iCurY++;
+		if( iRandom == 3 ) iCurY--;
+
+		m_pWorldDesc->GetWorldBuildDesc()->TruncateGridLocation( &iCurX, &iCurY );
+		if( m_pWorldDesc->GetWorldBuildDesc()->IsValidGridLocation( iCurX, iCurY ) == FALSE )
+		{
+			iCurX = ptPlayerGridLocation.x;
+			iCurY = ptPlayerGridLocation.y;
+		}
+		elevation = m_pWorldDesc->GetElevationMap().GridValue( iCurX, iCurY );
+	}
+	ASSERT( IsLand( m_pWorldDesc->GetElevationMap().GridValue( iCurX, iCurY ) ) );
+	ptCityGridLocation->x = iCurX;
+	ptCityGridLocation->y = iCurY;
+}
+*/
