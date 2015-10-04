@@ -102,12 +102,13 @@ class CEOSAIBrain
 
 			// Resources
 			//
-				void  CalculateResourceConsumptionAndDeltas(bool bIncludeCityNoOrdersProduceWealth);
+				//void  CalculateResourceConsumptionAndDeltas(bool bIncludeCityNoOrdersProduceWealth);
+				//void    CalculateResourceDeltasAndResourceEffectsSummary();
 				//float GetTotalMoney(){ ASSERT( false ); return 0.0f; }
 				//float GetTotalFood(){ ASSERT( false ); return 0.0f; }
 				//float GetTotalIron(){ ASSERT( false ); return 0.0f; }
 				//float GetTotalOil(){ ASSERT( false ); return 0.0f; }
-				//CEOSAIResourceEffectsSummary*  GetAIResourceEffectsSummary(){ return &m_AIResourceEffectsSummary; }
+				//CEOSAIResourceEffectsSummary*  GetAIResourceEffectsSummary(){ return &m_ResourceSummary; }
 
 
 			void  CreateAIProductionOptions();//{ ASSERT( false ); }

@@ -2320,7 +2320,7 @@ void AIPlayer::CalculateCitResValues()
 
 	long iPlayerNumber = GetPlayerNumber();
 	CEOSAINationalSummary3* pSummary = g_pEOSAICommonData->GetAINationalSummary3( iPlayerNumber );
-	float fMoney1 = g_pEOSAICommonData->GetAINationalSummary3( iPlayerNumber )->m_TotalResources.Get( _T("Money") );
+	//float fMoney1 = g_pEOSAICommonData->GetAINationalSummary3( iPlayerNumber )->m_ResourceSummary.m_TotalResources.Get( _T("Money") );
 	float fTotalMoney = g_pEOSAICommonData->GetAINationalSummary3( iPlayerNumber )->GetTotalMoney();
 	float fTotalOil = g_pEOSAICommonData->GetAINationalSummary3( iPlayerNumber )->GetTotalOil();
 	float fTotalIron = g_pEOSAICommonData->GetAINationalSummary3( iPlayerNumber )->GetTotalIron();
@@ -2360,12 +2360,13 @@ void AIPlayer::CalculateCitResValues()
 void AIPlayer::CalculateExperiencingResourceShortage01() // CalculateResourceConsumptionAndDeltas()
 {
 	//m_pWorldDescPlayerProxy->CalculateCurrentResourceDeltas();
-	g_pEOSAICommonData->GetAINationalSummary3( GetPlayerNumber() )->AICalculateResourceConsumptionAndDeltas( false );
+	//g_pEOSAICommonData->GetAINationalSummary3(GetPlayerNumber())->AICalculateResourceConsumptionAndDeltas(false);
+	g_pEOSAICommonData->GetAINationalSummary3(GetPlayerNumber())->CalculateResourceDeltas(); //AICalculateResourceConsumptionAndDeltas(false);
 	float fResourceConsumption =
-		g_pEOSAICommonData->GetAINationalSummary3( GetPlayerNumber() )->GetAIResourceEffectsSummary()->m_ResourceConsumption.Get( _T("Money") ) +
-		g_pEOSAICommonData->GetAINationalSummary3( GetPlayerNumber() )->GetAIResourceEffectsSummary()->m_ResourceConsumption.Get( _T("Food") ) +
-		g_pEOSAICommonData->GetAINationalSummary3( GetPlayerNumber() )->GetAIResourceEffectsSummary()->m_ResourceConsumption.Get( _T("Iron") ) +
-		g_pEOSAICommonData->GetAINationalSummary3( GetPlayerNumber() )->GetAIResourceEffectsSummary()->m_ResourceConsumption.Get( _T("Oil") );
+		g_pEOSAICommonData->GetAINationalSummary3( GetPlayerNumber() )->GetResourceSummary()->m_ResourceConsumption.Get( _T("Money") ) +
+		g_pEOSAICommonData->GetAINationalSummary3( GetPlayerNumber() )->GetResourceSummary()->m_ResourceConsumption.Get( _T("Food") ) +
+		g_pEOSAICommonData->GetAINationalSummary3( GetPlayerNumber() )->GetResourceSummary()->m_ResourceConsumption.Get( _T("Iron") ) +
+		g_pEOSAICommonData->GetAINationalSummary3( GetPlayerNumber() )->GetResourceSummary()->m_ResourceConsumption.Get( _T("Oil") );
 		//m_pWorldDescPlayerProxy->GetMoneyConsumption() +
 		//m_pWorldDescPlayerProxy->GetFoodConsumption() +
 		//m_pWorldDescPlayerProxy->GetIronConsumption() +
@@ -2374,10 +2375,10 @@ void AIPlayer::CalculateExperiencingResourceShortage01() // CalculateResourceCon
 	// Calculate resource shortage
 	//   Because we have cleared all the unit and city orders, the oil and iron deltas will be low
 	float fResourceDelta = 
-		g_pEOSAICommonData->GetAINationalSummary3( GetPlayerNumber() )->GetAIResourceEffectsSummary()->m_ResourceDelta.Get( _T("Money") ) + //GetDeltaMoney() + 
-		g_pEOSAICommonData->GetAINationalSummary3( GetPlayerNumber() )->GetAIResourceEffectsSummary()->m_ResourceDelta.Get( _T("Food") ) + //GetDeltaFood() + 
-		g_pEOSAICommonData->GetAINationalSummary3( GetPlayerNumber() )->GetAIResourceEffectsSummary()->m_ResourceDelta.Get( _T("Iron") ) + //GetDeltaIron() + 
-		g_pEOSAICommonData->GetAINationalSummary3( GetPlayerNumber() )->GetAIResourceEffectsSummary()->m_ResourceDelta.Get( _T("Oil") );  //GetDeltaOil();
+		g_pEOSAICommonData->GetAINationalSummary3( GetPlayerNumber() )->GetResourceSummary()->m_ResourceDelta.Get( _T("Money") ) + //GetDeltaMoney() + 
+		g_pEOSAICommonData->GetAINationalSummary3( GetPlayerNumber() )->GetResourceSummary()->m_ResourceDelta.Get( _T("Food") ) + //GetDeltaFood() + 
+		g_pEOSAICommonData->GetAINationalSummary3( GetPlayerNumber() )->GetResourceSummary()->m_ResourceDelta.Get( _T("Iron") ) + //GetDeltaIron() + 
+		g_pEOSAICommonData->GetAINationalSummary3( GetPlayerNumber() )->GetResourceSummary()->m_ResourceDelta.Get( _T("Oil") );  //GetDeltaOil();
 		//m_pWorldDescPlayerProxy->GetDeltaMoney() + fOilDelta  + fIronDelta + fFoodDelta;
 	float fResourceTotal = 
 		g_pEOSAICommonData->GetAINationalSummary3( GetPlayerNumber() )->GetTotalMoney() + 

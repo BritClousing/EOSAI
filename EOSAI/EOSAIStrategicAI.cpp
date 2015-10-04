@@ -1537,14 +1537,15 @@ void  CEOSAIStrategicAI::CalculateAITradePrices( long iHumanPlayer, CAITradePric
 
 	//CWorldDescPlayerProxy* pAIWorldDescPlayerProxy = GetWorldDescPlayerProxy();
 	//pAIWorldDescPlayerProxy->CalculateCitResValues();
-	g_pEOSAICommonData->GetAINationalSummary3( GetPlayerNumber() )->AICalculateResourceConsumptionAndDeltas( false );
+	//g_pEOSAICommonData->GetAINationalSummary3(GetPlayerNumber())->AICalculateResourceConsumptionAndDeltas(false);
+	g_pEOSAICommonData->GetAINationalSummary3(GetPlayerNumber())->CalculateResourceDeltas();
 
 	//GetAITradePrice( iHumanPlayer, iAIPlayer, fFeelings01, pAIWorldDescPlayerProxy->GetTotalFood(), pAIWorldDescPlayerProxy->GetResourceEffectsSummary()->m_ResourceDelta.Get( _T("Food") )>GetDeltaFood(), &pPrices->m_iWantsToBuyAndSellFood, &pPrices->m_fPriceOfFood );
-	GetAITradePrice( iHumanPlayer, iAIPlayer, fFeelings01, g_pEOSAICommonData->GetAINationalSummary3( GetPlayerNumber() )->GetTotalFood(), g_pEOSAICommonData->GetAINationalSummary3( GetPlayerNumber() )->GetAIResourceEffectsSummary()->m_ResourceDelta.Get( _T("Food") ), &pPrices->m_iWantsToBuyAndSellFood, &pPrices->m_fPriceOfFood );
+	GetAITradePrice( iHumanPlayer, iAIPlayer, fFeelings01, g_pEOSAICommonData->GetAINationalSummary3( GetPlayerNumber() )->GetTotalFood(), g_pEOSAICommonData->GetAINationalSummary3( GetPlayerNumber() )->GetResourceSummary()->m_ResourceDelta.Get( _T("Food") ), &pPrices->m_iWantsToBuyAndSellFood, &pPrices->m_fPriceOfFood );
 	//GetAITradePrice( iHumanPlayer, iAIPlayer, fFeelings01, pAIWorldDescPlayerProxy->GetTotalIron(), pAIWorldDescPlayerProxy->GetDeltaIron(), &pPrices->m_iWantsToBuyAndSellIron, &pPrices->m_fPriceOfIron );
-	GetAITradePrice( iHumanPlayer, iAIPlayer, fFeelings01, g_pEOSAICommonData->GetAINationalSummary3( GetPlayerNumber() )->GetTotalIron(), g_pEOSAICommonData->GetAINationalSummary3( GetPlayerNumber() )->GetAIResourceEffectsSummary()->m_ResourceDelta.Get( _T("Iron") ), &pPrices->m_iWantsToBuyAndSellIron, &pPrices->m_fPriceOfIron );
+	GetAITradePrice( iHumanPlayer, iAIPlayer, fFeelings01, g_pEOSAICommonData->GetAINationalSummary3( GetPlayerNumber() )->GetTotalIron(), g_pEOSAICommonData->GetAINationalSummary3( GetPlayerNumber() )->GetResourceSummary()->m_ResourceDelta.Get( _T("Iron") ), &pPrices->m_iWantsToBuyAndSellIron, &pPrices->m_fPriceOfIron );
 	//GetAITradePrice( iHumanPlayer, iAIPlayer, fFeelings01, pAIWorldDescPlayerProxy->GetTotalOil(),  pAIWorldDescPlayerProxy->GetDeltaOil(),  &pPrices->m_iWantsToBuyAndSellOil,  &pPrices->m_fPriceOfOil );
-	GetAITradePrice( iHumanPlayer, iAIPlayer, fFeelings01, g_pEOSAICommonData->GetAINationalSummary3( GetPlayerNumber() )->GetTotalOil(),  g_pEOSAICommonData->GetAINationalSummary3( GetPlayerNumber() )->GetAIResourceEffectsSummary()->m_ResourceDelta.Get( _T("Oil") ),  &pPrices->m_iWantsToBuyAndSellOil,  &pPrices->m_fPriceOfOil );
+	GetAITradePrice( iHumanPlayer, iAIPlayer, fFeelings01, g_pEOSAICommonData->GetAINationalSummary3( GetPlayerNumber() )->GetTotalOil(),  g_pEOSAICommonData->GetAINationalSummary3( GetPlayerNumber() )->GetResourceSummary()->m_ResourceDelta.Get( _T("Oil") ),  &pPrices->m_iWantsToBuyAndSellOil,  &pPrices->m_fPriceOfOil );
 
 	#ifdef _DEBUG
 	// Debug: 24987124
@@ -1730,7 +1731,7 @@ void  CEOSAIStrategicAI::IncomingEvent_RequestAITradeDesires( long iSendToPlayer
 		Message.m_AITradeDesires.m_fPriceOfOil = AITradePrices.m_fPriceOfOil;
 */
 	}
-	g_pEOSAIInterface->AddNewMessageFromAI(pTradeDesires);
+	g_pEOSAIInterface->SendMessageFromAI(pTradeDesires);
 	//g_pMessageManager->Send(Message);
 
 	//ASSERT( false );
@@ -1943,7 +1944,7 @@ void CEOSAIStrategicAI::EvaluateAndRespondToTradeAgreement( CEOSAITradeAgreement
 		pResponse->m_iSendToPlayer = pTradeAgreement->GetOtherPlayerNumber(pResponse->m_iFromAIPlayer);
 		pResponse->m_strTradeAgreementId = pTradeAgreement->m_strTradeAgreementId;
 		pResponse->m_eResponse = EOSAIEnumTradeAgreementResponse_Accept;
-		g_pEOSAIInterface->AddNewMessageFromAI(pResponse);
+		g_pEOSAIInterface->SendMessageFromAI(pResponse);
 
 		if (TradeEvaluationResult.m_fForeignRelationsBonus > 0.1f)
 		{
@@ -1996,7 +1997,7 @@ void CEOSAIStrategicAI::EvaluateAndRespondToTradeAgreement( CEOSAITradeAgreement
 		pResponse->m_iSendToPlayer = pTradeAgreement->GetOtherPlayerNumber(pResponse->m_iFromAIPlayer);
 		pResponse->m_strTradeAgreementId = pTradeAgreement->m_strTradeAgreementId;
 		pResponse->m_eResponse = EOSAIEnumTradeAgreementResponse_Decline;
-		g_pEOSAIInterface->AddNewMessageFromAI(pResponse);
+		g_pEOSAIInterface->SendMessageFromAI(pResponse);
 
 		#ifdef GAME_CODE
 		I need to send back a StrategicAIOrder_TradeAgreementResponse

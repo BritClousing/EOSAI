@@ -27,5 +27,5 @@ void CEOSAIStrategicAIOrder_Resign::Execute(long iCurrentTurn)
 	pResignGame->m_iFromAIPlayer = iAIPlayer;
 	//pConcedeGame->m_iToPlayer = m_iSurrenderToPlayer;
 	//pConcedeGame->m_AIMessageUID = iAIMessageUID;
-	g_pEOSAIInterface->AddNewMessageFromAI(pResignGame);
+	g_pEOSAIInterface->SendMessageFromAI(pResignGame);
 }

@@ -150,6 +150,38 @@ bool  CEOSAICity::HasPredefinedBuildOrders()
 	return false;
 }
 
+// Resources
+//
+void CEOSAICity::GetResourcesProducedPerTurn(std::map<CString, float>& ResourcesProducedAssumingNoOrders, std::map<CString, float>& ResourcesProducedByCurrentOrders)
+{
+	// TODO: This is very game specific. It needs to be changed.
+
+	// If the city isn't producing anything, it produces wealth
+	ResourcesProducedAssumingNoOrders[_T("Money")] += 0.5f * m_fProduction;
+}
+
+void CEOSAICity::GetResourcesConsumedPerTurn(std::map<CString, float>& ResourcesConsumedAssumingNoOrders, std::map<CString, float>& ResourcesConsumedByCurrentOrders)
+{
+	// TODO: This is very game specific. It needs to be changed.
+
+	// Consume food
+	ResourcesConsumedAssumingNoOrders[_T("Food")] += 0.2f * m_fPopulation;
+	// Consume oil
+	ResourcesConsumedAssumingNoOrders[_T("Oil")] += 0.2f * m_fPopulation;
+
+	// TODO: Additional consumption will happen depending on the city's orders
+	ResourcesConsumedByCurrentOrders[_T("Iron")] += 0;
+}
+
+float CEOSAICity::GetProductionAndConsumptionPerTurn(CString strResource)
+{
+	// TODO: This is very game specific. It needs to be changed.
+	if (strResource == _T("Food")) return 0.2f * m_fPopulation;
+	if (strResource == _T("Oil")) return 0.2f * m_fPopulation;
+	if (strResource == _T("Iron")) return 0;
+	return 0;
+}
+
 // AITacticalProject methods
 //
 /*
@@ -939,6 +971,7 @@ float CEOSAICity::GetTotalProduction()
 
 float CEOSAICity::GetTotalProduction( bool bIncludeRefugeesInTheCalculation, CEOSAIBuildOption* pBuildOption )
 {
+	// TODO
 	//ASSERT( false );
 	//return 0.0f;
 	return m_fProduction;
@@ -946,18 +979,10 @@ float CEOSAICity::GetTotalProduction( bool bIncludeRefugeesInTheCalculation, CEO
 
 float CEOSAICity::GetTotalProduction( bool bIncludeRefugeesInTheCalculation, CEOSAIUnitTemplate* pBuildUnitTemplate )
 {
+	// TODO
 	//ASSERT( false );
 	//return 0.0f;
 	return m_fProduction;
-}
-
-float CEOSAICity::GetProductionAndConsumptionPerTurn( CString strResource )
-{
-	#ifdef THINGS_TO_COMPILE_EVENTUALLY
-	I need to put the consumption and production rates in here.
-	I should also do it in a resource-agnostic way using variables.  Maybe use a string+float list.
-	#endif THINGS_TO_COMPILE_EVENTUALLY
-	return 0.0f;
 }
 
 /*

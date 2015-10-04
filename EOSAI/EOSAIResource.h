@@ -37,6 +37,10 @@ class DLLIMPEXP CEOSAIResource : public CEOSAIPoiObject
 		void  SetResourceSource_IsOnLand( bool b ){ m_bResourceSource_IsOnLand = b; }
 		bool  ResourceSource_IsOnLand(){ return m_bResourceSource_IsOnLand; }
 
+		// Resources
+		virtual void GetResourcesProducedPerTurn(std::map<CString, float>& ResourcesProducedAssumingNoOrders, std::map<CString, float>& ResourcesProducedByCurrentOrders);
+		virtual void GetResourcesConsumedPerTurn(std::map<CString, float>& ResourcesConsumedAssumingNoOrders, std::map<CString, float>& ResourcesConsumedByCurrentOrders) {}
+
 		//virtual long  GetObjectId();
 
 	// Thinking

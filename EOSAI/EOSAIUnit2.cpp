@@ -916,6 +916,59 @@ long CEOSAIUnit2::GetNumberOfAvailableUpgrades()
 	return iAvailableUpgrades;
 }
 
+// Resources
+//
+void CEOSAIUnit2::GetResourcesProducedPerTurn(std::map<CString, float>& ResourcesProducedAssumingNoOrders, std::map<CString, float>& ResourcesProducedByCurrentOrders)
+{
+	// TODO: This is very game specific. It needs to be changed.
+	POSITION pos = this->GetAIUnitTemplate()->GetProductionAndConsumptionPerTurnList()->GetHeadPosition();
+	while (pos)
+	{
+		EOSAI::StringAndFloat* p = this->GetAIUnitTemplate()->GetProductionAndConsumptionPerTurnList()->GetNext(pos);
+		if (p->m_fValue > 0.0f)
+		{
+			ResourcesProducedAssumingNoOrders[p->m_strValue] += p->m_fValue;
+		}
+	}
+	pos = this->GetAIUnitTemplate()->GetProductionAndConsumptionPerMoveList()->GetHeadPosition();
+	while (pos)
+	{
+		EOSAI::StringAndFloat* p = this->GetAIUnitTemplate()->GetProductionAndConsumptionPerMoveList()->GetNext(pos);
+		//ResourcesConsumedByCurrentOrders[_T("Oil")] += this->Has;
+		if (p->m_fValue > 0.0f)
+		{
+			ResourcesProducedByCurrentOrders[p->m_strValue] += p->m_fValue;
+		}
+	}
+}
+
+void CEOSAIUnit2::GetResourcesConsumedPerTurn(std::map<CString, float>& ResourcesConsumedAssumingNoOrders, std::map<CString, float>& ResourcesConsumedByCurrentOrders)
+{
+	// TODO: This is very game specific. It needs to be changed.
+
+	// Consume oil
+	POSITION pos = this->GetAIUnitTemplate()->GetProductionAndConsumptionPerTurnList()->GetHeadPosition();
+	while (pos)
+	{
+		EOSAI::StringAndFloat* p = this->GetAIUnitTemplate()->GetProductionAndConsumptionPerTurnList()->GetNext(pos);
+		if (p->m_fValue < 0.0f)
+		{
+			ResourcesConsumedAssumingNoOrders[p->m_strValue] += -p->m_fValue;
+		}
+	}
+	pos = this->GetAIUnitTemplate()->GetProductionAndConsumptionPerMoveList()->GetHeadPosition();
+	while (pos)
+	{
+		EOSAI::StringAndFloat* p = this->GetAIUnitTemplate()->GetProductionAndConsumptionPerMoveList()->GetNext(pos);
+		//ResourcesConsumedByCurrentOrders[_T("Oil")] += this->Has;
+		if (p->m_fValue < 0.0f)
+		{
+			ResourcesConsumedByCurrentOrders[p->m_strValue] += -p->m_fValue;
+		}
+	}
+}
+
+//
 CEOSAIUnit2* CEOSAIUnit2::GetCurrentAIUnitContainer()
 {
 	//if( m_pServerUnit )

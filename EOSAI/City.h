@@ -68,6 +68,13 @@ class DLLIMPEXP CEOSAICity : public CEOSAIPoiObject
 		void   SetProduction( float f ){ m_fProduction = f; }
 		float  GetProduction(){ return m_fProduction; }
 
+	// Resources
+	//
+		virtual void GetResourcesProducedPerTurn(std::map<CString, float>& ResourcesProducedAssumingNoOrders, std::map<CString, float>& ResourcesProducedByCurrentOrders);
+		virtual void GetResourcesConsumedPerTurn(std::map<CString, float>& ResourcesConsumedAssumingNoOrders, std::map<CString, float>& ResourcesConsumedByCurrentOrders);
+
+		float GetProductionAndConsumptionPerTurn(CString strResource);
+
 	// AITacticalProject methods
 	//
 		//float GetBuildTimeAndTimeToTarget( CAITacticalProject* pAITacticalProject, CUnitTemplate* pUnitTemplate );
@@ -106,7 +113,7 @@ class DLLIMPEXP CEOSAICity : public CEOSAIPoiObject
 
 		// Resource Consumption
 		//
-			float GetProductionAndConsumptionPerTurn( CString strResource );
+			//float GetProductionAndConsumptionPerTurn( CString strResource );
 
 	//	virtual float AmountOfOilNeededOverTimeperiod( float fDeltaTime );
 	//	virtual float AmountOfOilNeededOverTimeperiodIgnoreProduction( float fDeltaTime );

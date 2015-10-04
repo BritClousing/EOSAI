@@ -6,6 +6,8 @@
 //#include "Airfield.h"
 //#include "Unit.h"
 #include "EOSAIMathFunction.h"
+#include "EOSAICommonData2.h"
+#include "AIPlayer.h"
 //#include "WorldDesc.h"
 /*
 long CResourceEffectsSummary::GetAvailabilityNumber( float fAvailability )
@@ -60,7 +62,7 @@ void CEOSAIResourceEffectsSummary::Clear()
 	m_ResourceConsumptionRate.Clear();
 	m_ResourceExcessAmount.Clear();
 	m_ResourceAvailabilityDisplay.Clear();
-	//
+	/*
 	m_fCityPopulationGrowth = 1.0f;
 	//
 	m_fMoneyBasedProductionMultiplier = 1.0f;
@@ -70,17 +72,35 @@ void CEOSAIResourceEffectsSummary::Clear()
 	//
 	m_fOilBasedRangedUnitLaunchPercentage = 1.0f;
 	m_fOilBasedGroundSeaUnitMovementRateMultiplier = 1.0f;
+	*/
 }
 
 
 // Excess Oil -> Increased Production x Cities -> Increased Oil Consumption
 // Reduced Oil -> Reduced Production x Cities -> Reduced Oil Consumption
 //void ApplyAdjustedResourceAvailability( 
-void CEOSAIResourceEffectsSummary::Calculate( 
-			CWorldDesc* pWorldDesc, long iPlayer, EOSAI::StringAndFloatSet* pResourceTotals )
+void CEOSAIResourceEffectsSummary::Calculate( EOSAI::AIPlayer* pAIPlayer, long iPlayer, EOSAI::StringAndFloatSet* pResourceTotals )
 {
 	// This should not be done in the AI code.  It's very specific to the game.  Maybe it should be done in the game itself and passed.
-	ASSERT( false );
+
+	//
+	//
+	//
+	// Calculating the Resource Consumption, Production, trade adjustments, etc is going to be done inside EOSAINationalSummary, not here.
+	//
+	//
+	//
+	ASSERT(false);
+	ASSERT(false);
+	ASSERT(false);
+	ASSERT(false);
+	ASSERT(false);
+
+	//g_pEOSAICommonData->GetAmountOfMoneyProduced
+	//pAIPlayer->GetAIBrain()->A
+
+	// Calcualte the Resource Deltas
+	//m_ResourceProduction.Set(_T("Money"), pAIPlayer->AmountOfMoneyProducedOverTimeperiod(iPlayer, 1.0f));
 
 #ifdef DO_NOT_COMPILE_MOVE_TO_MAIN_GAME
 

@@ -64,7 +64,7 @@ void CEOSAIStrategicAIOrder_Trade::Execute( long iCurrentTurn )
 	//	std::map<CString,float> m_ResourcesToBuy;
 	//	std::map<CString,float> m_ResourcesToSell;
 
-	g_pEOSAIInterface->AddNewMessageFromAI( pTradeOfferMessage );
+	g_pEOSAIInterface->SendMessageFromAI( pTradeOfferMessage );
 
 	//ASSERT( false );
 #ifdef GAME_CODE

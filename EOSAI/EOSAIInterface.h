@@ -184,7 +184,8 @@ class CInterface
 		//
 			// ASSERT is there only because EOS needs to handle these messages. I might also want an event that gets triggered whenever
 			//   a new message arrives. That override should happen in the derived class.
-			virtual void AddNewMessageFromAI( EOSAI::MessageFromAI* pAIMessage ){ m_MessagesFromAI.AddTail(pAIMessage); } 
+			//virtual void AddNewMessageFromAI(EOSAI::MessageFromAI* pAIMessage) { m_MessagesFromAI.AddTail(pAIMessage); }
+			virtual void SendMessageFromAI(EOSAI::MessageFromAI* pAIMessage) { m_MessagesFromAI.AddTail(pAIMessage); }
 			CList< EOSAI::MessageFromAI* >* GetMessagesFromAI(){ return &m_MessagesFromAI; }
 
 			//void Incoming_TradeAgreementResponse(CString strTradeAgreementId, long iPlayerWhoInitiatedChange, EOSAIEnumTradeAgreementResponse eResponse, EOSAIEnumTradeAgreementState eNewState);

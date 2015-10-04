@@ -148,6 +148,8 @@ class DLLIMPEXP CCommonData2
 		float  OPENMARKET_MONEY_FOR_SELLING_RESOURCE_X(){ return 1.0f; }
 		float  OPENMARKET_COST_TO_BUY_RESOURCE_X(){ return 3.0f; }
 
+		void   SetPlayerResources( int iPlayer, CString strResource, float fResourceAmount );
+
 		float  GetTotalCityProductionOnMap(){ return m_fTotalCityProductionOnMap; }
 		float  GetTotalCitResProductionOnMap(){ return m_fTotalCitResProductionOnMap; }
 		float  GetTotalUnownedCitResProductionOnMap(){ return m_fTotalUnownedCitResProductionOnMap; }

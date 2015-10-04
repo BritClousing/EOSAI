@@ -71,6 +71,11 @@ Initial Work:
 - Look for EOSAI::AIPlayer in EOS. There are a few places where I stubbed out the AI and put an ASSERT(false) in there because I need to add
     functionality to the AI before it will work.
 
+- The AI needs to be able to trade with each other. Right now, I assume that all trade is between a human and an AI.
+  - In the WorldDescServer message handling (for MessageFromAI), I actually have asserts to make sure there is a human involved in the trade, which
+    is unnecessary.
+- The AI should be able to initiate trades with other players, too.
+
 - How do I get the technology tree and the unitset data over, without too much entanglement with EOS?
   - Or do I just not worry about that for now?  I could get things working and then try to increase the separation.
   - I will eventually want a generic system for:
@@ -150,7 +155,6 @@ Right now, I'm using both SetCurrentHP and InitialState->SetHP.  I might want to
 - The AI doesn't update the "ready to submit turn" image on the player's screen (it works on the first turn, but not after that).
 
 Later Work:
-- Add to GIT source control.  I think I'll move away from Mercurial and open-source.
 - Try to make things more generic (resources, unit/tech costs, what can trigger a building/unit to be buildable, etc)
 - Can I switch it over from CEOSAIClass to EOSAI::CClass?  I already did this with EOSAIActionScheduler and EOSAIBuildManager
 - Add a negotiation engine - this would allow the AI to make decisions about buying and selling stuff, affect relations, add personality.
@@ -166,6 +170,26 @@ Later Work:
 - EOSAINationalSummary needs to include data for:
 	CEOSAIResourceEffectsSummary  m_AIResourceEffectsSummary; - the current state of resource-shortage effects (e.g. slowed units, etc)
     Maybe I can put these in the same place as I put: m_AICommonData.m_AINationalSummaries[iPlayer]->m_TotalResources.Set( "Money", m_pWorldDescServer->GetWorldDescPlayerProxy(iPlayer)->GetTotalMoney() );
+
+- RESOURCES
+  - I should setup a system where the AI can track the future predicted resources' consumption and production.
+    Right now, I track the resource consumption+production for the upcoming turn, but there's a smarter/better way to do it.
+	If tank production is consuming 10 iron/turn, it doesn't mean that my empire will be consuming 10 Iron/turn indefinitely.
+	Also, resource sources might get exhausted (like they do in Starcraft). In that case, the AI should think-ahead and make sure there are
+	enough resources for the future.
+	I could create a graph of future resource levels, where it's predicted where the resouce levels will be at 5,6,7+ turns in the future.
+	  This graph needs to take into account, though, that new production needs to be started too 
+	  (e.g. if I produce another tank after this one, it will also consume iron)
+	  There may be cases, though, where there's an occasional large cost that happens once every 20 turns. If the AI doesn't know that this is
+	    a very short-term cost, it tries to use a budget where it assumes the cost is recurring every turn, which can really screw up planning for the future.
+  - At some point, I should probably make a differentiation between ConsumableResources and BinaryResources. ConsumableResources (EOS, Starcraft) get used up.
+     BinaryResources (saltpeter in Civilization) don't get used up, but you need to keep control of one copy of them.
+	 There's another variation used by EndlessSpace and StarDrive - resouces that are binary, but get more powerful the more ResourceSources you own.
+
+  - I should hide more of the AI's methods. For example, I call this method from inside EOSAIInterface_EOS.cpp (which is inside EOS):
+      m_AICommonData.m_AINationalSummaries[iPlayer]->m_ResourceSummary.m_TotalResources.Set(...)
+	  I should have a better interface for that. Developers shouldn't need to reach down into the data structures to set that.
+	  The Developer shouldn't even be able to see that in there first place.
 
 - The Autosave-AITest file:
   - I wonder why the AI is building artillery.

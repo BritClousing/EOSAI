@@ -1,12 +1,18 @@
 
 EOSAI
 Genie
-FrostGiant
+FrostGiant / IceGiant
 Gorilla
 Hydra
+Titan - various references to Titan AI in Age of Mythology and Titanfall
+HiveMind - a AI mod for Half-Life exists with this name
+OverMind - There's an Overmind AI that won the Starcraft competition 2010 (It's worth reading what they did to create the Berkley Overmind)
 
 I could use a variety of "release" names (like how Android names their versions): 
-  Stark, Loki, Octavius (DoctorOctopus), Sherlock, Xavier, Gandolf, DoctorWho, DocBrown, Banner (Hulk), Wayne (Batman), LexLuthor
-  Musk, Tesla, Edison
-  MindFlayer, Githyanki, Cthulu
+  Smart Fictional Characters: Stark, Loki, Octavius (DoctorOctopus), Sherlock, Xavier, Gandolf, DoctorWho, DocBrown, Banner (Hulk), Wayne (Batman), LexLuthor, 
+    Megamind, Syndrome (Incredibles), Doctor Strange,
+  Smart Robots: Ultron, T-1000, CP3O, R2D2
+  Conquerors: Ghenghis Khan (Ghengis or Khan), Ulysses
+  Smart People: Musk, Tesla, Edison
+  Smart/Powerful Monsters: MindFlayer, Githyanki, Cthulu, Naga, Hydra (interesting if this was a multithreaded release), Cerebus, Yeti, Sashquatch, Lich
 

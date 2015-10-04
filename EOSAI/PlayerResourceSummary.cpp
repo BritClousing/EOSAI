@@ -11,6 +11,8 @@ PlayerResourceSummary::PlayerResourceSummary()
 
 void PlayerResourceSummary::Clear()
 {
+	m_TotalResources.Clear();
+
 	m_ResourceProduction.Clear();
 	m_ResourceConsumption.Clear();
 	m_ResourceTrade.Clear();
@@ -18,7 +20,7 @@ void PlayerResourceSummary::Clear()
 
 	m_ResourceConsumptionRate.Clear();
 	m_ResourceExcessAmount.Clear();
-	m_ResourceAvailabilityDisplay.Clear();
+	//m_ResourceAvailabilityDisplay.Clear();
 	//
 	/*
 	m_fCityPopulationGrowth = 1.0f;
@@ -32,3 +34,12 @@ void PlayerResourceSummary::Clear()
 	m_fOilBasedGroundSeaUnitMovementRateMultiplier = 1.0f;
 	*/
 }
+/*
+long PlayerResourceSummary::GetAvailabilityNumber(CString strResource)
+{
+	long iDisplay = m_ResourceAvailabilityDisplay.GetValue(strResource);
+	if (iDisplay < 1) { iDisplay = 1; }
+	if (iDisplay > 5) { iDisplay = 5; }
+	return iDisplay;
+}
+*/

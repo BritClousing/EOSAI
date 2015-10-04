@@ -10,7 +10,8 @@
 #include "EOSAICitResSummary.h"
 #include "EOSAIUnit2Summary.h"
 #include "EOSAIBCDumbArray1D.h"
-#include "EOSAIResourceEffectsSummary.h"
+#include "PlayerResourceSummary.h"
+//#include "EOSAIResourceEffectsSummary.h"
 
 class DLLIMPEXP CEOSAINationalSummary3
 {
@@ -47,8 +48,9 @@ class DLLIMPEXP CEOSAINationalSummary3
 		long  m_iPlayer;
 
 		// Resources
-		void  AICalculateResourceConsumptionAndDeltas( bool bIncludeCityNoOrdersProduceWealth );
-		CEOSAIResourceEffectsSummary*  GetAIResourceEffectsSummary(){ return &m_AIResourceEffectsSummary; }
+		void  CalculateResourceDeltas(); // void  AICalculateResourceConsumptionAndDeltas( bool bIncludeCityNoOrdersProduceWealth );
+		//CEOSAIResourceEffectsSummary*  GetAIResourceEffectsSummary() { return &m_AIResourceEffectsSummary; }
+		EOSAI::PlayerResourceSummary*  GetResourceSummary() { return &m_ResourceSummary; }
 		/*
 		float GetTotalMoney(){ ASSERT( false ); return 0.0f; }
 		float GetTotalFood(){ ASSERT( false ); return 0.0f; }
@@ -58,10 +60,16 @@ class DLLIMPEXP CEOSAINationalSummary3
 		#ifdef THINGS_TO_COMPILE_EVENTUALLY
 		I don't think I'm ever setting the resource totals. I need to do this, otherwise they will always be "0".
 		#endif THINGS_TO_COMPILE_EVENTUALLY
+		/*
 		float GetTotalMoney(){ return m_TotalResources.Get( _T("Money") ); }
 		float GetTotalFood(){ return m_TotalResources.Get( _T("Food") ); }
 		float GetTotalIron(){ return m_TotalResources.Get( _T("Iron") ); }
 		float GetTotalOil(){ return m_TotalResources.Get( _T("Oil") ); }
+		*/
+		float GetTotalMoney() { return m_ResourceSummary.m_TotalResources.Get(_T("Money")); }
+		float GetTotalFood() { return m_ResourceSummary.m_TotalResources.Get(_T("Food")); }
+		float GetTotalIron() { return m_ResourceSummary.m_TotalResources.Get(_T("Iron")); }
+		float GetTotalOil() { return m_ResourceSummary.m_TotalResources.Get(_T("Oil")); }
 
 		// Technology
 		bool  AllTechnologiesHaveBeenDiscovered();//{ ASSERT( false ); return false; }
@@ -77,10 +85,12 @@ class DLLIMPEXP CEOSAINationalSummary3
 		CEOSAIUnit2Summary   m_UnitSummary;
 		float m_fMaintenanceCosts;
 
-		EOSAI::StringAndFloatSet m_TotalResources;
+		//CEOSAIResourceState m_ResourceState; // Total resources, resource deltas (with and without orders)
+		//EOSAI::StringAndFloatSet m_TotalResources;
 
-		//EOSAI::PlayerResourceSummary  m_AIResourceEffectsSummary;
-		CEOSAIResourceEffectsSummary  m_AIResourceEffectsSummary; // TODO: Do I need this? Can I switch to EOSAI::PlayerResourceSummary? Get rid of TotalResources?
+		//CResourceEffectsSummary  m_AIResourceEffectsSummary;
+		EOSAI::PlayerResourceSummary  m_ResourceSummary;
+		//CEOSAIResourceEffectsSummary  m_AIResourceEffectsSummary; // TODO: Do I need this? Can I switch to EOSAI::PlayerResourceSummary? Get rid of TotalResources?
 
 		// Unowned CitRes Accessibility 
 		CEOSAIBCDumbArray1D< float >  m_PlayerAccessibility;

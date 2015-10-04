@@ -429,6 +429,10 @@ void  CCommonData2::AddAdjacentLandGeos( CEOSAIIntSet& Geos )
 	}
 }
 
+void CCommonData2::SetPlayerResources(int iPlayer, CString strResource, float fResourceAmount)
+{
+	m_AINationalSummaries[iPlayer]->m_ResourceSummary.m_TotalResources.Set(strResource, fResourceAmount);
+}
 
 long CCommonData2::GetNumberOfPoiOwnedByPlayer( long iPlayer )
 {
@@ -776,9 +780,6 @@ void  CCommonData2::CalculateNationwidePathways()
 
 void CCommonData2::CalculateNationalSummaries()
 {
-	//CWorldDescServer* pWorldDescServer = GetCommonState()->GetWorldDescServer();
-	//CWorldBuildDesc*  pWorldBuildDesc = pWorldDescServer->GetWorldBuildDesc();
-
 	// Totals
 	m_fTotalCityProductionOnMap = 0.0f;
 	m_fTotalCitResProductionOnMap = 0.0f;
@@ -846,6 +847,7 @@ void CCommonData2::CalculateNationalSummaries()
 		}
 		m_AINationalSummaries[iPlayer]->CalculatePlayerPower();
 		m_AINationalSummaries[iPlayer]->CalculatePlayerToPlayerAccessibility();
+		m_AINationalSummaries[iPlayer]->CalculateResourceDeltas();
 	}
 }
 

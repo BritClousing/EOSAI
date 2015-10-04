@@ -256,15 +256,30 @@ CWorldDescPlayerProxy* CEOSAIBrain::GetWorldDescPlayerProxy()
 	return m_pAIPlayer->GetWorldDescPlayerProxy();
 }
 */
+/*
+void  CEOSAIBrain::CalculateResourceDeltasAndResourceEffectsSummary()
+{
+	long iLocalPlayer = m_iLocalPlayerNumber;
 
+	EOSAI::StringAndFloatSet ResourceTotals;
+	ResourceTotals.Add(_T("Money"), m_fTotalMoney);
+	ResourceTotals.Add(_T("Iron"), m_fTotalIron);
+	ResourceTotals.Add(_T("Food"), m_fTotalFood);
+	ResourceTotals.Add(_T("Oil"), m_fTotalOil);
 
+	CEOSAINationalSummary3* pNationalSummary = g_pEOSAICommonData->GetAINationalSummary3(iLocalPlayer);// ->m_AIResourceEffectsSummary
+	pNationalSummary->m_ResourceSummary.Calculate(m_pWorldDescServer, iLocalPlayer, &ResourceTotals);
+	//m_ResourceEffectsSummary.Calculate(m_pWorldDescServer, iLocalPlayer, &ResourceTotals);
+}
+*/
+/*
 //void  CEOSAIBrain::CalculateResourceConsumptionAndDeltas(bool bIncludeCityNoOrdersProduceWealth)
 void  CEOSAIBrain::CalculateResourceConsumptionAndDeltas(bool bIncludeCityNoOrdersProduceWealth)
 {
 	ASSERT(false);
-	/*
+	
 	CalculateResourceDeltasAndResourceEffectsSummary();
-
+	/-*
 	ASSERT(bIncludeCityNoOrdersProduceWealth == false);
 
 	float fOilProduction = m_pWorldDescServer->AmountOfOilProducedOverTimeperiod(m_iLocalPlayerNumber, 1.0f);
@@ -325,9 +340,9 @@ void  CEOSAIBrain::CalculateResourceConsumptionAndDeltas(bool bIncludeCityNoOrde
 	float fFoodTrade = ResourceTradeDelta.Get(_T("Food"));
 	float fIronTrade = ResourceTradeDelta.Get(_T("Iron"));
 	float fMoneyTrade = ResourceTradeDelta.Get(_T("Money"));
-	*/
+	*-/
 }
-
+*/
 void CEOSAIBrain::CreateAIProductionOptions()
 {
 	// Several variables are used to determine this -
@@ -3508,7 +3523,7 @@ void CEOSAIBrain::BuyNeededResourcesFromOpenMarket()
 		// What's my current resource delta, storage?
 		ASSERT(	this->AllMyCitiesHaveOrders() );
 		//GetWorldDescPlayerProxy()->AICalculateResourceConsumptionAndDeltas( false );
-		CalculateResourceConsumptionAndDeltas( false );
+		//CalculateResourceConsumptionAndDeltas( false ); -> This should already have been calculated
 
 		/*
 		CAIResourceStateAll  BuySellPlan;
@@ -3524,16 +3539,16 @@ void CEOSAIBrain::BuyNeededResourcesFromOpenMarket()
 		BuySellPlan.m_Iron.m_fCurrent  = m_AIResourceSummary.m_TotalResource.Get(_T("Iron")); //this->GetTotalIron();
 		BuySellPlan.m_Oil.m_fCurrent   = m_AIResourceSummary.m_TotalResource.Get(_T("Oil")); //this->GetTotalOil();
 		*/
-		BuySellPlan.m_Money.m_fCurrent = g_pEOSAICommonData->GetAINationalSummary3(iAIPlayer)->m_TotalResources.Get(_T("Money")); //this->GetTotalMoney();
-		BuySellPlan.m_Food.m_fCurrent  = g_pEOSAICommonData->GetAINationalSummary3(iAIPlayer)->m_TotalResources.Get(_T("Food")); //this->GetTotalFood();
-		BuySellPlan.m_Iron.m_fCurrent  = g_pEOSAICommonData->GetAINationalSummary3(iAIPlayer)->m_TotalResources.Get(_T("Iron")); //this->GetTotalIron();
-		BuySellPlan.m_Oil.m_fCurrent   = g_pEOSAICommonData->GetAINationalSummary3(iAIPlayer)->m_TotalResources.Get(_T("Oil")); //this->GetTotalOil();
+		BuySellPlan.m_Money.m_fCurrent = g_pEOSAICommonData->GetAINationalSummary3(iAIPlayer)->m_ResourceSummary.m_TotalResources.Get(_T("Money")); //this->GetTotalMoney();
+		BuySellPlan.m_Food.m_fCurrent  = g_pEOSAICommonData->GetAINationalSummary3(iAIPlayer)->m_ResourceSummary.m_TotalResources.Get(_T("Food")); //this->GetTotalFood();
+		BuySellPlan.m_Iron.m_fCurrent  = g_pEOSAICommonData->GetAINationalSummary3(iAIPlayer)->m_ResourceSummary.m_TotalResources.Get(_T("Iron")); //this->GetTotalIron();
+		BuySellPlan.m_Oil.m_fCurrent   = g_pEOSAICommonData->GetAINationalSummary3(iAIPlayer)->m_ResourceSummary.m_TotalResources.Get(_T("Oil")); //this->GetTotalOil();
 
 		//BuySellPlan.m_Money.m_fDelta = GetWorldDescPlayerProxy()->GetDeltaMoney();
-		BuySellPlan.m_Money.m_fDelta = g_pEOSAICommonData->GetAINationalSummary3(iAIPlayer)->m_AIResourceEffectsSummary.m_ResourceDelta.Get(_T("Money"));
-		BuySellPlan.m_Food.m_fDelta = g_pEOSAICommonData->GetAINationalSummary3(iAIPlayer)->m_AIResourceEffectsSummary.m_ResourceDelta.Get(_T("Food"));//m_AIResourceEffectsSummary.m_ResourceDelta.Get( _T("Food") );//GetDeltaFood();
-		BuySellPlan.m_Iron.m_fDelta = g_pEOSAICommonData->GetAINationalSummary3(iAIPlayer)->m_AIResourceEffectsSummary.m_ResourceDelta.Get(_T("Iron"));//m_AIResourceEffectsSummary.m_ResourceDelta.Get( _T("Iron") );//GetDeltaIron();
-		BuySellPlan.m_Oil.m_fDelta = g_pEOSAICommonData->GetAINationalSummary3(iAIPlayer)->m_AIResourceEffectsSummary.m_ResourceDelta.Get(_T("Oil"));//m_AIResourceEffectsSummary.m_ResourceDelta.Get( _T("Oil") );//GetDeltaOil();
+		BuySellPlan.m_Money.m_fDelta = g_pEOSAICommonData->GetAINationalSummary3(iAIPlayer)->m_ResourceSummary.m_ResourceDelta.Get(_T("Money"));
+		BuySellPlan.m_Food.m_fDelta = g_pEOSAICommonData->GetAINationalSummary3(iAIPlayer)->m_ResourceSummary.m_ResourceDelta.Get(_T("Food"));//m_AIResourceEffectsSummary.m_ResourceDelta.Get( _T("Food") );//GetDeltaFood();
+		BuySellPlan.m_Iron.m_fDelta = g_pEOSAICommonData->GetAINationalSummary3(iAIPlayer)->m_ResourceSummary.m_ResourceDelta.Get(_T("Iron"));//m_AIResourceEffectsSummary.m_ResourceDelta.Get( _T("Iron") );//GetDeltaIron();
+		BuySellPlan.m_Oil.m_fDelta = g_pEOSAICommonData->GetAINationalSummary3(iAIPlayer)->m_ResourceSummary.m_ResourceDelta.Get(_T("Oil"));//m_AIResourceEffectsSummary.m_ResourceDelta.Get( _T("Oil") );//GetDeltaOil();
 
 		// Run the cheats first
 		{

@@ -22,8 +22,8 @@ void CEOSAINationalSummary3::Clear()
 	//
 	m_fMaintenanceCosts = 0.0f;
 	//
-	m_TotalResources.Clear();;
-	m_AIResourceEffectsSummary.Clear();
+	//m_TotalResources.Clear();;
+	m_ResourceSummary.Clear();
 	//m_PlayerAccessibility.c;
 
 	//
@@ -192,12 +192,33 @@ void CEOSAINationalSummary3::CalculatePlayerToPlayerAccessibility()
 }
 
 // Resources
-void CEOSAINationalSummary3::AICalculateResourceConsumptionAndDeltas( bool bIncludeCityNoOrdersProduceWealth )
+//void CEOSAINationalSummary3::AICalculateResourceConsumptionAndDeltas(bool bIncludeCityNoOrdersProduceWealth)
+void CEOSAINationalSummary3::CalculateResourceDeltas()
 {
-	#ifdef THINGS_TO_COMPILE_EVENTUALLY
-	put some code in here. The values calculated here are used in a calculation to figure out if the AI is going into a resource shortage.
-	#endif
+	// Include city-production of wealth as a separate line so that we can ask for either one (depending on the sitaution)
+
+	// Resources
+	std::map<CString, float> m_ResourcesProducedAssumingNoOrders;
+	std::map<CString, float> m_ResourcesProducedByCurrentOrders;
+	std::map<CString, float> m_ResourcesConsumedAssumingNoOrders;
+	std::map<CString, float> m_ResourcesConsumedByCurrentOrders;
+
+	CList< CEOSAIPoiObject* >* pAIPoiObjects = g_pEOSAICommonData->GetAIPoiObjects();
+	POSITION pos = pAIPoiObjects->GetHeadPosition();
+	while (pos)
+	{
+		CEOSAIPoiObject* pPoiObject = pAIPoiObjects->GetNext(pos);
+		if (pPoiObject->GetOwner() == m_iPlayer )
+		{
+			pPoiObject->GetResourcesProducedPerTurn(m_ResourcesProducedAssumingNoOrders, m_ResourcesProducedByCurrentOrders);
+			pPoiObject->GetResourcesConsumedPerTurn(m_ResourcesConsumedAssumingNoOrders, m_ResourcesConsumedByCurrentOrders);
+		}
+	}
+	//#ifdef THINGS_TO_COMPILE_EVENTUALLY
+	//put some code in here. The values calculated here are used in a calculation to figure out if the AI is going into a resource shortage.
+	//#endif
 }
+
 
 bool CEOSAINationalSummary3::AllTechnologiesHaveBeenDiscovered()
 {

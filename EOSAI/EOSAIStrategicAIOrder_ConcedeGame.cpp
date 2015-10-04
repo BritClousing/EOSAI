@@ -59,7 +59,7 @@ void CEOSAIStrategicAIOrder_ConcedeGame::Execute( long iCurrentTurn )
 	pConcedeGame->m_iFromAIPlayer = iAIPlayer;
 	pConcedeGame->m_iToPlayer = m_iSurrenderToPlayer;
 	pConcedeGame->m_AIMessageUID = iAIMessageUID;
-	g_pEOSAIInterface->AddNewMessageFromAI(pConcedeGame);
+	g_pEOSAIInterface->SendMessageFromAI(pConcedeGame);
 
 #ifdef GAME_CODE
 	CGameEvent_IMail* pIMail = new CGameEvent_IMail();

@@ -30,7 +30,7 @@ void CEOSAIStrategicAIOrder_DeclareWar::Execute( long iCurrentTurn )
 	EOSAI::MessageFromAI_DeclareWar* pDeclareWar = new EOSAI::MessageFromAI_DeclareWar();
 	pDeclareWar->m_iAttackingPlayer = iAIPlayer;
 	pDeclareWar->m_iTargetPlayer = m_iTargetPlayer;
-	g_pEOSAIInterface->AddNewMessageFromAI( pDeclareWar );
+	g_pEOSAIInterface->SendMessageFromAI( pDeclareWar );
 
 	//ASSERT( false );
 	/*

@@ -99,27 +99,35 @@ class DLLIMPEXP CEOSAIPoiObject //: public CAIObject
 		EOSAI::PoiObjectState*  GetFinalState(){ return &m_InitialState; } // THINGS_TO_COMPILE_EVENTUALLY (this should be the final state). I'm doing a hack right now
 		//EOSAI::PoiObjectState*  GetFinalState(){ return m_AIObjectActionProgression.GetFinalState(); }
 
-		virtual bool CanContain_IgnoreForeignRelations( CEOSAIPoiObject* pAIPoiObject ){ ASSERT( false ); return false; }
-		virtual bool CanContain_IgnoreForeignRelations( CEOSAIUnitTemplate* pAIUnitTemplate ){ ASSERT( false ); return false; }
+		// Containment
+		//
+			virtual bool CanContain_IgnoreForeignRelations( CEOSAIPoiObject* pAIPoiObject ){ ASSERT( false ); return false; }
+			virtual bool CanContain_IgnoreForeignRelations( CEOSAIUnitTemplate* pAIUnitTemplate ){ ASSERT( false ); return false; }
 
-		//EOSAIEnumForeignRelations  GetForeignRelationsTo( long iOtherPlayer ){ ASSERT( false ); return EOSAIEnumForeignRelations::enum_Undefined; }
-		EOSAIEnumForeignRelations  GetForeignRelationsTo( long iOtherPlayer );//{ ASSERT( false ); return EOSAIEnumForeignRelations::enum_Undefined; }
+			//EOSAIEnumForeignRelations  GetForeignRelationsTo( long iOtherPlayer ){ ASSERT( false ); return EOSAIEnumForeignRelations::enum_Undefined; }
+			EOSAIEnumForeignRelations  GetForeignRelationsTo( long iOtherPlayer );//{ ASSERT( false ); return EOSAIEnumForeignRelations::enum_Undefined; }
 
-		void SetInitialContainer( CEOSAIPoiObject* pNewContainer );
-		void sSetInitialContainee( EOSAI::PoiMobile* pNewContainee );
+			void SetInitialContainer( CEOSAIPoiObject* pNewContainer );
+			void sSetInitialContainee( EOSAI::PoiMobile* pNewContainee );
 
-		void IsLandingPadForAirUnits( bool b ){ m_bIsLandingPadForAirUnits = b; }
-		bool IsLandingPadForAirUnits(){ return m_bIsLandingPadForAirUnits; }
-		void IsLaunchingPadForAirUnits( bool b ){ m_bIsLaunchingPadForAirUnits = b; }
-		bool IsLaunchingPadForAirUnits(){ return m_bIsLaunchingPadForAirUnits; }
+			void IsLandingPadForAirUnits( bool b ){ m_bIsLandingPadForAirUnits = b; }
+			bool IsLandingPadForAirUnits(){ return m_bIsLandingPadForAirUnits; }
+			void IsLaunchingPadForAirUnits( bool b ){ m_bIsLaunchingPadForAirUnits = b; }
+			bool IsLaunchingPadForAirUnits(){ return m_bIsLaunchingPadForAirUnits; }
+
+		// Resources
+		//
+			virtual void GetResourcesProducedPerTurn(std::map<CString, float>& ResourcesProducedAssumingNoOrders, std::map<CString, float>& ResourcesProducedByCurrentOrders){}
+			virtual void GetResourcesConsumedPerTurn(std::map<CString, float>& ResourcesConsumedAssumingNoOrders, std::map<CString, float>& ResourcesConsumedByCurrentOrders){}
 
 		// Repair
-		void  SetGroundUnitRepairRate( float f ){ m_fGroundUnitRepairRate = f; }
-		float GetGroundUnitRepairRate(){ return m_fGroundUnitRepairRate; }
-		void  SetAirUnitRepairRate( float f ){ m_fAirUnitRepairRate = f; }
-		float GetAirUnitRepairRate(){ return m_fAirUnitRepairRate; }
-		void  SetSeaUnitRepairRate( float f ){ m_fSeaUnitRepairRate = f; }
-		float GetSeaUnitRepairRate(){ return m_fSeaUnitRepairRate; }
+		//
+			void  SetGroundUnitRepairRate( float f ){ m_fGroundUnitRepairRate = f; }
+			float GetGroundUnitRepairRate(){ return m_fGroundUnitRepairRate; }
+			void  SetAirUnitRepairRate( float f ){ m_fAirUnitRepairRate = f; }
+			float GetAirUnitRepairRate(){ return m_fAirUnitRepairRate; }
+			void  SetSeaUnitRepairRate( float f ){ m_fSeaUnitRepairRate = f; }
+			float GetSeaUnitRepairRate(){ return m_fSeaUnitRepairRate; }
 
 		//bool IsInsideATransport();
 		//bool IAmContainedInside( CEOSAIPoiObject* pAIPoiObject );

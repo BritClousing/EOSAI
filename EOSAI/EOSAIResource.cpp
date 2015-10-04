@@ -62,6 +62,12 @@ float  CEOSAIResource::GetAIValueOfResource( long iAccordingToPlayer )
 	return m_fResourceProduction * fMult;
 }
 
+void CEOSAIResource::GetResourcesProducedPerTurn(std::map<CString, float>& ResourcesProducedAssumingNoOrders, std::map<CString, float>& ResourcesProducedByCurrentOrders)
+{
+	ResourcesProducedAssumingNoOrders[m_strResourceType] += m_fResourceProduction;
+}
+
+
 // Thinking
 //
 /*

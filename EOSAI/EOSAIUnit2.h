@@ -159,6 +159,11 @@ class DLLIMPEXP CEOSAIUnit2 : public EOSAI::PoiMobile
 
 		long   GetNumberOfAvailableUpgrades(); // Number of upgrades available which the unit hasn't taken advantage of
 
+		// Resources
+		//
+			virtual void GetResourcesProducedPerTurn(std::map<CString, float>& ResourcesProducedAssumingNoOrders, std::map<CString, float>& ResourcesProducedByCurrentOrders);
+			virtual void GetResourcesConsumedPerTurn(std::map<CString, float>& ResourcesConsumedAssumingNoOrders, std::map<CString, float>& ResourcesConsumedByCurrentOrders);
+
 		// Container
 		//
 			CEOSAIUnit2* GetCurrentAIUnitContainer();
