@@ -7,7 +7,7 @@
 #include "EOSAIResource.h"
 #include "EOSAIUnit2.h"
 //#include "CombatManager.h"
-#include "EOSAICommonData2.h"
+#include "EOSAICommonData.h"
 #include "EOSAIMultiRegionNationwidePathways.h"
 
 #ifdef _DEBUG

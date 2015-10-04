@@ -5,7 +5,7 @@
 #include "AIPlayer.h"
 #include "EOSAIPlayerManager.h"
 #include "EOSAITradeAgreement.h"
-#include "EOSAICommonData2.h"
+#include "EOSAICommonData.h"
 //#include "GameEvent_IMail.h"
 //#include "TradeAgreement.h"
 //#include "WorldDescServer.h"

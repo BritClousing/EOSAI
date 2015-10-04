@@ -11,7 +11,7 @@
 #include "EOSAIUnit2.h"
 #include "EOSAIUnitPathwayResult.h"
 //#include "WorldDescServer.h"
-#include "EOSAICommonData2.h"
+#include "EOSAICommonData.h"
 #include "EOSAIMath.h"
 #include <math.h>
 //#include "EOSAIMath.h"

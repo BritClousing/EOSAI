@@ -9,7 +9,7 @@
 //#include "PoiObject.h"
 //#include "Unit.h"
 #include "City.h"
-#include "EOSAICommonData2.h"
+#include "EOSAICommonData.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE

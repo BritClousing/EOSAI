@@ -1,10 +1,10 @@
 
 #include "stdafx.h"
-#include "EOSAIStrategicAIOrder_Resign.h"
+#include "EOSAIStrategicAIOrder_AIResigns.h"
 #include "MessageFromAI_ResignGame.h"
 #include "EOSAIInterface.h"
 
-void CEOSAIStrategicAIOrder_Resign::Execute(long iCurrentTurn)
+void CEOSAIStrategicAIOrder_AIResigns::Execute(long iCurrentTurn)
 {
 	m_iExecutionTurn = iCurrentTurn;
 	//m_eCurrentState = enumState_Pending;

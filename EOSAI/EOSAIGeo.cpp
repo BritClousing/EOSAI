@@ -12,7 +12,7 @@
 //#include "WorldDescServer.h"
 //#include "WorldDescPlayer.h"
 #include "AIPlayer.h"
-#include "EOSAICommonData2.h"
+#include "EOSAICommonData.h"
 #include "EOSAIMultiRegionNationwidePathways.h"
 
 #include "EOSAIInterface.h"

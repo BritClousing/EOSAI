@@ -11,7 +11,7 @@
 #include "EOSAIUnit2.h"
 #include "EOSAIAirfield.h"
 #include "AIPlayer.h"
-#include "EOSAICommonData2.h"
+#include "EOSAICommonData.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE

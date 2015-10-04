@@ -1,6 +1,6 @@
 
 #include "stdafx.h"
-#include "EOSAICommonData2.h"
+#include "EOSAICommonData.h"
 #include "EOSAIGenericRegion.h"
 //#include "PoiObject.h"
 #include "EOSAIUnit2.h"

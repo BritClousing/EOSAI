@@ -48,11 +48,11 @@ class CEOSAIPlayerInteraction;
 
 namespace EOSAI
 {
-class DLLIMPEXP CCommonData2
+class DLLIMPEXP CCommonData
 {
 	public:
-		CCommonData2();
-		~CCommonData2();
+		CCommonData();
+		~CCommonData();
 
 		// This sets the globals
 		void  SetEOSAIInterface( EOSAI::CInterface* pEOSAIInterface );
@@ -296,4 +296,4 @@ class DLLIMPEXP CCommonData2
 		long  m_iUnitCombatCapabilities_LastTurnCalculated;
 };
 };
-extern EOSAI::CCommonData2* g_pEOSAICommonData;
+extern EOSAI::CCommonData* g_pEOSAICommonData;

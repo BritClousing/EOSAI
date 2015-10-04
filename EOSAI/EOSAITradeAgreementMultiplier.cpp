@@ -2,7 +2,7 @@
 #include <stdafx.h>
 #include "EOSAITradeAgreementMultiplier.h"
 #include "EOSAICitResValueMultiplier.h"
-#include "EOSAICommonData2.h"
+#include "EOSAICommonData.h"
 #include "EOSAISerial.h"
 
 CEOSAITradeAgreementMultiplier::CEOSAITradeAgreementMultiplier()

@@ -33,7 +33,7 @@
 #include "EOSAITransportAssistedPath.h"
 //#include "WorldDescPlayer.h"
 //#include "WorldDescServer.h"
-#include "EOSAICommonData2.h"
+#include "EOSAICommonData.h"
 //#include "Checkpoint.h"
 #ifdef _DEBUG
 #include "EOSAIInterface.h"

@@ -2,7 +2,7 @@
 #include <stdafx.h>
 #include "EOSAIStrategicAIOrder.h"
 #include "EOSAIStrategicAI.h"
-#include "EOSAICommonData2.h"
+#include "EOSAICommonData.h"
 #include "EOSAIMailResponse.h"
 //#include "CommonState.h"
 //#include "WorldDescPlayer.h"

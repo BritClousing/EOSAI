@@ -1,0 +1,6 @@
+
+- Read up: https://www.google.com/webhp?ion=1&espv=2&ie=UTF-8#q=strategy+game+AI
+
+- Read about the Overmind AI which was produced at Berkley as a Starcraft AI
+
+

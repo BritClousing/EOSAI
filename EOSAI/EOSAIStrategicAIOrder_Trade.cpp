@@ -7,7 +7,7 @@
 #include "EOSAIPlayerManager.h"
 #include "EOSAITradeAgreement.h"
 #include "EOSAITradeAgreementResponse.h"
-#include "EOSAICommonData2.h"
+#include "EOSAICommonData.h"
 #include "MessageFromAI_TradeOffer.h"
 //#include "GameEvent_IMail.h"
 //#include "TradeAgreement.h"

@@ -2,7 +2,7 @@
 #include "EOSAIUnitVsUnitValue.h"
 #include "EOSAIUnitTemplate.h"
 #include "EOSAIQuickCombatCalculation.h"
-#include "EOSAICommonData2.h"
+#include "EOSAICommonData.h"
 #include "AIPlayer.h"
 #include "EOSAIPlayerManager.h"
 

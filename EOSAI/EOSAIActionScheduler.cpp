@@ -25,7 +25,7 @@
 #include "EOSAIUnitVsUnitValue.h"
 #include "EOSAITacticalProject2Strategy.h"
 //#include "TWDx.h"
-#include "EOSAICommonData2.h"
+#include "EOSAICommonData.h"
 #include "EOSAIUnitTemplate.h"
 #include "EOSAIStringAndLongSet.h"
 //#include "..\..\BCToolkit\LogFile.h"

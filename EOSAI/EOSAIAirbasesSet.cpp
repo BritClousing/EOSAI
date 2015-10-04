@@ -5,7 +5,7 @@
 //#include "WorldBuildDesc.h"
 //#include "PoiObject.h"
 //#include "Unit.h"
-#include "EOSAICommonData2.h"
+#include "EOSAICommonData.h"
 #include "PoiObject.h"
 #include "EOSAIUnit2.h"
 

@@ -8,13 +8,13 @@ ConcedeGame happens when the AIPlayer decides to give up the game. He requests i
 the AI will send a ResignGame message.
 */
 
-class CEOSAIStrategicAIOrder_ConcedeGame : public CEOSAIStrategicAIOrder
+class CEOSAIStrategicAIOrder_AIOffersToResign : public CEOSAIStrategicAIOrder
 {
 	public:
 		static long  HowManyTurnsAgoDidILastSendThisMessage( CEOSAIStrategicAI* pStrategicAI );
 
 	public:
-		CEOSAIStrategicAIOrder_ConcedeGame( CEOSAIStrategicAI* pStrategicAI ) : CEOSAIStrategicAIOrder( pStrategicAI ){ m_iSurrenderToPlayer = 0; }
+		CEOSAIStrategicAIOrder_AIOffersToResign( CEOSAIStrategicAI* pStrategicAI ) : CEOSAIStrategicAIOrder( pStrategicAI ){ m_iSurrenderToPlayer = 0; }
 		void  SurrenderToPlayer( long iStrongPlayer ){ m_iSurrenderToPlayer = iStrongPlayer; }
 
 		virtual void  Execute( long iCurrentTurn ); // Send the offer

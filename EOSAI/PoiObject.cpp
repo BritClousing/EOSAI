@@ -27,7 +27,7 @@
 #include "EOSAIUnitTask_CaptureCitRes.h"
 #include "EOSAITransportAssistedPath.h"
 #include "EOSAIUnitPathwayFinder.h"
-#include "EOSAICommonData2.h"
+#include "EOSAICommonData.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE

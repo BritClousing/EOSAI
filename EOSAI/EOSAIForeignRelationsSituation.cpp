@@ -14,7 +14,7 @@
 //#include "AIUnresolvedSituation.h"
 //#include "TWDx.h"
 //#include "GameAppState.h"
-#include "EOSAICommonData2.h"
+#include "EOSAICommonData.h"
 #include "EOSAIInterface.h"
 
 extern EOSAI::CInterface* g_pEOSAIInterface;

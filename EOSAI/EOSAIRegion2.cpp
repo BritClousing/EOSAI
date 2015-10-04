@@ -10,8 +10,7 @@
 #include "EOSAIGamePlayer.h"
 #include "City.h"
 #include "EOSAIResource.h"
-#include "EOSAICommonData2.h"
-//#include "EOSAICommonData2.h"
+#include "EOSAICommonData.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE

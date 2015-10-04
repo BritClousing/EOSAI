@@ -2,7 +2,7 @@
 #include <stdafx.h>
 #include "EOSAINationalSummary3.h"
 //#include "WorldDescServer.h"
-#include "EOSAICommonData2.h"
+#include "EOSAICommonData.h"
 #include "City.h"
 #include "EOSAIResource.h"
 #include "EOSAIUnit2.h"

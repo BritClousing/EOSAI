@@ -1,7 +1,7 @@
 
 #include "stdafx.h"
 #include "EOSAISettings.h"
-#include "EOSAICommonData2.h"
+#include "EOSAICommonData.h"
 //#include "CommonState.h"
 //#include "WorldDescServer.h"
 #include "EOSAIMultiRegionNationwidePathways.h"
@@ -33,12 +33,12 @@ static char THIS_FILE[]=__FILE__;
 #define new DEBUG_NEW
 #endif
 
-EOSAI::CCommonData2* g_pEOSAICommonData = NULL;
+EOSAI::CCommonData* g_pEOSAICommonData = NULL;
 
 using namespace EOSAI;
 //
 
-CCommonData2::CCommonData2()
+CCommonData::CCommonData()
 {
 	m_bNeedToRebuildData = true;
 	m_bDataIsValid = false;
@@ -64,17 +64,17 @@ CCommonData2::CCommonData2()
 	//m_pWorldDistanceTool = NULL;
 }
 
-CCommonData2::~CCommonData2()
+CCommonData::~CCommonData()
 {
 	g_pEOSAICommonData = NULL;
 	DeleteData();
 }
 
 // This sets the globals
-void CCommonData2::SetEOSAIInterface( EOSAI::CInterface* pEOSAIInterface ){ g_pEOSAIInterface = pEOSAIInterface; }
-void CCommonData2::SetEOSAIWorldDistanceTool( EOSAI::CWorldDistanceTool* pWorldDistanceTool ){ g_pWorldDistanceTool = pWorldDistanceTool; }
+void CCommonData::SetEOSAIInterface( EOSAI::CInterface* pEOSAIInterface ){ g_pEOSAIInterface = pEOSAIInterface; }
+void CCommonData::SetEOSAIWorldDistanceTool( EOSAI::CWorldDistanceTool* pWorldDistanceTool ){ g_pWorldDistanceTool = pWorldDistanceTool; }
 
-void CCommonData2::DeleteData()
+void CCommonData::DeleteData()
 {
 	m_MultiRegionManager.ClearPoiData();
 	m_AIRegionManager.ClearPoiData();
@@ -99,7 +99,7 @@ void CCommonData2::DeleteData()
 	*/
 }
 
-void CCommonData2::DeleteAIPoiObjects()
+void CCommonData::DeleteAIPoiObjects()
 {
 	while( m_AIPoiObjects.IsEmpty() == FALSE )
 	{
@@ -108,18 +108,18 @@ void CCommonData2::DeleteAIPoiObjects()
 	}
 }
 
-void CCommonData2::SetNeedToRebuildData( bool bNeedToRebuildData )
+void CCommonData::SetNeedToRebuildData( bool bNeedToRebuildData )
 {
 	m_bNeedToRebuildData = bNeedToRebuildData;
 	m_bDataIsValid = !bNeedToRebuildData;
 }
 
-long CCommonData2::GetNumberOfPlayers()
+long CCommonData::GetNumberOfPlayers()
 {
 	return g_pEOSAIInterface->GetNumberOfPlayers();
 }
 
-void CCommonData2::RebuildDataIfNecessary()
+void CCommonData::RebuildDataIfNecessary()
 {
 	//
 	// The Common AI Data is being built inside the main application thread, so I no longer do this here.
@@ -134,7 +134,7 @@ void CCommonData2::RebuildDataIfNecessary()
 	*/
 }
 /*
-void CCommonData2::AddGamePlayer( long iPlayer, EOSAI::EnumGamePlayerType ePlayerType, bool bIsAlive )
+void CCommonData::AddGamePlayer( long iPlayer, EOSAI::EnumGamePlayerType ePlayerType, bool bIsAlive )
 {
 	ASSERT( iPlayer <= 10 );
 	ASSERT( m_Players[iPlayer] == NULL );
@@ -235,7 +235,7 @@ void CAICommonData::CreateData()
 */
 
 /*
-long CCommonData2::GetNumberOfHumanPlayers()
+long CCommonData::GetNumberOfHumanPlayers()
 {
 	long iPlayers = 0;
 	for( long iPlayer=1; iPlayer<m_Players.m_iSize; iPlayer++ )
@@ -246,7 +246,7 @@ long CCommonData2::GetNumberOfHumanPlayers()
 	return iPlayers;
 }
 
-long CCommonData2::GetNumberOfActivePlayers() // Players who are alive
+long CCommonData::GetNumberOfActivePlayers() // Players who are alive
 {
 //	ASSERT( false );
 //	return 0;
@@ -265,7 +265,7 @@ long CCommonData2::GetNumberOfActivePlayers() // Players who are alive
 }
 */
 /*
-long CCommonData2::GetNumberOfActiveAIPlayers()
+long CCommonData::GetNumberOfActiveAIPlayers()
 {
 	int iCount = 0;
 	/-*
@@ -291,12 +291,12 @@ long CCommonData2::GetNumberOfActiveAIPlayers()
 	return iCount;
 }
 */
-void  CCommonData2::SetWorldDistanceTool( EOSAI::CWorldDistanceTool* p )
+void  CCommonData::SetWorldDistanceTool( EOSAI::CWorldDistanceTool* p )
 {
 	g_pWorldDistanceTool = p;
 }
 
-bool CCommonData2::HasSetSneakAttack( long iAttacker, long iTarget )
+bool CCommonData::HasSetSneakAttack( long iAttacker, long iTarget )
 {
 	EOSAI::AIPlayer* pAIPlayer = g_pEOSAIInterface->GetAIPlayer( iAttacker );
 	if( pAIPlayer )
@@ -307,14 +307,14 @@ bool CCommonData2::HasSetSneakAttack( long iAttacker, long iTarget )
 	return false;
 }
 
-void CCommonData2::AddNewPlayerInteractionAndSendFeelingsUpdate(CEOSAIPlayerInteraction* pPlayerInteraction)
+void CCommonData::AddNewPlayerInteractionAndSendFeelingsUpdate(CEOSAIPlayerInteraction* pPlayerInteraction)
 {
 	ASSERT(pPlayerInteraction->m_iEventTurn > 0);
 	m_PlayerInteractions.AddTail(pPlayerInteraction);
 	CalculateForeignRelationsFeelingsBasedOnPlayerInteractionHistory();
 }
 
-long CCommonData2::GetPlayerInteraction_WarDuration( long iPlayer1, long iPlayer2 )
+long CCommonData::GetPlayerInteraction_WarDuration( long iPlayer1, long iPlayer2 )
 {
 	if( GetForeignRelations( iPlayer1, iPlayer2 ) != EOSAIEnumForeignRelations::enum_War ) return -1;
 
@@ -346,7 +346,7 @@ long CCommonData2::GetPlayerInteraction_WarDuration( long iPlayer1, long iPlayer
 	return g_pEOSAIInterface->GetCurrentTurn() - iStartTurn;
 }
 
-void CCommonData2::CalculateForeignRelationsFeelingsBasedOnPlayerInteractionHistory()
+void CCommonData::CalculateForeignRelationsFeelingsBasedOnPlayerInteractionHistory()
 {
 	// Clear Feelings and Stance
 	m_AIGlobalForeignRelations.ResetFeelings();
@@ -366,12 +366,12 @@ void CCommonData2::CalculateForeignRelationsFeelingsBasedOnPlayerInteractionHist
 }
 
 // Might need to fix this
-//CEOSAIGeo*  CCommonData2::GetGeo( long iGeo ){ return m_EOSAIGeos[iGeo]; }
-CEOSAIGeo*  CCommonData2::GetAIGeo( long iGeo ){ return m_AIGeoArray[iGeo]; }
-CEOSAIGeo*  CCommonData2::GetAIGeo( CEOSAILocation Location ){ return GetAIGeo( GetGeoId(Location) ); }
-long        CCommonData2::GetGeoId( CEOSAILocation Location ){ return g_pEOSAIInterface->GetGeoId( Location ); }
+//CEOSAIGeo*  CCommonData::GetGeo( long iGeo ){ return m_EOSAIGeos[iGeo]; }
+CEOSAIGeo*  CCommonData::GetAIGeo( long iGeo ){ return m_AIGeoArray[iGeo]; }
+CEOSAIGeo*  CCommonData::GetAIGeo( CEOSAILocation Location ){ return GetAIGeo( GetGeoId(Location) ); }
+long        CCommonData::GetGeoId( CEOSAILocation Location ){ return g_pEOSAIInterface->GetGeoId( Location ); }
 
-void  CCommonData2::AddAdjacentWaterGeos( CEOSAIIntSet& Geos )
+void  CCommonData::AddAdjacentWaterGeos( CEOSAIIntSet& Geos )
 {
 	//ASSERT( m_bAIPlayer == false );
 	CEOSAIIntSet OldGeos;
@@ -400,7 +400,7 @@ void  CCommonData2::AddAdjacentWaterGeos( CEOSAIIntSet& Geos )
 	}
 }
 
-void  CCommonData2::AddAdjacentLandGeos( CEOSAIIntSet& Geos )
+void  CCommonData::AddAdjacentLandGeos( CEOSAIIntSet& Geos )
 {
 	//ASSERT( m_bAIPlayer == false );
 	CEOSAIIntSet OldGeos;
@@ -429,12 +429,12 @@ void  CCommonData2::AddAdjacentLandGeos( CEOSAIIntSet& Geos )
 	}
 }
 
-void CCommonData2::SetPlayerResources(int iPlayer, CString strResource, float fResourceAmount)
+void CCommonData::SetPlayerResources(int iPlayer, CString strResource, float fResourceAmount)
 {
 	m_AINationalSummaries[iPlayer]->m_ResourceSummary.m_TotalResources.Set(strResource, fResourceAmount);
 }
 
-long CCommonData2::GetNumberOfPoiOwnedByPlayer( long iPlayer )
+long CCommonData::GetNumberOfPoiOwnedByPlayer( long iPlayer )
 {
 	//CWorldDescServer* pWorldDescServer = GetCommonState()->GetWorldDescServer();
 	long iCount = 0;
@@ -476,7 +476,7 @@ long CCommonData2::GetNumberOfPoiOwnedByPlayer( long iPlayer )
 	*/
 }
 
-long  CCommonData2::GetNumberOfCitiesOwnedByPlayer( long iPlayer )
+long  CCommonData::GetNumberOfCitiesOwnedByPlayer( long iPlayer )
 {
 	/*
 	ASSERT( false ); // Fix this function
@@ -505,7 +505,7 @@ long  CCommonData2::GetNumberOfCitiesOwnedByPlayer( long iPlayer )
 	return iCount;
 }
 
-long CCommonData2::GetNumberOfBuildingsOwnedByPlayer( long iPlayer, CEOSAIBuildingDescription* pBuildingDesc )
+long CCommonData::GetNumberOfBuildingsOwnedByPlayer( long iPlayer, CEOSAIBuildingDescription* pBuildingDesc )
 {
 	/*
 	POSITION pos = m_AIPoiObjects.GetHeadPosition();
@@ -546,7 +546,7 @@ long CCommonData2::GetNumberOfBuildingsOwnedByPlayer( long iPlayer, CEOSAIBuildi
 	return iCount;
 }
 
-long CCommonData2::GetNumberOfBuildingsInProductionByPlayer( long iPlayer, CEOSAIBuildingDescription* pBuildingDesc )
+long CCommonData::GetNumberOfBuildingsInProductionByPlayer( long iPlayer, CEOSAIBuildingDescription* pBuildingDesc )
 {
 	long iCount = 0;
 	POSITION pos = m_AIPoiObjects.GetHeadPosition();
@@ -582,7 +582,7 @@ long CCommonData2::GetNumberOfBuildingsInProductionByPlayer( long iPlayer, CEOSA
 	return iCount;
 }
 
-CEOSAIPoiObject* CCommonData2::GetAIPoiObject( long iObjectId )
+CEOSAIPoiObject* CCommonData::GetAIPoiObject( long iObjectId )
 {
 	//CAIObject* pAIObject = GetAIObject( iObjectId );
 	//return dynamic_cast< CEOSAIPoiObject* >( pAIObject );
@@ -598,7 +598,7 @@ CEOSAIPoiObject* CCommonData2::GetAIPoiObject( long iObjectId )
 	return NULL;
 }
 
-void CCommonData2::AddAIPoiObject( CEOSAIPoiObject* pAIPoiObject ) // Used by AIBrains
+void CCommonData::AddAIPoiObject( CEOSAIPoiObject* pAIPoiObject ) // Used by AIBrains
 {
 	// Look for this AIPoiObject in the list already
 #ifdef _DEBUG
@@ -614,19 +614,19 @@ void CCommonData2::AddAIPoiObject( CEOSAIPoiObject* pAIPoiObject ) // Used by AI
 	m_AIPoiObjects.AddTail( pAIPoiObject );
 }
 
-void CCommonData2::AddHypotheticalAIPoiObject( CEOSAIPoiObject* pAIPoiObject ) // Used by AIBrains
+void CCommonData::AddHypotheticalAIPoiObject( CEOSAIPoiObject* pAIPoiObject ) // Used by AIBrains
 {
 	ASSERT( pAIPoiObject && pAIPoiObject->IsHypotheticalPoiObject() );
 	m_AIPoiObjects.AddTail( pAIPoiObject );
 }
 
-CEOSAIUnit2* CCommonData2::GetAIUnit( long iObjectId )
+CEOSAIUnit2* CCommonData::GetAIUnit( long iObjectId )
 {
 	CEOSAIPoiObject* pAIObject = GetAIPoiObject( iObjectId );
 	return dynamic_cast< CEOSAIUnit2* >( pAIObject );
 }
 
-CEOSAIThoughtDatabase* CCommonData2::GetAIThoughtDatabase( long iPlayer )
+CEOSAIThoughtDatabase* CCommonData::GetAIThoughtDatabase( long iPlayer )
 {
 /*
 	//CEOSAIThoughtDatabase* pAIThoughtDatabase = g_pEOSAICommonData->GetAIThoughtDatabase( GetAIUnitPathwayFinder()->GetUnitOwner() );
@@ -641,7 +641,7 @@ CEOSAIThoughtDatabase* CCommonData2::GetAIThoughtDatabase( long iPlayer )
 	return pAIThoughtDatabase;
 }
 
-void  CCommonData2::AddObjectIdsToAIRegionsAndMultiRegions()
+void  CCommonData::AddObjectIdsToAIRegionsAndMultiRegions()
 {
 	//CWorldDescServer* pWorldDescServer = GetCommonState()->GetWorldDescServer();
 
@@ -725,7 +725,7 @@ void  CCommonData2::AddObjectIdsToAIRegionsAndMultiRegions()
 }
 
 
-void  CCommonData2::CalculateNationwidePathways()
+void  CCommonData::CalculateNationwidePathways()
 {
 	//CWorldDescServer* pWorldDescServer = GetCommonState()->GetWorldDescServer();
 	//CWorldBuildDesc*  pWorldBuildDesc = pWorldDescServer->GetWorldBuildDesc();
@@ -778,7 +778,7 @@ void  CCommonData2::CalculateNationwidePathways()
 }
 
 
-void CCommonData2::CalculateNationalSummaries()
+void CCommonData::CalculateNationalSummaries()
 {
 	// Totals
 	m_fTotalCityProductionOnMap = 0.0f;
@@ -852,7 +852,7 @@ void CCommonData2::CalculateNationalSummaries()
 }
 
 /*
-void CCommonData2::CalculateThoughtDatabases()
+void CCommonData::CalculateThoughtDatabases()
 {
 	// Delete the existing nationwide pathways
 	for( long i=0; i<m_AIThoughtDatabases.m_iSize; i++ )
@@ -867,7 +867,7 @@ void CCommonData2::CalculateThoughtDatabases()
 	ASSERT( false );	
 }
 */
-void CCommonData2::CalculateAIUnitCombatCapabilities( long iCurrentTurn )
+void CCommonData::CalculateAIUnitCombatCapabilities( long iCurrentTurn )
 {
 	ASSERT( m_iUnitCombatCapabilities_LastTurnCalculated != iCurrentTurn );
 	if( m_iUnitCombatCapabilities_LastTurnCalculated != iCurrentTurn )
@@ -964,7 +964,7 @@ void CCommonData2::CalculateAIUnitCombatCapabilities( long iCurrentTurn )
 	}
 }
 
-void CCommonData2::CalculateAIRegionOwnership()
+void CCommonData::CalculateAIRegionOwnership()
 {
 	// Clear-out the ownership
 	long iPlayerArraySize = 0;//pAIRegion->m_PlayerControlValue.m_iSize;
@@ -1125,7 +1125,7 @@ withdraw a little bit.  If they are stronger, they should get more gutsy about m
 territory.
 There should be a danger map as well - which helps inform the AI about whether or not to escort.
 */
-void  CCommonData2::CalculateMultiRegionOwnership()
+void  CCommonData::CalculateMultiRegionOwnership()
 {
 	//long iAIPlayer = GetAIBrain()->GetAIPlayerNumber();
 	long PlayerControl[ EOSAI_MAX_NUMBER_OF_PLAYERS+1 ];
@@ -1233,7 +1233,7 @@ void  CCommonData2::CalculateMultiRegionOwnership()
 }
 
 /*
-void CCommonData2::CalculateUnitCombatCapabilities()
+void CCommonData::CalculateUnitCombatCapabilities()
 {
 	CWorldDescServer* pWorldDescServer = GetCommonState()->GetWorldDescServer();
 	CWorldBuildDesc*  pWorldBuildDesc = pWorldDescServer->GetWorldBuildDesc();

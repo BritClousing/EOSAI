@@ -2,7 +2,7 @@
 #include "stdafx.h"
 #include "EOSAIMultiRegionPlan.h"
 #include "EOSAIMultiRegion2.h"
-#include "EOSAICommonData2.h"
+#include "EOSAICommonData.h"
 #include "EOSAIBrain.h"
 #include "EOSAIInterface.h"
 /*

@@ -4,7 +4,7 @@
 #include "EOSAIUnitTemplate.h"
 #include "EOSAIBuildingDescription.h"
 #include "EOSAIGamePlayer.h"
-#include "EOSAICommonData2.h"
+#include "EOSAICommonData.h"
 #include "EOSAITechnologyDesc.h"
 #include "EOSAITechTreeNode.h"
 #include "EOSAINationalSummary3.h"

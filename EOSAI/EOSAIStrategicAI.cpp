@@ -8,7 +8,7 @@
 #include "EOSAIStrategicAIOrder_OfferAlliance.h"
 //#include "AIAction_DeclareWar.h"
 //#include "EOSAIStrategicAIOrder_OfferSurrender.h"
-#include "EOSAIStrategicAIOrder_ConcedeGame.h"
+#include "EOSAIStrategicAIOrder_AIOffersToResign.h"
 #include "EOSAIStrategicAIOrder_Trade.h"
 #include "EOSAIStrategicAIOrder_SendReinforcePeaceMail.h"
 #include "EOSAIPlayerInteraction.h"
@@ -29,7 +29,7 @@
 
 //#include "Message2_DeclareWarMessage.h"
 
-#include "EOSAICommonData2.h"
+#include "EOSAICommonData.h"
 #include "City.h"
 //#include "BuildingDescription.h"
 
@@ -800,11 +800,11 @@ void CEOSAIStrategicAI::MakeWarDeclarationsAndPeace()
 			}
 		}
 
-		long iTurnsSinceLastMessage = CEOSAIStrategicAIOrder_ConcedeGame::HowManyTurnsAgoDidILastSendThisMessage( this );
+		long iTurnsSinceLastMessage = CEOSAIStrategicAIOrder_AIOffersToResign::HowManyTurnsAgoDidILastSendThisMessage( this );
 		if( iOtherPlayer != 0 &&
 			iTurnsSinceLastMessage > 10+(rand()%8) )
 		{
-			CEOSAIStrategicAIOrder_ConcedeGame* pConcedeGameMessage = new CEOSAIStrategicAIOrder_ConcedeGame( this );
+			CEOSAIStrategicAIOrder_AIOffersToResign* pConcedeGameMessage = new CEOSAIStrategicAIOrder_AIOffersToResign( this );
 			pConcedeGameMessage->SurrenderToPlayer( iOtherPlayer );
 			//pConcedeGameMessage->Execute( GetWorldDescServer()->GetCurrentTurn() );
 			pConcedeGameMessage->Execute( g_pEOSAIInterface->GetCurrentTurn() );

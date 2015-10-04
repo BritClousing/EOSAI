@@ -16,7 +16,7 @@
 #include "EOSAIUnitPathwayPredefinedStep.h"
 #include "EOSAIUnitPathwayResult.h"
 #include "EOSAIUnitPathwayResultStep.h"
-#include "EOSAICommonData2.h"
+#include "EOSAICommonData.h"
 #include "EOSAIInterface.h"
 #include "AIPlayer.h"
 

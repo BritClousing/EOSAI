@@ -8,7 +8,7 @@
 #include "EOSAIMultiRegion2.h"
 #include "EOSAIGeo.h"
 //#include "WorldDescServer.h"
-#include "EOSAICommonData2.h"
+#include "EOSAICommonData.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE

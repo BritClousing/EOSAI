@@ -12,7 +12,7 @@
 //#include "WorldDescPlayerProxy.h"
 #include "EOSAIUnitActionIdea.h"
 #include "EOSAITacticalProject2.h"
-#include "EOSAICommonData2.h"
+#include "EOSAICommonData.h"
 #include "EOSAIInterface.h"
 extern EOSAI::CInterface* g_pEOSAIInterface;
 //#include "Checkpoint.h"

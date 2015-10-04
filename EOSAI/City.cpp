@@ -25,7 +25,7 @@
 //#include "AICityBuildAction.h"
 #include "EOSAIDesireSpatial.h"
 #include "EOSAIUnitActionIdea.h"
-#include "EOSAICommonData2.h"
+#include "EOSAICommonData.h"
 //#include "WorldDescServer.h"
 #include "EOSAIMultiRegionNationwidePathways.h"
 #include "EOSAIMultiRegionAttackAccess.h"
@@ -33,7 +33,6 @@
 #include "EOSAIBuildCompletion.h"
 #include "EOSAIBuildOption.h"
 #include "EOSAIPlayerManager.h"
-#include "EOSAICommonData2.h"
 #include "EOSAIInterface.h"
 #include <math.h>
 extern EOSAI::CInterface* g_pEOSAIInterface;

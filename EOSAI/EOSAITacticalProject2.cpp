@@ -3,7 +3,7 @@
 #include "EOSAITacticalProject2.h"
 #include "EOSAIBrain.h"
 #include "EOSAIDesireSpatial.h"
-#include "EOSAICommonData2.h"
+#include "EOSAICommonData.h"
 //#include "WorldDescServer.h"
 #include "EOSAIMultiRegionAttackAccess.h"
 #include "EOSAIMultiRegionNationwidePathways.h"

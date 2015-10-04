@@ -6,7 +6,7 @@
 #include "EOSAIAirfield.h"
 #include "EOSAIBrain.h"
 #include "AIPlayer.h"
-#include "EOSAICommonData2.h"
+#include "EOSAICommonData.h"
 //#include "WorldDesc.h"
 //#include "WorldDescPlayer.h"
 //#include "WorldDescServer.h"

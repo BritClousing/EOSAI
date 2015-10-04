@@ -18,7 +18,7 @@
 #include "EOSAIBrain.h"
 #include "EOSAIThoughtDatabase.h"
 #include "EOSAIRoad2.h"
-#include "EOSAICommonData2.h"
+#include "EOSAICommonData.h"
 class CEOSAIMultiRegion2;
 class CEOSAIRegion2;
 

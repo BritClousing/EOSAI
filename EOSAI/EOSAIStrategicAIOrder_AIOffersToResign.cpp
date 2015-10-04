@@ -1,12 +1,12 @@
 
 #include <stdafx.h>
-#include "EOSAIStrategicAIOrder_ConcedeGame.h"
+#include "EOSAIStrategicAIOrder_AIOffersToResign.h"
 #include "MessageFromAI_ConcedeGame.h"
 //#include "Player.h"
 #include "AIPlayer.h"
 #include "EOSAIMailResponse.h"
 #include "EOSAIPlayerManager.h"
-#include "EOSAIStrategicAIOrder_Resign.h"
+#include "EOSAIStrategicAIOrder_AIResigns.h"
 #include "EOSAIInterface.h"
 //#include "GameEvent_IMail.h"
 //#include "TradeAgreement.h"
@@ -20,14 +20,14 @@ static char THIS_FILE[]=__FILE__;
 #define new DEBUG_NEW
 #endif
 
-long  CEOSAIStrategicAIOrder_ConcedeGame::HowManyTurnsAgoDidILastSendThisMessage( CEOSAIStrategicAI* pStrategicAI )
+long  CEOSAIStrategicAIOrder_AIOffersToResign::HowManyTurnsAgoDidILastSendThisMessage( CEOSAIStrategicAI* pStrategicAI )
 {
 	long iTurn = -100;
 	POSITION pos = pStrategicAI->GetStrategicAIOrders()->GetHeadPosition();
 	while( pos )
 	{
 		CEOSAIStrategicAIOrder*  pAIOrder = pStrategicAI->GetStrategicAIOrders()->GetNext( pos );
-		CEOSAIStrategicAIOrder_ConcedeGame* pOfferSurrender = dynamic_cast< CEOSAIStrategicAIOrder_ConcedeGame* >( pAIOrder );
+		CEOSAIStrategicAIOrder_AIOffersToResign* pOfferSurrender = dynamic_cast< CEOSAIStrategicAIOrder_AIOffersToResign* >( pAIOrder );
 		if( pOfferSurrender )
 		{
 			iTurn = max( iTurn, pOfferSurrender->m_iExecutionTurn );
@@ -36,7 +36,7 @@ long  CEOSAIStrategicAIOrder_ConcedeGame::HowManyTurnsAgoDidILastSendThisMessage
 	return pStrategicAI->GetCurrentTurn() - iTurn;
 }
 
-void CEOSAIStrategicAIOrder_ConcedeGame::Execute( long iCurrentTurn )
+void CEOSAIStrategicAIOrder_AIOffersToResign::Execute( long iCurrentTurn )
 {
 	m_iExecutionTurn = iCurrentTurn;
  	m_eCurrentState = enumState_Pending;
@@ -108,8 +108,8 @@ void CEOSAIStrategicAIOrder_ConcedeGame::Execute( long iCurrentTurn )
 #endif
 }
 
-//void  CEOSAIStrategicAIOrder_ConcedeGame::SetResponse( long iAIMailId, long iPlayer, EnumIMailResponse eResponse )
-void  CEOSAIStrategicAIOrder_ConcedeGame::IncomingResponse( CEOSAIMailResponse* pIMailResponse )
+//void  CEOSAIStrategicAIOrder_AIOffersToResign::SetResponse( long iAIMailId, long iPlayer, EnumIMailResponse eResponse )
+void  CEOSAIStrategicAIOrder_AIOffersToResign::IncomingResponse( CEOSAIMailResponse* pIMailResponse )
 {
 	ASSERT(m_ResponseObserver.m_iAIMessageUID == pIMailResponse->m_iAIMessageUID);
 	if (m_ResponseObserver.m_iAIMessageUID == pIMailResponse->m_iAIMessageUID &&
@@ -124,7 +124,7 @@ void  CEOSAIStrategicAIOrder_ConcedeGame::IncomingResponse( CEOSAIMailResponse* 
 			{
 				if (m_ResponseObserver.AllResponsesReceivedAndHaveApproved())
 				{
-					CEOSAIStrategicAIOrder_Resign* pResign = new CEOSAIStrategicAIOrder_Resign(m_pStrategicAI);
+					CEOSAIStrategicAIOrder_AIResigns* pResign = new CEOSAIStrategicAIOrder_AIResigns(m_pStrategicAI);
 					m_pStrategicAI->AddStrategicAIOrder(pResign);
 					pResign->Execute(iCurrentTurn);
 
@@ -144,7 +144,7 @@ void  CEOSAIStrategicAIOrder_ConcedeGame::IncomingResponse( CEOSAIMailResponse* 
 	ASSERT( false );
 }
 
-void  CEOSAIStrategicAIOrder_ConcedeGame::UpdateForeignRelationsState( long iCurrentTurn, CEOSAIBCDumbArray2D< EOSAIEnumForeignRelations >* pForeignRelations, CEOSAIBCDumbArray2D< float >* pFeelings )
+void  CEOSAIStrategicAIOrder_AIOffersToResign::UpdateForeignRelationsState( long iCurrentTurn, CEOSAIBCDumbArray2D< EOSAIEnumForeignRelations >* pForeignRelations, CEOSAIBCDumbArray2D< float >* pFeelings )
 {
 	/*
 	if( m_iExecutionTurn == 0 ){ return; }

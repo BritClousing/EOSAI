@@ -6,7 +6,7 @@
 #include "EOSAIUnitVsUnitValue.h"
 //#include "AICombatPlanner.h"
 #include "EOSAIQuickCombatCalculation.h"
-#include "EOSAICommonData2.h"
+#include "EOSAICommonData.h"
 #include <math.h>
 
 #include "EOSAIInterface.h"

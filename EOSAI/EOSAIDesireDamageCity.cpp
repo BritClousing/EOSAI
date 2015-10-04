@@ -6,7 +6,7 @@
 #include "EOSAIResource.h"
 #include "EOSAIUnit2.h"
 #include "City.h"
-#include "EOSAICommonData2.h"
+#include "EOSAICommonData.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE

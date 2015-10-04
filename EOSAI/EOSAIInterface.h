@@ -40,7 +40,7 @@
 #include "EOSAIGamePlayer.h"
 #include "AIPlayerDesc.h"
 #include "EOSAIGameRules.h"
-#include "EOSAICommonData2.h"
+#include "EOSAICommonData.h"
 #include "EOSAIPlayerManager.h"
 #include "MessageFromAI.h"
 //#include "EOSAIRegionManager2.h"
@@ -78,7 +78,7 @@ class CInterface
 			void AddAIPlayerDesc( EOSAI::AIPlayerDesc* pAIPlayerDesc );
 
 			//void CreateAICommonData();
-			EOSAI::CCommonData2* GetAICommonData(){ return &m_AICommonData; }
+			EOSAI::CCommonData* GetAICommonData(){ return &m_AICommonData; }
 
 		// Players
 		//
@@ -220,7 +220,7 @@ class CInterface
 		EOSAI::AIPlayerDesc*      m_AIPlayerDesc[EOSAI_MAX_NUMBER_OF_PLAYERS]; // An array of pointers
 
 		EOSAI::CGameRules   m_AIGameRules;
-		EOSAI::CCommonData2 m_AICommonData;
+		EOSAI::CCommonData m_AICommonData;
 		//CEOSAIRegionManager2  m_AIRegionManager;
 
 		long m_iCurrentTurn;

@@ -144,7 +144,7 @@
     <ClCompile Include="EOSAICitResValueMultiplier.cpp" />
     <ClCompile Include="EOSAICityAction.cpp" />
     <ClCompile Include="EOSAICombatUnitType.cpp" />
-    <ClCompile Include="EOSAICommonData2.cpp" />
+    <ClCompile Include="EOSAICommonData.cpp" />
     <ClCompile Include="EOSAIDesire2.cpp" />
     <ClCompile Include="EOSAIDesireBuildAirfield.cpp" />
     <ClCompile Include="EOSAIDesireCaptureAirfield.cpp" />
@@ -223,12 +223,12 @@
     <ClCompile Include="EOSAIStrategicAI.cpp" />
     <ClCompile Include="EOSAIStrategicAIOrder.cpp" />
     <ClCompile Include="EOSAIStrategicAIOrderResponseObserver.cpp" />
-    <ClCompile Include="EOSAIStrategicAIOrder_ConcedeGame.cpp" />
+    <ClCompile Include="EOSAIStrategicAIOrder_AIOffersToResign.cpp" />
     <ClCompile Include="EOSAIStrategicAIOrder_DeclareWar.cpp" />
     <ClCompile Include="EOSAIStrategicAIOrder_OfferAlliance.cpp" />
     <ClCompile Include="EOSAIStrategicAIOrder_OfferPeaceTreaty.cpp" />
     <ClCompile Include="EOSAIStrategicAIOrder_RequestRemovalOfForces.cpp" />
-    <ClCompile Include="EOSAIStrategicAIOrder_Resign.cpp" />
+    <ClCompile Include="EOSAIStrategicAIOrder_AIResigns.cpp" />
     <ClCompile Include="EOSAIStrategicAIOrder_SuggestMultilateralWar.cpp" />
     <ClCompile Include="EOSAIStrategicAIOrder_SuggestTeam.cpp" />
     <ClCompile Include="EOSAIStrategicAIOrder_Trade.cpp" />
@@ -314,7 +314,7 @@
     <ClInclude Include="EOSAICitResValueMultiplier.h" />
     <ClInclude Include="EOSAICityAction.h" />
     <ClInclude Include="EOSAICombatUnitType.h" />
-    <ClInclude Include="EOSAICommonData2.h" />
+    <ClInclude Include="EOSAICommonData.h" />
     <ClInclude Include="EOSAIDesire2.h" />
     <ClInclude Include="EOSAIDesireBuildAirfield.h" />
     <ClInclude Include="EOSAIDesireCaptureAirfield.h" />
@@ -432,12 +432,12 @@
     <ClInclude Include="EOSAIStopwatch2.h" />
     <ClInclude Include="EOSAIStrategicAI.h" />
     <ClInclude Include="EOSAIStrategicAIOrder.h" />
-    <ClInclude Include="EOSAIStrategicAIOrder_ConcedeGame.h" />
+    <ClInclude Include="EOSAIStrategicAIOrder_AIOffersToResign.h" />
     <ClInclude Include="EOSAIStrategicAIOrder_DeclareWar.h" />
     <ClInclude Include="EOSAIStrategicAIOrder_OfferAlliance.h" />
     <ClInclude Include="EOSAIStrategicAIOrder_OfferPeaceTreaty.h" />
     <ClInclude Include="EOSAIStrategicAIOrder_RequestRemovalOfForces.h" />
-    <ClInclude Include="EOSAIStrategicAIOrder_Resign.h" />
+    <ClInclude Include="EOSAIStrategicAIOrder_AIResigns.h" />
     <ClInclude Include="EOSAIStrategicAIOrder_SendReinforcePeaceMail.h" />
     <ClInclude Include="EOSAIStrategicAIOrder_SuggestMultilateralWar.h" />
     <ClInclude Include="EOSAIStrategicAIOrder_SuggestTeam.h" />

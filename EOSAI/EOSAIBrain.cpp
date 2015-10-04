@@ -42,7 +42,7 @@
 //#include "MovementPathIdeasForSeaUnit.h"
 //#include "TWDx.h"
 //#include "AICombatPlanner.h"
-#include "EOSAICommonData2.h"
+#include "EOSAICommonData.h"
 //#include "GameEvent_IMail.h"
 
 // DEBUG

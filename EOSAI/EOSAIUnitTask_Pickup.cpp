@@ -12,7 +12,7 @@
 #include "EOSAIAction.h"
 #include "EOSAIUnitTask_Enter.h"
 //#include "WorldDescServer.h"
-#include "EOSAICommonData2.h"
+#include "EOSAICommonData.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE

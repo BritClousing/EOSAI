@@ -6,7 +6,7 @@
 #include "EOSAIEnumPoiObjectType.h"
 #include "AIPlayer.h"
 #include "EOSAIGamePlayer.h"
-#include "EOSAICommonData2.h"
+#include "EOSAICommonData.h"
 #include "EOSAINationalSummary3.h"
 #include <math.h>
 

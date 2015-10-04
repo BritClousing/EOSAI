@@ -11,7 +11,7 @@
 #include "EOSAIStopwatch2.h"
 #include "EOSAIGenericRegion.h"
 //#include "PathfindingPoint.h"
-#include "EOSAICommonData2.h"
+#include "EOSAICommonData.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE

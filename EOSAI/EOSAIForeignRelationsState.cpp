@@ -6,7 +6,7 @@
 //#include "WorldDescServer.h"
 #include "EOSAIPlayerInteraction.h"
 #include "EOSAIMath.h"
-#include "EOSAICommonData2.h"
+#include "EOSAICommonData.h"
 #include "EOSAIGamePlayer.h"
 #include "AIPlayer.h"
 #include "EOSAIPlayerManager.h"

@@ -3,7 +3,7 @@
 #include "EOSAIRegionPathwayMap.h"
 #include "City.h"
 #include "EOSAIPathfinderPoint.h"
-#include "EOSAICommonData2.h"
+#include "EOSAICommonData.h"
 //#include "WorldDescServer.h"
 
 //

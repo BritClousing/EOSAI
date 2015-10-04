@@ -15,7 +15,7 @@
 #include "PoiObject.h"
 #include "EOSAIUnitTemplate.h"
 #include "EOSAIBrain.h"
-#include "EOSAICommonData2.h"
+#include "EOSAICommonData.h"
 #include "EOSAIMath.h"
 
 #ifdef _DEBUG

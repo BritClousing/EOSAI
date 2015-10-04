@@ -5,7 +5,7 @@
 #include "EOSAIMultiRegion2.h"
 //#include "WorldDescServer.h"
 #include "EOSAIRegionPathwayMap.h"
-#include "EOSAICommonData2.h"
+#include "EOSAICommonData.h"
 #include "EOSAIDesireSpatial.h"
 
 #ifdef _DEBUG

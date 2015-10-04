@@ -1,7 +1,7 @@
 
 #include "stdafx.h"
 #include "EOSAIRegionMapToEverywhere.h"
-#include "EOSAICommonData2.h"
+#include "EOSAICommonData.h"
 //#include "UnitTemplate.h"
 
 using namespace EOSAI;

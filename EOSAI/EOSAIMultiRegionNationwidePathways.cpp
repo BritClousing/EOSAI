@@ -7,7 +7,7 @@
 //#include "WorldDescServer.h"
 #include "EOSAIRegionPathfinder.h"
 #include "EOSAIStopwatch2.h"
-#include "EOSAICommonData2.h"
+#include "EOSAICommonData.h"
 #include "City.h"
 #include "EOSAIAirfield.h"
 #include "EOSAIUnit2.h"

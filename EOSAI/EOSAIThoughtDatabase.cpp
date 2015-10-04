@@ -41,7 +41,7 @@
 #include "EOSAIUnitVsUnitValue.h"
 #include "EOSAIUnitActionIdea.h"
 #include "EOSAIGeo.h"
-#include "EOSAICommonData2.h"
+#include "EOSAICommonData.h"
 #include "EOSAIWarzoneLocation.h"
 #include "EOSAIUnitPathwayFinder.h"
 #include "EOSAIMultiRegionPlan.h"

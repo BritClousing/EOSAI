@@ -18,7 +18,7 @@
 #include "EOSAIStopwatch2.h"
 #include "EOSAIUnitActionIdea.h"
 #include "EOSAIDesireDestroyUnit.h"
-#include "EOSAICommonData2.h"
+#include "EOSAICommonData.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE

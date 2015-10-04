@@ -167,7 +167,7 @@ class CEOSAIStrategicAI
 			// The StrategicAIOrders list contains a bunch of orders done by the AI. 
 			//   It includes mail messages and trade agreements. The player will respond to these offers, and the 
 			//   list allows the AI to lookup the sent-message.
-			//   The list also lets the AI lookup how long ago certain messages (like CEOSAIStrategicAIOrder_ConcedeGame) were sent.
+			//   The list also lets the AI lookup how long ago certain messages (like CEOSAIStrategicAIOrder_AIOffersToResign) were sent.
 			CList< CEOSAIStrategicAIOrder* >  m_StrategicAIOrders; // Output: What should the AI do now?
 			//CEOSAIStrategicAIOrder*  m_pStrategicOrder;
 			//CEOSAIBCDumbArray1D< CForeignRelationsStance* >  m_ForeignRelationsStance;

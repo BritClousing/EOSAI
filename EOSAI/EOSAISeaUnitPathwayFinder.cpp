@@ -16,7 +16,7 @@
 //#include "WorldDescServer.h"
 #include "EOSAIGroundUnitPathwayFinder.h"
 #include "EOSAIUnitPathwayResult.h"
-#include "EOSAICommonData2.h"
+#include "EOSAICommonData.h"
 #include "EOSAIRoad2.h"
 //#include "GeoLand.h"
 class CEOSAIMultiRegion2;

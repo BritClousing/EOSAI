@@ -20,7 +20,7 @@
 //#include "9MovementPathwaysFromEverywhereToMRX.h"
 #include "EOSAIRegionPathfinder.h"
 //#include "AIUnitProximity.h"
-#include "EOSAICommonData2.h"
+#include "EOSAICommonData.h"
 #include "EOSAIMathFunction.h"
 #include "EOSAIInterface.h"
 

@@ -57,15 +57,13 @@ Initial Work:
 
 - Rename "CEOSAIMailResponse" to "EOSAI::MessageResponse", rename "m_UnprocessedIMailResponses" to "m_UnprocessedMessageResponses"
 
-- Handle CList< EOSAI::MessageFromAI* >  m_MessagesFromAI;
-
 - Look for EOSAI::AIPlayer in EOS. There are a few places where I stubbed out the AI and put an ASSERT(false) in there because I need to add
     functionality to the AI before it will work.
 
 - The AI needs to be able to trade with each other. Right now, I assume that all trade is between a human and an AI.
   - In the WorldDescServer message handling (for MessageFromAI), I actually have asserts to make sure there is a human involved in the trade, which
     is unnecessary.
-- The AI should be able to initiate trades with other players, too.
+- The AI should be able to *initiate* trades with human players, too. (Right now, he passively lets others initiate trades.)
 
 - How do I get the technology tree and the unitset data over, without too much entanglement with EOS?
   - Or do I just not worry about that for now?  I could get things working and then try to increase the separation.

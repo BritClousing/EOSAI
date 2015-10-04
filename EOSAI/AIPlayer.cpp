@@ -101,7 +101,7 @@ Create a scheduling system -
 //#include "AIPoiProxyMobile.h"
 //#include "AIPoiProxyOther.h"
 //#include "AINationalDesires.h"
-#include "EOSAICommonData2.h"
+#include "EOSAICommonData.h"
 //#include "City.h"
 
 //#include "AITaskScheduler.h"

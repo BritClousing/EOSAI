@@ -7,7 +7,7 @@
 #include "EOSAIResource.h"
 #include "EOSAIForeignRelationsSituation.h"
 #include "EOSAIGamePlayer.h"
-#include "EOSAICommonData2.h"
+#include "EOSAICommonData.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE

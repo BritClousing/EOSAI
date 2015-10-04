@@ -6,7 +6,7 @@
 //#include "Airfield.h"
 //#include "Unit.h"
 #include "EOSAIMathFunction.h"
-#include "EOSAICommonData2.h"
+#include "EOSAICommonData.h"
 #include "AIPlayer.h"
 //#include "WorldDesc.h"
 /*

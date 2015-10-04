@@ -51,9 +51,9 @@ CEOSAIUnitTemplate::CEOSAIUnit2Template( CUnitTemplate* pUnitTemplate )
 
 namespace EOSAI
 {
-	class CCommonData2;
+	class CCommonData;
 };
-extern EOSAI::CCommonData2* g_pEOSAICommonData;
+extern EOSAI::CCommonData* g_pEOSAICommonData;
 
 #include <Mmsystem.h>
 #include <sys/types.h>

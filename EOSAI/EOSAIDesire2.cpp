@@ -6,7 +6,7 @@
 //#include "WorldDescServer.h"
 //#include "WorldDescPlayerProxy.h"
 #include "EOSAIBrain.h"
-#include "EOSAICommonData2.h"
+#include "EOSAICommonData.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE

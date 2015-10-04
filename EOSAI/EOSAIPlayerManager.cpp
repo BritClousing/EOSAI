@@ -5,7 +5,7 @@
 //#include "EOSAIPlayerManager.h"
 #include "AIPlayer.h"
 #include "EOSAIGamePlayer.h"
-#include "EOSAICommonData2.h"
+#include "EOSAICommonData.h"
 //#include "GameAppState.h"
 #include "EOSAISettings.h"
 #include "EOSAIInterface.h"

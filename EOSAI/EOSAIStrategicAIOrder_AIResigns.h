@@ -8,10 +8,10 @@
 //   In general, the 'ConcedeGame' action happens before this order is given.
 //
 
-class CEOSAIStrategicAIOrder_Resign : public CEOSAIStrategicAIOrder
+class CEOSAIStrategicAIOrder_AIResigns : public CEOSAIStrategicAIOrder
 {
 	public:
-		CEOSAIStrategicAIOrder_Resign( CEOSAIStrategicAI* pStrategicAI ) : CEOSAIStrategicAIOrder( pStrategicAI ){}
+		CEOSAIStrategicAIOrder_AIResigns( CEOSAIStrategicAI* pStrategicAI ) : CEOSAIStrategicAIOrder( pStrategicAI ){}
 
 		virtual void  Execute(long iCurrentTurn); // Send the offer
 };
