@@ -13,13 +13,18 @@ void PlayerResourceSummary::Clear()
 {
 	m_TotalResources.Clear();
 
-	m_ResourceProduction.Clear();
-	m_ResourceConsumption.Clear();
-	m_ResourceTrade.Clear();
-	m_ResourceDelta.Clear();
+	m_ResourceProductionAssumingNoOrders.Clear();
+	m_ResourceProductionByCurrentOrders.Clear();
+	m_ResourceConsumptionAssumingNoOrders.Clear();
+	m_ResourceConsumptionByCurrentOrders.Clear();
 
-	m_ResourceConsumptionRate.Clear();
-	m_ResourceExcessAmount.Clear();
+	//m_ResourceProduction.Clear();
+	//m_ResourceConsumption.Clear();
+	m_ResourceTradeDelta.Clear();
+	//m_ResourceDelta.Clear();
+
+//	m_ResourceConsumptionRate.Clear();
+//	m_ResourceExcessAmount.Clear();
 	//m_ResourceAvailabilityDisplay.Clear();
 	//
 	/*

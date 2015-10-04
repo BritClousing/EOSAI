@@ -1,5 +1,6 @@
 
 See if this is necessary in EOS:
+Test this new code to see if it works in WindowsXP
 It's used in other places, too, so just search for "#if (WINVER >= 0x0500)"
 --------------------------------
 #if (WINVER >= 0x0500)
@@ -27,22 +28,16 @@ It's used in other places, too, so just search for "#if (WINVER >= 0x0500)"
 --------------------------------
 
 Initial Work:
-- I need to add all the functionality to EOSAI, so that I can run EOS with it.  Right now, the interface is incomplete.
-
 - Write Tests - I'd like to verify that the AI is working properly at all times.
   - I can use EOS as a test harness.
   - I can also create some fake (non EOS) maps. It's easy enough to do. It doesn't require that an actual map exists.
 - Get a display system working, so that I can see what the AI is doing (what messages is it sending, etc)
 - Put the EOSAI under source control.
 - Move away from the EOSAI prefix on everything? It gets verbose.
-- I need to move away from "incoming message" and "outgoing message" language because it's ambiguous.
-  - I need to move to "MessageFromAI" and "MessageToAI", instead.
 
-- Read up: https://www.google.com/webhp?ion=1&espv=2&ie=UTF-8#q=strategy+game+AI
+- I don't think the BuildManager works right now.
 
 - Handle the completion of trades. Right now, I hit an ASSERT when I try to complete a trade.
-
-- Start processing all the MessageToAI and MessageFromAI messages.
 
 - Build a UI that can monitor the AI's current state. e.g. How does it view the current power-balance, messages sent/received, resources, cities, units, etc
 
@@ -53,10 +48,6 @@ Initial Work:
 - Right now, it appears that there may be cases where the AI needs to have a deep understanding of the game rules.
   For example, if iron is running low, then he needs to shift his city-build orders to construct fewer things that require iron.
   Of course, this depends on the AI understanding that iron is a consumable resource (not an infinite "available/unavailable" resource, like Civ does).
-
-- Fix the messaging system. The AI can't send a lot of messages (CEOSAIOutgoingAIMessage_DeclareWar works, but it's the only one). 
-   x-It appears that he also can't buy resources when he runs out.
-   - The AI can't send or receive/respond to trade offers from other players.
 
 - Fix "AllMyCitiesHaveOrders()". Need to setup City Build Orders.
 
@@ -186,6 +177,12 @@ Later Work:
      BinaryResources (saltpeter in Civilization) don't get used up, but you need to keep control of one copy of them.
 	 There's another variation used by EndlessSpace and StarDrive - resouces that are binary, but get more powerful the more ResourceSources you own.
 
+  - There's an issue with the PlayerResourceSummary::ResourceDelta -- the values are based on the current city-build, unit-orders state, which isn't set
+      until the AI has finished his turn. But, trade prices and desire to buy/sell are based on the ResourceDelta. What this means is that the AI thinks 
+	  he has more oil and iron at the beginning of the turn than at the end (after he's setup his city-build and unit-orders), which means the prices are lower
+	  and his willingness to buy/sell are changed.
+	  I think the AI should read what the current build and movement orders are and use that in the ProductionByOrders and ConsumptionByOrders Calculations.
+  - I should probably add-back the PlayerResourceSummary::m_ResourceConsumptionRate because it can help modulate the AI behavior in low-resource conditions
   - I should hide more of the AI's methods. For example, I call this method from inside EOSAIInterface_EOS.cpp (which is inside EOS):
       m_AICommonData.m_AINationalSummaries[iPlayer]->m_ResourceSummary.m_TotalResources.Set(...)
 	  I should have a better interface for that. Developers shouldn't need to reach down into the data structures to set that.

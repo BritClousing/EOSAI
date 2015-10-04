@@ -1540,12 +1540,13 @@ void  CEOSAIStrategicAI::CalculateAITradePrices( long iHumanPlayer, CAITradePric
 	//g_pEOSAICommonData->GetAINationalSummary3(GetPlayerNumber())->AICalculateResourceConsumptionAndDeltas(false);
 	g_pEOSAICommonData->GetAINationalSummary3(GetPlayerNumber())->CalculateResourceDeltas();
 
+	EOSAI::ResourceAmounts ResourceDelta = g_pEOSAICommonData->GetAINationalSummary3(GetPlayerNumber())->GetResourceSummary()->GetResourceDelta();
 	//GetAITradePrice( iHumanPlayer, iAIPlayer, fFeelings01, pAIWorldDescPlayerProxy->GetTotalFood(), pAIWorldDescPlayerProxy->GetResourceEffectsSummary()->m_ResourceDelta.Get( _T("Food") )>GetDeltaFood(), &pPrices->m_iWantsToBuyAndSellFood, &pPrices->m_fPriceOfFood );
-	GetAITradePrice( iHumanPlayer, iAIPlayer, fFeelings01, g_pEOSAICommonData->GetAINationalSummary3( GetPlayerNumber() )->GetTotalFood(), g_pEOSAICommonData->GetAINationalSummary3( GetPlayerNumber() )->GetResourceSummary()->m_ResourceDelta.Get( _T("Food") ), &pPrices->m_iWantsToBuyAndSellFood, &pPrices->m_fPriceOfFood );
+	GetAITradePrice( iHumanPlayer, iAIPlayer, fFeelings01, g_pEOSAICommonData->GetAINationalSummary3( GetPlayerNumber() )->GetTotalFood(), ResourceDelta.Get( _T("Food") ), &pPrices->m_iWantsToBuyAndSellFood, &pPrices->m_fPriceOfFood );
 	//GetAITradePrice( iHumanPlayer, iAIPlayer, fFeelings01, pAIWorldDescPlayerProxy->GetTotalIron(), pAIWorldDescPlayerProxy->GetDeltaIron(), &pPrices->m_iWantsToBuyAndSellIron, &pPrices->m_fPriceOfIron );
-	GetAITradePrice( iHumanPlayer, iAIPlayer, fFeelings01, g_pEOSAICommonData->GetAINationalSummary3( GetPlayerNumber() )->GetTotalIron(), g_pEOSAICommonData->GetAINationalSummary3( GetPlayerNumber() )->GetResourceSummary()->m_ResourceDelta.Get( _T("Iron") ), &pPrices->m_iWantsToBuyAndSellIron, &pPrices->m_fPriceOfIron );
+	GetAITradePrice( iHumanPlayer, iAIPlayer, fFeelings01, g_pEOSAICommonData->GetAINationalSummary3( GetPlayerNumber() )->GetTotalIron(), ResourceDelta.Get( _T("Iron") ), &pPrices->m_iWantsToBuyAndSellIron, &pPrices->m_fPriceOfIron );
 	//GetAITradePrice( iHumanPlayer, iAIPlayer, fFeelings01, pAIWorldDescPlayerProxy->GetTotalOil(),  pAIWorldDescPlayerProxy->GetDeltaOil(),  &pPrices->m_iWantsToBuyAndSellOil,  &pPrices->m_fPriceOfOil );
-	GetAITradePrice( iHumanPlayer, iAIPlayer, fFeelings01, g_pEOSAICommonData->GetAINationalSummary3( GetPlayerNumber() )->GetTotalOil(),  g_pEOSAICommonData->GetAINationalSummary3( GetPlayerNumber() )->GetResourceSummary()->m_ResourceDelta.Get( _T("Oil") ),  &pPrices->m_iWantsToBuyAndSellOil,  &pPrices->m_fPriceOfOil );
+	GetAITradePrice( iHumanPlayer, iAIPlayer, fFeelings01, g_pEOSAICommonData->GetAINationalSummary3( GetPlayerNumber() )->GetTotalOil(), ResourceDelta.Get( _T("Oil") ),  &pPrices->m_iWantsToBuyAndSellOil,  &pPrices->m_fPriceOfOil );
 
 	#ifdef _DEBUG
 	// Debug: 24987124

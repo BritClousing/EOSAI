@@ -519,6 +519,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="NamesForTheAI.txt" />
+    <Text Include="ThingsToReadAboutAI.txt" />
     <Text Include="ToDo.txt" />
     <Text Include="_NotesOnInterfaces.txt" />
   </ItemGroup>
