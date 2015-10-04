@@ -39,7 +39,15 @@ Initial Work:
 
 - Handle the completion of trades. Right now, I hit an ASSERT when I try to complete a trade.
 
-- Build a UI that can monitor the AI's current state. e.g. How does it view the current power-balance, messages sent/received, resources, cities, units, etc
+AI User Interface:
+  - Build a UI that can monitor the AI's current state. e.g. How does it view the current power-balance, messages sent/received, resources, cities, units, etc
+  - There are two things here: 
+    - There's the AI's current state (what the strategic AI thinks, build orders, messages sent/received, etc)
+	- There's also heatmaps (danger, etc). I might need the heatmaps to be rendered in the game engine. Or maybe the AI UserInterface needs to interact with
+	  the game's rendering engine to change the display (i.e. I can control the game's rendering engine from the AI's UserInterface process).
+	  - One of the problems is that the map might be curved all weird - like a globe. Although, to be fair, I think most game maps are flat, so maybe
+	    I could create a flat-map as a default, and if the game is doing anything weird, they can render their own.
+  - What should the UI be written in? I could write a QT application, so that it's cross-platform.
 
 - Find all the TODO, THINGS_TO_COMPILE_EVENTUALLY, GAME_CODE, "EOSAI TODO" (in EOS) messages, fix the code.
 
@@ -56,6 +64,11 @@ Initial Work:
 - Create a "EOSAIStrategicAIOrder_AISuggestsYouResign"
 
 - Rename "CEOSAIMailResponse" to "EOSAI::MessageResponse", rename "m_UnprocessedIMailResponses" to "m_UnprocessedMessageResponses"
+
+- CEOSAICity::GetGroundSeaDanger01() needs to be written better. If the AI is next to a neutral player, he doesn't register as "dangerous",
+    even in cases where it's obvious war will occur within the next 20 turns (based on the fact that there are no other players, and few
+	neutral cities left). I feel like this would be more obvious if I could look at the AI's view of the world with heatmaps.
+	- Maybe the StrategicAI needs to be used here to indicate some sort of generalized "danger of war" value (perhaps a separate one for each player)
 
 - Look for EOSAI::AIPlayer in EOS. There are a few places where I stubbed out the AI and put an ASSERT(false) in there because I need to add
     functionality to the AI before it will work.

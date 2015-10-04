@@ -19,30 +19,7 @@ class CEOSAIStrategicAIOrder;
 class CEOSAIMailResponse;
 class CEOSAITradeAgreementResponse;
 class CEOSAIIntSet;
-/*
-// Created so that CStategicOrder can track responses to multiple IMails
-class CEOSAIStrategicOrderResponseObserver
-{
-public:
-	CEOSAIStrategicOrderResponseObserver()
-	{
-		m_iAIMessageUID = 0;
-		m_iTimerStart = 0;
-		m_iTimerDuration = 0; // e.g. 60 seconds
-	}
-	virtual void                SetResponse(long iPlayer, EOSAI::EnumAIMailResponse eResponse);
-	virtual EOSAI::EnumAIMailResponse  GetResponse(long iPlayer);
 
-	bool    AllResponsesReceived();
-	bool    AllResponsesReceivedAndHaveApproved();
-
-	long   m_iAIMessageUID;
-	long   m_iTimerStart;
-	long   m_iTimerDuration; // e.g. 60 seconds
-	CList< CEOSAIMailResponse* >  m_Responses;
-	CEOSAIIntSet  m_PlayersIWantResponsesFrom;
-};
-*/
 class CEOSAIStrategicAIOrder
 {
 	public:
@@ -63,9 +40,6 @@ class CEOSAIStrategicAIOrder
 
 		EOSAI::AIPlayer* GetAIPlayer();
 		long  GetPlayerNumber();
-		//CPlayer* GetPlayer();
-		//CWorldDescPlayer* GetWorldDescPlayer();
-		//CWorldDescServer* GetWorldDescServer();
 
 		EnumState     GetCurrentState(){ return m_eCurrentState; }
 
@@ -91,13 +65,4 @@ class CEOSAIStrategicAIOrder
 		long                m_iExecutionTurn;
 
 		EnumState           m_eCurrentState;
-
-		// Optional
-		/*
-		long   m_iAIMessageUID;
-		long   m_iTimerStart;
-		long   m_iTimerDuration; // e.g. 60 seconds
-		CList< CPlayerResponse* >  m_Responses;
-		CEOSAIIntSet  m_PlayersIWantResponsesFrom;
-		*/
 };

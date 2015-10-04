@@ -13,14 +13,6 @@ void CEOSAIStrategicAIOrder_AIResigns::Execute(long iCurrentTurn)
 	//ASSERT( GetCommonState()->GetNumberOfActivePlayers() <= 2 );
 
 	long iAIPlayer = GetPlayerNumber();
-	//EOSAI::AIPlayer* pAIPlayer = g_pAIPlayerManager->GetAIPlayer(iAIPlayer);
-	//ASSERT(pAIPlayer);
-
-	//long iAIMessageUID = pAIPlayer->GetNextAIMessageUID();
-
-	// Setup a response observer
-	//m_ResponseObserver.m_iAIMessageUID = iAIMessageUID;
-	//m_ResponseObserver.m_PlayersIWantResponsesFrom.Add(m_iSurrenderToPlayer);
 
 	// Send a message
 	EOSAI::MessageFromAI_ResignGame* pResignGame = new EOSAI::MessageFromAI_ResignGame();

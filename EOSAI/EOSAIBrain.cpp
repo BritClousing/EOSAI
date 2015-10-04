@@ -2671,11 +2671,11 @@ void CEOSAIBrain::Process()
 
 		m_iAIUnitTransportMovementDescCount = 0;
 
-		m_AIBuildManager.CreateBuildOrders_FirstPass();
-
 		// Warzones
 		m_AIThoughtDatabase.ClearWarzoneCalculations();
 		m_AIThoughtDatabase.FindWarzones();
+
+		m_AIBuildManager.CreateBuildOrders_FirstPass(); // Create some build urges for each city (based on city danger, build completion, etc)
 
 		/*
 		#ifdef _DEBUG
@@ -2699,6 +2699,8 @@ void CEOSAIBrain::Process()
 		//m_Stopwatch_CreateDesiresAndTacticalProjects.Start();
 		//CreateDesiresAndTacticalProjects();
 		//m_Stopwatch_CreateDesiresAndTacticalProjects.Stop();
+
+		Check the AI desires
 
 		// Create Desires
 		m_stopwatchCreateDesires.Start();
