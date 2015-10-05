@@ -131,7 +131,7 @@ class CEOSAIDesireSpatial : public CEOSAIDesire2
 			bool   m_bNationwideSeaRouteExists;
 			
 			float  m_fAccessibility01;
-			float  m_fNationwideEstimatedTimeToTarget;
+			float  m_fNationwideEstimatedTimeToTarget = 1000000.0f; // Starts as Undefined
 			float  m_fNationwidePathwayDistance; // just for debugging
 			CList< CEOSAIDesireConnection* >  m_ConnectedDesires; // owned
 

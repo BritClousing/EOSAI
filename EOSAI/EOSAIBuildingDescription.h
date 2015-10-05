@@ -3,6 +3,7 @@
 class CEOSAIUnitTemplate;
 #include "EOSAIUnitsubsetPermission.h"
 #include "EOSAIStringAndFloatSet.h"
+#include "ResourceAmounts.h"
 class CEOSAICity;
 class CEOSAIBuildingDescription;
 
@@ -73,9 +74,11 @@ class DLLIMPEXP CEOSAIBuildingDescription
 
 		void   SetProductionCost( float f ){ m_fProductionCost = f; }
 		float  GetProductionCost(){ return m_fProductionCost; }
-		void   SetIronCost( float f ){ m_fIronCost = f; }
-		float  GetIronCost(){ return m_fIronCost; }
-		float  GetProductionAndIronCost1(){ return m_fProductionCost + m_fIronCost; }
+		//void   SetIronCost( float f ){ m_fIronCost = f; }
+		//float  GetIronCost(){ return m_fIronCost; }
+		//float  GetProductionAndIronCost1() { return m_fProductionCost + m_fIronCost; }
+		//float  GetProductionAndIronCost1() { return m_fProductionCost + m_ResourceCostList[_T("Iron")]; }
+		float  GetProductionAndIronCost1() { return m_fProductionCost + 3.0f*m_ResourceCostList.CombinedResourceValues(); } // TODO: need resource multipliers (instead of the 3.0)
 
 		float  GetProductionBonus( float fCityPopulation ){ ASSERT( false ); return 0.0f; }
 		void   CanOnlyBeBuiltInCitiesAdjacentToWater( bool b ){ m_bCanOnlyBeBuiltInCitiesAdjacentToWater = b; }
@@ -104,14 +107,18 @@ class DLLIMPEXP CEOSAIBuildingDescription
 		// Cost
 		//
 			float m_fProductionCost;
-			float m_fIronCost;
-			EOSAI::StringAndFloatSet  m_CostList;
-			EOSAI::StringAndFloatSet  m_ProductionAndConsumptionPerTurnList;
+			//float m_fIronCost;
+			EOSAI::ResourceAmounts  m_ResourceCostList; // e.g. The Iron cost of creating this
+			EOSAI::ResourceAmounts  m_ProductionAndConsumptionPerTurnList; // e.g. A resource bonus (e.g. Capitol = +2 Money/turn) after you build this.
+			//EOSAI::StringAndFloatSet  m_ResourceCostList; // e.g. The Iron cost of creating this
+			//EOSAI::StringAndFloatSet  m_ProductionAndConsumptionPerTurnList; // e.g. A resource bonus (e.g. Capitol = +2 Money/turn) after you build this.
 			//CList< CStringAndFloat* >  m_CostList;
 			//CList< CStringAndFloat* >  m_ProductionAndConsumptionPerTurnList;
 
 		// Benefits
 		//
+			// TODO: this is all very game-specific. Need to change how I handle this.
+
 			// Production
 			float m_fBonusProduction;
 			float m_fProductionBonusXPopulation;

@@ -479,14 +479,15 @@ void CAIBuildManager::CreateBuildOrders_Final()
 		POSITION pos2 = pAICity->GetAIBuildOrders()->GetHeadPosition();
 		while( pos2 )
 		{
-			CEOSAIBuildOrder* pBuildOrder = pAICity->GetAIBuildOrders()->GetNext( pos2 );
+			//CEOSAIBuildOrder* pBuildOrder = pAICity->GetAIBuildOrders()->GetNext(pos2);
+			CEOSAIBuildOption* pBuildOrder = pAICity->GetAIBuildOrders()->GetNext(pos2);
 			iBuildOrderCount++;
 			ASSERT( iBuildOrderCount <= 2 );
 
 			//InProductionList.AddTail( pBuildOrder );
-			if( pBuildOrder->GetAIBuildOption()->GetAIUnitTemplate() )
+			if( pBuildOrder->GetAIUnitTemplate() )
 			{
-				AIJobCapability.Add( pBuildOrder->GetAIBuildOption()->GetAIUnitTemplate() );
+				AIJobCapability.Add( pBuildOrder->GetAIUnitTemplate() );
 				//MyUnits.Add( pBuildOrder->GetBuildOption()->GetUnitTemplate(), 1.0f );
 			}
 		}
@@ -1136,7 +1137,6 @@ this is actually a bad way to handle things
 				AIJobCapability.Add( pBestAIUnitTemplate );
 			}
 			m_pAIPlayer->CalculateExperiencingResourceShortage01();
-			//m_pAIPlayer->AddedBuildItemToResourceConsumption( pBestBuildOption );
 		}
 	}
 

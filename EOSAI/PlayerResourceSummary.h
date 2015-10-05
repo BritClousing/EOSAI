@@ -2,36 +2,12 @@
 #pragma once
 #include "EOSAIStringAndFloatSet.h"
 #include "EOSAIStringAndLongSet.h"
+#include "ResourceAmounts.h"
 #include <map>
 //class CWorldDesc;
 
 namespace EOSAI
 {
-class ResourceAmounts
-{
-	public:
-		void   Clear() { m_Resource.clear(); }
-
-		float           Get(CString strType) { return m_Resource[strType]; }
-		void            Set(CString strType, float f) { m_Resource[strType] = f; }
-		float&          operator[](CString strType) { return m_Resource[strType]; }
-		ResourceAmounts operator+(ResourceAmounts& otherRes)
-		{
-			ResourceAmounts newRes = *this;
-			std::map<CString, float>::iterator iter = otherRes.m_Resource.begin();
-			for (iter = otherRes.m_Resource.begin(); iter != otherRes.m_Resource.end(); iter++ ){ newRes[iter->first] += otherRes[iter->first]; }
-			return newRes;
-		}
-		ResourceAmounts operator-(ResourceAmounts& otherRes)
-		{
-			ResourceAmounts newRes = *this;
-			std::map<CString, float>::iterator iter = otherRes.m_Resource.begin();
-			for (iter = otherRes.m_Resource.begin(); iter != otherRes.m_Resource.end(); iter++) { newRes[iter->first] -= otherRes[iter->first]; }
-			return newRes;
-		}
-		std::map<CString, float> m_Resource; // type and amount
-};
-
 class PlayerResourceSummary
 {
 	public:

@@ -148,9 +148,11 @@ class DLLIMPEXP CEOSAICity : public CEOSAIPoiObject
 
 	// Production
 	//
-		long  GetNumberOfBuildOrders(){ ASSERT( false ); return 0; }
+		void  AppendBuildOrder(CEOSAIBuildOption* pEOSAIBuildOption);
+		long  GetNumberOfBuildOrders(){ return m_AIBuildOrders.GetCount(); }
 		void  RemoveAllItemsFromBuildQueue();
-		CList< CEOSAIBuildOrder*      >*  GetAIBuildOrders(){ return &m_AIBuildOrders; }
+		//CList< CEOSAIBuildOrder*      >*  GetAIBuildOrders() { return &m_AIBuildOrders; }
+		CList< CEOSAIBuildOption*     >*  GetAIBuildOrders() { return &m_AIBuildOrders; }
 		CList< CEOSAIBuildCompletion* >*  GetAIBuildCompletionList(){ return &m_PartiallyCompletedList; }
 
 		float GetTimeUntilCompletionOfBuildQueue();
@@ -217,7 +219,8 @@ class DLLIMPEXP CEOSAICity : public CEOSAIPoiObject
 		//CEOSAIGeo*     m_pAIGeo;
 		//CEOSAIGeoLand* m_pAIGeoLand;
 
-		CList< CEOSAIBuildOrder*    >    m_AIBuildOrders;
+		//CList< CEOSAIBuildOrder*    >    m_AIBuildOrders; // A build order was basically just a pointer to a BuildOption
+		CList< CEOSAIBuildOption*   >    m_AIBuildOrders;
 		CList< CEOSAIBuildCompletion* >  m_PartiallyCompletedList;
 
 		float  m_fPopulation;

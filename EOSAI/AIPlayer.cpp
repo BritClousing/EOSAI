@@ -2357,6 +2357,7 @@ void AIPlayer::CalculateCitResValues()
 		0.2f * max( m_CitResValueMultiplier.m_fOilValueMultiplier, max( m_CitResValueMultiplier.m_fIronValueMultiplier, m_CitResValueMultiplier.m_fFoodValueMultiplier ) );
 }
 
+
 void AIPlayer::CalculateExperiencingResourceShortage01() // CalculateResourceConsumptionAndDeltas()
 {
 	//m_pWorldDescPlayerProxy->CalculateCurrentResourceDeltas();

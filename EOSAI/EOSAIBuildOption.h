@@ -7,6 +7,7 @@
 #define DLLIMPEXP __declspec(dllimport)
 #endif
 
+#include "ResourceAmounts.h"
 class CEOSAIUnitTemplate;
 //class CGLTexture;
 //class CMaskedBitmap;
@@ -14,6 +15,7 @@ class CEOSAIBuildingDescription;
 namespace EOSAI
 {
 	class CGameRules;
+	//class ResourceAmounts;
 };
 //class CEOSAISerial;
 
@@ -83,7 +85,9 @@ class DLLIMPEXP CEOSAIBuildOption
 	//	CString  GetIronCostText();
 	//	float    GetIronCost();
 
-		float    GetResourceCost( CString strResource );
+		//float    GetResourceCost(CString strResource);
+		EOSAI::ResourceAmounts  GetResourceProductionPerTurn(float fCityProduction);
+		EOSAI::ResourceAmounts  GetResourceConsumptionPerTurn(float fCityProduction);
 
 		//static float   GetProductionToCashConversion(){ return 1.0f; }
 		//static float   GetProductionToCashConversion(){ return 0.5f; }

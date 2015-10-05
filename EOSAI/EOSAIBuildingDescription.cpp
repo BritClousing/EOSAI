@@ -30,7 +30,7 @@ CEOSAIBuildingDescription::CEOSAIBuildingDescription( EOSAI::CGameRules* pGameRu
 	// Cost
 	//
 	m_fProductionCost = 0.0f;
-	m_fIronCost = 0.0f;
+	//m_fIronCost = 0.0f;
 
 	// Benefits
 	//

@@ -22,8 +22,8 @@ class DLLIMPEXP MessageFromAI_TradeOffer : public MessageFromAI
 		std::map<CString,float> m_ResourcesToBuy;
 		std::map<CString,float> m_ResourcesToSell;
 
-		float GetResourceToSell(CString szResourceName){ return m_ResourcesToBuy[szResourceName]; }
-		float GetResourceToBuy(CString szResourceName){ return m_ResourcesToSell[szResourceName]; }
+		float GetResourceToSell(CString szResourceName){ return m_ResourcesToSell[szResourceName]; }
+		float GetResourceToBuy(CString szResourceName){ return m_ResourcesToBuy[szResourceName]; }
 		//float GetResourceToBuy2(){ return 0.0f; }
 
 		//std::map<std::string,float> m_ResourcesToSell;

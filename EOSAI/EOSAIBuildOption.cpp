@@ -299,6 +299,76 @@ CString CEOSAIBuildOption::GetInternalName()
 	return _T("");
 }
 
+EOSAI::ResourceAmounts CEOSAIBuildOption::GetResourceProductionPerTurn(float fCityProduction)
+{
+	// TODO: This is too game-specific. I need to genericize this.
+	EOSAI::ResourceAmounts res;
+	if (this->IsMoney()) res[_T("Money")] = 0.5f * fCityProduction;
+	/*
+	if (m_pUnitTemplate && strResource == _T("Iron"))
+	{
+		return m_pUnitTemplate->GetIronCost();
+	}
+	if (m_pBuildingDescription)
+	{
+		return m_pBuildingDescription->GetCost(strResource);//>GetIronCost();
+	}
+	*/
+	return res;
+}
+
+EOSAI::ResourceAmounts CEOSAIBuildOption::GetResourceConsumptionPerTurn(float fCityProduction)
+{
+	// TODO: This is too game-specific. I need to genericize this.
+	EOSAI::ResourceAmounts res;
+	if (m_pAIUnitTemplate && m_pAIUnitTemplate->GetIronCost() != 0.0f )
+	{
+		if (GetProductionCost() > 0.0f)
+		{
+			float fPercentageTime01 = fCityProduction / GetProductionCost();
+			if (fPercentageTime01 < 0.0f) fPercentageTime01 = 0.0f;
+			if (fPercentageTime01 > 1.0f) fPercentageTime01 = 1.0f;
+			res[_T("Iron")] = fPercentageTime01 * m_pAIUnitTemplate->GetIronCost();
+		}
+	}
+	if (m_pAIBuildingDescription)
+	{
+		if (GetProductionCost() > 0.0f)
+		{
+			float fPercentageTime01 = fCityProduction / GetProductionCost();
+			if (fPercentageTime01 < 0.0f) fPercentageTime01 = 0.0f;
+			if (fPercentageTime01 > 1.0f) fPercentageTime01 = 1.0f;
+
+			/*
+			POSITION pos = m_pAIBuildingDescription->m_ResourceCostList.m_List.GetHeadPosition();
+			while (pos)
+			{
+				EOSAI::StringAndFloat* p = m_pAIBuildingDescription->m_ResourceCostList.m_List.GetNext(pos);
+				res[p->m_strValue] += p->m_fValue;
+			}
+			*/
+			std::map<CString, float>::iterator iter = m_pAIBuildingDescription->m_ResourceCostList.m_Resource.begin();
+			for (iter = m_pAIBuildingDescription->m_ResourceCostList.m_Resource.begin(); 
+				iter != m_pAIBuildingDescription->m_ResourceCostList.m_Resource.end(); iter++)
+			{
+				res[iter->first] += m_pAIBuildingDescription->m_ResourceCostList[iter->first];
+			}
+
+			//if(m_pAIBuildingDescription->m_ResourceCostList)
+			/*
+
+			if (m_pAIBuildingDescription->GetIronCost() != 0.0f)
+			{
+				res[_T("Iron")] = fPercentageTime01 * m_pAIBuildingDescription->GetIronCost();
+			}
+			*/
+			//return m_pBuildingDescription->GetCost(strResource);//>GetIronCost();
+		}
+	}
+	return res;
+}
+
+
 //////////////////////////////////////////////////////
 /*
 CBuildOrder_ServerToPlayerFlat::CBuildOrder_ServerToPlayerFlat()

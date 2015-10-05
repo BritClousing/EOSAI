@@ -2700,8 +2700,6 @@ void CEOSAIBrain::Process()
 		//CreateDesiresAndTacticalProjects();
 		//m_Stopwatch_CreateDesiresAndTacticalProjects.Stop();
 
-		Check the AI desires
-
 		// Create Desires
 		m_stopwatchCreateDesires.Start();
 		m_AIThoughtDatabase.CreateDesires();
@@ -4145,7 +4143,8 @@ void  CEOSAIBrain::UpdateNationalInProductionSummary()
 		{
 			if( pAICity->GetAIBuildOrders()->IsEmpty() == false )
 			{
-				CEOSAIUnitTemplate* pAIUnitTemplate = pAICity->GetAIBuildOrders()->GetHead()->GetAIBuildOption()->GetAIUnitTemplate();
+				//CEOSAIUnitTemplate* pAIUnitTemplate = pAICity->GetAIBuildOrders()->GetHead()->GetAIBuildOption()->GetAIUnitTemplate();
+				CEOSAIUnitTemplate* pAIUnitTemplate = pAICity->GetAIBuildOrders()->GetHead()->GetAIUnitTemplate();
 
 				// INCOMPLETE:
 				// This needs to be modified by the time-until-completion

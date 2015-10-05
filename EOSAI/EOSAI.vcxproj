@@ -505,6 +505,7 @@
     <ClInclude Include="PoiObject.h" />
     <ClInclude Include="PoiObjectIdAndName.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="ResourceAmounts.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>

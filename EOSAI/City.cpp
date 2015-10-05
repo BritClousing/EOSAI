@@ -33,9 +33,12 @@
 #include "EOSAIBuildCompletion.h"
 #include "EOSAIBuildOption.h"
 #include "EOSAIPlayerManager.h"
+#include "EOSAINationalSummary3.h"
 #include "EOSAIInterface.h"
+#include "EOSAICommonData.h"
 #include <math.h>
 extern EOSAI::CInterface* g_pEOSAIInterface;
+extern EOSAI::CCommonData* g_pEOSAICommonData;
 
 #ifdef _DEBUG
 #undef THIS_FILE
@@ -606,8 +609,10 @@ long  CEOSAICity::GetBuildQueueCount( CString strItemName )
 	POSITION pos = m_AIBuildOrders.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIBuildOrder* pOrder = m_AIBuildOrders.GetNext( pos );
-		if( pOrder->GetBuildTarget() == strItemName ){ iCount++; }
+		//CEOSAIBuildOrder* pOrder = m_AIBuildOrders.GetNext(pos);
+		CEOSAIBuildOption* pOrder = m_AIBuildOrders.GetNext(pos);
+		//if (pOrder->GetBuildTarget() == strItemName) { iCount++; }
+		if (pOrder->GetInternalName() == strItemName) { iCount++; }
 	}
 	return iCount;
 }
@@ -1595,8 +1600,8 @@ long CEOSAICity::GetNumberOfGroundUnitsInside()
 void CEOSAICity::ActionScheduler_CreateBuildOrder( CEOSAIBuildOption* pEOSAIBuildOption )
 {
 	// I don't actually create build orders anymore, instead, the game looks at the AI values and changes them locally.
-	//g_pEOSAIInterface->AppendBuildOrder( this->GetOwner(), this, pEOSAIBuildOption );
 	g_pEOSAIInterface->SetBuildOrder( this->GetOwner(), this, pEOSAIBuildOption );
+	AppendBuildOrder( pEOSAIBuildOption);
 
 	//ASSERT( false ); // Fix this
 	/*
@@ -1633,7 +1638,8 @@ float CEOSAICity::GetTimeUntilCompletionOfBuildQueue()
 	POSITION pos = m_AIBuildOrders.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIBuildOrder* pBuildOrder = m_AIBuildOrders.GetNext( pos );
+		//CEOSAIBuildOrder* pBuildOrder = m_AIBuildOrders.GetNext(pos);
+		CEOSAIBuildOption* pBuildOrder = m_AIBuildOrders.GetNext(pos);
 		iCount++;
 
 		bool bExistsPreviouslyInTheList = false;
@@ -1641,12 +1647,14 @@ float CEOSAICity::GetTimeUntilCompletionOfBuildQueue()
 		POSITION pos2 = m_AIBuildOrders.GetHeadPosition();
 		while( pos2 )
 		{
-			CEOSAIBuildOrder* pBuildOrder2 = m_AIBuildOrders.GetNext( pos2 );
+			//CEOSAIBuildOrder* pBuildOrder2 = m_AIBuildOrders.GetNext(pos2);
+			CEOSAIBuildOption* pBuildOrder2 = m_AIBuildOrders.GetNext(pos2);
 			iSecondCount++;
 
 			if( iSecondCount < iCount )
 			{
-				if( pBuildOrder2->GetAIBuildOption() == pBuildOrder->GetAIBuildOption() )
+				//if (pBuildOrder2->GetAIBuildOption() == pBuildOrder->GetAIBuildOption())
+				if (pBuildOrder2 == pBuildOrder)
 				{
 					bExistsPreviouslyInTheList = true;
 				}
@@ -1655,11 +1663,13 @@ float CEOSAICity::GetTimeUntilCompletionOfBuildQueue()
 		}
 
 		ASSERT( fCityProduction > 0.0f );
-		float fTimeForThisBuildOption = pBuildOrder->GetAIBuildOption()->GetProductionCost() / max( 0.1f, fCityProduction );
+		//float fTimeForThisBuildOption = pBuildOrder->GetAIBuildOption()->GetProductionCost() / max(0.1f, fCityProduction);
+		float fTimeForThisBuildOption = pBuildOrder->GetProductionCost() / max(0.1f, fCityProduction);
 		if( pBuildOrder->IsMoney() ){ fTimeForThisBuildOption = 1000.0f; }
 		if( bExistsPreviouslyInTheList == false )
 		{
-			CEOSAIBuildCompletion* pBuildCompletion = GetPartiallyCompletedItem( pBuildOrder->GetAIBuildOption()->GetInternalName() );
+			//CEOSAIBuildCompletion* pBuildCompletion = GetPartiallyCompletedItem(pBuildOrder->GetAIBuildOption()->GetInternalName());
+			CEOSAIBuildCompletion* pBuildCompletion = GetPartiallyCompletedItem(pBuildOrder->GetInternalName());
 			if( pBuildCompletion )
 			{
 				ASSERT( fCityProduction > 0.0f );
@@ -1873,9 +1883,9 @@ bool CEOSAICity::CanBuild( CEOSAIBuildOption* pBuildOption, EnumGoal eGoal, bool
 				if( eGoal == eGoal_BuildThis &&
 					m_AIBuildOrders.IsEmpty() == FALSE )
 				{
-					CEOSAIBuildOrder* pAIBuildOrder = m_AIBuildOrders.GetHead();
-					if( pAIBuildOrder->GetAIBuildOption()->IsABuilding() &&
-						pAIBuildOrder->GetAIBuildOption()->GetBuildingDescription() == pBuildingDesc )
+					CEOSAIBuildOption* pAIBuildOrder = m_AIBuildOrders.GetHead();
+					if( pAIBuildOrder->IsABuilding() &&
+						pAIBuildOrder->GetBuildingDescription() == pBuildingDesc )
 					{
 						// Don't count this city's current production item towards the nations max
 						//   Or else all buildings with a national maximum of 1 won't build
@@ -1921,6 +1931,19 @@ float CEOSAICity::GetTimeToBuild( CEOSAIUnitTemplate* pAIUnitTemplate, bool bUse
 	}
 	ASSERT( fCityProduction > 0.0f );
 	return fProductionCost / max( 0.1f, fCityProduction );
+}
+
+void  CEOSAICity::AppendBuildOrder(CEOSAIBuildOption* pEOSAIBuildOption)
+{
+	if (this->GetOwner() > 0)
+	{
+		EOSAI::ResourceAmounts  ResourceProduction = pEOSAIBuildOption->GetResourceProductionPerTurn(m_fProduction);
+		EOSAI::ResourceAmounts  ResourceConsumption = pEOSAIBuildOption->GetResourceConsumptionPerTurn(m_fProduction);
+		g_pEOSAICommonData->GetAINationalSummary3(GetOwner())->m_ResourceSummary.m_ResourceProductionByCurrentOrders += ResourceProduction;
+		g_pEOSAICommonData->GetAINationalSummary3(GetOwner())->m_ResourceSummary.m_ResourceConsumptionByCurrentOrders += ResourceConsumption;
+	}
+	//m_pAIPlayer->AddBuildOrderToResourceProductionAndConsumption(pBestBuildOption);
+	m_AIBuildOrders.AddTail(pEOSAIBuildOption);
 }
 
 void  CEOSAICity::RemoveAllItemsFromBuildQueue()
