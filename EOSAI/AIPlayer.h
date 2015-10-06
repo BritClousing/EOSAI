@@ -58,6 +58,7 @@ class DLLIMPEXP AIPlayer // : public EOSAI::AIPlayerBase
 		enum EnumState
 		{
 			enumWaitingForServerToPlayerUpdate = 1,
+			//enumWaitingForTurnAndRulesUpdate = 1,
 			//enumWaitingForAutosaveAndLocalPlayerTurnReplayEnd = 2,
 			enumBeginProcessingTurn = 3,
 			//enumProcessingTurn = 4,
@@ -167,6 +168,7 @@ class DLLIMPEXP AIPlayer // : public EOSAI::AIPlayerBase
 		// Multithreading code
 		//
 			// Flags
+			//void  TriggerProcessTurn();
 			void  Incoming_ServerToPlayerUpdateWasProcessed();
 			//void  Incoming_AutosaveAndLocalPlayerTurnReplayEnded();
 

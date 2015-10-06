@@ -405,7 +405,7 @@ void  CEOSAIPlayerManager::Loop()
 			if( m_bDebugPause ){ continue; }
 			m_iProcessingAIPlayer = iPlayer;
 
-			if( pAIPlayer->m_eProcessingState == EOSAI::AIPlayer::enumWaitingForServerToPlayerUpdate ){ continue; }
+			if (pAIPlayer->m_eProcessingState == EOSAI::AIPlayer::enumWaitingForServerToPlayerUpdate) { continue; }
 			if( pAIPlayer->GetGamePlayer()->IsAlive() == false ){ continue; }
 			if( m_bThreadShouldBeKilled ) break;
 			if( m_bThreadShouldBePaused ) break;

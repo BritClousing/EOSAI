@@ -8,15 +8,15 @@
 #endif
 
 // Messages to AI might be stuff like trade offers.
-
+/*
 namespace AI
 {
-class DLLIMPEXP MessageToAI_IMailResponse
+class DLLIMPEXP MessageToAI_MessageResponse
 {
 	public:
-		MessageToAI_IMailResponse(){}
+		MessageToAI_MessageResponse(){}
 
 		virtual void PolymorphicType(){}
 };
 }
-
+*/

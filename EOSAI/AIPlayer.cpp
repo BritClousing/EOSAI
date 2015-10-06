@@ -1110,7 +1110,7 @@ void  AIPlayer::Process()
 	//if( GetPlayer()->GetPlayerHasBeenEliminated() ){ return; }
 	//if( GetCommonState()->GetAIPlayerManager()->WaitForAutosaveAndLocalPlayerTurnReplay() ){ return; }
 	if( g_pAIPlayerManager->WaitForAutosave() ){ return; }
-	if( m_eProcessingState == enumWaitingForServerToPlayerUpdate ){ return; }
+	if( m_eProcessingState == enumWaitingForServerToPlayerUpdate){ return; }
 	//if( m_eProcessingState == enumWaitingForAutosaveAndLocalPlayerTurnReplayEnd ){ return; }
 
 	if( m_bTrigger_NeedToRecalculateEntireTurn )
@@ -1831,7 +1831,7 @@ void AIPlayer::SendOrders()
 
 	//m_bReadyToSendOrdersToServer = false;
 	//m_bAllHumanPlayersHaveSubmittedOrders = false;
-	m_eProcessingState = enumWaitingForServerToPlayerUpdate;
+	m_eProcessingState = enumReadyToSendOrdersToServer;
 
 	long iCurrentTurn = g_pEOSAIInterface->GetCurrentTurn();
 	//m_pWorldDescPlayerProxy->SetLastPlayerToServerTurnReceivedByServer( iCurrentTurn );
@@ -1849,6 +1849,15 @@ void AIPlayer::SendOrders()
 	//long iTurn = GetWorldDescPlayer()->GetCurrentTurn();
 	//m_iLastTurnSentToServer = iTurn;
 }
+/*
+void AIPlayer::TriggerProcessTurn()
+{
+	if (m_eProcessingState == enumWaitingForTurnAndRulesUpdate)
+	{
+		m_eProcessingState = enumBeginProcessingTurn;
+	}
+}
+*/
 
 void  AIPlayer::Incoming_ServerToPlayerUpdateWasProcessed()
 {
@@ -1868,6 +1877,7 @@ void  AIPlayer::Incoming_ServerToPlayerUpdateWasProcessed()
 		m_eProcessingState = enumBeginProcessingTurn;
 	}
 }
+
 /*
 void  CAIPlayer::Incoming_AutosaveAndLocalPlayerTurnReplayEnded()
 {

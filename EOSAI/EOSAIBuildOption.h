@@ -39,7 +39,7 @@ class DLLIMPEXP CEOSAIBuildOption
 			m_pAIUnitTemplate = NULL;
 			m_pAIBuildingDescription = NULL;
 		}
-		~CEOSAIBuildOption(){}
+		~CEOSAIBuildOption();
 
 		//void Serialize( CEOSAISerial* pSerial );
 		//void Deserialize( CEOSAISerial* pSerial );

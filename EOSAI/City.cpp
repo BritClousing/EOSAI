@@ -1948,10 +1948,13 @@ void  CEOSAICity::AppendBuildOrder(CEOSAIBuildOption* pEOSAIBuildOption)
 
 void  CEOSAICity::RemoveAllItemsFromBuildQueue()
 {
+	m_AIBuildOrders.RemoveAll();
+	/*
 	while( m_AIBuildOrders.IsEmpty() == FALSE )
 	{
 		delete m_AIBuildOrders.RemoveHead();
 	}
+	*/
 }
 
 /*

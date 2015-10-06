@@ -28,18 +28,16 @@ It's used in other places, too, so just search for "#if (WINVER >= 0x0500)"
 --------------------------------
 
 Initial Work:
+
+Unit Tests
 - Write Tests - I'd like to verify that the AI is working properly at all times.
   - I can use EOS as a test harness.
   - I can also create some fake (non EOS) maps. It's easy enough to do. It doesn't require that an actual map exists.
-- Get a display system working, so that I can see what the AI is doing (what messages is it sending, etc)
-- Put the EOSAI under source control.
+
 - Move away from the EOSAI prefix on everything? It gets verbose.
 
-- I don't think the BuildManager works right now.
-
-- Handle the completion of trades. Right now, I hit an ASSERT when I try to complete a trade.
-
 AI User Interface:
+  - Get a display system working, so that I can see what the AI is doing (what messages is it sending, etc)
   - Build a UI that can monitor the AI's current state. e.g. How does it view the current power-balance, messages sent/received, resources, cities, units, etc
   - There are two things here: 
     - There's the AI's current state (what the strategic AI thinks, build orders, messages sent/received, etc)
@@ -51,19 +49,11 @@ AI User Interface:
 
 - Find all the TODO, THINGS_TO_COMPILE_EVENTUALLY, GAME_CODE, "EOSAI TODO" (in EOS) messages, fix the code.
 
-- Add an ID number to the AI's Trade Offer, so that I know if the player accepts the offer or not.
-
 - Right now, it appears that there may be cases where the AI needs to have a deep understanding of the game rules.
   For example, if iron is running low, then he needs to shift his city-build orders to construct fewer things that require iron.
   Of course, this depends on the AI understanding that iron is a consumable resource (not an infinite "available/unavailable" resource, like Civ does).
 
-- Fix "AllMyCitiesHaveOrders()". Need to setup City Build Orders.
-
 - Get rid of the "2" -  e.g. "CEOSAIUnit2", etc
-- "EOSAIStrategicAIOrder_ConcedeGame" -> EOSAIStrategicAIOrder_AIOffersToResign
-- Create a "EOSAIStrategicAIOrder_AISuggestsYouResign"
-
-- Rename "CEOSAIMailResponse" to "EOSAI::MessageResponse", rename "m_UnprocessedIMailResponses" to "m_UnprocessedMessageResponses"
 
 - CEOSAICity::GetGroundSeaDanger01() needs to be written better. If the AI is next to a neutral player, he doesn't register as "dangerous",
     even in cases where it's obvious war will occur within the next 20 turns (based on the fact that there are no other players, and few
@@ -156,6 +146,12 @@ Right now, I'm using both SetCurrentHP and InitialState->SetHP.  I might want to
 
 - The AI doesn't update the "ready to submit turn" image on the player's screen (it works on the first turn, but not after that).
 
+Messages/Foreign Relations:
+- Create new messages, including:
+  - EOSAIStrategicAIOrder_AISuggestsYouResign
+  - There could be a "tribute" trade option (basically a "don't attack me, I'll pay you")
+  - Vassal States / Surrender to another country
+
 Later Work:
 - Try to make things more generic (resources, unit/tech costs, what can trigger a building/unit to be buildable, etc)
 - Can I switch it over from CEOSAIClass to EOSAI::CClass?  I already did this with EOSAIActionScheduler and EOSAIBuildManager
@@ -232,6 +228,9 @@ Long Term Goals:
 	handles the case, but it doesn't handle it intelligently.
 - The CEOSAIStrategicAI::EvaluateTradeAgreement( CEOSAITradeAgreement* pTradeAgreement, CString* strOpinionText, long* pOpinionSum )
     should be internationalizable, and it should allow for each AI to send back a different response (in line with his personality)
+- Maybe I can output all the city orders at the end. Right now, I have calls being made into the g_pEOSAIInterface that changes the vity build orders while
+    the AI is processing. I don't know if I like that. Maybe all the orders at the end would be best.
+	See: CEOSAIInterface_EOS::SetBuildOrder(...)
 --------------------------
 void CGameHostManagementDialog::OnConfirmPlayerSwitch() - make sure this works, but it's not high-priority. It changes the AI player during the middle of a game.
 

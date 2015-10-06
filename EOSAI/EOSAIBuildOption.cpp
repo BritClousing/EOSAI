@@ -19,7 +19,6 @@ static char THIS_FILE[]=__FILE__;
 #define new DEBUG_NEW
 #endif
 
-
 /*
 void CBuildOrder::AddToWorld( CWorldDesc* pWorldDesc, long iObjectId )
 {
@@ -121,6 +120,15 @@ CBuildCompletion* CBuildOrder::GetBuildCompletion( CCity* pCity )
 	}
 }
 */
+
+CEOSAIBuildOption::~CEOSAIBuildOption()
+{
+	// for debug purposes, only
+	m_pAIUnitTemplate = (CEOSAIUnitTemplate*)77;
+	//m_pAIBuildingDescription = 78;
+	int g = 0;
+}
+
 /*
 float CEOSAIBuildOption::GetProductionInvested( CCity* pCity )
 {

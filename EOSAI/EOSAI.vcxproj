@@ -496,7 +496,7 @@
     <ClInclude Include="MessageFromAI_ResignGame.h" />
     <ClInclude Include="MessageFromAI_TradeOffer.h" />
     <ClInclude Include="MessageToAI.h" />
-    <ClInclude Include="MessageToAI_IMailResponse.h" />
+    <ClInclude Include="MessageToAI_MessageResponse.h" />
     <ClInclude Include="MessageToAI_RequestTradeDesires.h" />
     <ClInclude Include="MessageToAI_TeamFormed.h" />
     <ClInclude Include="MessageToAI_TradeOffer.h" />
