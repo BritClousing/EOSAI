@@ -491,7 +491,7 @@
     <ClInclude Include="EOSAIWarzoneLocation.h" />
     <CustomBuild Include="EOSAIWorldDistanceTool.h" />
     <ClInclude Include="MessageFromAI.h" />
-    <ClInclude Include="MessageFromAI_ConcedeGame.h" />
+    <ClInclude Include="MessageFromAI_AIOffersToResign.h" />
     <ClInclude Include="MessageFromAI_DeclareWar.h" />
     <ClInclude Include="MessageFromAI_ResignGame.h" />
     <ClInclude Include="MessageFromAI_TradeOffer.h" />

@@ -1,7 +1,7 @@
 
 #include <stdafx.h>
 #include "EOSAIStrategicAIOrder_AIOffersToResign.h"
-#include "MessageFromAI_ConcedeGame.h"
+#include "MessageFromAI_AIOffersToResign.h"
 //#include "Player.h"
 #include "AIPlayer.h"
 #include "EOSAIMailResponse.h"
@@ -55,7 +55,7 @@ void CEOSAIStrategicAIOrder_AIOffersToResign::Execute( long iCurrentTurn )
 	m_ResponseObserver.m_PlayersIWantResponsesFrom.Add( m_iSurrenderToPlayer );
 
 	// Send a message
-	EOSAI::MessageFromAI_ConcedeGame* pConcedeGame = new EOSAI::MessageFromAI_ConcedeGame();
+	EOSAI::MessageFromAI_AIOffersToResign* pConcedeGame = new EOSAI::MessageFromAI_AIOffersToResign();
 	pConcedeGame->m_iFromAIPlayer = iAIPlayer;
 	pConcedeGame->m_iToPlayer = m_iSurrenderToPlayer;
 	pConcedeGame->m_AIMessageUID = iAIMessageUID;
