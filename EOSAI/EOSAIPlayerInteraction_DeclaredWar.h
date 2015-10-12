@@ -23,8 +23,8 @@ class DLLIMPEXP CEOSAIPlayerInteraction_DeclaredWar : public CEOSAIPlayerInterac
 		virtual bool ValidateValues() { return(m_iActor > 0 && m_iTarget > 0 && m_iEventTurn != -1 && m_bEveryoneKnowsAboutThisInteraction == true); };
 		//
 		//virtual void UpdateForeignRelationsState( long iCurrentTurn, CEOSAIForeignRelationsState* pState );
-		virtual void UpdateForeignRelationsFeelings( long iCurrentTurn, CEOSAIBCDumbArray2D< EOSAIEnumForeignRelations >* pForeignRelations, CEOSAIBCDumbArray2D< float >* pFeelings );
-		//virtual void UpdateForeignRelationsFeelings( long iCurrentTurn, 
+		virtual void UpdateForeignRelationsState( long iCurrentTurn, CEOSAIBCDumbArray2D< EOSAIEnumForeignRelations >* pForeignRelations, CEOSAIBCDumbArray2D< float >* pFeelings );
+		//virtual void UpdateForeignRelationsState( long iCurrentTurn, 
 		//				EOSAIEnumForeignRelations ForeignRelations[MAX_NUMBER_OF_PLAYERS+1][MAX_NUMBER_OF_PLAYERS+1], 
 		//				float Feelings[MAX_NUMBER_OF_PLAYERS+1][MAX_NUMBER_OF_PLAYERS+1] );
 		long  m_iActor = 0;

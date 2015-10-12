@@ -32,13 +32,16 @@ void CEOSAIPlayerInteraction_DeclaredWar::Deserialize( CEOSAISerial* pSerial, CW
 }
 
 //void CEOSAIPlayerInteraction_DeclaredWar::UpdateForeignRelationsState( long iCurrentTurn, CEOSAIForeignRelationsState* pState )
-void CEOSAIPlayerInteraction_DeclaredWar::UpdateForeignRelationsFeelings(
+void CEOSAIPlayerInteraction_DeclaredWar::UpdateForeignRelationsState(
 			long iCurrentTurn,
 			CEOSAIBCDumbArray2D< EOSAIEnumForeignRelations >* pForeignRelations,
 			CEOSAIBCDumbArray2D< float >* pFeelings )
 			//EOSAIEnumForeignRelations ForeignRelations[MAX_NUMBER_OF_PLAYERS+1][MAX_NUMBER_OF_PLAYERS+1], 
 			//float Feelings[MAX_NUMBER_OF_PLAYERS+1][MAX_NUMBER_OF_PLAYERS+1] )
 {
+	pForeignRelations->Value( m_iTarget, m_iActor ) = EOSAIEnumForeignRelations::enum_War;
+	pForeignRelations->Value( m_iActor, m_iTarget ) = EOSAIEnumForeignRelations::enum_War;
+
 	//ASSERT( pForeignRelations->Value( m_iTarget, m_iActor ) != EOSAIEnumForeignRelations::enum_War );
 	//ASSERT( pForeignRelations->Value( m_iActor, m_iTarget ) != EOSAIEnumForeignRelations::enum_War );
 

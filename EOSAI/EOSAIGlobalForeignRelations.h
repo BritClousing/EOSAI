@@ -30,9 +30,9 @@ class DLLIMPEXP CEOSAIGlobalForeignRelations
 
 		CString  OutputDebugString();
 
-		///void  SetWorldDesc( CWorldDesc* pWorldDesc ){ m_pWorldDesc = pWorldDesc; }
-		//void  SetNumberOfPlayers( long iNumberOfPlayers );
-		void  Copy( CEOSAIGlobalForeignRelations* pGlobalForeignRelations );
+		void operator=(CEOSAIGlobalForeignRelations& GlobalForeignRelations) { Copy(&GlobalForeignRelations); }
+		void Copy( CEOSAIGlobalForeignRelations* pGlobalForeignRelations );
+
 		//void  CopyFeelings( CEOSAIBCDumbArray2D< float >* pFeelings );
 		//void  CopyRelations( CEOSAIBCDumbArray2D< EOSAIEnumForeignRelations >* pRelations );
 

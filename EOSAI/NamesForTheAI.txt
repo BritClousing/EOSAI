@@ -2,6 +2,8 @@
 EOSAI
 Genie
 FrostGiant / IceGiant
+IronGiant - the problem is that the movie name might be too common. Maybe "Iron Giant AI" works. I don't know.
+Goliath
 Gorilla
 Hydra
 Titan - various references to Titan AI in Age of Mythology and Titanfall

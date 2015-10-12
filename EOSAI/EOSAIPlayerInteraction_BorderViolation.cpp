@@ -84,7 +84,7 @@ void CEOSAIPlayerInteraction_CreatedTeam::UpdateForeignRelationsState(
 */
 
 //void CEOSAIPlayerInteraction_BorderViolation::UpdateForeignRelationsState( long iCurrentTurn,
-void CEOSAIPlayerInteraction_BorderViolation::UpdateForeignRelationsFeelings( long iCurrentTurn,
+void CEOSAIPlayerInteraction_BorderViolation::UpdateForeignRelationsState( long iCurrentTurn,
 			CEOSAIBCDumbArray2D< EOSAIEnumForeignRelations >* pForeignRelations,
 			CEOSAIBCDumbArray2D< float >* pFeelings )
 {

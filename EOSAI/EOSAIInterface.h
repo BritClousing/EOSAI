@@ -198,7 +198,7 @@ namespace EOSAI
 		void SendMessageToAI(EOSAI::MessageToAI* pMessageToAI);
 		//void SendMessageToAI_CalculateForeignRelationsFeelingsBasedOnPlayerInteractionHistory();
 		//CEOSAIGlobalForeignRelations GetCurrentForeignRelationsFeelingsBasedOnPlayerInteractionHistory();
-		void UpdateForeignRelationsFeelings(int iCurrentTurn);
+		void UpdateForeignRelationsState(int iCurrentTurn);
 
 			// NOTE: This call happens within the Game's thread. It's the only function where that happens.
 			//       I'm not sure if I like that. Maybe I could send a message and have another message respond, although I want it to happen quickly.

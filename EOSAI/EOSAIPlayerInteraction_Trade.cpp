@@ -120,7 +120,7 @@ void CEOSAIPlayerInteraction_CreatedTeam::UpdateForeignRelationsState(
 */
 
 //void CEOSAIPlayerInteraction_Trade::UpdateForeignRelationsState( long iCurrentTurn,
-void CEOSAIPlayerInteraction_Trade::UpdateForeignRelationsFeelings( long iCurrentTurn,
+void CEOSAIPlayerInteraction_Trade::UpdateForeignRelationsState( long iCurrentTurn,
 			CEOSAIBCDumbArray2D< EOSAIEnumForeignRelations >* pForeignRelations,
 			CEOSAIBCDumbArray2D< float >* pFeelings )
 {

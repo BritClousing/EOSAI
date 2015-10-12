@@ -22,7 +22,7 @@ class CEOSAIPlayerInteraction_SneakAttack : public CEOSAIPlayerInteraction
 		virtual void Deserialize( CEOSAISerial* pSerial, CWorldDescBase* pWorldDesc );
 
 		//virtual void UpdateForeignRelationsState( long iCurrentTurn, CEOSAIForeignRelationsState* pState );
-		virtual void UpdateForeignRelationsFeelings( long iCurrentTurn, 
+		virtual void UpdateForeignRelationsState( long iCurrentTurn, 
 						CEOSAIBCDumbArray2D< EOSAIEnumForeignRelations >* pForeignRelations, 
 						CEOSAIBCDumbArray2D< float >* pFeelings );
 						//EOSAIEnumForeignRelations ForeignRelations[MAX_NUMBER_OF_PLAYERS+1][MAX_NUMBER_OF_PLAYERS+1],

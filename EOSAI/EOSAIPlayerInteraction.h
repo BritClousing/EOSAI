@@ -52,7 +52,7 @@ class DLLIMPEXP CEOSAIPlayerInteraction
 		void          KnownByPlayer(int iPlayer) { m_PlayersWhoKnowAboutThisInteraction.Add(iPlayer); }
 
 		//virtual void UpdateForeignRelationsState( long iCurrentTurn, CEOSAIForeignRelationsState* pState ){}
-		virtual void UpdateForeignRelationsFeelings( 
+		virtual void UpdateForeignRelationsState( 
 			long iCurrentTurn,
 			CEOSAIBCDumbArray2D< EOSAIEnumForeignRelations >* pForeignRelations,
 			CEOSAIBCDumbArray2D< float >* pFeelings ){}
@@ -123,7 +123,7 @@ class DLLIMPEXP CEOSAIPlayerInteraction_CreatedAlliance : public CEOSAIPlayerInt
 		virtual void Deserialize( CEOSAISerial* pSerial, CWorldDescBase* pWorldDesc );
 
 		//virtual void UpdateForeignRelationsState( long iCurrentTurn, CEOSAIForeignRelationsState* pState );
-		virtual void UpdateForeignRelationsFeelings( 
+		virtual void UpdateForeignRelationsState( 
 			long iCurrentTurn, 
 			CEOSAIBCDumbArray2D< EOSAIEnumForeignRelations >* pForeignRelations, 
 			CEOSAIBCDumbArray2D< float >* pFeelings );
@@ -152,7 +152,7 @@ class CEOSAIPlayerInteraction_AskedToJoinInWar : public CEOSAIPlayerInteraction
 		virtual void Deserialize( CEOSAISerial* pSerial, CWorldDescBase* pWorldDesc );
 
 		//virtual void UpdateForeignRelationsState( long iCurrentTurn, CEOSAIForeignRelationsState* pState );
-		virtual void UpdateForeignRelationsFeelings( long iCurrentTurn, 
+		virtual void UpdateForeignRelationsState( long iCurrentTurn, 
 						CEOSAIBCDumbArray2D< EOSAIEnumForeignRelations >* pForeignRelations, 
 						CEOSAIBCDumbArray2D< float >* pFeelings );
 						//EOSAIEnumForeignRelations ForeignRelations[MAX_NUMBER_OF_PLAYERS+1][MAX_NUMBER_OF_PLAYERS+1],
@@ -181,7 +181,7 @@ class CEOSAIPlayerInteraction_SneakAttack : public CEOSAIPlayerInteraction
 		virtual void Deserialize( CEOSAISerial* pSerial, CWorldDescBase* pWorldDesc );
 
 		//virtual void UpdateForeignRelationsState( long iCurrentTurn, CEOSAIForeignRelationsState* pState );
-		virtual void UpdateForeignRelationsFeelings( long iCurrentTurn, 
+		virtual void UpdateForeignRelationsState( long iCurrentTurn, 
 						CEOSAIBCDumbArray2D< EOSAIEnumForeignRelations >* pForeignRelations, 
 						CEOSAIBCDumbArray2D< float >* pFeelings );
 						//EOSAIEnumForeignRelations ForeignRelations[MAX_NUMBER_OF_PLAYERS+1][MAX_NUMBER_OF_PLAYERS+1],
@@ -205,7 +205,7 @@ class CEOSAIPlayerInteraction_AskedToMakePeace : public CEOSAIPlayerInteraction
 			m_eResponse = EOSAIEnumTradeAgreementResponse_NoResponse;
 		}
 		//virtual void UpdateForeignRelationsState( long iCurrentTurn, CEOSAIForeignRelationsState* pState );
-		virtual void UpdateForeignRelationsFeelings( long iCurrentTurn, 
+		virtual void UpdateForeignRelationsState( long iCurrentTurn, 
 						CEOSAIBCDumbArray2D< EOSAIEnumForeignRelations >* pForeignRelations, 
 						CEOSAIBCDumbArray2D< float >* pFeelings );
 						//EOSAIEnumForeignRelations ForeignRelations[MAX_NUMBER_OF_PLAYERS+1][MAX_NUMBER_OF_PLAYERS+1],
@@ -223,7 +223,7 @@ class CEOSAIPlayerInteraction_MadePeace : public CEOSAIPlayerInteraction
 		CEOSAIPlayerInteraction_MadePeace(){ m_iPlayer1 = 0; m_iPlayer2 = 0; }
 		CEOSAIPlayerInteraction_MadePeace( long iPlayer1, long iPlayer2 ){ m_iPlayer1 = iPlayer1; m_iPlayer2 = iPlayer2; }
 		//virtual void UpdateForeignRelationsState( long iCurrentTurn, CEOSAIForeignRelationsState* pState );
-		virtual void UpdateForeignRelationsFeelings( long iCurrentTurn, 
+		virtual void UpdateForeignRelationsState( long iCurrentTurn, 
 						CEOSAIBCDumbArray2D< EOSAIEnumForeignRelations >* pForeignRelations, 
 						CEOSAIBCDumbArray2D< float >* pFeelings );
 						//EOSAIEnumForeignRelations ForeignRelations[MAX_NUMBER_OF_PLAYERS+1][MAX_NUMBER_OF_PLAYERS+1],
@@ -245,7 +245,7 @@ class CEOSAIPlayerInteraction_AskedForNonAgressionPact : public CEOSAIPlayerInte
 			m_iDuration = 0;
 		}
 		//virtual void UpdateForeignRelationsState( long iCurrentTurn, CEOSAIForeignRelationsState* pState );
-		virtual void UpdateForeignRelationsFeelings( long iCurrentTurn, 
+		virtual void UpdateForeignRelationsState( long iCurrentTurn, 
 						CEOSAIBCDumbArray2D< EOSAIEnumForeignRelations >* pForeignRelations, 
 						CEOSAIBCDumbArray2D< float >* pFeelings );
 						//EOSAIEnumForeignRelations ForeignRelations[MAX_NUMBER_OF_PLAYERS+1][MAX_NUMBER_OF_PLAYERS+1],

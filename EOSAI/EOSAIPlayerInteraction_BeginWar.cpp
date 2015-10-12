@@ -32,11 +32,14 @@ void CEOSAIPlayerInteraction_BeginWar::Deserialize( CEOSAISerial* pSerial, CWorl
 }
 
 //void CEOSAIPlayerInteraction_DeclaredWar::UpdateForeignRelationsState( long iCurrentTurn, CEOSAIForeignRelationsState* pState )
-void CEOSAIPlayerInteraction_BeginWar::UpdateForeignRelationsFeelings(
+void CEOSAIPlayerInteraction_BeginWar::UpdateForeignRelationsState(
 			long iCurrentTurn,
 			CEOSAIBCDumbArray2D< EOSAIEnumForeignRelations >* pForeignRelations,
 			CEOSAIBCDumbArray2D< float >* pFeelings )
 {
+	pForeignRelations->Value(m_iTarget, m_iActor) = EOSAIEnumForeignRelations::enum_War;
+	pForeignRelations->Value(m_iActor, m_iTarget) = EOSAIEnumForeignRelations::enum_War;
+
 	//ASSERT( pForeignRelations->Value( m_iTarget, m_iActor ) != EOSAIEnumForeignRelations::enum_War );
 	//ASSERT( pForeignRelations->Value( m_iActor, m_iTarget ) != EOSAIEnumForeignRelations::enum_War );
 

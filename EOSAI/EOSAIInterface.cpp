@@ -312,7 +312,7 @@ CEOSAIGlobalForeignRelations CInterface::GetCurrentForeignRelationsFeelingsBased
 	//p->Set(m_AICommonData.GetGlobalForeignRelations());
 }
 */
-void CInterface::UpdateForeignRelationsFeelings(int iCurrentTurn)
+void CInterface::UpdateForeignRelationsState(int iCurrentTurn)
 {
 	m_AICommonData.CalculateForeignRelationsFeelingsBasedOnPlayerInteractionHistoryAndSendFeelingsUpdate(iCurrentTurn);
 }

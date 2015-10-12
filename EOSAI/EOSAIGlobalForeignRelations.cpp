@@ -356,6 +356,7 @@ void  CEOSAIGlobalForeignRelations::Copy( CEOSAIGlobalForeignRelations* pGlobalF
 		{
 			m_ForeignRelations.Value( x,y ) = pGlobalForeignRelations->m_ForeignRelations.Value( x,y );
 			m_Feelings.Value( x,y ) = pGlobalForeignRelations->m_Feelings.Value( x,y );
+			int g = 0;
 		}
 	}
 	/*

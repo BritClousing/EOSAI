@@ -99,7 +99,7 @@ void CEOSAIPlayerInteraction_CreatedAlliance::Deserialize( CEOSAISerial* pSerial
 }
 
 //void CEOSAIPlayerInteraction_CreatedAlliance::UpdateForeignRelationsState( long iCurrentTurn, CEOSAIForeignRelationsState* pState )
-void CEOSAIPlayerInteraction_CreatedAlliance::UpdateForeignRelationsFeelings(
+void CEOSAIPlayerInteraction_CreatedAlliance::UpdateForeignRelationsState(
 			long iCurrentTurn,
 			CEOSAIBCDumbArray2D< EOSAIEnumForeignRelations >* pForeignRelations,
 			CEOSAIBCDumbArray2D< float >* pFeelings )
@@ -107,6 +107,9 @@ void CEOSAIPlayerInteraction_CreatedAlliance::UpdateForeignRelationsFeelings(
 			//float                Feelings[MAX_NUMBER_OF_PLAYERS+1][MAX_NUMBER_OF_PLAYERS+1] )
 			//CGlobalForeignRelations* pForeignRelations )
 {
+	pForeignRelations->Value(m_iPlayer1, m_iPlayer2) = EOSAIEnumForeignRelations::enum_Alliance;
+	pForeignRelations->Value(m_iPlayer2, m_iPlayer1) = EOSAIEnumForeignRelations::enum_Alliance;
+
 	//ASSERT( pForeignRelations->Value( m_iPlayer1, m_iPlayer2 ) != EOSAIEnumForeignRelations::enum_Alliance );
 	//ASSERT( pForeignRelations->Value( m_iPlayer2, m_iPlayer1 ) != EOSAIEnumForeignRelations::enum_Alliance );
 	//ASSERT( pForeignRelations->Value( m_iPlayer1, m_iPlayer2 ) != EOSAIEnumForeignRelations::enum_Teammate );
@@ -145,7 +148,7 @@ void CEOSAIPlayerInteraction_AskedToJoinInWar::Deserialize( CEOSAISerial* pSeria
 }
 
 //void CEOSAIPlayerInteraction_AskedToJoinInWar::UpdateForeignRelationsState( long iCurrentTurn, CEOSAIForeignRelationsState* pState )
-void CEOSAIPlayerInteraction_AskedToJoinInWar::UpdateForeignRelationsFeelings(
+void CEOSAIPlayerInteraction_AskedToJoinInWar::UpdateForeignRelationsState(
 			long iCurrentTurn,
 			CEOSAIBCDumbArray2D< EOSAIEnumForeignRelations >* pForeignRelations,
 			CEOSAIBCDumbArray2D< float >* pFeelings )
@@ -164,7 +167,7 @@ void CEOSAIPlayerInteraction_AskedToJoinInWar::UpdateForeignRelationsFeelings(
 
 
 //void CEOSAIPlayerInteraction_AskedToMakePeace::UpdateForeignRelationsState( long iCurrentTurn, CEOSAIForeignRelationsState* pState )
-void CEOSAIPlayerInteraction_AskedToMakePeace::UpdateForeignRelationsFeelings( long iCurrentTurn,
+void CEOSAIPlayerInteraction_AskedToMakePeace::UpdateForeignRelationsState( long iCurrentTurn,
 			CEOSAIBCDumbArray2D< EOSAIEnumForeignRelations >* pForeignRelations,
 			CEOSAIBCDumbArray2D< float >* pFeelings )
 			//CGlobalForeignRelations* pForeignRelations )
@@ -188,7 +191,7 @@ void CEOSAIPlayerInteraction_AskedToMakePeace::UpdateForeignRelationsFeelings( l
 }
 
 //void CEOSAIPlayerInteraction_MadePeace::UpdateForeignRelationsState( long iCurrentTurn, CEOSAIForeignRelationsState* pState )
-void CEOSAIPlayerInteraction_MadePeace::UpdateForeignRelationsFeelings( long iCurrentTurn,
+void CEOSAIPlayerInteraction_MadePeace::UpdateForeignRelationsState( long iCurrentTurn,
 			CEOSAIBCDumbArray2D< EOSAIEnumForeignRelations >* pForeignRelations,
 			CEOSAIBCDumbArray2D< float >* pFeelings )
 			//CGlobalForeignRelations* pForeignRelations )
@@ -204,7 +207,7 @@ void CEOSAIPlayerInteraction_MadePeace::UpdateForeignRelationsFeelings( long iCu
 }
 
 //void CEOSAIPlayerInteraction_AskedForNonAgressionPact::UpdateForeignRelationsState( long iCurrentTurn, CEOSAIForeignRelationsState* pState )
-void CEOSAIPlayerInteraction_AskedForNonAgressionPact::UpdateForeignRelationsFeelings( long iCurrentTurn,
+void CEOSAIPlayerInteraction_AskedForNonAgressionPact::UpdateForeignRelationsState( long iCurrentTurn,
 			CEOSAIBCDumbArray2D< EOSAIEnumForeignRelations >* pForeignRelations,
 			CEOSAIBCDumbArray2D< float >* pFeelings )
 			//CGlobalForeignRelations* pForeignRelations )

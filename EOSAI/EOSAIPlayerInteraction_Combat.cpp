@@ -27,7 +27,7 @@ void CEOSAIPlayerInteraction_Combat::Deserialize( CEOSAISerial* pSerial, CWorldD
 
 //void CEOSAIPlayerInteraction_Combat::UpdateForeignRelationFeelings( CEOSAIForeignRelationsSituation* pSituation )
 //void CEOSAIPlayerInteraction_Combat::UpdateForeignRelationsState( long iCurrentTurn, CEOSAIForeignRelationsState* pState )
-void CEOSAIPlayerInteraction_Combat::UpdateForeignRelationsFeelings( long iCurrentTurn,
+void CEOSAIPlayerInteraction_Combat::UpdateForeignRelationsState( long iCurrentTurn,
 			CEOSAIBCDumbArray2D< EOSAIEnumForeignRelations >* pForeignRelations,
 			CEOSAIBCDumbArray2D< float >* pFeelings )
 {

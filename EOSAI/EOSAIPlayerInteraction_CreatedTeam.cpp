@@ -31,7 +31,7 @@ void CEOSAIPlayerInteraction_CreatedTeam::Deserialize( CEOSAISerial* pSerial, CW
 	}
 }
 
-void CEOSAIPlayerInteraction_CreatedTeam::UpdateForeignRelationsFeelings(
+void CEOSAIPlayerInteraction_CreatedTeam::UpdateForeignRelationsState(
 			long iCurrentTurn,
 			CEOSAIBCDumbArray2D< EOSAIEnumForeignRelations >* pForeignRelations,
 			CEOSAIBCDumbArray2D< float >* pFeelings )
@@ -49,6 +49,8 @@ void CEOSAIPlayerInteraction_CreatedTeam::UpdateForeignRelationsFeelings(
 			int iPlayerB = m_Players.GetList()->GetNext( pos2 );
 			if( iPlayerA != iPlayerB )
 			{
+				pForeignRelations->Value(iPlayerA, iPlayerB) = EOSAIEnumForeignRelations::enum_Teammate;
+
 				pFeelings->Value( iPlayerA, iPlayerB ) = 1000.0f;
 				//pForeignRelations->Value( iPlayerA, iPlayerB ) = EOSAIEnumForeignRelations::enum_Teammate;
 			}

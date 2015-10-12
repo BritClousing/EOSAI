@@ -31,11 +31,14 @@ void CEOSAIPlayerInteraction_SneakAttack::Deserialize( CEOSAISerial* pSerial, CW
 	pSerial->Deserialize( m_iTarget );
 }
 
-void CEOSAIPlayerInteraction_SneakAttack::UpdateForeignRelationsFeelings(
+void CEOSAIPlayerInteraction_SneakAttack::UpdateForeignRelationsState(
 			long iCurrentTurn,
 			CEOSAIBCDumbArray2D< EOSAIEnumForeignRelations >* pForeignRelations,
 			CEOSAIBCDumbArray2D< float >* pFeelings )
 {
+	pForeignRelations->Value(m_iTarget, m_iActor) = EOSAIEnumForeignRelations::enum_War;
+	pForeignRelations->Value(m_iActor, m_iTarget) = EOSAIEnumForeignRelations::enum_War;
+
 	// Fade the weight with time
 	//fDelta = AdjustDeltaAccordingToTime( iCurrentTurn - m_iEventTurn, fDelta, NORMAL_DECAY_TIME );
 	//pFeelings->Value( m_iRequestingPlayer, m_iSentTo ) += fDelta;

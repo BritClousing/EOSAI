@@ -360,16 +360,25 @@ void CCommonData::CalculateForeignRelationsFeelingsBasedOnPlayerInteractionHisto
 	ASSERT(iCurrentTurn == g_pEOSAIInterface->GetCurrentTurn());
 	//int iCurrentTurn = g_pEOSAIInterface->GetCurrentTurn();
 
+	CEOSAIGlobalForeignRelations ForeignRelations;
 	//CWorldDescServer* pWorldDescServer = GetCommonState()->GetWorldDescServer();
 	//CString strA = m_CurrentForeignRelations.OutputDebugString();
 	POSITION pos = GetPlayerInteractions()->GetHeadPosition();
 	while (pos)
 	{
 		CEOSAIPlayerInteraction* pInteraction = GetPlayerInteractions()->GetNext(pos);
-		pInteraction->UpdateForeignRelationsFeelings( iCurrentTurn,
-			m_AIGlobalForeignRelations.GetForeignRelations(),
-			m_AIGlobalForeignRelations.GetFeelings());
+		pInteraction->UpdateForeignRelationsState( iCurrentTurn,
+			ForeignRelations.GetForeignRelations(),
+			ForeignRelations.GetFeelings());
+			//m_AIGlobalForeignRelations.GetForeignRelations(),
+			//m_AIGlobalForeignRelations.GetFeelings());
 	}
+	m_AIGlobalForeignRelations = ForeignRelations;
+
+	float f1a = ForeignRelations.GetFeelings01(1, 2);
+	float f1b = m_AIGlobalForeignRelations.GetFeelings01(1, 2);
+    EOSAIEnumForeignRelations r1a = ForeignRelations.GetForeignRelations(1, 2);
+	EOSAIEnumForeignRelations r1b = m_AIGlobalForeignRelations.GetForeignRelations(1, 2);
 
 	// Send Foreign Relations Feelings Update
 	EOSAI::MessageFromAI_ForeignRelationsFeelings* pFeelings = new EOSAI::MessageFromAI_ForeignRelationsFeelings();

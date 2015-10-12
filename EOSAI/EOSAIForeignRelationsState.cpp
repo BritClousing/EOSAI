@@ -356,7 +356,7 @@ void  CEOSAIForeignRelationsState::ApplyHistoricalEventsToFeelings()
 	{
 		CEOSAIPlayerInteraction* pPlayerInteraction = g_pEOSAICommonData->GetPlayerInteractions()->GetNext( pos );
 		ASSERT( pPlayerInteraction->m_iEventTurn >= 0 );
-		pPlayerInteraction->UpdateForeignRelationsFeelings( g_pEOSAIInterface->GetCurrentTurn(),&m_ForeignRelations,&m_Feelings01 );
+		pPlayerInteraction->UpdateForeignRelationsState( g_pEOSAIInterface->GetCurrentTurn(),&m_ForeignRelations,&m_Feelings01 );
 	}
 
 	// Apply AICheat_BiasAgainstHumanPlayers
