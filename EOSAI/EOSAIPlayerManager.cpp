@@ -399,6 +399,8 @@ void  CEOSAIPlayerManager::Loop()
 			g_pEOSAIInterface->UpdateCurrentTurn();
 		}
 
+		g_pEOSAICommonData->ProcessPlayerInteractionsIfNecessary();
+
 		// Process any global messages
 		while (m_pEOSAIInterface && 
 				m_pEOSAIInterface->GetMessagesToAI() &&

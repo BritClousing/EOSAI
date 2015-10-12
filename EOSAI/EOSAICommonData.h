@@ -117,6 +117,7 @@ class DLLIMPEXP CCommonData
 			long  GetPlayerInteraction_WarDuration( long iPlayer1, long iPlayer2 );
 			CList< CEOSAIPlayerInteraction* >* GetPlayerInteractions(){ return &m_PlayerInteractions; }
 
+			void ProcessPlayerInteractionsIfNecessary();
 			void CalculateForeignRelationsFeelingsBasedOnPlayerInteractionHistoryAndSendFeelingsUpdate( int iTurn );
 
 		//
@@ -256,7 +257,8 @@ class DLLIMPEXP CCommonData
 	private:
 		// Foreign Relations
 		CList< CEOSAIPlayerInteraction* >  m_PlayerInteractions;
-		long                               m_LatestPlayerInteractionsId = 0;
+		long                               m_iHighestPlayerInteractionIdInList = 0;
+		long                               m_iHighestPlayerInteractionIdProcessed = 0;
 
 		CEOSAIGlobalForeignRelations       m_AIGlobalForeignRelations;
 

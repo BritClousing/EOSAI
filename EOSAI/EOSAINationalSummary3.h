@@ -57,9 +57,6 @@ class DLLIMPEXP CEOSAINationalSummary3
 		float GetTotalIron(){ ASSERT( false ); return 0.0f; }
 		float GetTotalOil(){ ASSERT( false ); return 0.0f; }
 		*/
-		#ifdef THINGS_TO_COMPILE_EVENTUALLY
-		I don't think I'm ever setting the resource totals. I need to do this, otherwise they will always be "0".
-		#endif THINGS_TO_COMPILE_EVENTUALLY
 		/*
 		float GetTotalMoney(){ return m_TotalResources.Get( _T("Money") ); }
 		float GetTotalFood(){ return m_TotalResources.Get( _T("Food") ); }

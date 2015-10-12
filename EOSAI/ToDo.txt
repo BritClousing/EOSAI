@@ -43,24 +43,7 @@ Initial Work:
     feelings should adjust based on this. Alternatively, if player 2 and 3 are enemies, then declaring war on player 2 could improve relations with player 3.
 	The players feelings should take into account the SATE state. Also, how do I handle this with the roll-back/roll-forward player-interaction calculation?
 
-There's a problem: the game sends a "war declared" message, which is processed in the AI thread, but immediately asks for foreign-relations,
-  which is still based on no war being declared yet.
-I either need to process the "war declaration" and all player interactions in the game thread, or I need the interaction to be a message and
-  a request for the foreign relations in another message.
-  I think it should be message-based, because I don't think the game-thread should be moving around inside EOSAI code like that.
-  This means that I have to update the UI when the server gets the 'foreign-relation/feelings' message.
-  It might also run a touch slow - it might take a few seconds or more to process this.
-
-How about this for GameEvents:
-Create a single event - for all events. (This solves the problem of the developer not knowing if he needs to send one event to each player, or one global event.)
-All events gets stored in the CommonData.
-Each event has a bool set that tells it which players should know about it (this includes human players who should know about it, in case the AI needs to take-over).
-Every event should have an id, so that the players know if they need to process new events (e.g. a new event comes in, does player x,y,z need to process it?)
-Every player processes his own events (not the way I currently handle the war event - where I update all the feelings and foreign relations at the same time)
-The game-events list needs an id number that indicates the last received event. Each player also has a last-known-id number, which is the last one they know about.
-  The player's last-known-id number is *not* the last processed event.
-
-Do I want to sent messages, which create events, or do I just want to send a PlayerInteraction?
+I think the trade agreements happen in the EOS thread, when it needs to happen in the EOSAI thread.
 
 When processing these events, I need to keep a temporary global foreign relations object to update, or maybe record the player's feelings.
   There are some complicated scenarios here - for example:
@@ -75,27 +58,12 @@ When processing these events, I need to keep a temporary global foreign relation
   Should the AI maintain different opinion variables? Like [gut reaction] and [useful to help player] (like the allies helping the USSR)?
   Should the AI behave like an actual leader (remembering past wars, dead, betrayals), or should the AI be pragmatic in the moment? Maybe those are different personalities.
 
-Right now, I process the feelings update in the EOS thread, and then send a message back to EOS. I should be doing this in a thread.
-void CCommonData::AddNewPlayerInteractionAndSendFeelingsUpdate(CEOSAIPlayerInteraction* pPlayerInteraction)
-{
-	ASSERT(pPlayerInteraction->m_iEventTurn > 0);
-
-	ASSERT(pPlayerInteraction->m_iInteractionId == 0);
-	if (pPlayerInteraction->m_iInteractionId == 0){ pPlayerInteraction->m_iInteractionId = m_LatestPlayerInteractionsId + 1; }
-
-	m_PlayerInteractions.AddTail(pPlayerInteraction);
-	CalculateForeignRelationsFeelingsBasedOnPlayerInteractionHistory();
-	SendForeignRelationsFeelingsUpdate();
-}
-
 Unit Tests
 - Write Tests - I'd like to verify that the AI is working properly at all times.
   - I can use EOS as a test harness.
   - I can also create some fake (non EOS) maps. It's easy enough to do. It doesn't require that an actual map exists.
 
 - Move away from the EOSAI prefix on everything? It gets verbose.
-
-- Get rid of all the Feelings calculations in WorldDescServer and GlobaleForeignRelations. Maybe setup asserts if we're using EOSAI.
 
 AI User Interface:
   - Get a display system working, so that I can see what the AI is doing (what messages is it sending, etc)
@@ -110,7 +78,8 @@ AI User Interface:
 
 - Find all the TODO, THINGS_TO_COMPILE_EVENTUALLY, GAME_CODE, "EOSAI TODO" (in EOS) messages, fix the code.
 
-- The AI doesn't seem to know that the player declared war on them, although he knows about the foreign relations attitude change.
+- Get more messages working:
+  - Border violations, suggest multilateral war, suggest that player resign, etc. Search for the GAME_CODE keyword.
 
 - The AI needs to be able to serialize AI information - including historical information (EOSAIPlayerInteractions), like trade, wars, etc
 
@@ -127,6 +96,7 @@ AI User Interface:
 
 - Look for EOSAI::AIPlayer in EOS. There are a few places where I stubbed out the AI and put an ASSERT(false) in there because I need to add
     functionality to the AI before it will work.
+	- void CNationalGameEventTeamFormed::ApplyEvent( CWorldDesc* pWorldDesc ) - Need to test this
 
 - The AI needs to be able to trade with each other. Right now, I assume that all trade is between a human and an AI.
   - In the WorldDescServer message handling (for MessageFromAI), I actually have asserts to make sure there is a human involved in the trade, which
@@ -157,8 +127,6 @@ I'm not sure if I still use it, but I might need to bring over:
   - I should really have a list of names. The ConvertToEOSAICity2 function is just a little unweildy.
     I should store the building name and maybe a count, example: "Barracks" count: 1
     pAICity->GetBuildingList()->AddTail( pAIBuildingDesc );
-
-- I should also change the way the objects are stored. If I store them as a map (instead list), I could quickly search them.
 
 - Do I need to create Geos for the AI?
 		CList< CEOSAIGeo* >*  GetGeoList(){ return &m_EOSAIGeos; }
@@ -192,9 +160,6 @@ Right now, I'm using both SetCurrentHP and InitialState->SetHP.  I might want to
       improvements against unit-building. (Right now, the only reason the AI stops building certain city improvements is because it can
       only build one copy of, say, a barracks in a city.)
 
-- Need to go through the events and write converters:
-   - CNationalGameEventTeamFormed, etc
-   
 - Might need to copy "CAITradeDesires" into EOSAI. It's currently inside EOS.
 - Might need to copy "CAIJobCapability" into EOSAI. It's currently inside EOS.
 - Do we ever have any attack records? "pSerial->Serialize( (long) m_AttackRecordList.GetCount() );"
@@ -208,8 +173,6 @@ Right now, I'm using both SetCurrentHP and InitialState->SetHP.  I might want to
 - In "CWorldDesc::ApplyAllEvents()", I think I might use the "WorldDescPlayer->AICheat_SynchrononizeAllPoiObjectsWithServer();" call,
     but I'm not sure because I also have an ASSERT there that would get called. Maybe the AI doesn't use the WorldDescPlayer object, which
     makes sense.  That was probably a really early version of the AI.
-
-- The AI doesn't update the "ready to submit turn" image on the player's screen (it works on the first turn, but not after that).
 
 Messages/Foreign Relations:
 - Create new messages, including:

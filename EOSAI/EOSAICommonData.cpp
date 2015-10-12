@@ -312,12 +312,20 @@ void CCommonData::AddPlayerInteractionAndSendFeelingsUpdate(CEOSAIPlayerInteract
 	ASSERT(pPlayerInteraction->m_iEventTurn > 0);
 
 	ASSERT(pPlayerInteraction->m_iInteractionId == 0);
-	if (pPlayerInteraction->m_iInteractionId == 0){ pPlayerInteraction->m_iInteractionId = m_LatestPlayerInteractionsId + 1; }
+	if (pPlayerInteraction->m_iInteractionId == 0) { pPlayerInteraction->m_iInteractionId = m_iHighestPlayerInteractionIdInList +1;  }
 
 	m_PlayerInteractions.AddTail(pPlayerInteraction);
+	m_iHighestPlayerInteractionIdInList++;
+}
 
-	// TODO: This needs to be changed - everything below this line needs to happen in a different thread.
-	CalculateForeignRelationsFeelingsBasedOnPlayerInteractionHistoryAndSendFeelingsUpdate(g_pEOSAIInterface->GetCurrentTurn());
+void CCommonData::ProcessPlayerInteractionsIfNecessary()
+{
+	if (m_iHighestPlayerInteractionIdInList != m_iHighestPlayerInteractionIdProcessed)
+	{
+		// TODO: This needs to be changed - everything below this line needs to happen in a different thread.
+		CalculateForeignRelationsFeelingsBasedOnPlayerInteractionHistoryAndSendFeelingsUpdate(g_pEOSAIInterface->GetCurrentTurn());
+		m_iHighestPlayerInteractionIdProcessed = m_iHighestPlayerInteractionIdInList;
+	}
 }
 
 long CCommonData::GetPlayerInteraction_WarDuration( long iPlayer1, long iPlayer2 )
@@ -355,10 +363,9 @@ long CCommonData::GetPlayerInteraction_WarDuration( long iPlayer1, long iPlayer2
 void CCommonData::CalculateForeignRelationsFeelingsBasedOnPlayerInteractionHistoryAndSendFeelingsUpdate(int iCurrentTurn)
 {
 	// Clear Feelings and Stance
-	m_AIGlobalForeignRelations.ResetFeelings();
+	//m_AIGlobalForeignRelations.ResetFeelings();
 
 	ASSERT(iCurrentTurn == g_pEOSAIInterface->GetCurrentTurn());
-	//int iCurrentTurn = g_pEOSAIInterface->GetCurrentTurn();
 
 	CEOSAIGlobalForeignRelations ForeignRelations;
 	//CWorldDescServer* pWorldDescServer = GetCommonState()->GetWorldDescServer();
@@ -375,10 +382,10 @@ void CCommonData::CalculateForeignRelationsFeelingsBasedOnPlayerInteractionHisto
 	}
 	m_AIGlobalForeignRelations = ForeignRelations;
 
-	float f1a = ForeignRelations.GetFeelings01(1, 2);
-	float f1b = m_AIGlobalForeignRelations.GetFeelings01(1, 2);
-    EOSAIEnumForeignRelations r1a = ForeignRelations.GetForeignRelations(1, 2);
-	EOSAIEnumForeignRelations r1b = m_AIGlobalForeignRelations.GetForeignRelations(1, 2);
+	//float f1a = ForeignRelations.GetFeelings01(1, 2);
+	//float f1b = m_AIGlobalForeignRelations.GetFeelings01(1, 2);
+    //EOSAIEnumForeignRelations r1a = ForeignRelations.GetForeignRelations(1, 2);
+	//EOSAIEnumForeignRelations r1b = m_AIGlobalForeignRelations.GetForeignRelations(1, 2);
 
 	// Send Foreign Relations Feelings Update
 	EOSAI::MessageFromAI_ForeignRelationsFeelings* pFeelings = new EOSAI::MessageFromAI_ForeignRelationsFeelings();

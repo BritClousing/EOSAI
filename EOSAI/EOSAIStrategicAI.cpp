@@ -1795,32 +1795,23 @@ void CEOSAIStrategicAI::EvaluateTradeAgreement( CEOSAITradeAgreement* pTradeAgre
 			pTradeAgreement->m_bPeaceTreaty == false &&
 			TradeEvaluationResult.m_fTradeValue11 < 1.0f )
 		{
-			//ASSERT( false );
-			//#ifdef GAME_CODE
 			*strOpinionText = "I will not accept trade offers while at war, unless it contains a peace agreement.";
 			*pOpinionSum = -100;
-			//#endif GAME_CODE
 			return;
 		}
 	}
 
 	if( TradeEvaluationResult.m_bAIDoesntWantToSellThatMuch )
 	{
-		//ASSERT( false );
-		//#ifdef GAME_CODE
 		*strOpinionText = "Sorry, that's more than I'm willing to sell.";
 		*pOpinionSum = -100;
-		//#endif GAME_CODE
 		return;
 	}
 	//CWorldDescPlayer* pWorldDescPlayer = m_pAIPlayer->GetWorldDescPlayer();
 	if( pTradeAgreement->DoesTheAIHaveEnoughResourcesToCompleteTheTrade( this->GetAIPlayer(), true, true, 1.0f ) == false )
 	{
-		//ASSERT( false );
-		//#ifdef GAME_CODE
 		*strOpinionText = "Sorry, that's more than I'm willing to sell.";
 		*pOpinionSum = -100;
-		//#endif GAME_CODE
 		return;
 	}
 
@@ -1841,10 +1832,7 @@ void CEOSAIStrategicAI::EvaluateTradeAgreement( CEOSAITradeAgreement* pTradeAgre
 			*pOpinionSum = (long)( 100.0f * TradeEvaluationResult.m_fTradeValue11 );
 			if( TradeEvaluationResult.m_fForeignRelationsBonus < 0.1f )//fTradeValue11 < 0.02f )
 			{
-				//ASSERT( false );
-				//#ifdef GAME_CODE
 				*strOpinionText = _T("This is an acceptable trade.");
-				//#endif GAME_CODE
 			}
 			else
 			{
@@ -1854,33 +1842,21 @@ void CEOSAIStrategicAI::EvaluateTradeAgreement( CEOSAITradeAgreement* pTradeAgre
 				ASSERT( TradeEvaluationResult.m_fLumpSumValueToPlayer >= 0.0f );
 				if( TradeEvaluationResult.m_fLumpSumValueToPlayer == 0.0f )
 				{
-					//ASSERT( false );
-					//#ifdef GAME_CODE
 					str = _T("This gift will help bring our nations and people together. ");
-					//#endif GAME_CODE
 				}
 				if( TradeEvaluationResult.m_fLumpSumValueToPlayer > 0.0f )
 				{
-					//ASSERT( false );
-					//#ifdef GAME_CODE
 					str = _T("This trade will help bring our nations and people together. ");
 					//str.Format( "This trade will help bring our nations and people together. (+%1.0f Foreign Relations)", 
 					//	TradeEvaluationResult.m_fForeignRelationsBonus );
-					//#endif GAME_CODE
 				}
 				if( TradeEvaluationResult.m_fForeignRelationsBonus >= 10.0f )
 				{
-					//ASSERT( false );
-					//#ifdef GAME_CODE
 					strTemp.Format( _T("(+%1.0f Foreign Relations)"), TradeEvaluationResult.m_fForeignRelationsBonus );
-					//#endif GAME_CODE
 				}
 				else
 				{
-					//ASSERT( false );
-					//#ifdef GAME_CODE
 					strTemp.Format( _T("(+%1.1f Foreign Relations)"), TradeEvaluationResult.m_fForeignRelationsBonus );
-					//#endif GAME_CODE
 				}
 				str += strTemp;
 				*strOpinionText = str;//"This is an acceptable trade.  (+15 Foreign Relations)";
@@ -1894,31 +1870,19 @@ void CEOSAIStrategicAI::EvaluateTradeAgreement( CEOSAITradeAgreement* pTradeAgre
 		*pOpinionSum = (long)( 100.0f * TradeEvaluationResult.m_fTradeValue11 );
 		if( TradeEvaluationResult.m_fTradeValue11 < -0.8 )
 		{
-			//ASSERT( false );
-			//#ifdef GAME_CODE
 			*strOpinionText = "No thanks.";
-			//#endif GAME_CODE
 		}
 		eif( TradeEvaluationResult.m_fTradeValue11 < -0.4 )
 		{
-			//ASSERT( false );
-			//#ifdef GAME_CODE
 			*strOpinionText = "You're going to have to give me more than that.";
-			//#endif GAME_CODE
 		}
 		eif( TradeEvaluationResult.m_fTradeValue11 < -0.1 )
 		{
-			//ASSERT( false );
-			//#ifdef GAME_CODE
 			*strOpinionText = "You're getting closer to an acceptable trade offer.";
-			//#endif GAME_CODE
 		}
 		eif( TradeEvaluationResult.m_fTradeValue11 < 0.0 )
 		{
-			//ASSERT( false );
-			//#ifdef GAME_CODE
 			*strOpinionText = "I think we're getting close to a mutually beneficial trade.";
-			//#endif GAME_CODE
 		}
 		//*pOpinion01 = 1.0f + fTradeValue;
 		return;
