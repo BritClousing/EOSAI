@@ -43,6 +43,7 @@
 #include "EOSAICommonData.h"
 #include "EOSAIPlayerManager.h"
 #include "MessageFromAI.h"
+#include "MessageToAI.h"
 //#include "EOSAIRegionManager2.h"
 //#include "EOSAIPlayerManager.h"
 class CEOSAIBuildingValue;
@@ -59,138 +60,145 @@ namespace EOSAI
 
 namespace EOSAI
 {
-class CInterface
-{
+	class CInterface
+	{
 	public:
 		CInterface();
 
 		//
-			char* GetEOSAIVersion(){ return "0.1"; }
-			char* GetEOSAIBuildDate(){ return __DATE__; }// "Septembruary 45, 3024"; }
+		char* GetEOSAIVersion() { return "0.1"; }
+		char* GetEOSAIBuildDate() { return __DATE__; }// "Septembruary 45, 3024"; }
 
-		// Set my WorldDistanceTool
-		//  It will contain a variety of methods that can measure distances between locations and other functions.
-			void SetAIWorldDistanceTool( EOSAI::CWorldDistanceTool* p );
+	// Set my WorldDistanceTool
+	//  It will contain a variety of methods that can measure distances between locations and other functions.
+		void SetAIWorldDistanceTool(EOSAI::CWorldDistanceTool* p);
 
 		//
-			void SetNumberOfPlayers( long iNumberOfPlayers );
-			void AddGamePlayer( EOSAI::CGamePlayer* pGamePlayer );
-			void AddAIPlayerDesc( EOSAI::AIPlayerDesc* pAIPlayerDesc );
+		void SetNumberOfPlayers(long iNumberOfPlayers);
+		void AddGamePlayer(EOSAI::CGamePlayer* pGamePlayer);
+		void AddAIPlayerDesc(EOSAI::AIPlayerDesc* pAIPlayerDesc);
 
-			//void CreateAICommonData();
-			EOSAI::CCommonData* GetAICommonData(){ return &m_AICommonData; }
+		//void CreateAICommonData();
+		EOSAI::CCommonData* GetAICommonData() { return &m_AICommonData; }
 
 		// Players
 		//
-			virtual void InstanciateAIPlayers();
+		virtual void InstanciateAIPlayers();
 
-			CEOSAIPlayerManager*  GetAIPlayerManager(){ return &m_AIPlayerManager; }
-			EOSAI::CGamePlayer*   GetGamePlayer( long iPlayer );
-			EOSAI::AIPlayer*    GetAIPlayer( long iPlayer );
-			EOSAI::AIPlayerDesc*     GetAIPlayerDesc( long iPlayer );
+		CEOSAIPlayerManager*  GetAIPlayerManager() { return &m_AIPlayerManager; }
+		EOSAI::CGamePlayer*   GetGamePlayer(long iPlayer);
+		EOSAI::AIPlayer*      GetAIPlayer(long iPlayer);
+		EOSAI::AIPlayerDesc*  GetAIPlayerDesc(long iPlayer);
 
-			void ActivateAIPlayers();
+		void ActivateAIPlayers();
 
-			long GetNumberOfPlayers(); // Dead or Alive
-			long GetNumberOfActivePlayers();
-			long GetNumberOfHumanPlayers();
-			long GetNumberOfActiveAIPlayers();
+		long GetNumberOfPlayers(); // Dead or Alive
+		long GetNumberOfActivePlayers();
+		long GetNumberOfHumanPlayers();
+		long GetNumberOfActiveAIPlayers();
 
 		// Overrides
 		//
-			virtual long GetGeoId( CEOSAILocation Location ){ ASSERT(false); return 0; }
+		virtual long GetGeoId(CEOSAILocation Location) { ASSERT(false); return 0; }
 
-			virtual void CreateGameRules(){ ASSERT(false); }
-			virtual void CreateTechTree(){ ASSERT(false); }
-			virtual void CreateAIRegionsAndMultiRegions(){ ASSERT(false); }
-			virtual void CreateAIGeoMap(){ ASSERT(false); }
-			virtual void CreateAIObjects(){ ASSERT(false); }
+		virtual void CreateGameRules() { ASSERT(false); }
+		virtual void CreateTechTree() { ASSERT(false); }
+		virtual void CreateAIRegionsAndMultiRegions() { ASSERT(false); }
+		virtual void CreateAIGeoMap() { ASSERT(false); }
+		virtual void CreateAIObjects() { ASSERT(false); }
 
-			#ifdef THINGS_TO_COMPILE_EVENTUALLY
-			I should move "CalculateNationwidePathways" and "AddObjectIdsToAIRegionsAndMultiRegions" out of the interface.
-				It really doesn't need to be visible to the end-user.
-			#endif THINGS_TO_COMPILE_EVENTUALLY
+#ifdef THINGS_TO_COMPILE_EVENTUALLY
+		I should move "CalculateNationwidePathways" and "AddObjectIdsToAIRegionsAndMultiRegions" out of the interface.
+			It really doesn't need to be visible to the end-user.
+#endif THINGS_TO_COMPILE_EVENTUALLY
 			void CalculateNationwidePathways();
-			void AddObjectIdsToAIRegionsAndMultiRegions();
+		void AddObjectIdsToAIRegionsAndMultiRegions();
 
 		// Overrides
 		//
-			virtual void GetBuildingValue( CEOSAIBuildingValue* BuildingValue ){}
+		virtual void GetBuildingValue(CEOSAIBuildingValue* BuildingValue) {}
 
 		//
 			//bool m_bCommonAIObjectsHaveBeenCreated; // CommonAIObjects = Rules, PoiObjects, Regions, etc
 
 		// Rules
 		//
-			EOSAI::CGameRules*   GetAIGameRules(){ return &m_AIGameRules; }
+		EOSAI::CGameRules*   GetAIGameRules() { return &m_AIGameRules; }
 
 		// AIPoiObjects
 		//
-			CEOSAIPoiObject*    GetAIPoiObject( long iAIPoiObject );
+		CEOSAIPoiObject*    GetAIPoiObject(long iAIPoiObject);
 
 		// Regions
 		//
-			CEOSAIRegionManager2* GetAIRegionManager();
+		CEOSAIRegionManager2* GetAIRegionManager();
 
 		// Game State
 		//
-			virtual void UpdateCurrentTurn(){ ASSERT(false); }
-			void  SetCurrentTurn( long iTurn ){ ASSERT( iTurn>0 ); m_iCurrentTurn = iTurn; }
-			long  GetCurrentTurn(){ return m_iCurrentTurn; }
-			bool  GetGameHasEnded(){ return m_bGameHasEnded; }
+		virtual void UpdateCurrentTurn() { ASSERT(false); }
+		void  SetCurrentTurn(long iTurn) { ASSERT(iTurn > 0); m_iCurrentTurn = iTurn; }
+		long  GetCurrentTurn() { return m_iCurrentTurn; }
+		bool  GetGameHasEnded() { return m_bGameHasEnded; }
 
-			virtual void  SetAIPlayerHasProcessedTurn( long iAIPlayer, long iCurrentTurn ){ ASSERT(false); }; // Called by the AI
+		virtual void  SetAIPlayerHasProcessedTurn(long iAIPlayer, long iCurrentTurn) { ASSERT(false); }; // Called by the AI
 
-		//
-			long GetProcessingAIPlayer(); // The player that's being processed
+	//
+		long GetProcessingAIPlayer(); // The player that's being processed
 
-		//
-			void SetNeedToRebuildData( bool b );
+	//
+		void SetNeedToRebuildData(bool b);
 
 		// Shutdown
 		//
-			void KillTheAIPlayerThreads();
-			void DeleteAIPlayers();
+		void KillTheAIPlayerThreads();
+		void DeleteAIPlayers();
 
 		// Load/Save
 		//
 			// The AI needs to remember data (like what happened historically in the game), so data needs to be saved and loaded.
 			//   The AI must be paused when saving the data
-			void  SerializeData( CEOSAISerial* pSerial ){ ASSERT( false ); }
-			void  DeserializeData( CEOSAISerial* pSerial ){ ASSERT( false ); }
+		void  SerializeData(CEOSAISerial* pSerial) { ASSERT(false); }
+		void  DeserializeData(CEOSAISerial* pSerial) { ASSERT(false); }
 
 		// Pre-AI Processing
 		//
 			// Turn the game objects into AIObjects that the AI can understand
 			//   This means creating CAIPoiObjects, AIRegions, AIGameRules, etc.
-			CList< CEOSAIPoiObject* >*  GetAIPoiObjectList(){ return m_AICommonData.GetAIPoiObjects(); }
+		CList< CEOSAIPoiObject* >*  GetAIPoiObjectList() { return m_AICommonData.GetAIPoiObjects(); }
 
 		// Triggers
 		//
-			bool AllActiveHumanPlayersHaveSubmittedTurn( long iCurrentTurn ){ return m_bAllActiveHumanPlayersHaveSubmittedTurn; }
-			void AllActiveHumanPlayersHaveSubmittedTurn( long iCurrentTurn, bool b ){ m_bAllActiveHumanPlayersHaveSubmittedTurn = b; }
+		bool AllActiveHumanPlayersHaveSubmittedTurn(long iCurrentTurn) { return m_bAllActiveHumanPlayersHaveSubmittedTurn; }
+		void AllActiveHumanPlayersHaveSubmittedTurn(long iCurrentTurn, bool b) { m_bAllActiveHumanPlayersHaveSubmittedTurn = b; }
 
-			// Start the AI - it runs in its own thread
-			void StartProcessing(){}// m_AIPlayerManager.Process(); }
-			void PauseTheAI( bool b ){ m_bPauseTheAI = b; } // The AI must be paused before saving the game (especially if it's still processing)
-			void ShutdownTheAI( bool b ){ m_bShutdownTheAI = b; }  // The AI must be stopped before shutting down the game (especially if it's still processing)
+		// Start the AI - it runs in its own thread
+		void StartProcessing() {}// m_AIPlayerManager.Process(); }
+		void PauseTheAI(bool b) { m_bPauseTheAI = b; } // The AI must be paused before saving the game (especially if it's still processing)
+		void ShutdownTheAI(bool b) { m_bShutdownTheAI = b; }  // The AI must be stopped before shutting down the game (especially if it's still processing)
 
-		// Status of AI Processing
-		//
-			bool ProcessingIsDone(){ return m_bProcessingIsDone; }
-			long GetNumberOfAIPlayersWhoHaveFinishedProcessing();
+	// Status of AI Processing
+	//
+		bool ProcessingIsDone() { return m_bProcessingIsDone; }
+		long GetNumberOfAIPlayersWhoHaveFinishedProcessing();
 
 		// Post-AI Processing - these methods should be overridden
 		//
 			// ASSERT is there only because EOS needs to handle these messages. I might also want an event that gets triggered whenever
 			//   a new message arrives. That override should happen in the derived class.
 			//virtual void AddNewMessageFromAI(EOSAI::MessageFromAI* pAIMessage) { m_MessagesFromAI.AddTail(pAIMessage); }
-			virtual void SendMessageFromAI(EOSAI::MessageFromAI* pAIMessage) { m_MessagesFromAI.AddTail(pAIMessage); }
-			CList< EOSAI::MessageFromAI* >* GetMessagesFromAI(){ return &m_MessagesFromAI; }
+		virtual void NewMessageFromAINotification() {}
+		CList< EOSAI::MessageFromAI* >* GetMessagesFromAI() { return &m_MessagesFromAI; }
 
-			//void Incoming_TradeAgreementResponse(CString strTradeAgreementId, long iPlayerWhoInitiatedChange, EOSAIEnumTradeAgreementResponse eResponse, EOSAIEnumTradeAgreementState eNewState);
-			void SendTradeAgreementResponseToAI(long iToAIPlayer, CString strTradeAgreementId, long iPlayerWhoInitiatedChange, EOSAIEnumTradeAgreementResponse eResponse, EOSAIEnumTradeAgreementState eNewState);
-			void SendMessageResponseToAI( long iToAIPlayer, long iFromPlayer, long iAIMessageUID, EOSAI::EnumAIMailResponse eResponse );
+		//void Incoming_TradeAgreementResponse(CString strTradeAgreementId, long iPlayerWhoInitiatedChange, EOSAIEnumTradeAgreementResponse eResponse, EOSAIEnumTradeAgreementState eNewState);
+		void SendTradeAgreementResponseToAI(long iToAIPlayer, CString strTradeAgreementId, long iPlayerWhoInitiatedChange, EOSAIEnumTradeAgreementResponse eResponse, EOSAIEnumTradeAgreementState eNewState);
+		void SendMessageResponseToAI(long iToAIPlayer, long iFromPlayer, long iAIMessageUID, EOSAI::EnumAIMailResponse eResponse);
+
+		void AddPlayerInteractionEvent( CEOSAIPlayerInteraction* pPlayerInteraction );
+		//g_pEOSAIInterface->AddEvent_DeclarationOfWar(iActor, iTarget);
+		void SendMessageToAI(EOSAI::MessageToAI* pMessageToAI);
+		//void SendMessageToAI_CalculateForeignRelationsFeelingsBasedOnPlayerInteractionHistory();
+		//CEOSAIGlobalForeignRelations GetCurrentForeignRelationsFeelingsBasedOnPlayerInteractionHistory();
+		void UpdateForeignRelationsFeelings(int iCurrentTurn);
 
 			// NOTE: This call happens within the Game's thread. It's the only function where that happens.
 			//       I'm not sure if I like that. Maybe I could send a message and have another message respond, although I want it to happen quickly.
@@ -205,6 +213,18 @@ class CInterface
 			virtual void SetBuildOrder( int iAIPlayer, CEOSAICity* pEOSAICity, CString strBuildOptionInternalName ){ ASSERT( false ); }
 			virtual bool CreateAIUnitOrders( EOSAI::UnitPathwayResult* pAIUnitPathwayResult ){ ASSERT( false ); return false; }
 
+#ifdef USE_EOSAI_DLL
+	private:
+		virtual void SendMessageFromAI(EOSAI::MessageFromAI* pAIMessage) { m_MessagesFromAI.AddTail(pAIMessage); NewMessageFromAINotification(); }
+		virtual CList< EOSAI::MessageToAI* >* GetMessagesToAI() { return &m_MessagesToAI; }
+		//	// Sent by the AI.
+		//	virtual void SendMessageFromAI(EOSAI::MessageFromAI* pAIMessage) { m_MessagesFromAI.AddTail(pAIMessage); NewMessageFromAINotification(); }
+#else !USE_EOSAI_DLL // TODO: This should simply be CREATE_EOSAI_DLL
+	public:
+		virtual void SendMessageFromAI(EOSAI::MessageFromAI* pAIMessage) { m_MessagesFromAI.AddTail(pAIMessage); NewMessageFromAINotification(); }
+		virtual CList< EOSAI::MessageToAI* >* GetMessagesToAI() { return &m_MessagesToAI; }
+#endif USE_EOSAI_DLL
+
 	protected:
 		//bool m_bNeedToRebuildData;
 		//bool m_bAIObjectsHaveBeenCreated;
@@ -212,15 +232,17 @@ class CInterface
 
 		bool  m_bAllActiveHumanPlayersHaveSubmittedTurn;
 
-		CList< EOSAI::MessageFromAI* >  m_MessagesFromAI; //OutgoingAIMessages;
+		CList< EOSAI::MessageFromAI* >  m_MessagesFromAI;
+		CList< EOSAI::MessageToAI* >    m_MessagesToAI; // used for global message (like declare war), not messages to individual AIs
 
 		//
 		int m_iNumberOfGamePlayers;
 		EOSAI::CGamePlayer*    m_GamePlayers[EOSAI_MAX_NUMBER_OF_PLAYERS];   // An array of pointers
-		EOSAI::AIPlayerDesc*      m_AIPlayerDesc[EOSAI_MAX_NUMBER_OF_PLAYERS]; // An array of pointers
+		EOSAI::AIPlayerDesc*   m_AIPlayerDesc[EOSAI_MAX_NUMBER_OF_PLAYERS]; // An array of pointers
 
+		CEOSAIPlayerManager m_AIPlayerManager;
 		EOSAI::CGameRules   m_AIGameRules;
-		EOSAI::CCommonData m_AICommonData;
+		EOSAI::CCommonData  m_AICommonData;
 		//CEOSAIRegionManager2  m_AIRegionManager;
 
 		long m_iCurrentTurn;
@@ -234,8 +256,6 @@ class CInterface
 		bool m_bProcessingIsDone;
 		bool m_bPauseTheAI;
 		bool m_bShutdownTheAI;
-
-		CEOSAIPlayerManager  m_AIPlayerManager;
 };
 };
 extern EOSAI::CInterface* g_pEOSAIInterface;

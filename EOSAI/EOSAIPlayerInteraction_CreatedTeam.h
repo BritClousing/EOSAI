@@ -3,7 +3,13 @@
 
 #include "EOSAIPlayerInteraction.h"
 
-class CEOSAIPlayerInteraction_CreatedTeam : public CEOSAIPlayerInteraction
+#ifdef _USRDLL
+#define DLLIMPEXP __declspec(dllexport)
+#else
+#define DLLIMPEXP __declspec(dllimport)
+#endif
+
+class DLLIMPEXP CEOSAIPlayerInteraction_CreatedTeam : public CEOSAIPlayerInteraction
 {
 	public:
 		CEOSAIPlayerInteraction_CreatedTeam(){}

@@ -7,6 +7,7 @@ class CEOSAIAirfield;
 class CAIResource;
 class CEOSAIUnit2;
 #include "EOSAIGlobalForeignRelations.h"
+//#include "MessageToAI.h"
 //#include "Unitset.h"
 #include "EOSAIBCDumbArray1D.h"
 //#include "AIPlayer.h"
@@ -14,6 +15,7 @@ namespace EOSAI
 {
 	class CInterface;
 	class AIPlayer;
+	class MessageToAI;
 };
 
 #ifdef _USRDLL
@@ -106,6 +108,8 @@ class DLLIMPEXP CEOSAIPlayerManager
 
 		// Data common to all AI players
 		//
+			void  ProcessMessage(EOSAI::MessageToAI* pMessageToAI);
+
 			// AICommonData is some information used by all the AIs (stuff like pathway maps)
 			// It gets calculated before any of the AIs handle their turn
 			//CAICommonData*  m_pAICommonData;  

@@ -3,12 +3,18 @@
 
 #include "EOSAIPlayerInteraction.h"
 
+#ifdef _USRDLL
+#define DLLIMPEXP __declspec(dllexport)
+#else
+#define DLLIMPEXP __declspec(dllimport)
+#endif
+
 //
 // Similar to "DeclaredWar" except that it doesn't assign blame.
 //   This is used in scenarios when nations are setup as "at war".
 //
 
-class CEOSAIPlayerInteraction_BeginWar : public CEOSAIPlayerInteraction
+class DLLIMPEXP CEOSAIPlayerInteraction_BeginWar : public CEOSAIPlayerInteraction
 {
 	public:
 		CEOSAIPlayerInteraction_BeginWar(){ m_iActor = 0; m_iTarget = 0; }

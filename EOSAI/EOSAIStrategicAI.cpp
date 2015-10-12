@@ -17,6 +17,7 @@
 
 #include "MessageFromAI_TradeDesires.h"
 #include "MessageFromAI_TradeOfferResponse.h"
+#include "MessageToAI_WarWasDeclared.h"
 
 #include "EOSAIStrategicAI.h"
 #include "AIPlayer.h"
@@ -1958,7 +1959,7 @@ void CEOSAIStrategicAI::EvaluateAndRespondToTradeAgreement( CEOSAITradeAgreement
 			pTradeInteraction->m_iImprovedForeignRelationsHumanPlayer = pTradeAgreement->GetOtherPlayerNumber(pResponse->m_iFromAIPlayer);
 			pTradeInteraction->m_eResponse = EOSAIEnumTradeAgreementResponse_Accept;
 			pTradeInteraction->m_strTradeAgreement = pTradeAgreement->m_strTradeAgreementId;
-			g_pEOSAICommonData->AddNewPlayerInteractionAndSendFeelingsUpdate(pTradeInteraction);
+			g_pEOSAICommonData->AddPlayerInteractionAndSendFeelingsUpdate(pTradeInteraction);
 			/*
 			pTrade->Set(
 				GetWorldDescServer()->GetCurrentTurn(),
@@ -2439,6 +2440,27 @@ void CEOSAIStrategicAI::ProcessTradeAgreementResponse( CEOSAITradeAgreementRespo
 }
 
 //
+
+void  CEOSAIStrategicAI::ProcessMessage(EOSAI::MessageToAI* pMessage, bool* pbThisEventWasSignificantEnoughToRecalculateTheTurn)
+{
+	/*
+	ASSERT(pMessage->SendToAllPlayers()==false);
+	if (dynamic_cast<EOSAI::MessageToAI_WarWasDeclared*>(pMessage))
+	{
+		ASSERT(false); // This is a global message, not processed here
+		/-*
+		EOSAI::MessageToAI_WarWasDeclared* pWarDeclaration = dynamic_cast<EOSAI::MessageToAI_WarWasDeclared*>(pMessage);
+
+		CEOSAIPlayerInteraction_DeclaredWar* pPlayerInteraction = new CEOSAIPlayerInteraction_DeclaredWar();
+		pPlayerInteraction->m_iActor = pWarDeclaration->m_iActor;
+		pPlayerInteraction->m_iTarget = pWarDeclaration->m_iTarget;
+		pPlayerInteraction->m_iEventTurn = g_pEOSAIInterface->GetCurrentTurn();
+		g_pEOSAICommonData->AddNewPlayerInteractionAndSendFeelingsUpdate(pPlayerInteraction);
+		*-/
+	}
+	*/
+}
+
 /*
 float CEOSAIStrategicAI::GetPercentageOfCapturedCitRes()
 {

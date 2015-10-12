@@ -9,6 +9,7 @@ rem | If you want to use the build with your own strategy game, you can either p
 rem | or create another cpin task at the end of this batch file.  Write "cpin -r \Export\*.* [YOUR_DIRECTORY]" to recursively 
 rem | copy everything to a target directory.
 rem |
+rem | This (_ConstructExportPackage.bat) should be called in Project->Build Events->Post Build Events
 
 set ExportDirectory=.\Build\Export\
 
@@ -47,7 +48,7 @@ cpin .\EOSAICitResSummary.h %ExportDirectory%\Include\
 cpin .\EOSAICitResUnitSummary.h %ExportDirectory%\Include\
 cpin .\EOSAICitResValueMultiplier.h %ExportDirectory%\Include\
 cpin .\EOSAICombatUnitType.h %ExportDirectory%\Include\
-cpin .\EOSAICommonData2.h %ExportDirectory%\Include\
+cpin .\EOSAICommonData.h %ExportDirectory%\Include\
 cpin .\EOSAIEnumAttackGoal.h %ExportDirectory%\Include\
 cpin .\EOSAIEnumFieldOrders.h %ExportDirectory%\Include\
 cpin .\EOSAIEnumForeignRelations.h %ExportDirectory%\Include\

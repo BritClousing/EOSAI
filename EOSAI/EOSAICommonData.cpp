@@ -22,6 +22,7 @@
 #include "EOSAILogFile.h"
 #include "EOSAIInterface.h"
 #include "EOSAIStopwatch2.h"
+#include "MessageFromAI_ForeignRelationsFeelings.h"
 #include "AIPlayer.h"
 extern CEOSAILogFile g_LogFile;
 #include "EOSAIInterface.h"
@@ -291,10 +292,6 @@ long CCommonData::GetNumberOfActiveAIPlayers()
 	return iCount;
 }
 */
-void  CCommonData::SetWorldDistanceTool( EOSAI::CWorldDistanceTool* p )
-{
-	g_pWorldDistanceTool = p;
-}
 
 bool CCommonData::HasSetSneakAttack( long iAttacker, long iTarget )
 {
@@ -307,11 +304,20 @@ bool CCommonData::HasSetSneakAttack( long iAttacker, long iTarget )
 	return false;
 }
 
-void CCommonData::AddNewPlayerInteractionAndSendFeelingsUpdate(CEOSAIPlayerInteraction* pPlayerInteraction)
+void CCommonData::AddPlayerInteractionAndSendFeelingsUpdate(CEOSAIPlayerInteraction* pPlayerInteraction)
 {
+	ASSERT(pPlayerInteraction->ValidateValues());
+	if (pPlayerInteraction->ValidateValues() == false) return; // Cannot process incomplete player interactions
+
 	ASSERT(pPlayerInteraction->m_iEventTurn > 0);
+
+	ASSERT(pPlayerInteraction->m_iInteractionId == 0);
+	if (pPlayerInteraction->m_iInteractionId == 0){ pPlayerInteraction->m_iInteractionId = m_LatestPlayerInteractionsId + 1; }
+
 	m_PlayerInteractions.AddTail(pPlayerInteraction);
-	CalculateForeignRelationsFeelingsBasedOnPlayerInteractionHistory();
+
+	// TODO: This needs to be changed - everything below this line needs to happen in a different thread.
+	CalculateForeignRelationsFeelingsBasedOnPlayerInteractionHistoryAndSendFeelingsUpdate(g_pEOSAIInterface->GetCurrentTurn());
 }
 
 long CCommonData::GetPlayerInteraction_WarDuration( long iPlayer1, long iPlayer2 )
@@ -346,12 +352,13 @@ long CCommonData::GetPlayerInteraction_WarDuration( long iPlayer1, long iPlayer2
 	return g_pEOSAIInterface->GetCurrentTurn() - iStartTurn;
 }
 
-void CCommonData::CalculateForeignRelationsFeelingsBasedOnPlayerInteractionHistory()
+void CCommonData::CalculateForeignRelationsFeelingsBasedOnPlayerInteractionHistoryAndSendFeelingsUpdate(int iCurrentTurn)
 {
 	// Clear Feelings and Stance
 	m_AIGlobalForeignRelations.ResetFeelings();
 
-	int iCurrentTurn = g_pEOSAIInterface->GetCurrentTurn();
+	ASSERT(iCurrentTurn == g_pEOSAIInterface->GetCurrentTurn());
+	//int iCurrentTurn = g_pEOSAIInterface->GetCurrentTurn();
 
 	//CWorldDescServer* pWorldDescServer = GetCommonState()->GetWorldDescServer();
 	//CString strA = m_CurrentForeignRelations.OutputDebugString();
@@ -363,6 +370,11 @@ void CCommonData::CalculateForeignRelationsFeelingsBasedOnPlayerInteractionHisto
 			m_AIGlobalForeignRelations.GetForeignRelations(),
 			m_AIGlobalForeignRelations.GetFeelings());
 	}
+
+	// Send Foreign Relations Feelings Update
+	EOSAI::MessageFromAI_ForeignRelationsFeelings* pFeelings = new EOSAI::MessageFromAI_ForeignRelationsFeelings();
+	pFeelings->Set(this->GetGlobalForeignRelations());
+	g_pEOSAIInterface->SendMessageFromAI(pFeelings);
 }
 
 // Might need to fix this

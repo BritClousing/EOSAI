@@ -29,12 +29,73 @@ It's used in other places, too, so just search for "#if (WINVER >= 0x0500)"
 
 Initial Work:
 
+- Why do compiles take so long? Is there a way to use ninja? Why do recompiles happen every time?
+
+- Make sure the old games can be loaded with the old interactions. Maybe I need to have a "starting feelings" interaction, which could be useful for scenarios.
+- Maybe the player interactions should be held in a global list for the AI like we do with the WorldDescServer.
+    The game could contain a set of "who knows about this interaction" variables.
+	This would also make it more similar to the existing system.	
+	- Each individual AI should probably calculate his own feelings independently, anyway, since there might be personality differences.
+	  Each AI thread should probably periodically check his message queue for things to process. It might also cause him to recalculate his turn.
+	  In this paradigm, the global "war declared" MessageToAI would cause a bunch of "war declared" messages to the AIs?
+	  I also need to keep in mind that I should track the foreign relations of human players, in case the AI needs to step-in and take over the player.
+- The feelings update could be more complicated - for example, if you declare war on player 2, and player 3 is allied with player 2, then player 3's
+    feelings should adjust based on this. Alternatively, if player 2 and 3 are enemies, then declaring war on player 2 could improve relations with player 3.
+	The players feelings should take into account the SATE state. Also, how do I handle this with the roll-back/roll-forward player-interaction calculation?
+
+There's a problem: the game sends a "war declared" message, which is processed in the AI thread, but immediately asks for foreign-relations,
+  which is still based on no war being declared yet.
+I either need to process the "war declaration" and all player interactions in the game thread, or I need the interaction to be a message and
+  a request for the foreign relations in another message.
+  I think it should be message-based, because I don't think the game-thread should be moving around inside EOSAI code like that.
+  This means that I have to update the UI when the server gets the 'foreign-relation/feelings' message.
+  It might also run a touch slow - it might take a few seconds or more to process this.
+
+How about this for GameEvents:
+Create a single event - for all events. (This solves the problem of the developer not knowing if he needs to send one event to each player, or one global event.)
+All events gets stored in the CommonData.
+Each event has a bool set that tells it which players should know about it (this includes human players who should know about it, in case the AI needs to take-over).
+Every event should have an id, so that the players know if they need to process new events (e.g. a new event comes in, does player x,y,z need to process it?)
+Every player processes his own events (not the way I currently handle the war event - where I update all the feelings and foreign relations at the same time)
+The game-events list needs an id number that indicates the last received event. Each player also has a last-known-id number, which is the last one they know about.
+  The player's last-known-id number is *not* the last processed event.
+
+Do I want to sent messages, which create events, or do I just want to send a PlayerInteraction?
+
+When processing these events, I need to keep a temporary global foreign relations object to update, or maybe record the player's feelings.
+  There are some complicated scenarios here - for example:
+  * Player 1 is allies with player 2. Player 3 declares war on player 2. Player 1 lowers their feelings towards player 2. 
+	Later, player 1 and player 2 become enemies. What should player 1's feelings be towards player 3? Angry that he attacked an ally?
+    Happy that he attacked a now-enemy?  Should the AI handle sneak-attack and war events through the lense of his current foreign relations?
+  * What about the reverse situation: player 1 and player 2 are at war. Player 3 becomes allies with player 2. Later, player 1 and player 2 become allies.
+    If player 2 and player 3 are still allies, his feelings towards player 3 should be generally positive (but not "we are allies" positive).
+	Also, what if players 1, 2, and 3 becomes allies because of a bigger thread posed by player 4?
+  * Player 1 and Player 2 are at war. Player 1 and player 3 are at war. If player 3 declares war on player 2, does player 1's feelings towards player 3 improve a bit?
+  But the AI also wants to remember past trade agreements with other players, particularly if they are gifts.
+  Should the AI maintain different opinion variables? Like [gut reaction] and [useful to help player] (like the allies helping the USSR)?
+  Should the AI behave like an actual leader (remembering past wars, dead, betrayals), or should the AI be pragmatic in the moment? Maybe those are different personalities.
+
+Right now, I process the feelings update in the EOS thread, and then send a message back to EOS. I should be doing this in a thread.
+void CCommonData::AddNewPlayerInteractionAndSendFeelingsUpdate(CEOSAIPlayerInteraction* pPlayerInteraction)
+{
+	ASSERT(pPlayerInteraction->m_iEventTurn > 0);
+
+	ASSERT(pPlayerInteraction->m_iInteractionId == 0);
+	if (pPlayerInteraction->m_iInteractionId == 0){ pPlayerInteraction->m_iInteractionId = m_LatestPlayerInteractionsId + 1; }
+
+	m_PlayerInteractions.AddTail(pPlayerInteraction);
+	CalculateForeignRelationsFeelingsBasedOnPlayerInteractionHistory();
+	SendForeignRelationsFeelingsUpdate();
+}
+
 Unit Tests
 - Write Tests - I'd like to verify that the AI is working properly at all times.
   - I can use EOS as a test harness.
   - I can also create some fake (non EOS) maps. It's easy enough to do. It doesn't require that an actual map exists.
 
 - Move away from the EOSAI prefix on everything? It gets verbose.
+
+- Get rid of all the Feelings calculations in WorldDescServer and GlobaleForeignRelations. Maybe setup asserts if we're using EOSAI.
 
 AI User Interface:
   - Get a display system working, so that I can see what the AI is doing (what messages is it sending, etc)
@@ -48,6 +109,10 @@ AI User Interface:
   - What should the UI be written in? I could write a QT application, so that it's cross-platform.
 
 - Find all the TODO, THINGS_TO_COMPILE_EVENTUALLY, GAME_CODE, "EOSAI TODO" (in EOS) messages, fix the code.
+
+- The AI doesn't seem to know that the player declared war on them, although he knows about the foreign relations attitude change.
+
+- The AI needs to be able to serialize AI information - including historical information (EOSAIPlayerInteractions), like trade, wars, etc
 
 - Right now, it appears that there may be cases where the AI needs to have a deep understanding of the game rules.
   For example, if iron is running low, then he needs to shift his city-build orders to construct fewer things that require iron.
@@ -219,6 +284,16 @@ CAIPoiObject::ReleaseAllocatedUnitActionIdea( CAIUnitActionIdea* pUnitActionIdea
 void CAIUnitActionIdea::CreatePredefinedStep() 2809
 void CAIUnitPathwayFinder::CreateOrders() 1348
 	
+----
+Make sure this code can't lead to a crash. It's done by the Game, but it reached into EOSAI code to calculate foreign relations.
+  In theory, if a new player interaction was being added at the same time as the game was checking the AI feelings, it could lead to a crash.
+void CInterface::SendMessageToAI_CalculateForeignRelationsFeelingsBasedOnPlayerInteractionHistory()
+{
+	m_AICommonData.CalculateForeignRelationsFeelingsBasedOnPlayerInteractionHistory();
+	//
+	EOSAI::MessageFromAI_ForeignRelationsFeelings* p = new EOSAI::MessageFromAI_ForeignRelationsFeelings();
+	p->Set(m_AICommonData.GetGlobalForeignRelations());
+}
 --------------------------
 Long Term Goals:
 - Get rid of all references to Money, Food, Iron, and Oil. They are game-specific resources. 

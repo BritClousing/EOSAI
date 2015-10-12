@@ -4,6 +4,7 @@
 #include "EOSAIGamePlayer.h"
 #include "AIPlayerDesc.h"
 #include "AIPlayer.h"
+#include "MessageFromAI_ForeignRelationsFeelings.h"
 //#include "EOSAILogFile.h"
 
 // This will actually be pointing to the application's derived class
@@ -52,7 +53,7 @@ CInterface::CInterface()
 void CInterface::SetAIWorldDistanceTool( EOSAI::CWorldDistanceTool* p )
 {
 	m_pAIWorldDistanceTool = p;
-	m_AICommonData.SetWorldDistanceTool( p );
+	m_AICommonData.SetEOSAIWorldDistanceTool( p );
 }
 
 void CInterface::SetNumberOfPlayers( long iNumberOfPlayers )
@@ -267,6 +268,55 @@ void CInterface::SendMessageResponseToAI(long iToAIPlayer, long iFromPlayer, lon
 	}
 	//pAIPlayer->SendMessageResponseToAI(pResponse);
 }
+
+void CInterface::AddPlayerInteractionEvent(CEOSAIPlayerInteraction* pPlayerInteraction)
+{
+	//ASSERT(false); // Test that I hit this
+	m_AICommonData.AddPlayerInteractionAndSendFeelingsUpdate(pPlayerInteraction);
+}
+
+void CInterface::SendMessageToAI(EOSAI::MessageToAI* pMessageToAI)
+{
+	//if (dynamic_cast<EOSAI::MessageToAI_WarWasDeclared*>(pMessageToAI))
+	if ( pMessageToAI->SendToAllPlayers() )
+	{
+		// What thread processes this message?
+		m_MessagesToAI.AddTail(pMessageToAI);
+		return;
+	}
+
+	ASSERT(pMessageToAI->SendToAllPlayers() == false);
+	POSITION pos = pMessageToAI->SendToPlayers()->GetList()->GetHeadPosition();
+	while (pos)
+	{
+		int iPlayer = pMessageToAI->SendToPlayers()->GetList()->GetNext(pos);
+
+		EOSAI::AIPlayer* pAIPlayer = m_AIPlayerManager.GetAIPlayer(iPlayer);
+		if (pAIPlayer)
+		{
+			pAIPlayer->Incoming_MessageToAI(pMessageToAI);
+		}
+		else
+		{
+			ASSERT(false);
+		}
+	}
+}
+/*
+CEOSAIGlobalForeignRelations CInterface::GetCurrentForeignRelationsFeelingsBasedOnPlayerInteractionHistory()
+{
+	m_AICommonData.CalculateForeignRelationsFeelingsBasedOnPlayerInteractionHistory();
+	return *m_AICommonData.GetGlobalForeignRelations();
+	//
+	//EOSAI::MessageFromAI_ForeignRelationsFeelings* p = new EOSAI::MessageFromAI_ForeignRelationsFeelings();
+	//p->Set(m_AICommonData.GetGlobalForeignRelations());
+}
+*/
+void CInterface::UpdateForeignRelationsFeelings(int iCurrentTurn)
+{
+	m_AICommonData.CalculateForeignRelationsFeelingsBasedOnPlayerInteractionHistoryAndSendFeelingsUpdate(iCurrentTurn);
+}
+
 
 void CInterface::GetAIPlayersOpinionOnTradeAgreement(int iHumanPlayerNumber, int iAIPlayer, CEOSAITradeAgreement* pTradeAgreement, CString* pstrOpinionText, long* piOpinionSum)
 {

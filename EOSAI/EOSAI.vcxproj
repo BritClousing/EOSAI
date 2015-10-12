@@ -116,7 +116,8 @@
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>_ConstructExportPackage.bat</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -409,9 +410,11 @@
     <ClInclude Include="EOSAIPoiMobile.h" />
     <ClInclude Include="EOSAIPoiObjectIdAndName.h" />
     <ClInclude Include="EOSAIPoiObjectProximity.h" />
+    <ClInclude Include="MessageFromAI_ForeignRelationsFeelings.h" />
     <ClInclude Include="MessageFromAI_TradeDesires.h" />
     <ClInclude Include="MessageFromAI_TradeOfferOpinion.h" />
     <ClInclude Include="MessageFromAI_TradeOfferResponse.h" />
+    <ClInclude Include="MessageToAI_WarWasDeclared.h" />
     <ClInclude Include="PoiObjectState.h" />
     <ClInclude Include="EOSAIPublic.h" />
     <ClInclude Include="EOSAIQuickCombatCalculation.h" />

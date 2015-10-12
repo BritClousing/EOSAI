@@ -7,9 +7,9 @@
 #define DLLIMPEXP __declspec(dllimport)
 #endif
 
-// Messages to AI might be stuff like trade offers.
+#include "MessageToAI.h"
 
-namespace AI
+namespace EOSAI
 {
 class DLLIMPEXP MessageToAI_TradeOffer : public MessageToAI
 {

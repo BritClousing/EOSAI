@@ -2151,7 +2151,7 @@ void AIPlayer::SendMessagesAndAdjustForeignRelationsBasedOnBorderViolations()
 					CEOSAIPlayerInteraction_BorderViolation* pBorderViolation = new CEOSAIPlayerInteraction_BorderViolation();
 					pBorderViolation->Set( iCurrentTurn, iPlayer, iAIPlayer, fNegativeForeignRelations );
 					//g_pCommonState->GetWorldDescServer()->AddNewPlayerInteractionAndSendFeelingsUpdate( pBorderViolation );
-					g_pEOSAICommonData->AddNewPlayerInteractionAndSendFeelingsUpdate( pBorderViolation );
+					g_pEOSAICommonData->AddPlayerInteractionAndSendFeelingsUpdate( pBorderViolation );
 
 					// Send a warning message
 					if( iJustEnteredCount >= 1 && iStationaryCount == 0 && iGoingDeeperCount == 0 )
@@ -2483,6 +2483,11 @@ bool AIPlayer::ProcessUnprocessedEvents()
 	{
 		CEOSAIMailResponse* pIMailResponse = m_UnprocessedIncomingMailResponses.RemoveHead();
 		m_StrategicAI.ProcessMailResponse( pIMailResponse, &bThisEventWasSignificantEnoughToRecalculateTheTurn);
+	}
+	while (m_UnprocessedIncomingMessages.IsEmpty() == FALSE)
+	{
+		EOSAI::MessageToAI* pMessage = m_UnprocessedIncomingMessages.RemoveHead();
+		m_StrategicAI.ProcessMessage(pMessage, &bThisEventWasSignificantEnoughToRecalculateTheTurn);
 	}
 
 	return bThisEventWasSignificantEnoughToRecalculateTheTurn;

@@ -13,9 +13,10 @@
 //#include "EOSAIStopwatch2.h"
 #include "EOSAIEnumTradeAgreementResponse.h"
 #include "EOSAIEnumTradeAgreementState.h"
+#include "MessageToAI.h"
 //#include "Player.h"
 //class CPlayerData;
-class CEOSAIPlayerInteraction;
+//class CEOSAIPlayerInteraction;
 //class CWorldDescPlayer;
 //class CWorldDescPlayerProxy;
 //class CWorldDescServer;
@@ -217,7 +218,9 @@ class DLLIMPEXP AIPlayer // : public EOSAI::AIPlayerBase
 			void IncomingEvent_RequestAITradeDesires( long iSendToPlayer );
 			void EvaluateTradeAgreement(CEOSAITradeAgreement* pTradeAgreement, CString* pstrOpinionText, long* piOpinionSum);
 			void Incoming_TradeOffer(CEOSAITradeAgreement* pEOSAITradeAgreement) { m_UnprocessedIncomingTradeOffers.AddTail(pEOSAITradeAgreement); }
-			
+			//
+			void Incoming_MessageToAI(EOSAI::MessageToAI* pMessage) { m_UnprocessedIncomingMessages.AddTail(pMessage); }
+
 			//
 			void FindUnitsWithinMyNationalBoundaries();
 			void SendMessagesAndAdjustForeignRelationsBasedOnBorderViolations();
@@ -356,6 +359,7 @@ class DLLIMPEXP AIPlayer // : public EOSAI::AIPlayerBase
 			CList< CEOSAIMailResponse* >            m_UnprocessedIncomingMailResponses;
 			CList< CEOSAITradeAgreement* >          m_UnprocessedIncomingTradeOffers;
 			CList< CEOSAITradeAgreementResponse* >  m_UnprocessedIncomingTradeAgreementResponses;
+			CList< EOSAI::MessageToAI* >            m_UnprocessedIncomingMessages;
 			
 
 		// DEBUG

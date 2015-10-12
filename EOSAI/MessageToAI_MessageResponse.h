@@ -9,9 +9,10 @@
 
 // Messages to AI might be stuff like trade offers.
 /*
-namespace AI
+#include "MessageToAI.h"
+namespace EOSAI
 {
-class DLLIMPEXP MessageToAI_MessageResponse
+class DLLIMPEXP MessageToAI_MessageResponse : public MessageToAI
 {
 	public:
 		MessageToAI_MessageResponse(){}

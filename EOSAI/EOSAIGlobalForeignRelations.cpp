@@ -26,6 +26,33 @@ CEOSAIGlobalForeignRelations::CEOSAIGlobalForeignRelations()
 	}
 }
 
+CEOSAIGlobalForeignRelations::CEOSAIGlobalForeignRelations(CEOSAIGlobalForeignRelations& rel)
+{
+	//ASSERT(false);
+	//CEOSAIGlobalForeignRelations Relations = g_pEOSAIInterface->GetCurrentForeignRelationsFeelingsBasedOnPlayerInteractionHistory();
+	//ASSERT(false);
+	long iSizeX = rel.GetFeelings()->m_iSizeX;
+	long iSizeY = rel.GetFeelings()->m_iSizeY;
+	this->m_ForeignRelations.SetSize( iSizeX,iSizeY ); // Team, Alliance, Neutral, War, etc
+	this->m_Feelings.SetSize(iSizeX, iSizeY); //
+
+	this->Copy(&rel);
+
+	/*
+	long iSizeX = this->GetFeelings()->m_iSizeX;
+	long iSizeY = this->GetFeelings()->m_iSizeY;
+	for (int x = 0; x < iSizeX; x++)
+	{
+		for (int y = 0; y < iSizeY; y++)
+		{
+			rel.SetFeelings(x, y, this->GetFeelings()->Value(x, y));
+			rel.SetForeignRelations(x,y, this->GetForeignRelations()->Value(x, y))
+		}
+	}
+	*/
+}
+
+
 CEOSAIGlobalForeignRelations::~CEOSAIGlobalForeignRelations()
 {}
 
@@ -317,11 +344,15 @@ void CEOSAIGlobalForeignRelations::SetNumberOfPlayers( long iNumberOfPlayers )
 */
 void  CEOSAIGlobalForeignRelations::Copy( CEOSAIGlobalForeignRelations* pGlobalForeignRelations )
 {
+	int iSizeX = min( m_ForeignRelations.m_iSizeX, pGlobalForeignRelations->m_ForeignRelations.m_iSizeX );
+	int iSizeY = min( m_ForeignRelations.m_iSizeY, pGlobalForeignRelations->m_ForeignRelations.m_iSizeY);
+	//if(pGlobalForeignRelations->m_ForeignRelations.m_iSizeX)
+
 	//for( long x=0; x<=m_iNumberOfPlayers; x++ )
-	for( long x=0; x<m_ForeignRelations.m_iSizeX; x++ )
+	for( long x=0; x<iSizeX; x++ )
 	{
 		//for( long y=0; y<=m_iNumberOfPlayers; y++ )
-		for( long y=0; y<m_ForeignRelations.m_iSizeY; y++ )
+		for( long y=0; y<iSizeY; y++ )
 		{
 			m_ForeignRelations.Value( x,y ) = pGlobalForeignRelations->m_ForeignRelations.Value( x,y );
 			m_Feelings.Value( x,y ) = pGlobalForeignRelations->m_Feelings.Value( x,y );

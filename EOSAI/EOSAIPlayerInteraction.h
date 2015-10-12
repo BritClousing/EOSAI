@@ -23,21 +23,33 @@ class CWorldDescBase;
 //        Asked to sign a peace agreement
 //        Asked to join in an attack
 
+#ifdef _USRDLL
+#define DLLIMPEXP __declspec(dllexport)
+#else
+#define DLLIMPEXP __declspec(dllimport)
+#endif
+
 #define NORMAL_DECAY_TIME 8.0f
 #define LONG_DECAY_TIME 16.0f
 
-class CEOSAIPlayerInteraction
+class DLLIMPEXP CEOSAIPlayerInteraction
 {
 	public:
-		CEOSAIPlayerInteraction()
-		{
-			m_iEventTurn = -1;
-		}
+		CEOSAIPlayerInteraction(){}
 
 		//
 		CEOSAISerial_INFORMATION_LONG( 204, CEOSAIPlayerInteraction );
 		virtual void Serialize( CEOSAISerial* pSerial );
 		virtual void Deserialize( CEOSAISerial* pSerial, CWorldDescBase* pWorldDesc );
+
+		// Make sure all the necessary values are set
+		virtual bool ValidateValues(){ ASSERT(false); return true; }
+
+		bool KnownByAllPlayers() { return m_bEveryoneKnowsAboutThisInteraction; }
+		void KnownByAllPlayers(bool b) { m_bEveryoneKnowsAboutThisInteraction = b; } // send to all AIs?
+
+		CEOSAIIntSet* KnownByPlayer() { return &m_PlayersWhoKnowAboutThisInteraction; }
+		void          KnownByPlayer(int iPlayer) { m_PlayersWhoKnowAboutThisInteraction.Add(iPlayer); }
 
 		//virtual void UpdateForeignRelationsState( long iCurrentTurn, CEOSAIForeignRelationsState* pState ){}
 		virtual void UpdateForeignRelationsFeelings( 
@@ -77,7 +89,13 @@ class CEOSAIPlayerInteraction
 		// Delta 1.0, DeltaTurns 40.0, HalfLife 5.0 = 0.125
 		float AdjustDeltaAccordingToTime( long iTurnsSinceEvent, float fDelta, float fDecayTime );
 
-		long m_iEventTurn;
+		long m_iEventTurn = -1;
+
+		long m_iInteractionId = 0; // This is set by EOSAI
+
+		// Who should know about this Interaction?
+		bool m_bEveryoneKnowsAboutThisInteraction = false;
+		CEOSAIIntSet m_PlayersWhoKnowAboutThisInteraction;
 };
 
 // The interaction is encoded in a StrategicAIOrder
@@ -93,7 +111,7 @@ class CEOSAIPlayerInteraction_StrategicAIOrder : public CEOSAIPlayerInteraction
 };
 */
 
-class CEOSAIPlayerInteraction_CreatedAlliance : public CEOSAIPlayerInteraction
+class DLLIMPEXP CEOSAIPlayerInteraction_CreatedAlliance : public CEOSAIPlayerInteraction
 {
 	public:
 		CEOSAIPlayerInteraction_CreatedAlliance(){ m_iPlayer1 = 0; m_iPlayer2 = 0; }

@@ -52,7 +52,7 @@ class CEOSAIForeignRelationsState
 		//float GetPowerOfPlayerAndTeammates( long iPlayer );
 		//float GetPowerOfPlayerTeammatesAllies( long iPlayer );
 		//float GetPowerOfPlayerEnemies( long iPlayer );
-		//
+		// SATE = SelfAllyTeamEnemy
 		float GetSATEPowerBalanceBasedOnMatrix( long iPlayer ); // -infintity to +infinity
 		float GetSATEPowerBalanceBasedOnMatrix01( long iPlayer ); // 0 to 1.  1 = no enemies, 0.5 = equal power with enemies, 0 = overwhelmed
 		//

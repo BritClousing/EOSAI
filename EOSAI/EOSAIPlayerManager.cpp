@@ -8,9 +8,13 @@
 #include "EOSAICommonData.h"
 //#include "GameAppState.h"
 #include "EOSAISettings.h"
+#include "MessageToAI_WarWasDeclared.h"
+#include "EOSAIPlayerInteraction_DeclaredWar.h"
 #include "EOSAIInterface.h"
-//#include "WorldDescServer.h"
+#include "MessageToAI.h"
 
+//#include "WorldDescServer.h"
+extern EOSAI::CInterface* g_pEOSAIInterface;
 CEOSAIPlayerManager* g_pAIPlayerManager = NULL;
 CEOSAILogFile g_LogFile;
 
@@ -395,6 +399,15 @@ void  CEOSAIPlayerManager::Loop()
 			g_pEOSAIInterface->UpdateCurrentTurn();
 		}
 
+		// Process any global messages
+		while (m_pEOSAIInterface && 
+				m_pEOSAIInterface->GetMessagesToAI() &&
+				m_pEOSAIInterface->GetMessagesToAI()->IsEmpty() == FALSE)
+		{
+			EOSAI::MessageToAI* pMessageToAI = g_pEOSAIInterface->GetMessagesToAI()->RemoveHead();
+			ProcessMessage(pMessageToAI);
+		}
+
 		for( long iPlayer=1; iPlayer<m_AIPlayersArray.m_iSize; iPlayer++ )
 		{
 			m_iProcessingAIPlayer = 0;
@@ -472,6 +485,23 @@ void  CEOSAIPlayerManager::Loop()
 		Sleep( 100 );
 	}
 	m_bThreadIsRunning = false;
+}
+
+void  CEOSAIPlayerManager::ProcessMessage(EOSAI::MessageToAI* pMessageToAI)
+{
+	/*
+	if (dynamic_cast<EOSAI::MessageToAI_WarWasDeclared*>(pMessageToAI))
+	{
+		//EOSAI::MessageToAI_WarWasDeclared* pWarWasDeclared = dynamic_cast<EOSAI::MessageToAI_WarWasDeclared*>(pMessageToAI);
+		EOSAI::MessageToAI_WarWasDeclared* pWarDeclaration = dynamic_cast<EOSAI::MessageToAI_WarWasDeclared*>(pMessageToAI);
+
+		CEOSAIPlayerInteraction_DeclaredWar* pPlayerInteraction = new CEOSAIPlayerInteraction_DeclaredWar();
+		pPlayerInteraction->m_iActor = pWarDeclaration->m_iActor;
+		pPlayerInteraction->m_iTarget = pWarDeclaration->m_iTarget;
+		pPlayerInteraction->m_iEventTurn = g_pEOSAIInterface->GetCurrentTurn();
+		g_pEOSAICommonData->AddNewPlayerInteractionAndSendFeelingsUpdate(pPlayerInteraction);
+	}
+	*/
 }
 
 void  CEOSAIPlayerManager::ShutdownThread()

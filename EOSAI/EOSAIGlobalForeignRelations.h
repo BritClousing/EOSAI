@@ -1,9 +1,15 @@
 
-#pragma once
+#ifndef EOSAI_GLOBAL_FOREIGN_RELATIONS_H
+#define EOSAI_GLOBAL_FOREIGN_RELATIONS_H
 
 //
 // This class is used to describe the foreign relations between players
 //
+#ifdef _USRDLL
+#define DLLIMPEXP __declspec(dllexport)
+#else
+#define DLLIMPEXP __declspec(dllimport)
+#endif
 
 #include "EOSAIEnumForeignRelations.h"
 #include "EOSAIBCDumbArray2D.h"
@@ -12,10 +18,11 @@ class CEOSAIPlayerInteractionEvent;
 class CPlayerTeam;
 class CEOSAIIntSet;
 
-class CEOSAIGlobalForeignRelations
+class DLLIMPEXP CEOSAIGlobalForeignRelations
 {
 	public:
 		CEOSAIGlobalForeignRelations();
+		CEOSAIGlobalForeignRelations(CEOSAIGlobalForeignRelations& rel);
 		~CEOSAIGlobalForeignRelations();
 		//
 		//void  Serialize( CEOSAISerial* pSerial );
@@ -85,7 +92,7 @@ class CEOSAIGlobalForeignRelations
 
 	private:
 		CEOSAIBCDumbArray2D< EOSAIEnumForeignRelations >  m_ForeignRelations; // Team, Alliance, Neutral, War, etc
-		CEOSAIBCDumbArray2D< float >                   m_Feelings; //
+		CEOSAIBCDumbArray2D< float >                      m_Feelings; //
 
 		// Event information - server-only (used by the AI for feelings calculations)
 		//
@@ -115,3 +122,5 @@ class CEOSAIGlobalForeignRelations
 			//CGameTime  m_CurrentTime; // Used when inserting new events
 			//CList< CEOSAIPlayerInteractionEvent* >  m_PlayerInteractionHistory;
 };
+
+#endif EOSAI_GLOBAL_FOREIGN_RELATIONS_H

@@ -3,8 +3,9 @@
 
 #include "EOSAIForeignRelationsState.h"
 #include "EOSAIStrategicAIOrder.h"
+#include "MessageToAI.h"
 //#include "EOSAIForeignRelationsStance.h"
-class CEOSAIPlayerInteraction;
+//class CEOSAIPlayerInteraction;
 //class CGameEvent_IMail;
 class CEOSAIMail;
 class CEOSAIMailResponse;
@@ -89,6 +90,7 @@ class CEOSAIStrategicAI
 		void  ProcessMailResponse( CEOSAIMailResponse* pIMailResponse, bool* pbWasSignificant );
 		void  ProcessTradeOffer( CEOSAITradeAgreement* pTrade, bool* pbWasSignificant );
 		void  ProcessTradeAgreementResponse( CEOSAITradeAgreementResponse* pTradeAgreementResponse, bool* pbWasSignificant );
+		void  ProcessMessage(EOSAI::MessageToAI* pMessage, bool* pbThisEventWasSignificantEnoughToRecalculateTheTurn);
 
 		//
 		//float GetPercentageOfCapturedCitRes();
