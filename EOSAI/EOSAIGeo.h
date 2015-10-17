@@ -2,7 +2,7 @@
 #pragma once
 
 #include "EOSAIBrain.h"
-#include "EOSAIUnit2Summary.h"
+#include "EOSAIUnitSummary.h"
 #include "EOSAICitResSummary.h"
 #include "EOSAIListOwned.h"
 //#include "EnumGeoStrategicSituation.h"
@@ -81,7 +81,7 @@ class DLLIMPEXP CEOSAIGeo
 		//
 			CEOSAICitResUnitSummary* GetPlayerCitResUnitSummary( long iPlayer ){ return &( m_PlayerCitResUnitSummary[iPlayer] ); }
 			float  GetPlayerCitResControl01( long iPlayer ){ return m_PlayerCitResUnitSummary[iPlayer].m_CitRes.GetCitResValue() / m_TotalCitResSummary.GetCitResValue(); }
-			CEOSAIUnit2Summary*  GetUnitSummary( long iPlayer );
+			CEOSAIUnitSummary*  GetUnitSummary( long iPlayer );
 
 	// Situation
 	//

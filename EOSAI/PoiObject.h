@@ -36,7 +36,7 @@ class CEOSAIUnit2ActionIdea;
 class CAITacticalProject;
 class CAIPoiMobile;
 class CEOSAIGeo;
-class CEOSAIUnit2Summary;
+class CEOSAIUnitSummary;
 class CEOSAIAction;
 class CEOSAITask;
 class CEOSAIDesireSpatial;
@@ -139,8 +139,8 @@ class DLLIMPEXP CEOSAIPoiObject //: public CAIObject
 
 		// This unit plus any units inside it
 		void AddMeAndChildrenToList( CList< CEOSAIPoiObject* >* pAIPoiObjects );
-		void AddMeAndChildrenToUnitSummary( CEOSAIUnit2Summary* pUnitSummary );
-		//void AddMeToUnitSummary( CEOSAIUnit2Summary* pUnitSummary );
+		void AddMeAndChildrenToUnitSummary( CEOSAIUnitSummary* pUnitSummary );
+		//void AddMeToUnitSummary( CEOSAIUnitSummary* pUnitSummary );
 
 		virtual void  AddToCombatGroup( CList< CEOSAIPoiObject* >* pCombatGroupList );
 

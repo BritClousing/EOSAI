@@ -197,7 +197,7 @@ class DLLIMPEXP CCommonData
 			//float AICheat_GetGeoPlayerGoldProduction( long iPlayer, long iGeoNumber );
 			//float AICheat_GetGeoPlayerFoodProduction( long iPlayer, long iGeoNumber );
 			//float AICheat_GetGeoPlayerOilProduction(  long iPlayer, long iGeoNumber );
-			//void  AICheat_GetGeoPlayerMilitarySummary( long iPlayer, long iGeoNumber, CEOSAIUnit2Summary* pUnitSummary );
+			//void  AICheat_GetGeoPlayerMilitarySummary( long iPlayer, long iGeoNumber, CEOSAIUnitSummary* pUnitSummary );
 
 			// Total Values
 			//float AICheat_GetPlayerCityProduction( long iPlayer );
@@ -206,7 +206,7 @@ class DLLIMPEXP CCommonData
 			//float AICheat_GetTotalCitResOnMap();
 			//void  AICheat_GetNationalSummary( long iPlayer, CEOSAINationalSummary* pSummary );
 			//void  AICheat_GetPlayerCitResSummary( long iPlayer, CEOSAICitResSummary* pCitResSummary );
-			//void  AICheat_GetPlayerUnitSummary( long iPlayer, CEOSAIUnit2Summary* pUnitSummary );
+			//void  AICheat_GetPlayerUnitSummary( long iPlayer, CEOSAIUnitSummary* pUnitSummary );
 
 	private:
 

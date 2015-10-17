@@ -213,7 +213,7 @@ void CEOSAIPoiObject::AddMeAndChildrenToList( CList< CEOSAIPoiObject* >* pAIPoiO
 }
 
 // This unit plus any units inside it
-void CEOSAIPoiObject::AddMeAndChildrenToUnitSummary( CEOSAIUnit2Summary* pUnitSummary )
+void CEOSAIPoiObject::AddMeAndChildrenToUnitSummary( CEOSAIUnitSummary* pUnitSummary )
 {
 	pUnitSummary->AddToSummary( this );
 	//
@@ -258,7 +258,7 @@ CEOSAIDesireSpatial* CEOSAIPoiObject::GetAIDesire( EOSAIEnumAIDesireType eType )
 }
 
 /*
-void CEOSAIPoiObject::AddMeToUnitSummary( CEOSAIUnit2Summary* pUnitSummary )
+void CEOSAIPoiObject::AddMeToUnitSummary( CEOSAIUnitSummary* pUnitSummary )
 {
 	pUnitSummary->AddToSummary( this );
 }

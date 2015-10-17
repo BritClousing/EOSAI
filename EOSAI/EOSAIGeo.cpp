@@ -167,7 +167,7 @@ void  CEOSAIGeo::AddMultiRegion( CEOSAIMultiRegion2* pMultiRegion )
 }
 
 
-CEOSAIUnit2Summary* CEOSAIGeo::GetUnitSummary( long iPlayer )
+CEOSAIUnitSummary* CEOSAIGeo::GetUnitSummary( long iPlayer )
 {
 	return &m_PlayerCitResUnitSummary[ iPlayer ].m_Units;
 }

@@ -45,7 +45,7 @@ namespace EOSAI{ class AIPlayer; };
 //#include "EOSAIResourceEffectsSummary.h"
 //#include "AIDefinedAction.h"
 //#include "EOSAIBuildManager.h"
-#include "EOSAIUnit2Summary.h"
+#include "EOSAIUnitSummary.h"
 #include "EOSAIForeignRelationsSituation.h"
 #include "EOSAIActionScheduler.h"
 //#include "TradeAgreement.h"
@@ -197,7 +197,7 @@ class CEOSAIBrain
 			void  EvaluateNationalNeeds();
 			void  UpdateNationalInProductionSummary();
 			void  UpdateNationalUnsatisfiedMilitaryCapability();
-			CEOSAIUnit2Summary* GetUnsatisfiedMilitaryCapability(){ return &m_UnsatisfiedMilitaryCapability; }
+			CEOSAIUnitSummary* GetUnsatisfiedMilitaryCapability(){ return &m_UnsatisfiedMilitaryCapability; }
 
 		//
 
@@ -291,10 +291,10 @@ class CEOSAIBrain
 
 		// These are *geo-only* summaries
 		//
-			CEOSAIUnit2Summary   m_InitialNeed; // National needs (includes geo desires)
-			CEOSAIUnit2Summary   m_CurrentMilitaryCapability;
-			CEOSAIUnit2Summary   m_InProductionMilitaryCapability;
-			CEOSAIUnit2Summary   m_UnsatisfiedMilitaryCapability;
+			CEOSAIUnitSummary   m_InitialNeed; // National needs (includes geo desires)
+			CEOSAIUnitSummary   m_CurrentMilitaryCapability;
+			CEOSAIUnitSummary   m_InProductionMilitaryCapability;
+			CEOSAIUnitSummary   m_UnsatisfiedMilitaryCapability;
 
 		// CitRes Estimations - Used by non-cheating AIs for estimating other-player power
 		//

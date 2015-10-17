@@ -1,7 +1,5 @@
 
-When integrating AIPlayer2Interface into your software, you should avoid changing the interfaces themselves.
-If you need additional functionality, your classes should derive from AIPlayer2Interface and your class should add new virtual functions.
-You'll need to link to those objects in both the EOSAI project and your own project.
+Can the game derive a new class from AIPlayer? In what cases would that be useful/important?
 
 Conversion routines:
 

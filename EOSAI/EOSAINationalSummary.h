@@ -3,7 +3,7 @@
 
 #include "EOSAILongSet.h"
 #include "EOSAICitResSummary.h"
-#include "EOSAIUnit2Summary.h"
+#include "EOSAIUnitSummary.h"
 #include "EOSAIEnumForeignRelations.h"
 #include "EOSAIBCDumbArray1D.h"
 #include "EOSAIListSort.h"
@@ -112,7 +112,7 @@ class CEOSAINationalSummary
 		long  m_iPlayer;
 
 		CEOSAICitResSummary  m_CitResSummary;
-		CEOSAIUnit2Summary    m_UnitSummary;
+		CEOSAIUnitSummary    m_UnitSummary;
 
 		EOSAIEnumForeignRelations  GetForeignRelations( long iOtherPlayer );
 		EOSAIEnumForeignRelations  m_ForeignRelations[ EOSAI_MAX_NUMBER_OF_PLAYERS+1 ];

@@ -5,11 +5,11 @@ class CEOSAIUnitTemplate;
 class CEOSAIPoiObject;
 #include "EOSAIStringAndFloatSet.h"
 
-class CEOSAIUnit2Summary
+class CEOSAIUnitSummary
 {
 	public:
-		CEOSAIUnit2Summary(){ Clear(); }
-		CEOSAIUnit2Summary( CEOSAIUnit2Summary& Other ){ *this = Other; }
+		CEOSAIUnitSummary(){ Clear(); }
+		CEOSAIUnitSummary( CEOSAIUnitSummary& Other ){ *this = Other; }
 
 		void  Clear();
 
@@ -26,7 +26,7 @@ class CEOSAIUnit2Summary
 
 		// CombatCalculations can be done with CAICombatPlanner, but 
 		// iBattleResult 0 = Stalemate, 1 = I Win, 2 = Other Wins
-		//void  CalculateCombat( CEOSAIUnit2Summary* pOtherSummary,
+		//void  CalculateCombat( CEOSAIUnitSummary* pOtherSummary,
 		//		long* iBattleResult, float* pfProductionDamageToMe, float* pfProductionDamageToOther,
 		//		float* pfTimeToEndOfBattle );
 
@@ -38,12 +38,12 @@ class CEOSAIUnit2Summary
 		float GetGroundCombatPresence(){ return m_fGroundAttackUnits + m_fGroundDefenseUnits; }
 
 		//
-		void  operator=( CEOSAIUnit2Summary& Other );
-		void  operator+=( CEOSAIUnit2Summary& Other );
-		void  operator-=( CEOSAIUnit2Summary& Other );
-		CEOSAIUnit2Summary operator+( CEOSAIUnit2Summary& Other1 ){ CEOSAIUnit2Summary ret; ret = *this; ret += Other1; return ret; }
-		CEOSAIUnit2Summary operator-( CEOSAIUnit2Summary& Other1 ){ CEOSAIUnit2Summary ret; ret = *this; ret -= Other1; return ret; }
-		CEOSAIUnit2Summary operator*( float fMult ){ CEOSAIUnit2Summary ret; ret = *this; ret.Multiply( fMult ); return ret; }
+		void  operator=( CEOSAIUnitSummary& Other );
+		void  operator+=( CEOSAIUnitSummary& Other );
+		void  operator-=( CEOSAIUnitSummary& Other );
+		CEOSAIUnitSummary operator+( CEOSAIUnitSummary& Other1 ){ CEOSAIUnitSummary ret; ret = *this; ret += Other1; return ret; }
+		CEOSAIUnitSummary operator-( CEOSAIUnitSummary& Other1 ){ CEOSAIUnitSummary ret; ret = *this; ret -= Other1; return ret; }
+		CEOSAIUnitSummary operator*( float fMult ){ CEOSAIUnitSummary ret; ret = *this; ret.Multiply( fMult ); return ret; }
 		//
 
 		//
@@ -56,7 +56,7 @@ class CEOSAIUnit2Summary
 			float Sum();               // Simple sum of all values
 			float SumOfCombatValues(); // Simple sum of ( UnitStrength + CombatVs ) values
 			//float SumSquared();
-			//float CalculateSatisfactionScore( CEOSAIUnit2Summary& Other );
+			//float CalculateSatisfactionScore( CEOSAIUnitSummary& Other );
 
 		// [this] should contain the Desired Capability
 		// Used to calculate the value of a Template

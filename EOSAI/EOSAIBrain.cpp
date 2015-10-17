@@ -873,10 +873,10 @@ long CEOSAIBrain::SendTradeOffersAndNegotiations()
 	/*
 	float fTotalFeeling = 0.0f;
 
-	std::list< CEOSAINationalSummary* >::iterator iter;
+	//std::list< CEOSAINationalSummary* >::iterator iter;
 	for( iter=m_NationalSummaries.begin(); iter!=m_NationalSummaries.end(); ++iter )
 	{
-		CEOSAINationalSummary* pViewOfPlayer = *iter;
+		//CEOSAINationalSummary* pViewOfPlayer = *iter;
 		if( pViewOfPlayer->m_iPlayer != m_pAIPlayer->GetPlayer()->GetPlayerNumber() )
 		{
 			//fTotalFeeling += pViewOfPlayer->m_fFeelingsTowardPlayer;
@@ -3364,7 +3364,7 @@ void CEOSAIBrain::Process()
 		//   Is the nation insulated from it's foes so it can devote effort to buildup? (WW2 US)
 		//   Is the nation unfettered and needs to devote effort to expansion? (typical random map)
 		/*
-		CEOSAINationalSummary* pMySummary = this->GetAIForeignRelationsSituation()->GetNationalSummary( GetAIPlayerNumber() );
+		//CEOSAINationalSummary* pMySummary = this->GetAIForeignRelationsSituation()->GetNationalSummary( GetAIPlayerNumber() );
 		if( pMySummary->m_fCurrentWarPowerBalance == 1.0f ) // no enemies
 		{
 			// Increase/Decrease AIActionDefinitions based on the situation
@@ -4149,7 +4149,7 @@ void  CEOSAIBrain::UpdateNationalInProductionSummary()
 				// INCOMPLETE:
 				// This needs to be modified by the time-until-completion
 				//   Because a carrier done in 5 turns is different than one done in 50
-				//CEOSAIUnit2Summary UnitSummary;
+				//CEOSAIUnitSummary UnitSummary;
 				//UnitSummary.Set( pAICity->GetProductionTask()->m_pBuildOption->GetUnitTemplate() );
 				//m_InProductionMilitaryCapability += UnitSummary;
 				//CString strUnitTemplate = pAICity->GetProductionTask()->m_pBuildOption->GetUnitTemplate()->GetInternalName();

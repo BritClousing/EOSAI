@@ -3,7 +3,7 @@
 
 #include "EOSAIUnitTemplate.h"
 #include "EOSAIMathFunction.h"
-#include "EOSAIUnit2Summary.h"
+#include "EOSAIUnitSummary.h"
 //#include "EOSAIMultiRegion2.h"
 class CEOSAIMultiRegion2;
 #include "EOSAILongSet.h"
@@ -73,7 +73,7 @@ class CEOSAIActionRequirement_AntiGroundCombat : public CEOSAIActionRequirement
 		CEOSAIActionRequirement_AntiGroundCombat(){ m_eUnitActionNeeded = enum_AntiSoftCombat; }
 
 		CList< CEOSAIMultiRegion2* >  m_TargetMultiRegions;
-		CEOSAIUnit2Summary          m_EnemyUnitSummary; // When I need to counter an enemy force
+		CEOSAIUnitSummary          m_EnemyUnitSummary; // When I need to counter an enemy force
 };
 
 

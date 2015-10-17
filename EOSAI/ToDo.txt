@@ -80,7 +80,6 @@ AI User Interface:
 
 - Find all the TODO, THINGS_TO_COMPILE_EVENTUALLY, GAME_CODE, "EOSAI TODO" (in EOS) messages, fix the code.
 
-
 - The AI needs to be able to serialize AI information - including historical information (EOSAIPlayerInteractions), like trade, wars, etc
 
 - Right now, it appears that there may be cases where the AI needs to have a deep understanding of the game rules.

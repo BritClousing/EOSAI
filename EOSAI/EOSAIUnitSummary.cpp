@@ -1,6 +1,6 @@
 
 #include "stdafx.h"
-#include "EOSAIUnit2Summary.h"
+#include "EOSAIUnitSummary.h"
 #include "AIPlayer.h"
 //#include "WorldDescPlayer.h"
 #include "City.h"
@@ -19,7 +19,7 @@ static char THIS_FILE[]=__FILE__;
 #endif
 
 
-void  CEOSAIUnit2Summary::Clear()
+void  CEOSAIUnitSummary::Clear()
 {
 	m_fProductionValue = 0.0f;
 	m_fCombatSignificance = 0.0f;
@@ -68,12 +68,12 @@ void  CEOSAIUnit2Summary::Clear()
 }
 
 /*
-void  CEOSAIUnit2Summary::Calculate( CAIPlayer* pAIPlayer )  // Calculate abilities of single unit
+void  CEOSAIUnitSummary::Calculate( CAIPlayer* pAIPlayer )  // Calculate abilities of single unit
 {
 	ASSERT( pAIPlayer );
 	Clear();
 
-	CEOSAIUnit2Summary  UnitCapability;
+	CEOSAIUnitSummary  UnitCapability;
 
 	// Look through my military (and look through the units I'm making)
 	CWorldDescPlayer* pWorldDescPlayer = pAIPlayer->GetWorldDesc();
@@ -99,13 +99,13 @@ void  CEOSAIUnit2Summary::Calculate( CAIPlayer* pAIPlayer )  // Calculate abilit
 	}
 }
 
-void  CEOSAIUnit2Summary::CalculateInProduction( CAIPlayer* pAIPlayer )  // Calculate capabilities of units in production
+void  CEOSAIUnitSummary::CalculateInProduction( CAIPlayer* pAIPlayer )  // Calculate capabilities of units in production
 {
 	// Calculate-in the in-production information
 	ASSERT( pAIPlayer );
 	Clear();
 
-	CEOSAIUnit2Summary  UnitCapability;
+	CEOSAIUnitSummary  UnitCapability;
 
 	// Look through my military (and look through the units I'm making)
 	CWorldDescPlayer* pWorldDescPlayer = pAIPlayer->GetWorldDesc();
@@ -139,7 +139,7 @@ void  CEOSAIUnit2Summary::CalculateInProduction( CAIPlayer* pAIPlayer )  // Calc
 }
 */
 
-void  CEOSAIUnit2Summary::AddToSummary( CEOSAIPoiObject* pAIPoiObject )  // Calculate abilities of single unit
+void  CEOSAIUnitSummary::AddToSummary( CEOSAIPoiObject* pAIPoiObject )  // Calculate abilities of single unit
 {
 	CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
 	if( pAIUnit )
@@ -157,7 +157,7 @@ void  CEOSAIUnit2Summary::AddToSummary( CEOSAIPoiObject* pAIPoiObject )  // Calc
 	}
 }
 /*
-void  CEOSAIUnit2Summary::AddToSummary( CUnitTemplate* pUnitTemplate )  // Calculate abilities of single unit
+void  CEOSAIUnitSummary::AddToSummary( CUnitTemplate* pUnitTemplate )  // Calculate abilities of single unit
 {
 	m_UnitTemplates.AddTail( pUnitTemplate );
 	AddToSummaryValue( pUnitTemplate );
@@ -167,7 +167,7 @@ void  CEOSAIUnit2Summary::AddToSummary( CUnitTemplate* pUnitTemplate )  // Calcu
 	int g=0;
 }
 */
-void  CEOSAIUnit2Summary::AddToSummary( CEOSAIUnitTemplate* pAIUnitTemplate )
+void  CEOSAIUnitSummary::AddToSummary( CEOSAIUnitTemplate* pAIUnitTemplate )
 {
 	m_AIUnitTemplates.AddTail( pAIUnitTemplate );
 	AddToSummaryValue( pAIUnitTemplate );
@@ -178,7 +178,7 @@ void  CEOSAIUnit2Summary::AddToSummary( CEOSAIUnitTemplate* pAIUnitTemplate )
 }
 
 
-void  CEOSAIUnit2Summary::RemoveFromSummary( CEOSAIPoiObject* pAIPoiObject )
+void  CEOSAIUnitSummary::RemoveFromSummary( CEOSAIPoiObject* pAIPoiObject )
 {
 	CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
 	ASSERT( pAIUnit );
@@ -200,7 +200,7 @@ void  CEOSAIUnit2Summary::RemoveFromSummary( CEOSAIPoiObject* pAIPoiObject )
 	}
 }
 /*
-void  CEOSAIUnit2Summary::RemoveFromSummary( CUnitTemplate* pUnitTemplate )
+void  CEOSAIUnitSummary::RemoveFromSummary( CUnitTemplate* pUnitTemplate )
 {
 	POSITION pos = m_UnitTemplates.GetHeadPosition();
 	while( pos )
@@ -217,7 +217,7 @@ void  CEOSAIUnit2Summary::RemoveFromSummary( CUnitTemplate* pUnitTemplate )
 	}
 }
 */
-void  CEOSAIUnit2Summary::RemoveFromSummary( CEOSAIUnitTemplate* pAIUnitTemplate )
+void  CEOSAIUnitSummary::RemoveFromSummary( CEOSAIUnitTemplate* pAIUnitTemplate )
 {
 	POSITION pos = m_AIUnitTemplates.GetHeadPosition();
 	while( pos )
@@ -236,14 +236,14 @@ void  CEOSAIUnit2Summary::RemoveFromSummary( CEOSAIUnitTemplate* pAIUnitTemplate
 
 // iBattleResult 0 = Stalemate, 1 = I Win, 2 = Other Wins
 /*
-void  CEOSAIUnit2Summary::CalculateCombat( CEOSAIUnit2Summary* pOtherSummary,
+void  CEOSAIUnitSummary::CalculateCombat( CEOSAIUnitSummary* pOtherSummary,
 		long* iBattleResult, float* pfProductionDamageToMe, float* pfProductionDamageToOther,
 		float* pfTimeToEndOfBattle )
 {
 	//
 }
 */
-void  CEOSAIUnit2Summary::Set( CEOSAIUnitTemplate* pTemplate )  // Calculate abilities of single unit
+void  CEOSAIUnitSummary::Set( CEOSAIUnitTemplate* pTemplate )  // Calculate abilities of single unit
 {
 	//CUnitTemplate* pUnitTemplate = pAIUnitTemplate->GetUnitTemplate();
 	//
@@ -293,14 +293,14 @@ void  CEOSAIUnit2Summary::Set( CEOSAIUnitTemplate* pTemplate )  // Calculate abi
 	//m_fCombatVsSubmarine = pTemplate->GetAICombatVsSubmarine();
 }
 
-void  CEOSAIUnit2Summary::SetAndDivideByCost( CEOSAIUnitTemplate* pTemplate, float fCost )
+void  CEOSAIUnitSummary::SetAndDivideByCost( CEOSAIUnitTemplate* pTemplate, float fCost )
 {
 	this->Set( pTemplate );
 	this->Multiply( 1.0f / fCost );
 }
 
 
-void  CEOSAIUnit2Summary::operator=( CEOSAIUnit2Summary& Other )
+void  CEOSAIUnitSummary::operator=( CEOSAIUnitSummary& Other )
 {
 	m_fExploration        = Other.m_fExploration;
 	m_fSighting           = Other.m_fSighting;
@@ -346,7 +346,7 @@ void  CEOSAIUnit2Summary::operator=( CEOSAIUnit2Summary& Other )
 	//m_fCombatVsSubmarine = Other.m_fCombatVsSubmarine;
 }
 
-void  CEOSAIUnit2Summary::operator+=( CEOSAIUnit2Summary& Other )
+void  CEOSAIUnitSummary::operator+=( CEOSAIUnitSummary& Other )
 {
 	m_fExploration        += Other.m_fExploration;
 	m_fSighting           += Other.m_fSighting;
@@ -392,7 +392,7 @@ void  CEOSAIUnit2Summary::operator+=( CEOSAIUnit2Summary& Other )
 	//m_fCombatVsSubmarine += Other.m_fCombatVsSubmarine;
 }
 
-void  CEOSAIUnit2Summary::operator-=( CEOSAIUnit2Summary& Other )
+void  CEOSAIUnitSummary::operator-=( CEOSAIUnitSummary& Other )
 {
 	m_fExploration        -= Other.m_fExploration;
 	m_fSighting           -= Other.m_fSighting;
@@ -438,14 +438,14 @@ void  CEOSAIUnit2Summary::operator-=( CEOSAIUnit2Summary& Other )
 	//m_fCombatVsSubmarine -= Other.m_fCombatVsSubmarine;
 }
 /*
-void  CEOSAIUnit2Summary::operator-=( CUnitTemplate* pUnitTemplate )
+void  CEOSAIUnitSummary::operator-=( CUnitTemplate* pUnitTemplate )
 {
-	CEOSAIUnit2Summary Temp;
+	CEOSAIUnitSummary Temp;
 	Temp.Calculate( pUnitTemplate );
 	*this -= Temp;
 }
 */
-void  CEOSAIUnit2Summary::Normalize()  // scale all values to the Sum is 1.0
+void  CEOSAIUnitSummary::Normalize()  // scale all values to the Sum is 1.0
 {
 	float fSum = Sum();
 	if( fSum == 0.0f )
@@ -456,7 +456,7 @@ void  CEOSAIUnit2Summary::Normalize()  // scale all values to the Sum is 1.0
 	Multiply( 1.0f / fSum );
 }
 
-void  CEOSAIUnit2Summary::NothingBelowZero()
+void  CEOSAIUnitSummary::NothingBelowZero()
 {
 	if( m_fExploration < 0.0f ) m_fExploration = 0.0f;
 	if( m_fSighting < 0.0f ) m_fSighting = 0.0f;
@@ -503,7 +503,7 @@ void  CEOSAIUnit2Summary::NothingBelowZero()
 
 }
 
-void  CEOSAIUnit2Summary::Multiply( float fValue )
+void  CEOSAIUnitSummary::Multiply( float fValue )
 {
 	m_fExploration *= fValue;
 	m_fSighting *= fValue;
@@ -549,7 +549,7 @@ void  CEOSAIUnit2Summary::Multiply( float fValue )
 	//m_fCombatVsSubmarine *= fValue;
 }
 
-float CEOSAIUnit2Summary::Sum()
+float CEOSAIUnitSummary::Sum()
 {
 	return
 		m_fExploration +
@@ -598,7 +598,7 @@ float CEOSAIUnit2Summary::Sum()
 		0.01f;  // so that we never return 0 (that would be bad for some later calculations
 }
 
-float CEOSAIUnit2Summary::SumOfCombatValues()
+float CEOSAIUnitSummary::SumOfCombatValues()
 {
 	return
 		// UnitStrength is Defense * Current HP
@@ -624,7 +624,7 @@ float CEOSAIUnit2Summary::SumOfCombatValues()
 }
 
 
-void  CEOSAIUnit2Summary::AddToSummaryValue( CEOSAIUnitTemplate* pUnitTemplate )  // Calculate abilities of single unit
+void  CEOSAIUnitSummary::AddToSummaryValue( CEOSAIUnitTemplate* pUnitTemplate )  // Calculate abilities of single unit
 {
 	//CUnitTemplate* pUnitTemplate = pAIUnitTemplate->GetUnitTemplate();
 	//

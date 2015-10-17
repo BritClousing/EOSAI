@@ -48,7 +48,7 @@ class CAICircularAnnotation;
 #define DLLIMPEXP __declspec(dllimport)
 #endif
 
-// The AIPlayer2 class is where programmers can put additional AIPlayer information that's not included in AI::AIPlayerInterface
+// The AIPlayer class is where programmers can put additional AIPlayer information that's not included in AI::AIPlayerInterface
 //
 
 namespace EOSAI

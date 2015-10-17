@@ -2,7 +2,7 @@
 #pragma once
 
 #include "EOSAICitResSummary.h"
-#include "EOSAIUnit2Summary.h"
+#include "EOSAIUnitSummary.h"
 //class pAIPoiObject;
 
 class CEOSAICitResUnitSummary
@@ -74,6 +74,6 @@ class CEOSAICitResUnitSummary
 		}
 
 		CEOSAICitResSummary  m_CitRes;
-		CEOSAIUnit2Summary    m_Units;
+		CEOSAIUnitSummary    m_Units;
 };
 

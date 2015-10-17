@@ -3,7 +3,6 @@
 
 - Read about the Overmind AI which was produced at Berkley as a Starcraft AI
 
-
 - Good ideas for nasty things to do:
   https://www.reddit.com/r/4Xgaming/comments/3memkj/what_was_the_most_evil_thing_that_you_have_done/
 

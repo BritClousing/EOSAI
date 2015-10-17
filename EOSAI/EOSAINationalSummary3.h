@@ -8,7 +8,7 @@
 #endif
 
 #include "EOSAICitResSummary.h"
-#include "EOSAIUnit2Summary.h"
+#include "EOSAIUnitSummary.h"
 #include "EOSAIBCDumbArray1D.h"
 #include "PlayerResourceSummary.h"
 //#include "EOSAIResourceEffectsSummary.h"
@@ -79,7 +79,7 @@ class DLLIMPEXP CEOSAINationalSummary3
 
 		// City/Resource/Unit summaries
 		CEOSAICitResSummary  m_CitResSummary;
-		CEOSAIUnit2Summary   m_UnitSummary;
+		CEOSAIUnitSummary   m_UnitSummary;
 		float m_fMaintenanceCosts;
 
 		//CEOSAIResourceState m_ResourceState; // Total resources, resource deltas (with and without orders)

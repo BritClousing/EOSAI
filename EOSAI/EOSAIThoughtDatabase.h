@@ -7,7 +7,7 @@
 //#include "AIActionDefinitionUnitCapability.h"
 #include "EOSAIUnitTemplateSet.h"
 #include "EOSAITransportsSet.h"
-#include "EOSAIUnit2Summary.h"
+#include "EOSAIUnitSummary.h"
 //#include "AITacticalProjectStrategy.h"
 #include "EOSAITacticalProject2Strategy.h"
 //#include "AIFutureBuildIdeas.h"
