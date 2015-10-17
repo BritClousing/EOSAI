@@ -140,8 +140,6 @@ namespace EOSAI
 		long  GetCurrentTurn() { return m_iCurrentTurn; }
 		bool  GetGameHasEnded() { return m_bGameHasEnded; }
 
-		virtual void  SetAIPlayerHasProcessedTurn(long iAIPlayer, long iCurrentTurn) { ASSERT(false); }; // Called by the AI
-
 	//
 		long GetProcessingAIPlayer(); // The player that's being processed
 
@@ -183,44 +181,41 @@ namespace EOSAI
 
 		// Post-AI Processing - these methods should be overridden
 		//
-			// ASSERT is there only because EOS needs to handle these messages. I might also want an event that gets triggered whenever
-			//   a new message arrives. That override should happen in the derived class.
-			//virtual void AddNewMessageFromAI(EOSAI::MessageFromAI* pAIMessage) { m_MessagesFromAI.AddTail(pAIMessage); }
-		virtual void NewMessageFromAINotification() {}
-		CList< EOSAI::MessageFromAI* >* GetMessagesFromAI() { return &m_MessagesFromAI; }
+			// Messages from AI to a player
+			//
+			virtual void NewMessageFromAINotification() {}
+			CList< EOSAI::MessageFromAI* >* GetMessagesFromAI() { return &m_MessagesFromAI; }
 
-		//void Incoming_TradeAgreementResponse(CString strTradeAgreementId, long iPlayerWhoInitiatedChange, EOSAIEnumTradeAgreementResponse eResponse, EOSAIEnumTradeAgreementState eNewState);
-		void SendTradeAgreementResponseToAI(long iToAIPlayer, CString strTradeAgreementId, long iPlayerWhoInitiatedChange, EOSAIEnumTradeAgreementResponse eResponse, EOSAIEnumTradeAgreementState eNewState);
-		void SendMessageResponseToAI(long iToAIPlayer, long iFromPlayer, long iAIMessageUID, EOSAI::EnumAIMailResponse eResponse);
-
-		void AddPlayerInteractionEvent( CEOSAIPlayerInteraction* pPlayerInteraction );
-		//g_pEOSAIInterface->AddEvent_DeclarationOfWar(iActor, iTarget);
-		void SendMessageToAI(EOSAI::MessageToAI* pMessageToAI);
-		//void SendMessageToAI_CalculateForeignRelationsFeelingsBasedOnPlayerInteractionHistory();
-		//CEOSAIGlobalForeignRelations GetCurrentForeignRelationsFeelingsBasedOnPlayerInteractionHistory();
-		void UpdateForeignRelationsState(int iCurrentTurn);
-
+			// Messages from player to AI
+			//
+			void SendTradeAgreementResponseToAI(long iToAIPlayer, CString strTradeAgreementId, long iPlayerWhoInitiatedChange, EOSAIEnumTradeAgreementResponse eResponse, EOSAIEnumTradeAgreementState eNewState);
+			void SendMessageResponseToAI(long iToAIPlayer, long iFromPlayer, long iAIMessageUID, EOSAI::EnumAIMailResponse eResponse);
+			void SendMessageToAI(EOSAI::MessageToAI* pMessageToAI);
 			// NOTE: This call happens within the Game's thread. It's the only function where that happens.
 			//       I'm not sure if I like that. Maybe I could send a message and have another message respond, although I want it to happen quickly.
-			void GetAIPlayersOpinionOnTradeAgreement( int iHumanPlayerNumber, int iAIPlayer, CEOSAITradeAgreement* pTradeAgreement, CString* pstrOpinionText, long* piOpinionSum);
-			//void SendMessageResponseToAI(CEOSAIMailResponse* pResponse);
+			void GetAIPlayersOpinionOnTradeAgreement(int iHumanPlayerNumber, int iAIPlayer, CEOSAITradeAgreement* pTradeAgreement, CString* pstrOpinionText, long* piOpinionSum);
 
+			// PlayerInteraction Events
+			//
+			void AddPlayerInteractionEvent( CEOSAIPlayerInteraction* pPlayerInteraction );
+
+			// Foreign Relations
+			//   Have the AI recalculate the foreign relations state (should get called every turn)
+			void UpdateForeignRelationsState(int iCurrentTurn);
+
+			// Overridden by the game so that the AI can set the city-build and unit-movement orders
 			// Turn the AIPoiObject orders into game-world orders (delete the old ones first)
-			//virtual void CreateBuildOrders( CEOSAIBuildOption* pEOSAIBuildOption ){ ASSERT( false); }
-			//virtual bool CreateUnitOrders( CEOSAIPoiMobile* EOSAI::UnitPathwayResult* pAIUnitPathwayResult ){ return false; }
-			//virtual void CreateOrders( CEOSAIPoiObject* pEOSAIPoiObject ){ ASSERT(false); }
-			virtual void SetBuildOrder( int iAIPlayer, CEOSAICity* pEOSAICity, CEOSAIBuildOption* pEOSAIBuildOption ){ ASSERT( false ); }
+			//virtual void SetBuildOrder1( int iAIPlayer, CEOSAICity* pEOSAICity, CEOSAIBuildOption* pEOSAIBuildOption ){ ASSERT( false ); }
 			virtual void SetBuildOrder( int iAIPlayer, CEOSAICity* pEOSAICity, CString strBuildOptionInternalName ){ ASSERT( false ); }
 			virtual bool CreateAIUnitOrders( EOSAI::UnitPathwayResult* pAIUnitPathwayResult ){ ASSERT( false ); return false; }
+			virtual void SetAIPlayerHasProcessedTurn(long iAIPlayer, long iCurrentTurn) { ASSERT(false); }; // Called by the AI
 
-#ifdef USE_EOSAI_DLL
-	private:
+#ifdef CREATE_EOSAI_DLL
+	public:
 		virtual void SendMessageFromAI(EOSAI::MessageFromAI* pAIMessage) { m_MessagesFromAI.AddTail(pAIMessage); NewMessageFromAINotification(); }
 		virtual CList< EOSAI::MessageToAI* >* GetMessagesToAI() { return &m_MessagesToAI; }
-		//	// Sent by the AI.
-		//	virtual void SendMessageFromAI(EOSAI::MessageFromAI* pAIMessage) { m_MessagesFromAI.AddTail(pAIMessage); NewMessageFromAINotification(); }
-#else !USE_EOSAI_DLL // TODO: This should simply be CREATE_EOSAI_DLL
-	public:
+#else
+	private:
 		virtual void SendMessageFromAI(EOSAI::MessageFromAI* pAIMessage) { m_MessagesFromAI.AddTail(pAIMessage); NewMessageFromAINotification(); }
 		virtual CList< EOSAI::MessageToAI* >* GetMessagesToAI() { return &m_MessagesToAI; }
 #endif USE_EOSAI_DLL

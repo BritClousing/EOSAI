@@ -1600,7 +1600,8 @@ long CEOSAICity::GetNumberOfGroundUnitsInside()
 void CEOSAICity::ActionScheduler_CreateBuildOrder( CEOSAIBuildOption* pEOSAIBuildOption )
 {
 	// I don't actually create build orders anymore, instead, the game looks at the AI values and changes them locally.
-	g_pEOSAIInterface->SetBuildOrder( this->GetOwner(), this, pEOSAIBuildOption );
+	//g_pEOSAIInterface->SetBuildOrder1(this->GetOwner(), this, pEOSAIBuildOption);
+	g_pEOSAIInterface->SetBuildOrder(this->GetOwner(), this, pEOSAIBuildOption->GetInternalName() );
 	AppendBuildOrder( pEOSAIBuildOption);
 
 	//ASSERT( false ); // Fix this

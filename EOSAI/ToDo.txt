@@ -29,6 +29,8 @@ It's used in other places, too, so just search for "#if (WINVER >= 0x0500)"
 
 Initial Work:
 
+- Get the EOS website updated - I need to get GumTree working. Also, put checks on the EOS website, like I do with the updater code.
+
 - Why do compiles take so long? Is there a way to use ninja? Why do recompiles happen every time?
 
 - Make sure the old games can be loaded with the old interactions. Maybe I need to have a "starting feelings" interaction, which could be useful for scenarios.
