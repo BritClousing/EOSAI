@@ -150,8 +150,9 @@ class DLLIMPEXP CEOSAIUnit2 : public EOSAI::PoiMobile
 		float  GetAICombatSignificance(){ return m_pAIUnitTemplate->GetAICombatSignificance(); }
 
 		//
-		void   SetCurrentHP( int iHP ){ m_iCurrentHP = iHP; GetInitialState()->SetHP( (float)iHP ); }
-		long   GetCurrentHP(){ return m_iCurrentHP; }
+		//void   SetCurrentHP( int iHP ){ m_iCurrentHP = iHP; GetInitialState()->SetHP( (float)iHP ); }
+		//long   GetCurrentHP() { return m_iCurrentHP; }
+		long   GetCurrentHP() { return (long) GetInitialState()->GetHP(); }
 
 		void   SetCurrentTerrain( long i ){ m_iCurrentTerrain = i; }
 		void   IsEntrenched( bool b ){ m_bIsEntrenched = b; }
@@ -340,7 +341,7 @@ class DLLIMPEXP CEOSAIUnit2 : public EOSAI::PoiMobile
 			float m_fUseInCombat01; // 0.0 for transports, 0.0 for severely damaged combat units
 
 		//
-		long   m_iCurrentHP;
+		//long   m_iCurrentHP;
 		float  m_fMovementConsumed;
 
 		long   m_iCurrentTerrain;

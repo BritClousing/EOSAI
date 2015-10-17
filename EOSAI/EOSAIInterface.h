@@ -201,6 +201,7 @@ namespace EOSAI
 
 			// Foreign Relations
 			//   Have the AI recalculate the foreign relations state (should get called every turn)
+			//   The reason this gets called every turn is because the feelings of past-events fades over time.
 			void UpdateForeignRelationsState(int iCurrentTurn);
 
 			// Overridden by the game so that the AI can set the city-build and unit-movement orders

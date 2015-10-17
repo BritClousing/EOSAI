@@ -199,7 +199,7 @@ CEOSAIUnit2::CEOSAIUnit2() : EOSAI::PoiMobile()
 		// Combat
 		m_fUseInCombat01 = 1.0f;
 
-	m_iCurrentHP = 0;
+	//m_iCurrentHP = 0;
 	m_fMovementConsumed = 0.0f;
 	m_iCurrentTerrain = -1;
 	m_bIsEntrenched = false;
@@ -515,7 +515,8 @@ CEOSAIUnit2* CEOSAIUnit2::GetRandomPotentialTarget()
 
 float CEOSAIUnit2::GetCurrentHP01()
 {
-	return (float) m_iCurrentHP / (float) m_pAIUnitTemplate->GetMaxHP();
+	return (float)GetCurrentHP() / (float)m_pAIUnitTemplate->GetMaxHP();
+	//return (float)m_iCurrentHP / (float)m_pAIUnitTemplate->GetMaxHP();
 }
 
 // Ground Units

@@ -80,8 +80,6 @@ AI User Interface:
 
 - Find all the TODO, THINGS_TO_COMPILE_EVENTUALLY, GAME_CODE, "EOSAI TODO" (in EOS) messages, fix the code.
 
-- Get more messages working:
-  - Border violations, suggest multilateral war, suggest that player resign, etc. Search for the GAME_CODE keyword.
 
 - The AI needs to be able to serialize AI information - including historical information (EOSAIPlayerInteractions), like trade, wars, etc
 
@@ -144,10 +142,6 @@ It would be nice if the old AI and the new AI could play against each other - to
 
 I could have some memory leaks with stuff like "ClearPredefinedAndResultPaths".
 
-Right now, I'm using both SetCurrentHP and InitialState->SetHP.  I might want to switch to one or the other.
-	pAIUnit->SetCurrentHP( pUnit->GetCurrentHP() );
-	pAIUnit->GetInitialState()->SetHP( pUnit->GetCurrentHP() );
-
 - TransferServer doesn't work
     The code:
 	ASSERT( false ); // We're not supporting this right now
@@ -162,7 +156,6 @@ Right now, I'm using both SetCurrentHP and InitialState->SetHP.  I might want to
       improvements against unit-building. (Right now, the only reason the AI stops building certain city improvements is because it can
       only build one copy of, say, a barracks in a city.)
 
-- Might need to copy "CAITradeDesires" into EOSAI. It's currently inside EOS.
 - Might need to copy "CAIJobCapability" into EOSAI. It's currently inside EOS.
 - Do we ever have any attack records? "pSerial->Serialize( (long) m_AttackRecordList.GetCount() );"
   - Maybe we can hard-code this to zero. I want the AI to remember all of its own data.
@@ -171,18 +164,9 @@ Right now, I'm using both SetCurrentHP and InitialState->SetHP.  I might want to
 
 - WorldDescPlayer::Serialize is serializaing the AIPlayer: "pAIPlayer->Serialize( pSerial );"
   - If I want backwards compatibility, I should write the (deserialize) code to do this - i.e. code to deserialize old EOS saved-games
+  - I DON'T THINK AIPLAYER SERIALIZATION HAPPENS IN WorldDescPlayer because we don't create separate WorldDescPlayers for AIPlayers.
 
-- In "CWorldDesc::ApplyAllEvents()", I think I might use the "WorldDescPlayer->AICheat_SynchrononizeAllPoiObjectsWithServer();" call,
-    but I'm not sure because I also have an ASSERT there that would get called. Maybe the AI doesn't use the WorldDescPlayer object, which
-    makes sense.  That was probably a really early version of the AI.
-
-Messages/Foreign Relations:
-- Create new messages, including:
-  - EOSAIStrategicAIOrder_AISuggestsYouResign
-  - There could be a "tribute" trade option (basically a "don't attack me, I'll pay you")
-  - Vassal States / Surrender to another country
-
-Later Work:
+LATER WORK:----------------------------------------------------------------------------------------------------------------------------------
 - Try to make things more generic (resources, unit/tech costs, what can trigger a building/unit to be buildable, etc)
 - Can I switch it over from CEOSAIClass to EOSAI::CClass?  I already did this with EOSAIActionScheduler and EOSAIBuildManager
 - Add a negotiation engine - this would allow the AI to make decisions about buying and selling stuff, affect relations, add personality.
