@@ -17,6 +17,7 @@ class CEOSAIPlayerInteraction_BorderViolation : public CEOSAIPlayerInteraction
 		}
 
 		void Set( long iTurn, long iViolatorPlayer, long iViolateePlayer,  float fReducedForeignRelationsValue100 );
+		virtual bool ValidateValues();
 
 		//
 		CEOSAISerial_INFORMATION_LONG( 209, CEOSAIPlayerInteraction_BorderViolation );

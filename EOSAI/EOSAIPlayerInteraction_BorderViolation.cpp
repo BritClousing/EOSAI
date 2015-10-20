@@ -21,6 +21,19 @@ void CEOSAIPlayerInteraction_BorderViolation::Set( long iTurn, long iViolatorPla
 	m_fDecreasedForeignRelationsValue100 = fReducedForeignRelationsValue100;
 }
 
+bool CEOSAIPlayerInteraction_BorderViolation::ValidateValues()
+{
+	if (m_iEventTurn >= 0 &&
+		m_iViolatorPlayer > 0 &&
+		m_iViolateePlayer > 0 &&
+		m_fDecreasedForeignRelationsValue100 > 0.0f)
+	{
+		return true;
+	}
+	ASSERT(false);
+	return false;
+}
+
 void CEOSAIPlayerInteraction_BorderViolation::Serialize( CEOSAISerial* pSerial )
 {
 	pSerial->SerializeClassId( GetCEOSAISerialClassId() ); // handles the 256 conversion for long

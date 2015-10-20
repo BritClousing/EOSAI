@@ -51,7 +51,7 @@ void CEOSAIPlayerInteraction_CreatedTeam::UpdateForeignRelationsState(
 			{
 				pForeignRelations->Value(iPlayerA, iPlayerB) = EOSAIEnumForeignRelations::enum_Teammate;
 
-				pFeelings->Value( iPlayerA, iPlayerB ) = 1000.0f;
+				pFeelings->Value( iPlayerA, iPlayerB ) = 1.0f;
 				//pForeignRelations->Value( iPlayerA, iPlayerB ) = EOSAIEnumForeignRelations::enum_Teammate;
 			}
 		}

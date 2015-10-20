@@ -69,7 +69,7 @@ class CEOSAIStrategicAI
 		#ifdef THINGS_TO_COMPILE_EVENTUALLY
 		I should set "HasSetSneakAttackAgainst()" so it actually works
 		#endif THINGS_TO_COMPILE_EVENTUALLY
-		bool  HasSetSneakAttackAgainst(int iTargetPlayer) { ASSERT(false);  return false; }
+		bool  HasSetSneakAttackAgainst(int iTargetPlayer) { return false; }
 
 		long  GetWarStartTime( long iOtherPlayer );
 

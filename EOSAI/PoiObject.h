@@ -1,7 +1,7 @@
 
 #pragma once
 
-#ifdef _USRDLL
+#ifdef CREATE_EOSAI_DLL
 #define DLLIMPEXP __declspec(dllexport)
 #else
 #define DLLIMPEXP __declspec(dllimport)
@@ -80,7 +80,8 @@ class DLLIMPEXP CEOSAIPoiObject //: public CAIObject
 			long       GetGeoId();
 			CEOSAILocation  GetLocation(){ return this->GetInitialState()->GetLocation(); }
 			//CEOSAILocation  GetLocation(){ return m_Location; }
-			CEOSAILocation  GetLastTurnLocation(){ ASSERT( false ); return CEOSAILocation( CEOSAILocation::Pixel,0,0 ); } //return m_LastTurnLocation; }
+			void            CopyCurrentLocationToLastTurnLocation() { m_LastTurnLocation = GetLocation(); }
+			CEOSAILocation  GetLastTurnLocation() { return m_LastTurnLocation; }
 
 			void     SetName( CString str ){ m_strName = str; }
 			CString  GetName(){ return m_strName; }
@@ -273,6 +274,7 @@ class DLLIMPEXP CEOSAIPoiObject //: public CAIObject
 		//   These are desires associated with this Poi (e.g. capture it, destroy it, ...)
 		CList< CEOSAIDesireSpatial* >  m_AIDesires; // not owned (just cached for speed)
 
+		CEOSAILocation                  m_LastTurnLocation;
 		EOSAI::PoiObjectState           m_InitialState;
 		//CEOSAIObjectActionProgression2  m_AIObjectActionProgression;
 };

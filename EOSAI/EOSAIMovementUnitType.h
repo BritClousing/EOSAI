@@ -7,7 +7,7 @@ class CBCXMLItem;
 class CEOSAISerial;
 typedef ATL::CStringT< char, StrTraitMFC_DLL<char> >  CStringANSI8;
 
-#ifdef _USRDLL
+#ifdef CREATE_EOSAI_DLL
 #define DLLIMPEXP __declspec(dllexport)
 #else
 #define DLLIMPEXP __declspec(dllimport)

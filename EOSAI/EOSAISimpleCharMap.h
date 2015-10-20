@@ -9,7 +9,7 @@ enum EOSAIEnumStretchType
 	EOSAIEnumStretchType_STRETCH,
 };
 
-#ifdef _USRDLL
+#ifdef CREATE_EOSAI_DLL
 #define DLLIMPEXP __declspec(dllexport)
 #else
 #define DLLIMPEXP __declspec(dllimport)
@@ -109,7 +109,7 @@ class DLLIMPEXP CEOSAISimpleCharMap
 		bool  m_bWrapBottom;
 
 		// Virtual settings
-		EOSAIEnumStretchType  m_eVirtualStretchType;
-		long                  m_iVirtualWidth;
-		long                  m_iVirtualHeight;
+		EOSAIEnumStretchType  m_eVirtualStretchType = EOSAIEnumStretchType::EOSAIEnumStretchType_STRETCH;
+		long                  m_iVirtualWidth = 0;
+		long                  m_iVirtualHeight = 0;
 };

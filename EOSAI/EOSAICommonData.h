@@ -1,7 +1,7 @@
 
 #pragma once
 
-#ifdef _USRDLL
+#ifdef CREATE_EOSAI_DLL
 #define DLLIMPEXP __declspec(dllexport)
 #else
 #define DLLIMPEXP __declspec(dllimport)
@@ -98,6 +98,7 @@ class DLLIMPEXP CCommonData
 
 			CEOSAIMultiRegionNationwidePathways*  GetNationwidePathways(long iPlayer) { return m_NationwidePlayerPathways.Value(iPlayer); }
 
+			long                       m_OwnershipMapLastUpdatedTurn = -1;
 			CEOSAIPlayerOwnershipMap*  GetCurrentOwnershipPlayerMap8() { return &m_CurrentOwnershipPlayerMap8; }
 			CEOSAIPlayerOwnershipMap*  GetLastTurnOwnershipPlayerMap8() { return &m_LastTurnOwnershipPlayerMap8; }
 

@@ -18,7 +18,7 @@ namespace EOSAI
 	class MessageToAI;
 };
 
-#ifdef _USRDLL
+#ifdef CREATE_EOSAI_DLL
 #define DLLIMPEXP __declspec(dllexport)
 #else
 #define DLLIMPEXP __declspec(dllimport)

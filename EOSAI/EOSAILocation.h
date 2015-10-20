@@ -3,7 +3,7 @@
 #define EOSAI_LOCATION_H_
 
 //#ifdef THIS_MODULE
-#ifdef _USRDLL
+#ifdef CREATE_EOSAI_DLL
 #define DLLIMPEXP __declspec(dllexport)
 #else
 #define DLLIMPEXP __declspec(dllimport)

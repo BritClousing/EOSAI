@@ -174,6 +174,11 @@ namespace EOSAI
 		void PauseTheAI(bool b) { m_bPauseTheAI = b; } // The AI must be paused before saving the game (especially if it's still processing)
 		void ShutdownTheAI(bool b) { m_bShutdownTheAI = b; }  // The AI must be stopped before shutting down the game (especially if it's still processing)
 
+		// TEMPORARY - I'd like to get rid of this and replace it with something else
+		virtual void CopyOwnershipMapsToEOSAI(
+			CEOSAIPlayerOwnershipMap* pCurrentMap,
+			CEOSAIPlayerOwnershipMap* pLastTurnMap) { ASSERT(false); }
+
 	// Status of AI Processing
 	//
 		bool ProcessingIsDone() { return m_bProcessingIsDone; }

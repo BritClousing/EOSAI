@@ -23,7 +23,7 @@ class CWorldDescBase;
 //        Asked to sign a peace agreement
 //        Asked to join in an attack
 
-#ifdef _USRDLL
+#ifdef CREATE_EOSAI_DLL
 #define DLLIMPEXP __declspec(dllexport)
 #else
 #define DLLIMPEXP __declspec(dllimport)

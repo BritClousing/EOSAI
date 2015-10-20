@@ -410,6 +410,17 @@ void  CEOSAIPlayerManager::Loop()
 			ProcessMessage(pMessageToAI);
 		}
 
+		// Update the ownership map?
+		if ( g_pEOSAICommonData->m_OwnershipMapLastUpdatedTurn != g_pEOSAIInterface->GetCurrentTurn())
+		{
+			g_pEOSAIInterface->CopyOwnershipMapsToEOSAI(
+				g_pEOSAICommonData->GetCurrentOwnershipPlayerMap8(),
+				g_pEOSAICommonData->GetLastTurnOwnershipPlayerMap8() );
+			//CEOSAIPlayerOwnershipMap*  GetCurrentOwnershipPlayerMap8() { return &m_CurrentOwnershipPlayerMap8; }
+			//CEOSAIPlayerOwnershipMap*  GetLastTurnOwnershipPlayerMap8() { return &m_LastTurnOwnershipPlayerMap8; }
+			g_pEOSAICommonData->m_OwnershipMapLastUpdatedTurn = g_pEOSAIInterface->GetCurrentTurn();
+		}
+
 		for( long iPlayer=1; iPlayer<m_AIPlayersArray.m_iSize; iPlayer++ )
 		{
 			m_iProcessingAIPlayer = 0;
