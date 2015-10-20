@@ -1436,12 +1436,8 @@ void  AIPlayer::Process()
 			#endif _DEBUG
 
 			//
-			// We're disabling this for now, but we need a system for detecting if 
-			//   another player's units are moving into the AI's territory.
-			#ifdef THINGS_TO_COMPILE_EVENTUALLY
 			FindUnitsWithinMyNationalBoundaries();
 			SendMessagesAndAdjustForeignRelationsBasedOnBorderViolations();
-			#endif THINGS_TO_COMPILE_EVENTUALLY
 
 			// Can be changed by trade, agreements
 			CalculateCitResValues();
@@ -1929,6 +1925,11 @@ void  AIPlayer::SignedAPeaceAgreement( long iPlayer1, long iPlayer2 )
 
 void AIPlayer::FindUnitsWithinMyNationalBoundaries()
 {
+	// Is the Ownership map setup?
+	ASSERT(g_pEOSAICommonData->GetLastTurnOwnershipPlayerMap8()->m_Player.GetWidth() > 0);
+	ASSERT(g_pEOSAICommonData->GetLastTurnOwnershipPlayerMap8()->m_Player.GetHeight() > 0);
+	//char iLastTurnMapCurrentUnitLocationOwner = g_pEOSAICommonData->GetLastTurnOwnershipPlayerMap8()->m_Player.PixelValue((int)fCurrentPixelX, (int)fCurrentPixelY);
+
 	//CEOSAISimpleMap< COwnershipPlayer >  OwnershipMap8;
 	long iAIPlayer = GetPlayerNumber();
 	long iCurrentTurn = g_pEOSAIInterface->GetCurrentTurn();
@@ -2067,10 +2068,14 @@ void AIPlayer::FindUnitsWithinMyNationalBoundaries()
 			}
 		}
 	}
+	int g98 = 0;
 }
 
 void AIPlayer::SendMessagesAndAdjustForeignRelationsBasedOnBorderViolations()
 {
+	// Get this working. Does it ever get called?
+	int g = 0;
+
 	long iAIPlayer = GetPlayerNumber();
 	long iNumberOfPlayers = g_pEOSAICommonData->GetNumberOfPlayers();
 	for( long iPlayer=1; iPlayer<=iNumberOfPlayers; iPlayer++ )
@@ -2156,6 +2161,16 @@ void AIPlayer::SendMessagesAndAdjustForeignRelationsBasedOnBorderViolations()
 					// Send a warning message
 					if( iJustEnteredCount >= 1 && iStationaryCount == 0 && iGoingDeeperCount == 0 )
 					{
+						EOSAI::MessageFromAI_BorderViolationComplaint* p = new EOSAI::MessageFromAI_BorderViolationComplaint();
+						p->SetSender(this->GetPlayerNumber());
+						p->SetViolator(iPlayer);
+						p->SetViolatingPoiObjects(ViolatingPoiObjects);
+						p->SetTitle(_T("Your Border Crossing"));
+						p->SetMessage(_T("You have crossed our national borders.We assume this was an accident.Please withdraw your forces."));
+						g_pEOSAIInterface->SendMessageFromAI(p);
+
+						lkjlj
+
 						ASSERT( false );
 						#ifdef GAME_CODE
 						CString strMessage;

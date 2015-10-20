@@ -2,7 +2,7 @@
 #ifndef EOSAI_AI_PLAYER_H
 #define EOSAI_AI_PLAYER_H
 
-#ifdef _USRDLL
+#ifdef CREATE_EOSAI_DLL
 #define DLLIMPEXP __declspec(dllexport)
 #else
 #define DLLIMPEXP __declspec(dllimport)
