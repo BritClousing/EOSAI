@@ -42,6 +42,7 @@ class CEOSAITask;
 class CEOSAIDesireSpatial;
 enum EOSAIEnumAIDesireType;
 //class CEOSAIUnit2ActionIdea2;
+#define EOSAI_MAX_NUMBER_OF_PLAYERS 10
 
 enum EOSAIEnumBorderViolation
 {
@@ -133,6 +134,8 @@ class DLLIMPEXP CEOSAIPoiObject //: public CAIObject
 		//bool IsInsideATransport();
 		//bool IAmContainedInside( CEOSAIPoiObject* pAIPoiObject );
 
+		void IsVisibleToPlayer(int iPlayer, bool bVisible) { m_PlayerVisibility[iPlayer] = bVisible;  }
+		bool IsVisibleToPlayer(int iPlayer) { return m_PlayerVisibility[iPlayer]; } // Used in border-violation calculations
 		//void SetLocationOwner( char iOwner, char iOwnershipLevel ){ m_iLocationOwner = iOwner; m_iLocationOwnershipLevel = iOwnershipLevel; }
 		//void SetLastLocationOwner( char iOwner, char iOwnershipLevel ){ m_iLastLocationOwner = iOwner; m_iLastLocationOwnershipLevel = iOwnershipLevel; }
 		void SetBorderViolationState( EOSAIEnumBorderViolation e ){ m_eBorderViolation = e; }
@@ -262,6 +265,8 @@ class DLLIMPEXP CEOSAIPoiObject //: public CAIObject
 		float m_fGroundUnitRepairRate;
 		float m_fAirUnitRepairRate;
 		float m_fSeaUnitRepairRate;
+
+		bool m_PlayerVisibility[EOSAI_MAX_NUMBER_OF_PLAYERS];
 
 	// AIAction demand level
 	//

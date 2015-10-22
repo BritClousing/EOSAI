@@ -202,6 +202,7 @@
     <ClCompile Include="EOSAIPlayerInteraction_BeginWar.cpp" />
     <ClCompile Include="EOSAIPlayerInteraction_BorderViolation.cpp" />
     <ClCompile Include="EOSAIPlayerInteraction_Combat.cpp" />
+    <ClCompile Include="EOSAIPlayerInteraction_CreatedAlliance.cpp" />
     <ClCompile Include="EOSAIPlayerInteraction_CreatedTeam.cpp" />
     <ClCompile Include="EOSAIPlayerInteraction_DeclaredWar.cpp" />
     <ClCompile Include="EOSAIPlayerInteraction_SneakAttack.cpp" />
@@ -409,6 +410,7 @@
     <ClInclude Include="EOSAIPlayerInteraction_BeginWar.h" />
     <ClInclude Include="EOSAIPlayerInteraction_BorderViolation.h" />
     <ClInclude Include="EOSAIPlayerInteraction_Combat.h" />
+    <ClInclude Include="EOSAIPlayerInteraction_CreatedAlliance.h" />
     <ClInclude Include="EOSAIPlayerInteraction_CreatedTeam.h" />
     <ClInclude Include="EOSAIPlayerInteraction_DeclaredWar.h" />
     <ClInclude Include="EOSAIPlayerInteraction_SneakAttack.h" />
@@ -418,6 +420,7 @@
     <ClInclude Include="EOSAIPoiMobile.h" />
     <ClInclude Include="EOSAIPoiObjectIdAndName.h" />
     <ClInclude Include="EOSAIPoiObjectProximity.h" />
+    <ClInclude Include="MessageFromAI_BorderViolationComplaint.h" />
     <ClInclude Include="MessageFromAI_ForeignRelationsFeelings.h" />
     <ClInclude Include="MessageFromAI_TradeDesires.h" />
     <ClInclude Include="MessageFromAI_TradeOfferOpinion.h" />

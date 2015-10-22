@@ -91,11 +91,11 @@ class DLLIMPEXP CEOSAIPlayerInteraction
 
 		long m_iEventTurn = -1;
 
-		long m_iInteractionId = 0; // This is set by EOSAI
-
 		// Who should know about this Interaction?
 		bool m_bEveryoneKnowsAboutThisInteraction = false;
 		CEOSAIIntSet m_PlayersWhoKnowAboutThisInteraction;
+
+		long m_iInteractionId = 0; // This is set by EOSAI
 };
 
 // The interaction is encoded in a StrategicAIOrder
@@ -110,30 +110,6 @@ class CEOSAIPlayerInteraction_StrategicAIOrder : public CEOSAIPlayerInteraction
 		CEOSAIStrategicAIOrder*  m_pStrategicAIOrder;
 };
 */
-
-class DLLIMPEXP CEOSAIPlayerInteraction_CreatedAlliance : public CEOSAIPlayerInteraction
-{
-	public:
-		CEOSAIPlayerInteraction_CreatedAlliance(){ m_iPlayer1 = 0; m_iPlayer2 = 0; }
-		CEOSAIPlayerInteraction_CreatedAlliance( long iPlayer1, long iPlayer2 ){ m_iPlayer1 = iPlayer1; m_iPlayer2 = iPlayer2; }
-
-		//
-		CEOSAISerial_INFORMATION_LONG( 205, CEOSAIPlayerInteraction_CreatedAlliance );
-		virtual void Serialize( CEOSAISerial* pSerial );
-		virtual void Deserialize( CEOSAISerial* pSerial, CWorldDescBase* pWorldDesc );
-
-		//virtual void UpdateForeignRelationsState( long iCurrentTurn, CEOSAIForeignRelationsState* pState );
-		virtual void UpdateForeignRelationsState( 
-			long iCurrentTurn, 
-			CEOSAIBCDumbArray2D< EOSAIEnumForeignRelations >* pForeignRelations, 
-			CEOSAIBCDumbArray2D< float >* pFeelings );
-			//EOSAIEnumForeignRelations ForeignRelations[MAX_NUMBER_OF_PLAYERS+1][MAX_NUMBER_OF_PLAYERS+1],
-			//float Feelings[MAX_NUMBER_OF_PLAYERS+1][MAX_NUMBER_OF_PLAYERS+1] );
-			//CGlobalForeignRelations* pForeignRelations );
-
-		long  m_iPlayer1;
-		long  m_iPlayer2;
-};
 
 
 class CEOSAIPlayerInteraction_AskedToJoinInWar : public CEOSAIPlayerInteraction

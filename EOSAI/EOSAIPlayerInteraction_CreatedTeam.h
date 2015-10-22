@@ -17,6 +17,8 @@ class DLLIMPEXP CEOSAIPlayerInteraction_CreatedTeam : public CEOSAIPlayerInterac
 		CEOSAIPlayerInteraction_CreatedTeam( long iPlayer1, long iPlayer2, long iPlayer3 ){ m_Players.Add( iPlayer1 ); m_Players.Add( iPlayer2 ); m_Players.Add( iPlayer3 ); }
 		//virtual void UpdateForeignRelationsState( long iCurrentTurn, CEOSAIForeignRelationsState* pState );
 		//
+		virtual bool ValidateValues() { return(m_Players.GetSize() >= 2 && m_iEventTurn != -1 && m_bEveryoneKnowsAboutThisInteraction == true); };
+		//
 		CEOSAISerial_INFORMATION_LONG( 202, CEOSAIPlayerInteraction_CreatedTeam );
 		virtual void Serialize( CEOSAISerial* pSerial );
 		virtual void Deserialize( CEOSAISerial* pSerial, CWorldDescBase* pWorldDesc );

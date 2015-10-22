@@ -8,6 +8,8 @@
 #include "EOSAIPlayerManager.h"
 #include "EOSAIInterface.h"
 
+#include "MessageFromAI_BorderViolationComplaint.h"
+
 using namespace EOSAI;
 extern CInterface* g_pEOSAIInterface;
 
@@ -1967,6 +1969,11 @@ void AIPlayer::FindUnitsWithinMyNationalBoundaries()
 			{
 				// Check if this unit is normally visible (submarines can't be seen)
 				//float fNormalViewRange = CCity::GetTypicalViewRange( pAIUnit->GetServerPoiObject() );
+				if (pAIUnit->IsVisibleToPlayer(iAIPlayer) == false)
+				{
+					continue;
+				}
+
 				/*
 				float fNormalViewRange = CCity::GetTypicalViewRange( pAIUnit );
 				if( fNormalViewRange < 10.0f )
@@ -2168,9 +2175,7 @@ void AIPlayer::SendMessagesAndAdjustForeignRelationsBasedOnBorderViolations()
 						p->SetTitle(_T("Your Border Crossing"));
 						p->SetMessage(_T("You have crossed our national borders.We assume this was an accident.Please withdraw your forces."));
 						g_pEOSAIInterface->SendMessageFromAI(p);
-
-						lkjlj
-
+/*
 						ASSERT( false );
 						#ifdef GAME_CODE
 						CString strMessage;
@@ -2183,11 +2188,20 @@ void AIPlayer::SendMessagesAndAdjustForeignRelationsBasedOnBorderViolations()
 						pIMail->SetSelectablePoiObjects( ViolatingPoiObjects );
 						pIMail->SendFromPlayerToServer();
 						#endif GAME_CODE
+*/
 					}
 					else if( iJustEnteredCount >= 0 && iStationaryCount >= 1 && iGoingDeeperCount == 0 )
 					{
 						if( rand()%2 == 0 )
 						{
+							EOSAI::MessageFromAI_BorderViolationComplaint* p = new EOSAI::MessageFromAI_BorderViolationComplaint();
+							p->SetSender(this->GetPlayerNumber());
+							p->SetViolator(iPlayer);
+							p->SetViolatingPoiObjects(ViolatingPoiObjects);
+							p->SetTitle(_T("Your Units"));
+							p->SetMessage(_T("Please remove your units from my territory."));
+							g_pEOSAIInterface->SendMessageFromAI(p);
+							/*
 							ASSERT( false );
 							#ifdef GAME_CODE
 							CString strMessage;
@@ -2200,10 +2214,19 @@ void AIPlayer::SendMessagesAndAdjustForeignRelationsBasedOnBorderViolations()
 							pIMail->SetSelectablePoiObjects( ViolatingPoiObjects );
 							pIMail->SendFromPlayerToServer();
 							#endif GAME_CODE
+							*/
 						}
 					}
 					else
 					{
+						EOSAI::MessageFromAI_BorderViolationComplaint* p = new EOSAI::MessageFromAI_BorderViolationComplaint();
+						p->SetSender(this->GetPlayerNumber());
+						p->SetViolator(iPlayer);
+						p->SetViolatingPoiObjects(ViolatingPoiObjects);
+						p->SetTitle(_T("Your Border Violation"));
+						p->SetMessage(_T("You are putting a strain on diplomatic relations between our countries.  We don't want to ask you again to withdraw your forces."));
+						g_pEOSAIInterface->SendMessageFromAI(p);
+						/*
 						ASSERT( false );
 						#ifdef GAME_CODE
 						CString strMessage;
@@ -2216,6 +2239,7 @@ void AIPlayer::SendMessagesAndAdjustForeignRelationsBasedOnBorderViolations()
 						pIMail->SetSelectablePoiObjects( ViolatingPoiObjects );
 						pIMail->SendFromPlayerToServer();
 						#endif GAME_CODE
+						*/
 					}
 				}
 			}

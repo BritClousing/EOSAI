@@ -5,7 +5,13 @@
 #include "EOSAIBCDumbArray2D.h"
 class CEOSAISerial;
 
-class CEOSAIPlayerInteraction_SneakAttack : public CEOSAIPlayerInteraction
+#ifdef CREATE_EOSAI_DLL
+#define DLLIMPEXP __declspec(dllexport)
+#else
+#define DLLIMPEXP __declspec(dllimport)
+#endif
+
+class DLLIMPEXP CEOSAIPlayerInteraction_SneakAttack : public CEOSAIPlayerInteraction
 {
 	public:
 		CEOSAIPlayerInteraction_SneakAttack()
@@ -20,6 +26,8 @@ class CEOSAIPlayerInteraction_SneakAttack : public CEOSAIPlayerInteraction
 		CEOSAISerial_INFORMATION_LONG( 207, CEOSAIPlayerInteraction_SneakAttack );
 		virtual void Serialize( CEOSAISerial* pSerial );
 		virtual void Deserialize( CEOSAISerial* pSerial, CWorldDescBase* pWorldDesc );
+
+		virtual bool ValidateValues() { return(m_iActor > 0 && m_iTarget > 0 && m_iEventTurn != -1 && m_bEveryoneKnowsAboutThisInteraction == true); };
 
 		//virtual void UpdateForeignRelationsState( long iCurrentTurn, CEOSAIForeignRelationsState* pState );
 		virtual void UpdateForeignRelationsState( long iCurrentTurn, 

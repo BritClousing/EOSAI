@@ -36,8 +36,6 @@ void CEOSAIPlayerInteraction_CreatedTeam::UpdateForeignRelationsState(
 			CEOSAIBCDumbArray2D< EOSAIEnumForeignRelations >* pForeignRelations,
 			CEOSAIBCDumbArray2D< float >* pFeelings )
 {
-	// Fade the weight with time
-	//   INCOMPLETE: Making a peace agreement should dull this effect
 	POSITION pos1 = m_Players.GetList()->GetHeadPosition();
 	while( pos1 )
 	{
@@ -49,10 +47,8 @@ void CEOSAIPlayerInteraction_CreatedTeam::UpdateForeignRelationsState(
 			int iPlayerB = m_Players.GetList()->GetNext( pos2 );
 			if( iPlayerA != iPlayerB )
 			{
+				pFeelings->Value( iPlayerA, iPlayerB ) = 1000.0f;
 				pForeignRelations->Value(iPlayerA, iPlayerB) = EOSAIEnumForeignRelations::enum_Teammate;
-
-				pFeelings->Value( iPlayerA, iPlayerB ) = 1.0f;
-				//pForeignRelations->Value( iPlayerA, iPlayerB ) = EOSAIEnumForeignRelations::enum_Teammate;
 			}
 		}
 	}

@@ -70,6 +70,11 @@ CEOSAIPoiObject::CEOSAIPoiObject()// CEOSAIBrain* pAIBrain ) //: CAIObject( pAIB
 	m_fAirUnitRepairRate = 0.0f;
 	m_fSeaUnitRepairRate = 0.0f;
 
+	for (int iPlayer = 0; iPlayer < EOSAI_MAX_NUMBER_OF_PLAYERS; iPlayer++)
+	{
+		m_PlayerVisibility[iPlayer] = false;
+	}
+
 	//m_InitialState.SetAIBrain( pAIBrain );
 	//m_AIObjectActionProgression.SetAIObject( this );
 }

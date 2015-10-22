@@ -50,11 +50,15 @@ void CEOSAIPlayerInteraction_SneakAttack::UpdateForeignRelationsState(
 	CEOSAIMathFunction  NewFeelingsFromOldFeelingsFunc;
 	NewFeelingsFromOldFeelingsFunc.SetInputOutput( 0.0f,-0.5f );
 	NewFeelingsFromOldFeelingsFunc.SetInputOutput( 0.5f,-0.3f );
-	NewFeelingsFromOldFeelingsFunc.SetInputOutput( 1.0f,-0.5f );
+	NewFeelingsFromOldFeelingsFunc.SetInputOutput( 1.0f,-0.5f ); // Betrayal
 
 	float fFeeling;
 	fFeeling = pFeelings->Value( m_iTarget, m_iActor );
-	pFeelings->Value( m_iTarget, m_iActor ) = NewFeelingsFromOldFeelingsFunc.GetOutput( fFeeling );
+	fFeeling += NewFeelingsFromOldFeelingsFunc.GetOutput(fFeeling);
+	if (fFeeling > 0.5f) { fFeeling = 0.5f; }
+	if (fFeeling > 0.0f) { fFeeling = 0.5f * fFeeling; }
+	pFeelings->Value(m_iTarget, m_iActor) = fFeeling; // maximum value is 0.25
+	//pFeelings->Value( m_iTarget, m_iActor ) = NewFeelingsFromOldFeelingsFunc.GetOutput( fFeeling );
 	/*
 	float fFeeling;
 	fFeeling = pFeelings->Value( m_iDefendingPlayer, m_iAttackingPlayer );

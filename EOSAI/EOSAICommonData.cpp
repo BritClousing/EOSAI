@@ -309,7 +309,7 @@ void CCommonData::AddPlayerInteractionAndSendFeelingsUpdate(CEOSAIPlayerInteract
 	ASSERT(pPlayerInteraction->ValidateValues());
 	if (pPlayerInteraction->ValidateValues() == false) return; // Cannot process incomplete player interactions
 
-	ASSERT(pPlayerInteraction->m_iEventTurn > 0);
+	ASSERT(pPlayerInteraction->m_iEventTurn > -1);
 
 	ASSERT(pPlayerInteraction->m_iInteractionId == 0);
 	if (pPlayerInteraction->m_iInteractionId == 0) { pPlayerInteraction->m_iInteractionId = m_iHighestPlayerInteractionIdInList +1;  }

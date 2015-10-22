@@ -606,7 +606,7 @@ void CCity::GetAdjacentWaterGeos( CLongSet* pGeoSet )
 }
 */
 		pAICity->GetAdjacentWaterGeos( &WaterGeos );
-		ASSERT( WaterGeos.GetCount() > 0 ); // temp - some cities have no water geos
+		//ASSERT( WaterGeos.GetCount() > 0 ); // temp - some cities have no water geos
 		POSITION pos = WaterGeos.GetList()->GetHeadPosition();
 		while( pos )
 		{

@@ -32,6 +32,12 @@ void CEOSAIStrategicAIOrder_DeclareWar::Execute( long iCurrentTurn )
 	pDeclareWar->m_iTargetPlayer = m_iTargetPlayer;
 	g_pEOSAIInterface->SendMessageFromAI( pDeclareWar );
 
+	// Should change the foreign relations immediately, so that the AI can target the enemy
+	//int h = 0;
+	CEOSAIBCDumbArray2D< EOSAIEnumForeignRelations >* pForeignRelations = g_pEOSAIInterface->GetAICommonData()->GetGlobalForeignRelations()->GetForeignRelations();
+	pForeignRelations->Value(m_iTargetPlayer, iAIPlayer) = EOSAIEnumForeignRelations::enum_War;
+	pForeignRelations->Value(iAIPlayer, m_iTargetPlayer) = EOSAIEnumForeignRelations::enum_War;
+
 	//ASSERT( false );
 	/*
 	// Send a declaration message
