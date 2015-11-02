@@ -20,6 +20,8 @@ class DLLIMPEXP CEOSAIPlayerInteraction_BeginWar : public CEOSAIPlayerInteractio
 		CEOSAIPlayerInteraction_BeginWar(){ m_iActor = 0; m_iTarget = 0; }
 		CEOSAIPlayerInteraction_BeginWar( long iActor, long iTarget ){ m_iActor = iActor; m_iTarget = iTarget; }
 		//
+		virtual bool ValidateValues() { return(m_iActor > 0 && m_iTarget > 0 && m_iEventTurn != -1 && m_bEveryoneKnowsAboutThisInteraction == true); };
+
 		CEOSAISerial_INFORMATION_LONG( 201, CEOSAIPlayerInteraction_BeginWar );
 		virtual void Serialize( CEOSAISerial* pSerial );
 		virtual void Deserialize( CEOSAISerial* pSerial, CWorldDescBase* pWorldDesc );

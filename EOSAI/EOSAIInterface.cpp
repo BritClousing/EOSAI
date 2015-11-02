@@ -272,7 +272,7 @@ void CInterface::SendMessageResponseToAI(long iToAIPlayer, long iFromPlayer, lon
 void CInterface::AddPlayerInteractionEvent(CEOSAIPlayerInteraction* pPlayerInteraction)
 {
 	//ASSERT(false); // Test that I hit this
-	m_AICommonData.AddPlayerInteractionAndSendFeelingsUpdate(pPlayerInteraction);
+	m_AICommonData.AddPlayerInteraction(pPlayerInteraction);
 }
 
 void CInterface::SendMessageToAI(EOSAI::MessageToAI* pMessageToAI)

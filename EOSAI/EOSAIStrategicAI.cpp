@@ -813,28 +813,28 @@ void CEOSAIStrategicAI::MakeWarDeclarationsAndPeace()
 		}
 	}
 
-	for( long iOtherPlayer=1; iOtherPlayer<iNumberOfPlayers+1; iOtherPlayer++ )
+	for (long iOtherPlayer = 1; iOtherPlayer < iNumberOfPlayers + 1; iOtherPlayer++)
 	{
-		if( iAIPlayer == iOtherPlayer ) continue;
-		EOSAI::CGamePlayer* pOtherPlayer = g_pEOSAIInterface->GetGamePlayer( iOtherPlayer );
-		ASSERT( pOtherPlayer );
+		if (iAIPlayer == iOtherPlayer) continue;
+		EOSAI::CGamePlayer* pOtherPlayer = g_pEOSAIInterface->GetGamePlayer(iOtherPlayer);
+		ASSERT(pOtherPlayer);
 
 		//
-		CEOSAIForeignRelationsState::EnumRelationsPlan ePlan = m_CurrentForeignRelations.m_RelationsPlan.Value( iAIPlayer,iOtherPlayer );
-/*
-#ifdef _DEBUG
-		ePlan = CEOSAIForeignRelationsState::enum_MakePeace;
-#endif
-*/
-/*
-#ifdef _DEBUG
-		ePlan = CEOSAIForeignRelationsState::enum_MakePeace;
-#endif
-*/
+		CEOSAIForeignRelationsState::EnumRelationsPlan ePlan = m_CurrentForeignRelations.m_RelationsPlan.Value(iAIPlayer, iOtherPlayer);
+		/*
+		#ifdef _DEBUG
+				ePlan = CEOSAIForeignRelationsState::enum_MakePeace;
+		#endif
+		*/
+		/*
+		#ifdef _DEBUG
+				ePlan = CEOSAIForeignRelationsState::enum_MakePeace;
+		#endif
+		*/
 		//ePlan = CEOSAIForeignRelationsState::enum_MakePeace; // 3409834
-		if( ePlan == CEOSAIForeignRelationsState::enum_StartWar )
+		if (ePlan == CEOSAIForeignRelationsState::enum_StartWar)
 		{
-			ASSERT( m_pAIPlayer->GetGamePlayer()->m_bScenarioPlayerRestriction_CannotDeclareWar == false );
+			ASSERT(m_pAIPlayer->GetGamePlayer()->m_bScenarioPlayerRestriction_CannotDeclareWar == false);
 
 			// Send an imail message
 			/*
@@ -847,11 +847,11 @@ void CEOSAIStrategicAI::MakeWarDeclarationsAndPeace()
 				triggers a 'declaration of war' message. Otherwise, the AI is too closely tied to the game code.
 
 			CString strMessage;
-			strMessage.Format( Lang( 82, _T("%s has declared war on %s.") ), 
-				m_pAIPlayer->GetPlayer()->GetPlayerName(), 
+			strMessage.Format( Lang( 82, _T("%s has declared war on %s.") ),
+				m_pAIPlayer->GetPlayer()->GetPlayerName(),
 				pOtherPlayer->GetPlayerName() );
 
-			CEOSAIIntSet SendTo; 
+			CEOSAIIntSet SendTo;
 			SendTo.AddRange( 1,g_pEOSAICommonData->GetNumberOfPlayers() );
 			SendTo.Remove( m_pAIPlayer->GetPlayer()->GetPlayerNumber() );
 
@@ -865,22 +865,35 @@ void CEOSAIStrategicAI::MakeWarDeclarationsAndPeace()
 			#endif
 			*/
 
-			// I'm going to immediately change the server foreign-relations
-			//   otherwise, I could run into a timing issue
-			//g_pCommonState->GetWorldDescServer()->SetForeignRelations( iOtherPlayer, this->GetPlayerNumber(), EOSAIEnumForeignRelations::enum_War );
-			//g_pCommonState->GetWorldDescServer()->SetForeignRelations( this->GetPlayerNumber(), iOtherPlayer, EOSAIEnumForeignRelations::enum_War );
-			g_pEOSAICommonData->SetForeignRelations( iOtherPlayer, this->GetPlayerNumber(), EOSAIEnumForeignRelations::enum_War );
-			g_pEOSAICommonData->SetForeignRelations( this->GetPlayerNumber(), iOtherPlayer, EOSAIEnumForeignRelations::enum_War );
-
 			// Declare war (I could also do a sneak attack)
-			CEOSAIStrategicAIOrder_DeclareWar* pDeclareWar = new CEOSAIStrategicAIOrder_DeclareWar( this );
-			//DeclarationMessage.SendToServer();//SendToAll();
-			//pDeclareWar->SetSender( m_pAIPlayer->GetPlayerNumber() );
-			//pDeclareWar->m_iTargetPlayer = iOtherPlayer;
-			pDeclareWar->SetTarget( iOtherPlayer );
-			//this->AddAIAction( pDeclareWar );
-			pDeclareWar->Execute( g_pEOSAIInterface->GetCurrentTurn() );
-			m_StrategicAIOrders.AddTail( pDeclareWar );
+			EOSAI::CGamePlayer* pGamePlayer = g_pEOSAIInterface->GetGamePlayer(this->GetPlayerNumber());
+			ASSERT(pGamePlayer);
+			if (pGamePlayer)
+			{
+				if (pGamePlayer->m_bScenarioPlayerRestriction_CannotDeclareWar == false)
+				{
+					// I'm going to immediately change the server foreign-relations
+					//   otherwise, I could run into a timing issue (the Server doesn't process the 'declare war' message soon enough. Meanwhile,
+					//   the AI is making plans to attack enemy units.
+					//
+					//g_pCommonState->GetWorldDescServer()->SetForeignRelations( iOtherPlayer, this->GetPlayerNumber(), EOSAIEnumForeignRelations::enum_War );
+					//g_pCommonState->GetWorldDescServer()->SetForeignRelations( this->GetPlayerNumber(), iOtherPlayer, EOSAIEnumForeignRelations::enum_War );
+					g_pEOSAICommonData->SetForeignRelations(iOtherPlayer, this->GetPlayerNumber(), EOSAIEnumForeignRelations::enum_War);
+					g_pEOSAICommonData->SetForeignRelations(this->GetPlayerNumber(), iOtherPlayer, EOSAIEnumForeignRelations::enum_War);
+
+					//bool     m_bScenarioPlayerRestriction_CannotDeclareWar;
+					//bool     m_bScenarioPlayerRestriction_CannotMakePeace;
+
+					CEOSAIStrategicAIOrder_DeclareWar* pDeclareWar = new CEOSAIStrategicAIOrder_DeclareWar(this);
+					//DeclarationMessage.SendToServer();//SendToAll();
+					//pDeclareWar->SetSender( m_pAIPlayer->GetPlayerNumber() );
+					//pDeclareWar->m_iTargetPlayer = iOtherPlayer;
+					pDeclareWar->SetTarget(iOtherPlayer);
+					//this->AddAIAction( pDeclareWar );
+					pDeclareWar->Execute(g_pEOSAIInterface->GetCurrentTurn());
+					m_StrategicAIOrders.AddTail(pDeclareWar);
+				}
+			}
 			/*
 			CMessage2_DeclareWarMessage  DeclarationMessage;
 			DeclarationMessage.SendToServer();//SendToAll();
@@ -890,64 +903,68 @@ void CEOSAIStrategicAI::MakeWarDeclarationsAndPeace()
 			*/
 			// Do I send a declaration-of-war message to the server, or does the StrategicOrder take care of this?
 		}
-		if( ePlan == CEOSAIForeignRelationsState::enum_MakePeace )
+		if (ePlan == CEOSAIForeignRelationsState::enum_MakePeace)
 		{
-			ASSERT( g_pEOSAICommonData->GetAllPlayersPermanentlyAtWar() == false );
-			ASSERT( m_pAIPlayer->GetGamePlayer()->m_bScenarioPlayerRestriction_CannotMakePeace == false );
+			ASSERT(g_pEOSAICommonData->GetAllPlayersPermanentlyAtWar() == false);
+			ASSERT(m_pAIPlayer->GetGamePlayer()->m_bScenarioPlayerRestriction_CannotMakePeace == false);
 
-			long iTimeSinceLastMessage = iCurrentTurn - GetMostRecentMakePeaceMessage( iOtherPlayer );
-			//long iWarDuration = GetCommonState()->GetWorldDescServer()->GetPlayerInteraction_WarDuration( GetPlayerNumber(), iOtherPlayer );
-			long iWarDuration = g_pEOSAICommonData->GetPlayerInteraction_WarDuration( GetPlayerNumber(), iOtherPlayer );
-/*
-#ifdef _DEBUG
-			// 987987
-			iTimeSinceLastMessage = 10;
-			iWarDuration = 10;
-#endif _DEBUG
-*/
-			if( iTimeSinceLastMessage >= 3 + (iRand%3) &&
-			 	iWarDuration          >= 3 + (iRand%3) ) // every 3-5 turns
+			if (g_pEOSAICommonData->GetAllPlayersPermanentlyAtWar() == false &&
+				m_pAIPlayer->GetGamePlayer()->m_bScenarioPlayerRestriction_CannotMakePeace == false)
 			{
-				// Declare war (I could also do a sneak attack)
+				long iTimeSinceLastMessage = iCurrentTurn - GetMostRecentMakePeaceMessage(iOtherPlayer);
+				//long iWarDuration = GetCommonState()->GetWorldDescServer()->GetPlayerInteraction_WarDuration( GetPlayerNumber(), iOtherPlayer );
+				long iWarDuration = g_pEOSAICommonData->GetPlayerInteraction_WarDuration(GetPlayerNumber(), iOtherPlayer);
 				/*
-				CMessage2_DeclareWarMessage  DeclarationMessage;
-				DeclarationMessage.SendToAll();
-				DeclarationMessage.SetSenderId( m_pAIPlayer->GetPlayer()->GetMessageTargetId() );
-				DeclarationMessage.m_iTargetPlayer = iOtherPlayer;
-				g_pMessageManager->Send( DeclarationMessage );
+				#ifdef _DEBUG
+							// 987987
+							iTimeSinceLastMessage = 10;
+							iWarDuration = 10;
+				#endif _DEBUG
 				*/
-				ASSERT( false );
-				#ifdef GAME_CODE
-				CString strMessage;
-				if( iWarDuration <= 10 )
+				if (iTimeSinceLastMessage >= 3 + (iRand % 3) &&
+					iWarDuration >= 3 + (iRand % 3)) // every 3-5 turns
 				{
-					strMessage = Lang( 83, _T("We should sign a peace agreement.") );
-				}
-				else if( iWarDuration <= 20 )
-				{
-					strMessage = Lang( 84, _T("We should sign a peace agreement.  This war has gone on for too long.") );
-				}
-				else if( iWarDuration > 20 )
-				{
-					strMessage = Lang( 85, _T("We should sign a peace agreement.  There is nothing to be gained from perpetual war.") );
-				}
+					// Declare war (I could also do a sneak attack)
+					/*
+					CMessage2_DeclareWarMessage  DeclarationMessage;
+					DeclarationMessage.SendToAll();
+					DeclarationMessage.SetSenderId( m_pAIPlayer->GetPlayer()->GetMessageTargetId() );
+					DeclarationMessage.m_iTargetPlayer = iOtherPlayer;
+					g_pMessageManager->Send( DeclarationMessage );
+					*/
+					ASSERT(false);
+#ifdef GAME_CODE
+					CString strMessage;
+					if (iWarDuration <= 10)
+					{
+						strMessage = Lang(83, _T("We should sign a peace agreement."));
+					}
+					else if (iWarDuration <= 20)
+					{
+						strMessage = Lang(84, _T("We should sign a peace agreement.  This war has gone on for too long."));
+			}
+					else if (iWarDuration > 20)
+					{
+						strMessage = Lang(85, _T("We should sign a peace agreement.  There is nothing to be gained from perpetual war."));
+					}
 
-				//CEOSAIStrategicAIOrder_OfferPeaceTreaty  OfferPeaceTreaty( this );
-				//OfferPeaceTreaty.SetTargetPlayer( iOtherPlayer );
-				CEOSAIStrategicAIOrder_OfferPeaceTreaty* pSuggestPeace = new CEOSAIStrategicAIOrder_OfferPeaceTreaty( this );
-				pSuggestPeace->SetTargetPlayer( iOtherPlayer );
-				pSuggestPeace->SetIMailMessage( strMessage );
-				pSuggestPeace->Execute( g_pEOSAICommonData->GetCurrentTurn() );
-				m_StrategicAIOrders.AddTail( pSuggestPeace );
+					//CEOSAIStrategicAIOrder_OfferPeaceTreaty  OfferPeaceTreaty( this );
+					//OfferPeaceTreaty.SetTargetPlayer( iOtherPlayer );
+					CEOSAIStrategicAIOrder_OfferPeaceTreaty* pSuggestPeace = new CEOSAIStrategicAIOrder_OfferPeaceTreaty(this);
+					pSuggestPeace->SetTargetPlayer(iOtherPlayer);
+					pSuggestPeace->SetIMailMessage(strMessage);
+					pSuggestPeace->Execute(g_pEOSAICommonData->GetCurrentTurn());
+					m_StrategicAIOrders.AddTail(pSuggestPeace);
 
-				SetMostRecentMakePeaceMessage( iOtherPlayer, iCurrentTurn );
-				#endif GAME_CODE
-				CEOSAIStrategicAIOrder_OfferPeaceTreaty* pSuggestPeace = new CEOSAIStrategicAIOrder_OfferPeaceTreaty( this );
-				pSuggestPeace->SetTargetPlayer( iOtherPlayer );
-				pSuggestPeace->Execute( g_pEOSAIInterface->GetCurrentTurn() );
-				m_StrategicAIOrders.AddTail( pSuggestPeace );
+					SetMostRecentMakePeaceMessage(iOtherPlayer, iCurrentTurn);
+#endif GAME_CODE
+					CEOSAIStrategicAIOrder_OfferPeaceTreaty* pSuggestPeace = new CEOSAIStrategicAIOrder_OfferPeaceTreaty(this);
+					pSuggestPeace->SetTargetPlayer(iOtherPlayer);
+					pSuggestPeace->Execute(g_pEOSAIInterface->GetCurrentTurn());
+					m_StrategicAIOrders.AddTail(pSuggestPeace);
 
-				SetMostRecentMakePeaceMessage( iOtherPlayer, iCurrentTurn );
+					SetMostRecentMakePeaceMessage(iOtherPlayer, iCurrentTurn);
+				}
 			}
 		}
 		if( ePlan == CEOSAIForeignRelationsState::enum_MaintainPeace )
@@ -1923,7 +1940,7 @@ void CEOSAIStrategicAI::EvaluateAndRespondToTradeAgreement( CEOSAITradeAgreement
 			pTradeInteraction->m_iImprovedForeignRelationsHumanPlayer = pTradeAgreement->GetOtherPlayerNumber(pResponse->m_iFromAIPlayer);
 			pTradeInteraction->m_eResponse = EOSAIEnumTradeAgreementResponse_Accept;
 			pTradeInteraction->m_strTradeAgreement = pTradeAgreement->m_strTradeAgreementId;
-			g_pEOSAICommonData->AddPlayerInteractionAndSendFeelingsUpdate(pTradeInteraction);
+			g_pEOSAICommonData->AddPlayerInteraction(pTradeInteraction);
 			/*
 			pTrade->Set(
 				GetWorldDescServer()->GetCurrentTurn(),

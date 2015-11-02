@@ -110,11 +110,13 @@ class DLLIMPEXP CCommonData
 			bool                      HasSetSneakAttack( long iAttacker, long iTarget );
 			CEOSAIGlobalForeignRelations*  GetGlobalForeignRelations(){ return &m_AIGlobalForeignRelations; }
 
-			bool GetAllPlayersPermanentlyAtWar(){ return m_bAllPlayersPermanentlyAtWar; }
+			void SetAllPlayersPermanentlyAtWar(bool b) { m_bAllPlayersPermanentlyAtWar = b; }
+			bool GetAllPlayersPermanentlyAtWar() { return m_bAllPlayersPermanentlyAtWar; }
 
 		// Player Interactions
 		//
-			void  AddPlayerInteractionAndSendFeelingsUpdate(CEOSAIPlayerInteraction* p);
+			//void  AddPlayerInteractionAndSendFeelingsUpdate(CEOSAIPlayerInteraction* p);
+			void  AddPlayerInteraction(CEOSAIPlayerInteraction* p);
 			long  GetPlayerInteraction_WarDuration( long iPlayer1, long iPlayer2 );
 			CList< CEOSAIPlayerInteraction* >* GetPlayerInteractions(){ return &m_PlayerInteractions; }
 

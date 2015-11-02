@@ -304,7 +304,7 @@ bool CCommonData::HasSetSneakAttack( long iAttacker, long iTarget )
 	return false;
 }
 
-void CCommonData::AddPlayerInteractionAndSendFeelingsUpdate(CEOSAIPlayerInteraction* pPlayerInteraction)
+void CCommonData::AddPlayerInteraction(CEOSAIPlayerInteraction* pPlayerInteraction)
 {
 	ASSERT(pPlayerInteraction->ValidateValues());
 	if (pPlayerInteraction->ValidateValues() == false) return; // Cannot process incomplete player interactions

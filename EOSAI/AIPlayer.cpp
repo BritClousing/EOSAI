@@ -2163,7 +2163,7 @@ void AIPlayer::SendMessagesAndAdjustForeignRelationsBasedOnBorderViolations()
 					CEOSAIPlayerInteraction_BorderViolation* pBorderViolation = new CEOSAIPlayerInteraction_BorderViolation();
 					pBorderViolation->Set( iCurrentTurn, iPlayer, iAIPlayer, fNegativeForeignRelations );
 					//g_pCommonState->GetWorldDescServer()->AddNewPlayerInteractionAndSendFeelingsUpdate( pBorderViolation );
-					g_pEOSAICommonData->AddPlayerInteractionAndSendFeelingsUpdate( pBorderViolation );
+					g_pEOSAICommonData->AddPlayerInteraction( pBorderViolation );
 
 					// Send a warning message
 					if( iJustEnteredCount >= 1 && iStationaryCount == 0 && iGoingDeeperCount == 0 )

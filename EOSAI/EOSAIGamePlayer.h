@@ -48,7 +48,6 @@ class DLLIMPEXP CGamePlayer
 
 		CString  GetUnitsubset(){ return m_strUnitsubset; }
 
-
 	//
 		long     m_iPlayer;
 		CString  m_strPlayerName;

@@ -36,6 +36,7 @@ void CEOSAIPlayerInteraction_CreatedTeam::UpdateForeignRelationsState(
 			CEOSAIBCDumbArray2D< EOSAIEnumForeignRelations >* pForeignRelations,
 			CEOSAIBCDumbArray2D< float >* pFeelings )
 {
+	int g = 0;
 	POSITION pos1 = m_Players.GetList()->GetHeadPosition();
 	while( pos1 )
 	{
