@@ -1,0 +1,196 @@
+{\rtf1\ansi\deff3\adeflang1025
+{\fonttbl{\f0\froman\fprq2\fcharset0 Times New Roman;}{\f1\froman\fprq2\fcharset2 Symbol;}{\f2\fswiss\fprq2\fcharset0 Arial;}{\f3\fswiss\fprq0\fcharset0 Calibri;}{\f4\fnil\fprq2\fcharset0 Microsoft YaHei;}{\f5\fnil\fprq2\fcharset0 Mangal;}{\f6\fnil\fprq0\fcharset128 Mangal;}}
+{\colortbl;\red0\green0\blue0;\red128\green128\blue128;}
+{\stylesheet{\s0\snext0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033 Normal;}
+{\s15\sbasedon0\snext16{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\sb240\sa120\keepn\cf0\kerning1\hich\af4\langfe2052\dbch\af5\loch\f2\fs28\lang1033 Heading;}
+{\s16\sbasedon0\snext16{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\sb0\sa120\cf0\kerning1\hich\af3\langfe2052\dbch\af3\loch\f3\fs24\lang1033 Text body;}
+{\s17\sbasedon16\snext17{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\sb0\sa120\cf0\kerning1\hich\af3\langfe2052\dbch\af6\loch\f3\fs24\lang1033 List;}
+{\s18\sbasedon0\snext18{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\sb120\sa120\cf0\i\kerning1\hich\af3\langfe2052\dbch\af6\ai\loch\f3\fs24\lang1033 Caption;}
+{\s19\sbasedon0\snext19{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af3\langfe2052\dbch\af6\loch\f3\fs24\lang1033 Index;}
+}{\info{\creatim\yr0\mo0\dy0\hr0\min0}{\revtim\yr0\mo0\dy0\hr0\min0}{\printim\yr0\mo0\dy0\hr0\min0}{\comment LibreOffice}{\vern3400}}\deftab720\deftab720\deftab720\deftab720\deftab720\deftab720\deftab720\deftab720\deftab720\deftab720\deftab720\deftab720\deftab720\deftab720\deftab720\deftab720\deftab720\deftab720\deftab720\deftab720
+
+{\*\pgdsctbl
+{\pgdsc0\pgdscuse195\pgwsxn12240\pghsxn15840\marglsxn1800\margrsxn1800\margtsxn1440\margbsxn1440\pgdscnxt0 Default;}}
+\formshade{\*\pgdscno0}\paperh15840\paperw12240\margl1800\margr1800\margt1440\margb1440\sectd\sbknone\sectunlocked1\pgndec\pgwsxn12240\pghsxn15840\marglsxn1800\margrsxn1800\margtsxn1440\margbsxn1440\ftnbj\ftnstart1\ftnrstcont\ftnnar\aenddoc\aftnrstcont\aftnstart1\aftnnrlc
+\pgndec\pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+#summary This is a high-level summary of EOSAI}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+= Introduction =}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+EOSAI is an artificial intelligence system for strategy games. It was originally part of the game "Empires of Steel" (EOS), but the code is being genericized for use in strategy games in general. The code is C++, compiles to a DLL, and is setup to run in its own thread.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+The expected use of this project include:}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\fs22\lang9
+  }{\afs22\rtlch \ltrch\loch\fs22\lang9
+* Developing/Improving AI for the game Empires of Steel}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\fs22\lang9
+  }{\afs22\rtlch \ltrch\loch\fs22\lang9
+* Using this AI in other strategy games (see legal restrictions)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\fs22\lang9
+  }{\afs22\rtlch \ltrch\loch\fs22\lang9
+* Providing an example AI for the purpose of teaching developers about writing AI}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+It's expectated that changes get rolled back into the code so that the strategy-game AIs can continue to improve.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+* EOSAI is setup for turn-based games where all units move simultaneously.*}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\fs22\lang9
+  }{\afs22\rtlch \ltrch\loch\fs22\lang9
+* "Turn based game" means a game where time is broken up into discrete steps and the AI has some time to think about his turn.  (This is in contrast to real-time games.)  Real-time AI involves a few extra challenges: the AI must think very quickly about his moves (otherwise, it will slow down the game and also cause the AI to think too slowly to react to important events), and second, the AI would need to be able to figure out when and how often to update its strategy/moves in the game.  The AI might also need to figure out which things need to be recalculated and which things don't need to be recalculated (because they haven't changed).  With some additional development, EOSAI could eventually meet both of these challenges.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\fs22\lang9
+  }{\afs22\rtlch \ltrch\loch\fs22\lang9
+* "All units move simultaneously" means that it's not a game like chess (where one "unit" is moved per turn) and the turns aren't broken up into sub-steps.  For example, the following games do not use an "all units move simultaneously" system:}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\fs22\lang9
+    }{\afs22\rtlch \ltrch\loch\fs22\lang9
+* In the game of Civilization, a player attacking a city can determine exactly in what sequence units attack - e.g. attack the city with a catapult, then another catapult, then horsemen, then with pikemen.  With some work, EOSAI could handle this kind of logic, but it's not currently part of the AI system.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\fs22\lang9
+    }{\afs22\rtlch \ltrch\loch\fs22\lang9
+* In the game of Shogun or Risk, a player attacks a region, then moves through the region to attack a second region and a third region.  In the game of Risk, a significant amount of planning can be involved in finding a good starting region so you can progressively capture a bunch of enemy regions without getting caught in a dead-end.  EOSAI is not setup to handle this kind of strategy.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+= Setting Up A Game To Use EOSAI: =}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+== Libraries: ==}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+EOSAI gets compiled into a dll ("EOSAI.dll").  The dll is dynamically linked to the game.  The game needs an interface layer which has knowledge about both the game and the EOSAI structures.  This must be custom-built for each game.  }
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+http://eosai.googlecode.com/files/EOSAI-Diagram1.png}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+*How to include EOSAI in EOS:*}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+Note: The current version of EOS (version 1.01.17283) does not use the EOSAI.dll library.  In other words there is no way to use EOSAI with EOS.  The EOSAI code is currently compiled into EOS.  (The EOSAI project is going to spin-off the artificial intelligence into a separate library.)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+When EOS is switched over to using EOSAI.dll, the EOSAI developer will need to compile the dll and copy it to the directory where EOS.exe exists.  (The EOSAI interface will already exist and won't need to be created by the EOSAI developer.)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+*How to include EOSAI in another game (a third-party game):*}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+Including EOSAI into a third-party game will require two things: the EOSAI dll and an interface layer between the game and the EOSAI system (the EOSAI Interface).}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+The developer need to compile EOSAI.dll and create an EOSAI Interface (which gets compiled into the original game).  In order to construct the EOSAI Interface, a developer should take a look at the "EOSAI\\!ExampleCode" directory.  The EOSAI Interface needs to access files in the "EOSAI\\Export" directory.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+The contents of the EOSAI\\Exports directory:}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+\{\{\{}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+\\EOSAI\\Export\\EOSAI.dll (release build of EOSAI)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+\\EOSAI\\Export\\EOSAI-debug.dll (debug build of EOSAI)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+\\EOSAI\\Export\\Include\\... (files needed to construct the EOSAI Interface)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+\}\}\}}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+== EOSAI Data Input/Outout: ==}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+Each turn, the game needs to send information to the AI so that it can make decisions.  The AI will process the data and return results.  An example of how to do this can be found in the "EOSAI\\!ExampleCode\\EOSAIInterface2.cpp" file.  A summary of the information that must be sent to the AI is listed below.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+*Input data:*}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+- Map Data: The AI needs to know the layout of the map.  EOSAI sees the world as a bunch of connected territories.  This map information is used for a few different purposes: to find pathways and to figure out the vulnerability of different regions.  Below is a image of the regions.  Each different color represents a separate region.  (EOS doesn't use regions, everything moves continuously over the map, but the map is cut up into regions for the purpose of doing AI calculations.) }
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+http://eosai.googlecode.com/files/EOSAI-Diagram2-Map.png}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+- Unit Templates: The units in the game need to be classified into types.  For example, all units of the "Sherman Tank" type have the same movement and combat attributes.  (If the game is setup so that every unit on the map have completely different attributes, then the developer can simply create a unique unit template for each unit in the game.)  The Unit Templates are described by the CAIUnitTemplate2 class.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+- Units: Each unit in the game needs to be described - it needs a unit template, a location, health information, an owner (what player controls the unit), etc.  Units are described by the CAIUnit class.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+- Points of Interest (POI): Cities, Resources, Airfields, Fortresses, and other points of interest - everything of value on the map should be described because the AI has to make decisions about capturing or destroying them.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+- Foreign Relations, Agreements and Constraints: The AI needs to know about what kinds of agreements and constraints it has with other players.  This allows the developer to restrain the AI in various ways (e.g. in a World War 2 game, under no conditions is the US player allowed to declare war on England because that would be historically inaccurate), and allows the AI to make decisions about who to attack and when to make peace (e.g. if the AI is currently at war with Player 2 and is losing, then the AI should not declare war on another player, but should seek to maintain peace with other players to avoid getting overwhelmed).}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+- Technology: The AI needs to make decisions about what technologies to research and how much effort to put into these research efforts.  In order to make these decisions, the AI needs to know information about the research options, including the cost, time, and benefits of the technology.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+- Personality: Each AI can have a different personality.  The personalities are described by variables that affect his decisions.  For example, the personality might favor certain types of units (e.g. ground units over air units) or might influence his tendency towards aggressive vs cautious play.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+- History: The AI keeps track of past interactions with other players - for example, if the player recently did a sneak-attack against them (or someone else), or if they were a loyal ally.  This is important in deciding who to attack and who to maintain peace with.  While much of this information is stored inside the AI's data structures, the developer must inform the AI about events in the game (e.g. Player X just sneak attacked them), and the Player can include pre-game historical information (for example, if the game is a WW2 historical scenario that begins in January, 1940, then the developer might want to include historical information that the Germans sneak attacked Poland in September 1939).}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+- Influencers: these are used to influence the AI's decisions in particular ways.  (Not yet developed.)  Influencers can be used to makeup for deficiencies in the AI's decision-making process, make the AI behave in a certain way (in line with the game-developer's scenario), or make the AI behave according to some historical timeline (for example, making a WW2 German player pursue aircraft and tank technologies while neglecting nuclear-bomb research).}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+*Output:*}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+Based on the input data, the AI will create some output data:}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+- Agreements, Trade, Messages, Declarations: The AI will output some foreign relations actions.  This might include declarations of war, requests for peace, responses to player messages, trade agreements, etc.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+- Orders: The AI will write-out orders describing what each city should build, and orders for each of his units, and technology research orders.  (This data is contingent on responses to/from other players.  For example, the AI might give his units order to attack an enemy while, at the same time, sending a message to that same player requesting peace.  If the player agrees to the peace agreement, then the AI's orders will have to be recalculated, changing his units' attack orders and changing his city-build orders to be less war-oriented.)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+*Customization:*}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+If the game allowed for unique types of agreements (like "research agreements"), then those will have to coded into the system.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+*AI Debug System:*}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af3\afs24\lang1081\loch\f3\fs24\lang1033\sl276\slmult1{\afs22\rtlch \ltrch\loch\fs22\lang9
+The EOSAI system can output a variety of debug data to help players customize and debug the AI's decision-making process.  This includes a variety of warnings, errors (e.g. if the map data contains errors), and outputs intermediate results during the AI's processing.  This gives insight into how the AI is making its decisions.  (Effectively, this is like having students "show their work" which will help the developer identify where the AI's decision-making is going wrong when it's making bad decisions.)}
+\par }

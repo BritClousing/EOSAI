@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>Images/Error.png</file>
+        <file>Images/Warning.png</file>
+        <file>ScrollBar.qml</file>
+    </qresource>
+</RCC>

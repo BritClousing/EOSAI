@@ -64,6 +64,9 @@ class DLLIMPEXP CEOSAIPoiObject //: public CAIObject
 			void  SetObjectId( long iPoiObjectId ){ m_iPoiObjectId = iPoiObjectId; }
 			long  GetObjectId(){ return m_iPoiObjectId; }
 
+			virtual void ResetAIPlayerData();
+			void         ResetAIPlayerData_AIPoiObject();
+
 			//virtual void  SetServerPoiObject( CPoiObject* pPoiObject );
 			//EOSAI::AIPlayer*   GetAIPlayer(){ return m_pAIPlayer; }
 			//CEOSAIBrain*     GetAIBrain(){ return m_pAIBrain; }

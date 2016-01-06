@@ -8,6 +8,8 @@
 #include "EOSAIPlayerManager.h"
 #include "EOSAIInterface.h"
 
+#include "Interproc.h"
+
 #include "MessageFromAI_BorderViolationComplaint.h"
 
 using namespace EOSAI;
@@ -529,8 +531,8 @@ void  AIPlayer::DeleteAIData()
 	Sleep(1);
 	//long iCount = 0;
 	GetAIBrain()->GetAIThoughtDatabase()->Clear();
-
 	GetAIBrain()->DeleteAIData();
+	g_pEOSAICommonData->ResetAIPlayerDataInAIPoiObjects(this->GetPlayerNumber());
 
 	//	GetAIBrain()->DeleteTransportCombinedAIRegionMaps();
 	Sleep(1);
@@ -1183,6 +1185,8 @@ void  AIPlayer::Process()
 
 		if( m_eProcessingState == enumBeginProcessingTurn )
 		{
+			Interproc::IsProcessing(true);
+
 			/*
 			if( iAIPlayer == 1 &&
 				g_pCommonState->GetNumberOfHumanPlayers() == 0 )
@@ -1634,6 +1638,7 @@ void  AIPlayer::Process()
 			Checkpoint::Write( _T("-----") );
 */
 			g_pAIPlayerManager->CurrentlyProcessingAIPlayer( 0 );
+			Interproc::IsProcessing(false);
 		}
 	}
 	//if( m_bReadyToSendOrdersToServer )
@@ -1653,6 +1658,7 @@ void  AIPlayer::Process()
 */
 		if( ProcessUnprocessedEvents() )
 		{
+
 			//CString strText;
 			//strText.Format( _T("CAIPlayer::Process() - Significant UnprocessedEvents, Player: %d"), GetPlayer()->GetPlayerNumber() );
 			//Checkpoint::Write( strText );
@@ -2506,27 +2512,37 @@ bool AIPlayer::ProcessUnprocessedEvents()
 	{
 		//CGameEvent_IMail* pIMail = m_UnprocessedIncomingMail.RemoveHead();
 		CEOSAIMail* pIMail = m_UnprocessedIncomingMail.RemoveHead();
-		m_StrategicAI.ProcessMail( pIMail, &bThisEventWasSignificantEnoughToRecalculateTheTurn);
+		Interproc::IsProcessing(true);
+		m_StrategicAI.ProcessMail(pIMail, &bThisEventWasSignificantEnoughToRecalculateTheTurn);
+		Interproc::IsProcessing(false);
 	}
 	while( m_UnprocessedIncomingTradeOffers.IsEmpty() == FALSE )
 	{
 		CEOSAITradeAgreement* pTrade = m_UnprocessedIncomingTradeOffers.RemoveHead();
-		m_StrategicAI.ProcessTradeOffer( pTrade, &bThisEventWasSignificantEnoughToRecalculateTheTurn);
+		Interproc::IsProcessing(true);
+		m_StrategicAI.ProcessTradeOffer(pTrade, &bThisEventWasSignificantEnoughToRecalculateTheTurn);
+		Interproc::IsProcessing(false);
 	}
 	while( m_UnprocessedIncomingTradeAgreementResponses.IsEmpty() == FALSE )
 	{
 		CEOSAITradeAgreementResponse* pTradeAgreementResponse = m_UnprocessedIncomingTradeAgreementResponses.RemoveHead();
-		m_StrategicAI.ProcessTradeAgreementResponse( pTradeAgreementResponse, &bThisEventWasSignificantEnoughToRecalculateTheTurn);
+		Interproc::IsProcessing(true);
+		m_StrategicAI.ProcessTradeAgreementResponse(pTradeAgreementResponse, &bThisEventWasSignificantEnoughToRecalculateTheTurn);
+		Interproc::IsProcessing(false);
 	}
 	while( m_UnprocessedIncomingMailResponses.IsEmpty() == FALSE )
 	{
 		CEOSAIMailResponse* pIMailResponse = m_UnprocessedIncomingMailResponses.RemoveHead();
-		m_StrategicAI.ProcessMailResponse( pIMailResponse, &bThisEventWasSignificantEnoughToRecalculateTheTurn);
+		Interproc::IsProcessing(true);
+		m_StrategicAI.ProcessMailResponse(pIMailResponse, &bThisEventWasSignificantEnoughToRecalculateTheTurn);
+		Interproc::IsProcessing(false);
 	}
 	while (m_UnprocessedIncomingMessages.IsEmpty() == FALSE)
 	{
 		EOSAI::MessageToAI* pMessage = m_UnprocessedIncomingMessages.RemoveHead();
+		Interproc::IsProcessing(true);
 		m_StrategicAI.ProcessMessage(pMessage, &bThisEventWasSignificantEnoughToRecalculateTheTurn);
+		Interproc::IsProcessing(false);
 	}
 
 	return bThisEventWasSignificantEnoughToRecalculateTheTurn;

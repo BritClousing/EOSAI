@@ -10,7 +10,8 @@ class CEOSAIUnit2;
 //#include "MessageToAI.h"
 //#include "Unitset.h"
 #include "EOSAIBCDumbArray1D.h"
-//#include "AIPlayer.h"
+
+
 namespace EOSAI
 {
 	class CInterface;
@@ -31,6 +32,10 @@ class DLLIMPEXP CEOSAIPlayerManager
 		~CEOSAIPlayerManager();
 
 		void SetEOSAIInterface( EOSAI::CInterface* pInterface );
+
+		void InitializeInterprocessCommunication();
+		void ShutdownInterprocessCommunication();
+		//void ShowUI(bool b);
 
 		// Serialize/Deserialize
 		//

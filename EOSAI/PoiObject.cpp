@@ -93,6 +93,33 @@ CEOSAIPoiObject::~CEOSAIPoiObject()
 	}
 	*/
 }
+
+void CEOSAIPoiObject::ResetAIPlayerData()
+{
+	ResetAIPlayerData_AIPoiObject();
+}
+
+void CEOSAIPoiObject::ResetAIPlayerData_AIPoiObject()
+{
+	this->GetInitialState()->SetTime(0.0f);
+	// Container
+	this->SetInitialContainer(NULL);
+	this->GetInitialState()->SetAirbase(NULL);
+	this->GetInitialState()->SetContainer(NULL);
+	this->GetInitialState()->GetContaineesList()->RemoveAll();
+	/*
+	CEOSAIObjectActionProgression2* pProgression = pExistingAIPoiObject->GetAIObjectActionProgression();
+	ASSERT( pProgression->GetAIActions()->IsEmpty() );
+	ASSERT( pProgression->GetAITasks()->IsEmpty() );
+	*/
+	//ASSERT( pExistingAIPoiObject->GetAIDesires()->IsEmpty() );
+	this->ClearAIDesires();
+	this->ReleaseAllocatedUnitActionIdea();
+	ASSERT(this->IsAllocated() == false);
+	//
+	this->SetBorderViolationState(EOSAIEnumBorderViolation_None);
+}
+
 /*
 void CEOSAIPoiObject::SetServerPoiObject( CPoiObject* pPoiObject )
 {

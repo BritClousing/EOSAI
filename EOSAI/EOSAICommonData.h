@@ -56,6 +56,8 @@ class DLLIMPEXP CCommonData
 		//
 		void  DeleteData();
 		void  DeleteAIPoiObjects();
+		void  ResetAIPlayerDataInAIPoiObjects(int iPlayer);
+
 		void  SetNeedToRebuildData( bool b );
 		bool  GetNeedToRebuildData(){ return m_bNeedToRebuildData; }
 		bool  GetDataIsValid(){ return m_bDataIsValid; }
@@ -177,11 +179,17 @@ class DLLIMPEXP CCommonData
 		// Poi Objects
 		//
 			CList< CEOSAIPoiObject* >*  GetAIPoiObjects(){ return &m_AIPoiObjects; }
-			void           AddAIPoiObject( CEOSAIPoiObject* pAIPoiObject );
-			void           AddHypotheticalAIPoiObject( CEOSAIPoiObject* pAIPoiObject ); // Used by AIBrains
+			void              AddAIPoiObject( CEOSAIPoiObject* pAIPoiObject );
+			void              AddHypotheticalAIPoiObject( CEOSAIPoiObject* pAIPoiObject ); // Used by AIBrains
 			CEOSAIPoiObject*  GetAIPoiObject( long iObjectId );
-			CEOSAIUnit2*       GetAIUnit( long iObjectId );
+			CEOSAIUnit2*      GetAIUnit( long iObjectId );
 			long   GetLastAIUnitCombatCapabilitiesCalculatedTurn() { return m_iUnitCombatCapabilities_LastTurnCalculated; }
+
+			int   GetNumberOfPoi();
+			int   GetNumberOfCities();
+			int   GetNumberOfResources();
+			int   GetNumberOfAirfields();
+			int   GetNumberOfUnits();
 
 		// Airbases
 		//

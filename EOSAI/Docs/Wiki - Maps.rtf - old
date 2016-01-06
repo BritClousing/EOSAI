@@ -1,0 +1,67 @@
+{\rtf1\ansi\deff0\adeflang1025
+{\fonttbl{\f0\froman\fprq2\fcharset0 Times New Roman;}{\f1\froman\fprq2\fcharset2 Symbol;}{\f2\fswiss\fprq2\fcharset0 Arial;}{\f3\fnil\fprq2\fcharset0 Mangal;}{\f4\fnil\fprq0\fcharset128 Mangal;}{\f5\froman\fprq0\fcharset128 ;}{\f6\fnil\fprq2\fcharset0 Microsoft YaHei;}}
+{\colortbl;\red0\green0\blue0;\red128\green128\blue128;}
+{\stylesheet{\s0\snext0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af5\afs24\lang1081\loch\f0\fs24\lang1033 Normal;}
+{\s15\sbasedon0\snext16{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\sb240\sa120\keepn\cf0\kerning1\hich\af3\langfe2052\dbch\af6\loch\f2\fs28\lang1033 Heading;}
+{\s16\sbasedon0\snext16{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\sb0\sa120\cf0\kerning1\hich\af0\langfe2052\dbch\af0\loch\f0\fs24\lang1033 Text body;}
+{\s17\sbasedon16\snext17{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\sb0\sa120\cf0\kerning1\hich\af4\langfe2052\dbch\af0\loch\f0\fs24\lang1033 List;}
+{\s18\sbasedon0\snext18{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\sb120\sa120\cf0\i\kerning1\hich\af4\langfe2052\dbch\af0\ai\loch\f0\fs24\lang1033 Caption;}
+{\s19\sbasedon0\snext19{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af4\langfe2052\dbch\af0\loch\f0\fs24\lang1033 Index;}
+}{\info{\creatim\yr0\mo0\dy0\hr0\min0}{\revtim\yr0\mo0\dy0\hr0\min0}{\printim\yr0\mo0\dy0\hr0\min0}{\comment LibreOffice}{\vern3400}}\deftab709\deftab709\deftab709\deftab709\deftab709\deftab709\deftab709\deftab709\deftab709\deftab709\deftab709\deftab709\deftab709\deftab709\deftab709\deftab709\deftab709\deftab709\deftab709\deftab709
+
+{\*\pgdsctbl
+{\pgdsc0\pgdscuse195\pgwsxn12240\pghsxn15840\marglsxn1134\margrsxn1134\margtsxn1134\margbsxn1134\pgdscnxt0 Default;}}
+\formshade{\*\pgdscno0}\paperh15840\paperw12240\margl1134\margr1134\margt1134\margb1134\sectd\sbknone\sectunlocked1\pgndec\pgwsxn12240\pghsxn15840\marglsxn1134\margrsxn1134\margtsxn1134\margbsxn1134\ftnbj\ftnstart1\ftnrstcont\ftnnar\aenddoc\aftnrstcont\aftnstart1\aftnnrlc
+\pgndec\pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af5\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+#summary Describes the mapping system}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af5\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af5\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+= Introduction =}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af5\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af5\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+The Maps system is used for pathfinding and also for figuring out which areas are vulnerable.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af5\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af5\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+Below is an example of a map.  Each different colored area is an AIRegion.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af5\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+http://eosai.googlecode.com/files/EOSAI-Diagram2-Map.png}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af5\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af5\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+== Creating the EOSAI Interface ==}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af5\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af5\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+The EOSAI Interface must convert the game map into a map.  This map is composed of AIRegions.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af5\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af5\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+The mapping system requires that each part of the map must belong to one AIRegion.  (In other words: there should never be a situation where a unit or city or any other point of interest exists on the map, but can't be resolved to an AIRegion.  The AI will never be able to find a parthway to any object that doesn't exist inside an AIRegion.)}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af5\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af5\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+== Creating the EOSAI.dll ==}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af5\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af5\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+The EOSAI code does several things with the map: pathfinding and evaluating the vulnerable regions.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af5\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af5\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+Pathfinding}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af5\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af5\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+The pathfinding system has to take several factors into account when running pathfinding calculations.  The system wants to minimize the amount of time it takes to move from point A to point B.  However, the pathfinding system may also want include other factors as well, including: avoiding enemy units and avoiding being sighted by enemies.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af5\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af5\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+Region Evaluation}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af5\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af3\langfe2052\dbch\af5\afs24\lang1081\loch\f0\fs24\lang1033{\rtlch \ltrch\loch
+The pathfinding system is used to figure out what regions are vulnerable (this includes vulnerable regions controlled by the AI and vulnerable  regions controlled by enemy nations).  This system takes into account the movement rates of enemy units and movement ranges of aircraft.  (For example, if an enemy has aircraft with a movement range of 500 pixels, then all regions within 500 pixels of airports are vulnerable to enemy aircraft.)}
+\par }

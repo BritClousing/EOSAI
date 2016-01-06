@@ -205,6 +205,7 @@ CEOSAIUnit2ActionIdea* CEOSAIUnit2TransportMovementDesc::CreateAIUnitActionIdea(
 
 CEOSAIUnit2ActionIdea::CEOSAIUnit2ActionIdea()
 {
+	m_bDebug_HasBeenDeleted = false;
 	m_pAIBrain = NULL;
 	//m_pTacticalProject = NULL;
 	m_pTacticalProject2 = NULL;
@@ -250,6 +251,7 @@ CEOSAIUnit2ActionIdea::CEOSAIUnit2ActionIdea( CAITacticalProject* pTacticalProje
 CEOSAIUnit2ActionIdea::CEOSAIUnit2ActionIdea( CEOSAITacticalProject2* pTacticalProject2, CEOSAIUnit2* pAIUnit )
 {
 	Clear();
+	m_bDebug_HasBeenDeleted = false;
 	m_pAIBrain = pTacticalProject2->GetAIBrain();
 	//m_pTacticalProject  = NULL;
 	m_pTacticalProject2 = pTacticalProject2;
@@ -314,6 +316,7 @@ CEOSAIUnit2ActionIdea::CEOSAIUnit2ActionIdea( CAITacticalProject* pTacticalProje
 CEOSAIUnit2ActionIdea::CEOSAIUnit2ActionIdea( CEOSAITacticalProject2* pTacticalProject2, CEOSAICity* pAICity, CEOSAIUnitTemplate* pAIUnitTemplate )
 {
 	Clear();
+	m_bDebug_HasBeenDeleted = false;
 	m_pAIBrain = pTacticalProject2->GetAIBrain();
 	//m_pTacticalProject = NULL;
 	m_pTacticalProject2 = pTacticalProject2;
@@ -327,7 +330,8 @@ CEOSAIUnit2ActionIdea::CEOSAIUnit2ActionIdea( CEOSAITacticalProject2* pTacticalP
 
 CEOSAIUnit2ActionIdea::~CEOSAIUnit2ActionIdea()
 {
-	while( m_UnitTransportMovementDescs.IsEmpty() == FALSE ){ delete m_UnitTransportMovementDescs.RemoveHead(); }
+	m_bDebug_HasBeenDeleted = true;
+	while (m_UnitTransportMovementDescs.IsEmpty() == FALSE){ delete m_UnitTransportMovementDescs.RemoveHead(); }
 	while( m_DesireValues.IsEmpty() == FALSE ){ delete m_DesireValues.RemoveHead(); }
 }
 

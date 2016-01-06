@@ -109,6 +109,21 @@ void CCommonData::DeleteAIPoiObjects()
 	}
 }
 
+void CCommonData::ResetAIPlayerDataInAIPoiObjects( int iPlayer )
+{
+	POSITION pos = m_AIPoiObjects.GetHeadPosition();
+	while (pos)
+	{
+		CEOSAIPoiObject* pAIPoiObject = m_AIPoiObjects.GetNext(pos);
+		if (pAIPoiObject->GetOwner() == iPlayer)
+		{
+			ASSERT(pAIPoiObject->IsHypotheticalPoiObject() == false);
+			pAIPoiObject->ResetAIPlayerData();
+		}
+	}
+}
+
+
 void CCommonData::SetNeedToRebuildData( bool bNeedToRebuildData )
 {
 	m_bNeedToRebuildData = bNeedToRebuildData;
@@ -653,6 +668,61 @@ CEOSAIUnit2* CCommonData::GetAIUnit( long iObjectId )
 	CEOSAIPoiObject* pAIObject = GetAIPoiObject( iObjectId );
 	return dynamic_cast< CEOSAIUnit2* >( pAIObject );
 }
+
+int  CCommonData::GetNumberOfPoi()
+{
+	return (int)m_AIPoiObjects.GetCount();
+}
+
+int  CCommonData::GetNumberOfCities()
+{
+	int i = 0;
+	POSITION pos = m_AIPoiObjects.GetHeadPosition();
+	while (pos)
+	{
+		CEOSAIPoiObject* pAIPoiObject = m_AIPoiObjects.GetNext(pos);
+		if (pAIPoiObject->GetAIPoiObjectType() == EnumAIPoiObjectType::enum_City) i++;
+	}
+	return i;
+}
+
+int  CCommonData::GetNumberOfResources()
+{
+	int i = 0;
+	POSITION pos = m_AIPoiObjects.GetHeadPosition();
+	while (pos)
+	{
+		CEOSAIPoiObject* pAIPoiObject = m_AIPoiObjects.GetNext(pos);
+		if (pAIPoiObject->GetAIPoiObjectType() == EnumAIPoiObjectType::enum_Resource) i++;
+	}
+	return i;
+}
+
+int  CCommonData::GetNumberOfAirfields()
+{
+	int i = 0;
+	POSITION pos = m_AIPoiObjects.GetHeadPosition();
+	while (pos)
+	{
+		CEOSAIPoiObject* pAIPoiObject = m_AIPoiObjects.GetNext(pos);
+		if (pAIPoiObject->GetAIPoiObjectType() == EnumAIPoiObjectType::enum_Airfield) i++;
+	}
+	return i;
+}
+
+int  CCommonData::GetNumberOfUnits()
+{
+	int i = 0;
+	POSITION pos = m_AIPoiObjects.GetHeadPosition();
+	while (pos)
+	{
+		CEOSAIPoiObject* pAIPoiObject = m_AIPoiObjects.GetNext(pos);
+		if (pAIPoiObject->GetAIPoiObjectType() == EnumAIPoiObjectType::enum_Unit ) i++;
+	}
+	return i;
+}
+
+
 
 CEOSAIThoughtDatabase* CCommonData::GetAIThoughtDatabase( long iPlayer )
 {

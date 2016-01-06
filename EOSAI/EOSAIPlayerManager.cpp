@@ -11,16 +11,97 @@
 #include "MessageToAI_WarWasDeclared.h"
 #include "EOSAIPlayerInteraction_DeclaredWar.h"
 #include "EOSAIInterface.h"
+//#include "UserInterface.h"
 #include "MessageToAI.h"
+#include "Interproc.h"
 
 //#include "WorldDescServer.h"
 extern EOSAI::CInterface* g_pEOSAIInterface;
 CEOSAIPlayerManager* g_pAIPlayerManager = NULL;
 CEOSAILogFile g_LogFile;
 
+//#include "UserInterface.h"
+
+//
+//Create a shared memory object.
+//boost::interprocess::shared_memory_object* g_pInterprocSharedMemoryObject = NULL;// (create_only, "EOSAISharedMemory", read_write);
+//boost::interprocess::mapped_region* g_pInterprocMappedRegion = NULL; // (shm, read_write);
+
+
 CEOSAIPlayerManager::CEOSAIPlayerManager()
 {
-	g_LogFile.Initialize( _T("AILogFile.txt") );
+	g_LogFile.Initialize(_T("AILogFile.txt"));
+
+	// Get interprocess communication setup
+	//Interproc interproc;
+	//interproc.SetValues();
+/*
+	// Boost::interprocess
+	{
+		ASSERT(g_pInterprocSharedMemoryObject == NULL);
+		ASSERT(g_pInterprocMappedRegion == NULL);
+		//pShm = NULL;// (create_only, "EOSAISharedMemory", read_write);
+		//pRegion = NULL; // (shm, read_write);
+
+		using namespace boost::interprocess;
+
+		//qDebug() << "ParentProcess";
+		//engine.rootContext()->setContextProperty("MyController", "parentContext");
+		//Remove shared memory on construction and destruction
+		struct shm_remove
+		{
+			shm_remove() { shared_memory_object::remove("EOSAISharedMemory"); }
+			//~shm_remove(){ shared_memory_object::remove("EOSAISharedMemory"); }
+		} remover;
+
+		//Create a shared memory object.
+		g_pInterprocSharedMemoryObject = new shared_memory_object(create_only, "EOSAISharedMemory", read_write);
+
+		//Set size
+		g_pInterprocSharedMemoryObject->truncate(1000);
+
+		//Map the whole shared memory in this process
+		g_pInterprocMappedRegion = new mapped_region(*g_pInterprocSharedMemoryObject, read_write);
+
+		//Write all the memory to 1
+		std::memset(g_pInterprocMappedRegion->get_address(), 67, g_pInterprocMappedRegion->get_size());
+
+		boost::interprocess::string str;
+
+		//Launch child process
+		//std::string s(argv[0]); s += " child ";
+		//if (0 != std::system(s.c_str()))
+		//{
+		//	return 1;
+		//}
+
+		/-*
+		//Remove shared memory on construction and destruction
+		struct shm_remove
+		{
+			shm_remove() { shared_memory_object::remove("EOSAISharedMemory"); }
+			~shm_remove(){ shared_memory_object::remove("EOSAISharedMemory"); }
+		} remover;
+
+		//Create a shared memory object.
+		shared_memory_object shm(create_only, "EOSAISharedMemory", read_write);
+
+		//Set size
+		shm.truncate(1000);
+
+		//Map the whole shared memory in this process
+		mapped_region region(shm, read_write);
+
+		//Write all the memory to 1
+		std::memset(region.get_address(), 1, region.get_size());
+		*-/
+
+		//UserInterface* pUserInterface = new UserInterface(); //::Create()
+		//pUserInterface->Initialize();
+		//UserInterface::Instance()->Initialize();
+		//UserInterface::Instance()->DisplayUI();
+	}
+*/
 
 	m_pEOSAIInterface = NULL;
 
@@ -57,6 +138,22 @@ void CEOSAIPlayerManager::SetEOSAIInterface( EOSAI::CInterface* pInterface )
 	//g_pEOSAIInterface = m_pEOSAIInterface;
 }
 
+void CEOSAIPlayerManager::InitializeInterprocessCommunication()
+{
+	Interproc::Initialize();
+}
+
+void CEOSAIPlayerManager::ShutdownInterprocessCommunication()
+{
+	Interproc::Shutdown();
+}
+/*
+void CEOSAIPlayerManager::ShowUI(bool b)
+{
+	//void CInterface::ShowUI(bool b)
+	UserInterface::Instance()->Initialize();
+}
+*/
 // Serialize/Deserialize
 //
 void CEOSAIPlayerManager::Serialize( CEOSAISerial* pSerial )
@@ -330,6 +427,9 @@ void  CEOSAIPlayerManager::Loop()
 		{
 			m_bThreadIsPaused = false;
 		}
+
+		// Periodically update the shared memory
+		Interproc::UpdateSharedMemory();
 
 		/*
 		if( m_bThreadShouldBePaused != m_bThreadIsPaused )

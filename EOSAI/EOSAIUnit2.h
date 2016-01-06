@@ -82,6 +82,9 @@ class DLLIMPEXP CEOSAIUnit2 : public EOSAI::PoiMobile
 		CEOSAIUnit2();
 		virtual ~CEOSAIUnit2();
 
+		virtual void ResetAIPlayerData();
+		void         ResetAIPlayerData_AIUnit();
+
 		//virtual void  SetServerPoiObject( CPoiObject* pPoiObject );
 		void  CreateHypotheticalUnit( CEOSAIUnitTemplate* pUnitTemplate, long iOwner, CEOSAILocation Location, float fTime );
 		void  CreateHypotheticalUnit( CEOSAICity* pBuiltByCity, CEOSAIUnitTemplate* pUnitTemplate, float fTimeToBuild );

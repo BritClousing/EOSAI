@@ -298,6 +298,8 @@ class CEOSAIUnit2ActionIdea //: public CAIPoiObjectActionIdea
 		//CAITacticalProject*  m_pTacticalProject;
 		CEOSAITacticalProject2* m_pTacticalProject2;
 
+		bool m_bDebug_HasBeenDeleted;
+
 		//CEOSAITaskForce3*  m_pTaskForce;
 		EnumActionType    m_eActionType;
 		//CEOSAIPoiObject*   m_pActor; // always valid - might be AIUnit, might be AICity (build)

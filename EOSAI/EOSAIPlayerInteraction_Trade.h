@@ -23,6 +23,13 @@ class CEOSAIPlayerInteraction_Trade : public CEOSAIPlayerInteraction
 				  EOSAIEnumTradeAgreementResponse  eResponse,
 				  long iAIPlayer, long iHumanPlayer, float fImprovedRelationsValue01 );
 
+		virtual bool ValidateValues()
+		{
+			if (m_iRequestingPlayer > 0 && m_iSentTo > 0 && m_strTradeAgreement != "") return true;
+			ASSERT(false);
+			return false;
+		}
+
 		//
 		CEOSAISerial_INFORMATION_LONG( 203, CEOSAIPlayerInteraction_Trade );
 		virtual void Serialize( CEOSAISerial* pSerial );

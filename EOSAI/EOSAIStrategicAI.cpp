@@ -1934,6 +1934,8 @@ void CEOSAIStrategicAI::EvaluateAndRespondToTradeAgreement( CEOSAITradeAgreement
 			long iPlayerWhoMadeTheOffer = pTradeAgreement->GetPlayerWhoMadeTheOffer();
 			long iPlayerWhoDidntMakeTheOffer = pTradeAgreement->GetOtherPlayerNumber(iPlayerWhoMadeTheOffer);
 			CEOSAIPlayerInteraction_Trade* pTradeInteraction = new CEOSAIPlayerInteraction_Trade();
+			pTradeInteraction->m_iRequestingPlayer = iPlayerWhoMadeTheOffer;
+			pTradeInteraction->m_iSentTo = iPlayerWhoDidntMakeTheOffer;
 			pTradeInteraction->m_iEventTurn = g_pEOSAIInterface->GetCurrentTurn();
 			pTradeInteraction->m_fImprovedForeignRelationsValue01 = TradeEvaluationResult.m_fForeignRelationsBonus;
 			pTradeInteraction->m_iImprovedForeignRelationsAIPlayer = this->GetPlayerNumber();

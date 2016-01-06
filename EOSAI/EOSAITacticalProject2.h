@@ -119,7 +119,7 @@ class CEOSAITacticalProject2
 
 
 		CEOSAITacticalProject2( CEOSAIBrain* pAIBrain );
-		~CEOSAITacticalProject2(){}
+		~CEOSAITacticalProject2(){ m_bDebug_HasBeenDeleted = true; }
 
 		CEOSAIBrain*   GetAIBrain(){ return m_pAIBrain; }
 		EOSAI::AIPlayer*  GetAIPlayer();
@@ -284,6 +284,8 @@ class CEOSAITacticalProject2
 		//
 			bool  ProjectIncludesObjectIdAsPrimaryTask( long iObjectId );
 
+	public:
+			bool m_bDebug_HasBeenDeleted;
 	private:
 
 		void CalculateNationalPathway();

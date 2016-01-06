@@ -20,6 +20,7 @@
 CEOSAITacticalProject2::CEOSAITacticalProject2( CEOSAIBrain* pAIBrain )
 {
 	m_pAIBrain = pAIBrain;
+	m_bDebug_HasBeenDeleted = false;
 	m_Id = 0;
 	m_ePrimaryAction = enum_PrimaryActionUndefined;
 	m_eCurrentPlan = enum_Undefined;

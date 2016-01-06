@@ -248,6 +248,7 @@ CEOSAIUnit2PathwayFinder::~CEOSAIUnit2PathwayFinder()
 
 void CEOSAIUnit2PathwayFinder::ClearPredefinedAndResultPaths()
 {
+	int g = 0;
 	while( m_PreDefinedPath.IsEmpty() == FALSE )
 	{
 		delete m_PreDefinedPath.RemoveHead();

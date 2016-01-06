@@ -21,6 +21,8 @@
 #include "EOSAIAirUnitPathwayFinder.h"
 #include "EOSAISeaUnitPathwayFinder.h"
 #include "EOSAIGroundUnitPathwayFinder.h"
+#include "EOSAIUnitPathwayResult.h"
+
 #include "EOSAIDesireSpatial.h"
 #include "EOSAIUnitPathwayPredefinedStep.h"
 #include "EOSAITransportComboMap.h"
@@ -218,6 +220,35 @@ CEOSAIUnit2::~CEOSAIUnit2()
 	}
 	delete m_pAIUnitPathway; m_pAIUnitPathway = NULL;
 }
+
+void CEOSAIUnit2::ResetAIPlayerData()
+{
+	CEOSAIPoiObject::ResetAIPlayerData();
+	ResetAIPlayerData_AIUnit();
+}
+
+void CEOSAIUnit2::ResetAIPlayerData_AIUnit()
+{
+	// We shouldn't be reseting hypothetical units, they should be deleted
+	ASSERT(this->IsHypotheticalPoiObject() == false);
+
+	this->ClearPotentialTargets();
+
+	if (this->GetAIUnitPathwayFinder())
+	{
+		this->GetAIUnitPathwayFinder()->ClearPredefinedAndResultPaths();
+		ASSERT(this->GetAIUnitPathwayFinder()->GetPreDefinedPath()->IsEmpty());
+		ASSERT(this->GetAIUnitPathwayFinder()->GetResultPath() == NULL ||
+			   this->GetAIUnitPathwayFinder()->GetResultPath()->m_Steps.IsEmpty());
+	}
+	this->DeleteTransportSpaceAllocations();
+
+	if (this->GetAIUnitTemplate()) // Sometimes this function gets called 
+	{
+		this->CalculateUnitPathway();
+	}
+}
+
 /*
 // have to create m_pAIUnitPathway
 void  CEOSAIUnit2::SetServerPoiObject( CPoiObject* pPoiObject )
@@ -2039,8 +2070,13 @@ bool CEOSAIUnit2::CanContain_IgnoreForeignRelations( CEOSAIUnitTemplate* pUnitTe
 
 void CEOSAIUnit2::CalculateUnitPathway()
 {
-	GetRealTransportSpaceAllocations()->SetAIUnit( this );
-	m_pAIUnitPathway = CEOSAIUnit2PathwayFinder::CreatePathwayFinder( this );
+	if (m_pAIUnitPathway)
+	{
+		delete m_pAIUnitPathway;
+		m_pAIUnitPathway = NULL;
+	}
+	GetRealTransportSpaceAllocations()->SetAIUnit(this);
+	m_pAIUnitPathway = CEOSAIUnit2PathwayFinder::CreatePathwayFinder(this);
 }
 
 CEOSAIAirUnitPathwayFinder*  CEOSAIUnit2::GetAIAirUnitPathwayFinder()

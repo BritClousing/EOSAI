@@ -69,6 +69,9 @@ namespace EOSAI
 		char* GetEOSAIVersion() { return "0.1"; }
 		char* GetEOSAIBuildDate() { return __DATE__; }// "Septembruary 45, 3024"; }
 
+		void InitializeEOSAI(); // Makes EOSAI visible to the EOSAI User Interface
+		void ShutdownEOSAI();
+
 	// Set my WorldDistanceTool
 	//  It will contain a variety of methods that can measure distances between locations and other functions.
 		void SetAIWorldDistanceTool(EOSAI::CWorldDistanceTool* p);
@@ -107,6 +110,9 @@ namespace EOSAI
 		virtual void CreateAIGeoMap() { ASSERT(false); }
 		virtual void CreateAIObjects() { ASSERT(false); }
 
+		// Terrain
+		virtual int  GetTerrainColorByPixelLocation(float fPosX, float fPosY){ ASSERT(false); return 0; } // Used for the EOSAIUserInterface
+
 #ifdef THINGS_TO_COMPILE_EVENTUALLY
 		I should move "CalculateNationwidePathways" and "AddObjectIdsToAIRegionsAndMultiRegions" out of the interface.
 			It really doesn't need to be visible to the end-user.
@@ -139,6 +145,9 @@ namespace EOSAI
 		void  SetCurrentTurn(long iTurn) { ASSERT(iTurn > 0); m_iCurrentTurn = iTurn; }
 		long  GetCurrentTurn() { return m_iCurrentTurn; }
 		bool  GetGameHasEnded() { return m_bGameHasEnded; }
+
+		// Display UI
+		//void ShowUI(bool b);
 
 	//
 		long GetProcessingAIPlayer(); // The player that's being processed

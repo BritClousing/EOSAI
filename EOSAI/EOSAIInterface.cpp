@@ -4,6 +4,7 @@
 #include "EOSAIGamePlayer.h"
 #include "AIPlayerDesc.h"
 #include "AIPlayer.h"
+#include "UserInterface.h"
 #include "MessageFromAI_ForeignRelationsFeelings.h"
 //#include "EOSAILogFile.h"
 
@@ -50,6 +51,16 @@ CInterface::CInterface()
 	//m_bCommonAIObjectsHaveBeenCreated = false;
 }
 
+void CInterface::InitializeEOSAI()
+{
+	m_AIPlayerManager.InitializeInterprocessCommunication();
+}
+
+void CInterface::ShutdownEOSAI()
+{
+	//m_AIPlayerManager.ShutdownInterprocessCommunication();
+}
+
 void CInterface::SetAIWorldDistanceTool( EOSAI::CWorldDistanceTool* p )
 {
 	m_pAIWorldDistanceTool = p;
@@ -89,7 +100,8 @@ void CInterface::ActivateAIPlayers()
 void CInterface::AddGamePlayer( EOSAI::CGamePlayer* pGamePlayer )
 {
 	ASSERT( m_GamePlayers != NULL );
-	ASSERT( pGamePlayer->m_iPlayer > 0 );
+	ASSERT(pGamePlayer->m_iPlayer > 0);
+	ASSERT(pGamePlayer->m_strPlayerName != "");
 	m_GamePlayers[pGamePlayer->m_iPlayer] = pGamePlayer;
 }
 
@@ -206,7 +218,12 @@ CEOSAIRegionManager2* CInterface::GetAIRegionManager()
 {
 	return m_AICommonData.GetAIRegionManager();
 }
-
+/*
+void CInterface::ShowUI(bool b)
+{
+	m_AIPlayerManager.ShowUI(b);
+}
+*/
 //
 long CInterface::GetProcessingAIPlayer() // The player that's being processed
 {

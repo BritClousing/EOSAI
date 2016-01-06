@@ -27,6 +27,8 @@ cpin -c Build\Debug\EOSAI.lib %ExportDirectory%\EOSAI.lib
 rem cpin -c Build\Release\EOSAI.dll %ExportDirectory%\EOSAI.dll
 rem cpin -c Build\Release\EOSAI.lib %ExportDirectory%\EOSAI.lib
 
+
+echo %ExportDirectory%
 cpin .\AIPlayerDesc.h %ExportDirectory%\Include\
 cpin .\EOSAIActionRequirement.h %ExportDirectory%\Include\
 cpin .\EOSAIActionScheduler.h %ExportDirectory%\Include\
@@ -43,6 +45,7 @@ cpin .\EOSAIBuildingDescription.h %ExportDirectory%\Include\
 cpin .\EOSAIBuildManager.h %ExportDirectory%\Include\
 cpin .\EOSAIBuildOption.h %ExportDirectory%\Include\
 cpin .\EOSAIBuildOrder.h %ExportDirectory%\Include\
+
 cpin .\City.h %ExportDirectory%\Include\
 cpin .\EOSAICitResSummary.h %ExportDirectory%\Include\
 cpin .\EOSAICitResUnitSummary.h %ExportDirectory%\Include\
@@ -148,7 +151,6 @@ cpin .\EOSAIUnitTemplateAndFloat.h %ExportDirectory%\Include\
 cpin .\EOSAIUnitTemplatesAndFloat.h %ExportDirectory%\Include\
 cpin .\EOSAIUnitsubsetPermission.h %ExportDirectory%\Include\
 
-
 rem |
 rem |
 cpin .\EOSAIPublic.h %ExportDirectory%\Include\
@@ -171,4 +173,5 @@ rem | cpin -r %ExportDirectory%\*.* c:\programming\EOS\Source\EOSAI\
 cpin -r %ExportDirectory%\*.* c:\programming\EOSAI-1.0\EOSAI\
 cpin -r %ExportDirectory%\*.dll C:\Programming\EOS\Build\
 
+echo Done
 

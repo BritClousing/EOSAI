@@ -273,7 +273,7 @@ void CActionScheduler::AllocateTacticalProjects2()
 	ASSERT( iTacticalProjects < 30 );
 	int iDesires = pAIThoughtDatabase->GetDesires()->GetCount();
 	ASSERT( iDesires < 100 );
-	int iCurrentTurn = g_pEOSAIInterface->GetCurrentTurn();
+	//int iCurrentTurn = g_pEOSAIInterface->GetCurrentTurn();
 
 	//
 	// Order the TacticalProjects by "OrderOfProcessing"
@@ -424,7 +424,7 @@ void CActionScheduler::AllocateTacticalProjects2()
 		while( pos )
 		{
 			CEOSAITacticalProject2* pTacticalProject = TacticalProjectsToEvaluate.GetNext( pos );
-
+			/*
 			if( iCurrentTurn == 11 )
 			{
 				if( pTacticalProject->ProjectIncludesObjectIdAsPrimaryTask( 7 ) ||
@@ -435,6 +435,7 @@ void CActionScheduler::AllocateTacticalProjects2()
 					int h=0;
 				}
 			}
+			*/
 
 			CList< CEOSAITacticalProject2Strategy* > StrategyList;
 			pTacticalProject->GetAITacticalProjectStrategies( &StrategyList );
@@ -766,10 +767,12 @@ void CActionScheduler::AllocateTacticalProjects2()
 					pTacticalProject->ProjectIncludesObjectIdAsPrimaryTask( 12 ) ||
 					pTacticalProject->ProjectIncludesObjectIdAsPrimaryTask( 15 ) )
 				{
+					/*
 					if( g_pEOSAIInterface->GetCurrentTurn() == 11 )
 					{
 						int h=0;
 					}
+					*/
 				}
 				//pStrategy->GetNegotiatedTaskForce()->SetUnitNegotiation( CEOSAITaskForce3::AllocateOnlyUnallocatedUnits );
 				//pStrategy->GetNegotiatedTaskForce()->SetTransportStrategy( CEOSAITaskForce3::GroundUnitArrivalASAP );
