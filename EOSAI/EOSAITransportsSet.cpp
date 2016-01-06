@@ -31,7 +31,7 @@ CEOSAITransportsSet::CEOSAITransportsSet( CEOSAIThoughtDatabase* pThoughtDatabas
 	while( pos )
 	{
 		CEOSAIPoiObject* pExistingPoiObject = m_pThoughtDatabase->GetMyActors()->GetNext( pos );
-		CEOSAIUnit2* pExistingUnit = dynamic_cast< CEOSAIUnit2* >( pExistingPoiObject );
+		CEOSAIUnit* pExistingUnit = dynamic_cast< CEOSAIUnit* >( pExistingPoiObject );
 		if( pExistingUnit && pExistingUnit->CanContain_IgnoreForeignRelations( pUnitToTransport ) )
 		{
 			m_ExistingTransports.AddTail( pExistingUnit );
@@ -68,7 +68,7 @@ float  CEOSAITransportsSet::GetEarliestArrivalTimeToLocation_UseCrowsFlight( CEO
 	POSITION pos = m_ExistingTransports.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2* pTransport = m_ExistingTransports.GetNext( pos );
+		CEOSAIUnit* pTransport = m_ExistingTransports.GetNext( pos );
 		//float fDistance = pWorldDescServer->GetPixelDistance( pTransport->GetInitialState()->GetLocation(), Location );
 		float fDistance = g_pWorldDistanceTool->GetDistance( pTransport->GetInitialState()->GetLocation(), Location );
 		//
@@ -112,7 +112,7 @@ float  CEOSAITransportsSet::GetFastestMovementRate()
 	POSITION pos = m_ExistingTransports.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2* pAIUnit = m_ExistingTransports.GetNext( pos );
+		CEOSAIUnit* pAIUnit = m_ExistingTransports.GetNext( pos );
 		fFastest = max( fFastest, pAIUnit->GetAIUnitTemplate()->GetMovementRate() );
 	}
 	pos = m_BuildableTransports.GetHeadPosition();

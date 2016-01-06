@@ -7,7 +7,7 @@
 class CAISuperTask;
 class CEOSAICity;
 class CEOSAIPoiObject;
-class CEOSAIUnit2;
+class CEOSAIUnit;
 namespace EOSAI
 {
 	class UnitTask_CaptureCitRes : public EOSAI::UnitTask

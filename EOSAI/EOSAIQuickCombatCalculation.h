@@ -15,23 +15,23 @@
 
 #include "EOSAIStringAndFloatSet.h"
 #include "EOSAIQuickCombatResults.h"
-class CEOSAIUnit2;
+class CEOSAIUnit;
 class CEOSAIPoiObject;
 namespace EOSAI
 {
 	class PoiMobile;
 }
 class CEOSAIUnitTemplate;
-class CEOSAIUnit2TemplatesAndFloat;
+class CEOSAIUnitTemplatesAndFloat;
 
 // Used to do some quick combat calculations
 class CEOSAIQuickCombatUnit
 {
 	public:
-		CEOSAIQuickCombatUnit( CEOSAIUnit2* pUnit );
+		CEOSAIQuickCombatUnit( CEOSAIUnit* pUnit );
 		CEOSAIQuickCombatUnit( CEOSAIUnitTemplate* pUnitTemplate );
 
-		CEOSAIUnit2* m_pAIUnit; // sometimes valid
+		CEOSAIUnit* m_pAIUnit; // sometimes valid
 		CEOSAIUnitTemplate* m_pAIUnitTemplate; // always valid
 		//
 		CEOSAIQuickCombatUnit* m_pCurrentBestTarget;
@@ -64,8 +64,8 @@ class CEOSAIQuickCombatCalculation
 		//   A value of "Infantry" 1.0 means all Infantry units have been destroyed (and no excess power)
 		// Timing Test: Using 5 UnitCategories x 5 UnitCategories
 		//   Debugger - 0.30 milliseconds (3000 tests/second)
-		static void  QuickCombatResults( CEOSAIUnit2TemplatesAndFloat& MyUnits, CEOSAIUnit2TemplatesAndFloat& EnemyUnits, CEOSAIUnit2TemplatesAndFloat& CombatResults );
-		static void  QuickCombatDamageSqrt( CEOSAIUnit2TemplatesAndFloat& EnemyUnits, CEOSAIUnit2TemplatesAndFloat& CombatResults, float* pfTotalDamageToEnemyProduction, float* pfTotalDamageToEnemyCombatCapability );
+		static void  QuickCombatResults( CEOSAIUnitTemplatesAndFloat& MyUnits, CEOSAIUnitTemplatesAndFloat& EnemyUnits, CEOSAIUnitTemplatesAndFloat& CombatResults );
+		static void  QuickCombatDamageSqrt( CEOSAIUnitTemplatesAndFloat& EnemyUnits, CEOSAIUnitTemplatesAndFloat& CombatResults, float* pfTotalDamageToEnemyProduction, float* pfTotalDamageToEnemyCombatCapability );
 
 		// Attrition Calculations
 		// Attrition 1.0 = Attacker advantage, 0.5 = Equal, 0.0 = Defender advantage
@@ -80,7 +80,7 @@ class CEOSAIQuickCombatCalculation
 		// CombatWin Calculations - 1.0=Attacker Wins, 0.5 = evenly matched, 0.0=Defender Wins
 		// Assume both units are within combat range
 		static float CalculateCombatWin01( EOSAI::PoiMobile* pAttacker, EOSAI::PoiMobile* pDefender );
-		static float CalculateCombatWin01( CEOSAIUnit2TemplatesAndFloat& AttackingUnits, CEOSAIUnit2TemplatesAndFloat& DefendingUnits );
+		static float CalculateCombatWin01( CEOSAIUnitTemplatesAndFloat& AttackingUnits, CEOSAIUnitTemplatesAndFloat& DefendingUnits );
 
 		// Positive values mean the attacker has a range advantage, negative means defender has an advantage
 		static float GetCombatRangeAdvantage( EOSAI::PoiMobile* pAttacker, EOSAI::PoiMobile* pDefender );

@@ -15,7 +15,7 @@ static char THIS_FILE[]=__FILE__;
 #define new DEBUG_NEW
 #endif
 
-CEOSAIQuickCombatUnit::CEOSAIQuickCombatUnit( CEOSAIUnit2* pAIUnit )
+CEOSAIQuickCombatUnit::CEOSAIQuickCombatUnit( CEOSAIUnit* pAIUnit )
 {
 	m_pAIUnit = pAIUnit;
 	m_pAIUnitTemplate = pAIUnit->GetAIUnitTemplate();
@@ -44,24 +44,24 @@ CEOSAIQuickCombatUnit::CEOSAIQuickCombatUnit( CEOSAIUnitTemplate* pAIUnitTemplat
 
 
 void  CEOSAIQuickCombatCalculation::QuickCombatResults( 
-		CEOSAIUnit2TemplatesAndFloat& MyUnits, CEOSAIUnit2TemplatesAndFloat& EnemyUnits, 
-		CEOSAIUnit2TemplatesAndFloat& CombatResults )
+		CEOSAIUnitTemplatesAndFloat& MyUnits, CEOSAIUnitTemplatesAndFloat& EnemyUnits, 
+		CEOSAIUnitTemplatesAndFloat& CombatResults )
 {
 	//ASSERT( pCombatResults );
 	CombatResults.Clear();
-	CEOSAIUnit2TemplatesAndFloat  CombatPowerAppliedAgainstEnemyUnits;
+	CEOSAIUnitTemplatesAndFloat  CombatPowerAppliedAgainstEnemyUnits;
 
 	POSITION pos = EnemyUnits.m_List.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2TemplateAndFloat* pEnemy = EnemyUnits.m_List.GetNext( pos );
+		CEOSAIUnitTemplateAndFloat* pEnemy = EnemyUnits.m_List.GetNext( pos );
 
 		// What power can I throw against this enemy unit?
 		float fTotalCombatPower = 0.0f;
 		POSITION pos2 = MyUnits.m_List.GetHeadPosition();
 		while( pos2 )
 		{
-			CEOSAIUnit2TemplateAndFloat* pMyUnit = MyUnits.m_List.GetNext( pos2 );
+			CEOSAIUnitTemplateAndFloat* pMyUnit = MyUnits.m_List.GetNext( pos2 );
 
 			// Skip the Ground->Sea and Sea->Ground attacks
 			if( pMyUnit->m_pAIUnitTemplate->IsGroundUnit() && pEnemy->m_pAIUnitTemplate->IsSeaUnit() ) continue;
@@ -91,11 +91,11 @@ void  CEOSAIQuickCombatCalculation::QuickCombatResults(
 	//     one unit's worth of power, and use the power-excesses to also limit the unit's power distribution
 
 	// Calculate the Normalized power levels
-	CEOSAIUnit2TemplatesAndFloat  NormalizedPowerAppliedAgainstEnemyUnits;
+	CEOSAIUnitTemplatesAndFloat  NormalizedPowerAppliedAgainstEnemyUnits;
 	pos = CombatPowerAppliedAgainstEnemyUnits.m_List.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2TemplateAndFloat* pCombatPowerAgainstEnemyUnit = CombatPowerAppliedAgainstEnemyUnits.m_List.GetNext( pos );
+		CEOSAIUnitTemplateAndFloat* pCombatPowerAgainstEnemyUnit = CombatPowerAppliedAgainstEnemyUnits.m_List.GetNext( pos );
 
 		float fCurrentNumberOfEnemyUnits = EnemyUnits.GetValue( pCombatPowerAgainstEnemyUnit->m_pAIUnitTemplate );
 		float fEnemyUnitProductionCost = pCombatPowerAgainstEnemyUnit->m_pAIUnitTemplate->GetProductionCost();
@@ -115,7 +115,7 @@ void  CEOSAIQuickCombatCalculation::QuickCombatResults(
 	pos = MyUnits.m_List.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2TemplateAndFloat* pMyUnit = MyUnits.m_List.GetNext( pos );
+		CEOSAIUnitTemplateAndFloat* pMyUnit = MyUnits.m_List.GetNext( pos );
 
 		// Skip power calculations for any of my units that aren't combat units
 		if( pMyUnit->m_pAIUnitTemplate->IsACombatUnit() == false ) continue;
@@ -126,7 +126,7 @@ void  CEOSAIQuickCombatCalculation::QuickCombatResults(
 		POSITION pos2 = EnemyUnits.m_List.GetHeadPosition();
 		while( pos2 )
 		{
-			CEOSAIUnit2TemplateAndFloat* pEnemy = EnemyUnits.m_List.GetNext( pos2 );
+			CEOSAIUnitTemplateAndFloat* pEnemy = EnemyUnits.m_List.GetNext( pos2 );
 
 			// Skip the Ground->Sea and Sea->Ground attacks
 			if( pMyUnit->m_pAIUnitTemplate->IsGroundUnit() && pEnemy->m_pAIUnitTemplate->IsSeaUnit() ) continue;
@@ -142,7 +142,7 @@ void  CEOSAIQuickCombatCalculation::QuickCombatResults(
 		pos2 = EnemyUnits.m_List.GetHeadPosition();
 		while( pos2 )
 		{
-			CEOSAIUnit2TemplateAndFloat* pEnemy = EnemyUnits.m_List.GetNext( pos2 );
+			CEOSAIUnitTemplateAndFloat* pEnemy = EnemyUnits.m_List.GetNext( pos2 );
 			float fNormalizedPowerAgainstUnit = NormalizedPowerAppliedAgainstEnemyUnits.GetValue( pEnemy->m_pAIUnitTemplate );
 
 			// Skip the Ground->Sea and Sea->Ground attacks
@@ -179,7 +179,7 @@ void  CEOSAIQuickCombatCalculation::QuickCombatResults(
 	pos = CombatResults.m_List.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2TemplateAndFloat* pCombatPowerAgainstUnit = CombatResults.m_List.GetNext( pos );
+		CEOSAIUnitTemplateAndFloat* pCombatPowerAgainstUnit = CombatResults.m_List.GetNext( pos );
 
 		float fNumberOfEnemyUnits = EnemyUnits.GetValue( pCombatPowerAgainstUnit->m_pAIUnitTemplate );
 		float fEnemyUnitCost = pCombatPowerAgainstUnit->m_pAIUnitTemplate->GetProductionCost();
@@ -194,7 +194,7 @@ void  CEOSAIQuickCombatCalculation::QuickCombatResults(
 }
 
 /*
-void  CEOSAIQuickCombatCalculation::QuickCombatDamageNormal( CEOSAIUnit2TemplatesAndFloat* pCombatResults, float* pfTotalDamageToEnemyProduction, float* pfTotalDamageToEnemyCombatCapability )
+void  CEOSAIQuickCombatCalculation::QuickCombatDamageNormal( CEOSAIUnitTemplatesAndFloat* pCombatResults, float* pfTotalDamageToEnemyProduction, float* pfTotalDamageToEnemyCombatCapability )
 {
 	ASSERT( &pfTotalDamageToEnemyProduction );
 	ASSERT( &pfTotalDamageToEnemyCombatCapability );
@@ -219,7 +219,7 @@ void  CEOSAIQuickCombatCalculation::QuickCombatDamageNormal( CEOSAIUnit2Template
 	if( pfTotalDamageToEnemyCombatCapability ){ *pfTotalDamageToEnemyCombatCapability = fTotalDamageToEnemyCombatCapability; }
 }
 */
-void  CEOSAIQuickCombatCalculation::QuickCombatDamageSqrt( CEOSAIUnit2TemplatesAndFloat& EnemyUnits, CEOSAIUnit2TemplatesAndFloat& CombatResults, float* pfTotalDamageToEnemyProduction, float* pfTotalDamageToEnemyCombatCapability )
+void  CEOSAIQuickCombatCalculation::QuickCombatDamageSqrt( CEOSAIUnitTemplatesAndFloat& EnemyUnits, CEOSAIUnitTemplatesAndFloat& CombatResults, float* pfTotalDamageToEnemyProduction, float* pfTotalDamageToEnemyCombatCapability )
 {
 	ASSERT( &pfTotalDamageToEnemyProduction );
 	ASSERT( &pfTotalDamageToEnemyCombatCapability );
@@ -229,7 +229,7 @@ void  CEOSAIQuickCombatCalculation::QuickCombatDamageSqrt( CEOSAIUnit2TemplatesA
 	POSITION pos = CombatResults.m_List.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2TemplateAndFloat* pDestruction = CombatResults.m_List.GetNext( pos );
+		CEOSAIUnitTemplateAndFloat* pDestruction = CombatResults.m_List.GetNext( pos );
 		//
 		fTotalDamageToEnemyProduction +=
 			sqrt( pDestruction->m_fValue ) *
@@ -325,7 +325,7 @@ void CEOSAIQuickCombatCalculation::SetProDefenderBias( float fBias )
 // Initialization
 void CEOSAIQuickCombatCalculation::AddToAttackers( CEOSAIPoiObject* pPoiObject )
 {
-	CEOSAIUnit2* pUnit = dynamic_cast< CEOSAIUnit2* >( pPoiObject );
+	CEOSAIUnit* pUnit = dynamic_cast< CEOSAIUnit* >( pPoiObject );
 	if( pUnit )
 	{
 		CEOSAIQuickCombatUnit* pQUnit = new CEOSAIQuickCombatUnit(pUnit);
@@ -368,7 +368,7 @@ void CEOSAIQuickCombatCalculation::RemoveFromAttackers( CEOSAIUnitTemplate* pUni
 
 void CEOSAIQuickCombatCalculation::RemoveFromAttackers( CEOSAIPoiObject* pPoiObject )
 {
-	CEOSAIUnit2* pUnit = dynamic_cast< CEOSAIUnit2* >( pPoiObject );
+	CEOSAIUnit* pUnit = dynamic_cast< CEOSAIUnit* >( pPoiObject );
 	if( pUnit )
 	{
 		//CEOSAIQuickCombatUnit* pQUnit = new CEOSAIQuickCombatUnit(pUnit);
@@ -400,7 +400,7 @@ void CEOSAIQuickCombatCalculation::RemoveFromAttackers( CEOSAIPoiObject* pPoiObj
 
 void CEOSAIQuickCombatCalculation::AddToDefenders( CEOSAIPoiObject* pPoiObject )
 {
-	CEOSAIUnit2* pUnit = dynamic_cast< CEOSAIUnit2* >( pPoiObject );
+	CEOSAIUnit* pUnit = dynamic_cast< CEOSAIUnit* >( pPoiObject );
 	if( pUnit )
 	{
 		CEOSAIQuickCombatUnit* pQUnit = new CEOSAIQuickCombatUnit(pUnit);
@@ -1333,8 +1333,8 @@ float CEOSAIQuickCombatCalculation::CalculateAttrition01( CEOSAIUnitTemplate* pA
 
 float CEOSAIQuickCombatCalculation::CalculateAttrition01( EOSAI::PoiMobile* pAttacker, EOSAI::PoiMobile* pDefender, float fRangeMultiplier, float* pTimeResult )
 {
-	CEOSAIUnit2* pAttackerUnit = dynamic_cast< CEOSAIUnit2* >( pAttacker );
-	CEOSAIUnit2* pDefenderUnit = dynamic_cast< CEOSAIUnit2* >( pDefender );
+	CEOSAIUnit* pAttackerUnit = dynamic_cast< CEOSAIUnit* >( pAttacker );
+	CEOSAIUnit* pDefenderUnit = dynamic_cast< CEOSAIUnit* >( pDefender );
 	float f = 0.0f;
 	if( pAttackerUnit && pDefenderUnit )
 	{
@@ -1347,21 +1347,21 @@ float CEOSAIQuickCombatCalculation::CalculateAttrition01( EOSAI::PoiMobile* pAtt
 	pAttacker->AddToCombatGroup( &AttackersList );
 	pDefender->AddToCombatGroup( &DefendersList );
 
-	CEOSAIUnit2TemplatesAndFloat  Attackers;
-	CEOSAIUnit2TemplatesAndFloat  Defenders;
+	CEOSAIUnitTemplatesAndFloat  Attackers;
+	CEOSAIUnitTemplatesAndFloat  Defenders;
 	POSITION pos;
 	pos = AttackersList.GetHeadPosition();
 	while( pos )
 	{
 		CEOSAIPoiObject* pAttackerPoiObject = AttackersList.GetNext( pos );
-		CEOSAIUnit2* pAttackerUnit = dynamic_cast< CEOSAIUnit2* >( pAttackerPoiObject );
+		CEOSAIUnit* pAttackerUnit = dynamic_cast< CEOSAIUnit* >( pAttackerPoiObject );
 		Attackers.Add( pAttackerUnit->GetAIUnitTemplate(), pAttackerUnit->GetCurrentHP01() );
 	}
 	pos = DefendersList.GetHeadPosition();
 	while( pos )
 	{
 		CEOSAIPoiObject* pDefenderPoiObject = DefendersList.GetNext( pos );
-		CEOSAIUnit2* pDefenderUnit = dynamic_cast< CEOSAIUnit2* >( pDefenderPoiObject );
+		CEOSAIUnit* pDefenderUnit = dynamic_cast< CEOSAIUnit* >( pDefenderPoiObject );
 		Defenders.Add( pDefenderUnit->GetAIUnitTemplate(), pDefenderUnit->GetCurrentHP01() );
 	}
 	//
@@ -1370,14 +1370,14 @@ float CEOSAIQuickCombatCalculation::CalculateAttrition01( EOSAI::PoiMobile* pAtt
 	pos = Attackers.m_List.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2TemplateAndFloat* pAttackerUnitTemplateAndFloat = Attackers.m_List.GetNext( pos );
+		CEOSAIUnitTemplateAndFloat* pAttackerUnitTemplateAndFloat = Attackers.m_List.GetNext( pos );
 		CEOSAIUnitTemplate* pAttacker = pAttackerUnitTemplateAndFloat->m_pAIUnitTemplate;
 		float fAttackerCost = pAttacker->GetProductionAndIronCost1() * pAttackerUnitTemplateAndFloat->m_fValue;
 
 		POSITION pos2 = Defenders.m_List.GetHeadPosition();
 		while( pos2 )
 		{
-			CEOSAIUnit2TemplateAndFloat* pDefenderUnitTemplateAndFloat = Defenders.m_List.GetNext( pos2 );
+			CEOSAIUnitTemplateAndFloat* pDefenderUnitTemplateAndFloat = Defenders.m_List.GetNext( pos2 );
 			CEOSAIUnitTemplate* pDefender = pDefenderUnitTemplateAndFloat->m_pAIUnitTemplate;
 			float fDefenderCost = pDefender->GetProductionAndIronCost1() * pDefenderUnitTemplateAndFloat->m_fValue;
 
@@ -1390,9 +1390,9 @@ float CEOSAIQuickCombatCalculation::CalculateAttrition01( EOSAI::PoiMobile* pAtt
 	return fTotalAttrition01;
 
 	/*
-	CEOSAIUnit2TemplatesAndFloat CombatResultsAgainstDefenders;
+	CEOSAIUnitTemplatesAndFloat CombatResultsAgainstDefenders;
 	CEOSAIQuickCombatCalculation::QuickCombatResults( Attackers, Defenders, CombatResultsAgainstDefenders );
-	CEOSAIUnit2TemplatesAndFloat CombatResultsAgainstAttackers;
+	CEOSAIUnitTemplatesAndFloat CombatResultsAgainstAttackers;
 	CEOSAIQuickCombatCalculation::QuickCombatResults( Defenders, Attackers, CombatResultsAgainstAttackers );
 
 	// Count up the damage to the defender
@@ -1506,27 +1506,27 @@ float CEOSAIQuickCombatCalculation::CalculateCombatWin01( EOSAI::PoiMobile* pAtt
 	pAttacker->AddToCombatGroup( &AttackersList );
 	pDefender->AddToCombatGroup( &DefendersList );
 
-	CEOSAIUnit2TemplatesAndFloat  Attackers;
-	CEOSAIUnit2TemplatesAndFloat  Defenders;
+	CEOSAIUnitTemplatesAndFloat  Attackers;
+	CEOSAIUnitTemplatesAndFloat  Defenders;
 	POSITION pos;
 	pos = AttackersList.GetHeadPosition();
 	while( pos )
 	{
 		CEOSAIPoiObject* pAttackerPoiObject = AttackersList.GetNext( pos );
-		CEOSAIUnit2* pAttackerUnit = dynamic_cast< CEOSAIUnit2* >( pAttackerPoiObject );
+		CEOSAIUnit* pAttackerUnit = dynamic_cast< CEOSAIUnit* >( pAttackerPoiObject );
 		Attackers.Add( pAttackerUnit->GetAIUnitTemplate(), pAttackerUnit->GetCurrentHP01() );
 	}
 	pos = DefendersList.GetHeadPosition();
 	while( pos )
 	{
 		CEOSAIPoiObject* pDefenderPoiObject = DefendersList.GetNext( pos );
-		CEOSAIUnit2* pDefenderUnit = dynamic_cast< CEOSAIUnit2* >( pDefenderPoiObject );
+		CEOSAIUnit* pDefenderUnit = dynamic_cast< CEOSAIUnit* >( pDefenderPoiObject );
 		Defenders.Add( pDefenderUnit->GetAIUnitTemplate(), pDefenderUnit->GetCurrentHP01() );
 	}
 	//
-	//CEOSAIUnit2TemplatesAndFloat PowerAgainstDefenders;
+	//CEOSAIUnitTemplatesAndFloat PowerAgainstDefenders;
 	//QuickCombatResults( Attackers, Defenders, PowerAgainstDefenders );
-	//CEOSAIUnit2TemplatesAndFloat PowerAgainstAttackers;
+	//CEOSAIUnitTemplatesAndFloat PowerAgainstAttackers;
 	//QuickCombatResults( Defenders, Attackers, PowerAgainstAttackers );
 	return CalculateCombatWin01( Attackers, Defenders );
 	/*
@@ -1555,15 +1555,15 @@ float CEOSAIQuickCombatCalculation::CalculateCombatWin01( EOSAI::PoiMobile* pAtt
 	}
 	fTotalAttrition01 /= fTotalWeight;
 	return fTotalAttrition01;
-	QuickCombatResults( CEOSAIUnit2TemplatesAndFloat& MyUnits, CEOSAIUnit2TemplatesAndFloat& EnemyUnits, CEOSAIUnit2TemplatesAndFloat& CombatResults );
+	QuickCombatResults( CEOSAIUnitTemplatesAndFloat& MyUnits, CEOSAIUnitTemplatesAndFloat& EnemyUnits, CEOSAIUnitTemplatesAndFloat& CombatResults );
 	*/
 }
 
-float CEOSAIQuickCombatCalculation::CalculateCombatWin01( CEOSAIUnit2TemplatesAndFloat& Attackers, CEOSAIUnit2TemplatesAndFloat& Defenders )
+float CEOSAIQuickCombatCalculation::CalculateCombatWin01( CEOSAIUnitTemplatesAndFloat& Attackers, CEOSAIUnitTemplatesAndFloat& Defenders )
 {
-	CEOSAIUnit2TemplatesAndFloat PowerAgainstDefenders;
+	CEOSAIUnitTemplatesAndFloat PowerAgainstDefenders;
 	QuickCombatResults( Attackers, Defenders, PowerAgainstDefenders );
-	CEOSAIUnit2TemplatesAndFloat PowerAgainstAttackers;
+	CEOSAIUnitTemplatesAndFloat PowerAgainstAttackers;
 	QuickCombatResults( Defenders, Attackers, PowerAgainstAttackers );
 
 	POSITION pos;
@@ -1572,7 +1572,7 @@ float CEOSAIQuickCombatCalculation::CalculateCombatWin01( CEOSAIUnit2TemplatesAn
 	pos = Defenders.m_List.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2TemplateAndFloat* pUnitTemplateAndFloat = Defenders.m_List.GetNext( pos );
+		CEOSAIUnitTemplateAndFloat* pUnitTemplateAndFloat = Defenders.m_List.GetNext( pos );
 		fDefenderProduction +=
 			pUnitTemplateAndFloat->m_fValue *
 			pUnitTemplateAndFloat->m_pAIUnitTemplate->GetProductionAndIronCost1();
@@ -1580,7 +1580,7 @@ float CEOSAIQuickCombatCalculation::CalculateCombatWin01( CEOSAIUnit2TemplatesAn
 	pos = PowerAgainstDefenders.m_List.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2TemplateAndFloat* pUnitTemplateAndFloat = PowerAgainstDefenders.m_List.GetNext( pos );
+		CEOSAIUnitTemplateAndFloat* pUnitTemplateAndFloat = PowerAgainstDefenders.m_List.GetNext( pos );
 		fDefenderProductionDamage +=
 			Defenders.GetValue( pUnitTemplateAndFloat->m_pAIUnitTemplate ) *
 			pUnitTemplateAndFloat->m_fValue *
@@ -1591,7 +1591,7 @@ float CEOSAIQuickCombatCalculation::CalculateCombatWin01( CEOSAIUnit2TemplatesAn
 	pos = Attackers.m_List.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2TemplateAndFloat* pUnitTemplateAndFloat = Attackers.m_List.GetNext( pos );
+		CEOSAIUnitTemplateAndFloat* pUnitTemplateAndFloat = Attackers.m_List.GetNext( pos );
 		fAttackerProduction +=
 			pUnitTemplateAndFloat->m_fValue *
 			pUnitTemplateAndFloat->m_pAIUnitTemplate->GetProductionAndIronCost1();
@@ -1599,7 +1599,7 @@ float CEOSAIQuickCombatCalculation::CalculateCombatWin01( CEOSAIUnit2TemplatesAn
 	pos = PowerAgainstAttackers.m_List.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2TemplateAndFloat* pUnitTemplateAndFloat = PowerAgainstAttackers.m_List.GetNext( pos );
+		CEOSAIUnitTemplateAndFloat* pUnitTemplateAndFloat = PowerAgainstAttackers.m_List.GetNext( pos );
 		fAttackerProductionDamage +=
 			Attackers.GetValue( pUnitTemplateAndFloat->m_pAIUnitTemplate ) *
 			pUnitTemplateAndFloat->m_fValue *

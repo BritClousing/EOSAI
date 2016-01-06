@@ -12,7 +12,7 @@ static char THIS_FILE[]=__FILE__;
 #endif
 /*
 CEOSAICityAction_Production::CEOSAICityAction_Production( 
-	CEOSAIUnit2ActionIdea* pAIUnitActionIdea ) :
+	CEOSAIUnitActionIdea* pAIUnitActionIdea ) :
 	CEOSAIAction( pAIUnitActionIdea )
 {
 	/-*

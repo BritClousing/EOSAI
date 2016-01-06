@@ -13,7 +13,7 @@
 #include "EOSAILocation.h"
 class CEOSAIBrain;
 class CEOSAIPoiObject;
-class CEOSAIUnit2;
+class CEOSAIUnit;
 class CEOSAIAirbasesSet;
 class CEOSAIRegionPathwayMap;
 //class CAIGroundUnitPathPoint;
@@ -73,10 +73,10 @@ class CGroundUnitAndTransportPathway
 		CList< CEOSAIPathfinderPoint* >  m_DropoffToTargetAIRegionPath;
 };
 
-class CAIGroundUnitPathwayFinder : public CEOSAIUnit2PathwayFinder
+class CAIGroundUnitPathwayFinder : public CEOSAIUnitPathwayFinder
 {
 	public:
-		CAIGroundUnitPathwayFinder( CEOSAIUnit2* pAIUnitActor );
+		CAIGroundUnitPathwayFinder( CEOSAIUnit* pAIUnitActor );
 		CAIGroundUnitPathwayFinder( CEOSAICity* pAICityActor, CEOSAIUnitTemplate* pAIUnitTemplate, float fBuildTime = 0.0f );
 
 		//
@@ -89,7 +89,7 @@ class CAIGroundUnitPathwayFinder : public CEOSAIUnit2PathwayFinder
 
 		//
 		// Cached pathway data
-		//   (Appears in CEOSAIUnit2)
+		//   (Appears in CEOSAIUnit)
 		//
 			//CEOSAIRegionPathwayMap*  InvokeDirectAIRegionMapToEverywhere();
 			//CEOSAIRegionPathwayMap*  InvokeDirectAIRegionMapToCoasts();
@@ -109,18 +109,18 @@ class CAIGroundUnitPathwayFinder : public CEOSAIUnit2PathwayFinder
 			void          PreprocessPath(); // used to figure out if I need a transport, align Start/End Locations
 			virtual void  CalculateAIRegionPathFromPredefinedSteps();
 			//virtual void  CalculateAIRegionPathTiming();
-			//virtual float GetTransporteeArrivalTimeAtPickupLocation( CEOSAIUnit2PathwayPredefinedStep* pTransportPickupStep );
+			//virtual float GetTransporteeArrivalTimeAtPickupLocation( CEOSAIUnitPathwayPredefinedStep* pTransportPickupStep );
 			virtual void  CalculateResultPath();
 
 	private:
 
-		void  CalculatePathwayStepUsingTransport2( CEOSAIUnit2* pAITransport, 
+		void  CalculatePathwayStepUsingTransport2( CEOSAIUnit* pAITransport, 
 												   CEOSAIRegionPathwayMap& GroundUnitToPickupMap, CEOSAIRegionPathwayMap& GroundUnitToPickupMapWithCoasts,
 												   CEOSAIRegionPathwayMap& GroundUnitToDropoffMap, CEOSAIRegionPathwayMap& GroundUnitToDropoffMapWithCoasts,
 												   CGroundUnitAndTransportPathway* pPathway );
 
 		//void  InvokeCoastalPathwayMap( CEOSAILocation Location, CEOSAIRegionPathwayMap& EnlargedGroundPathwayMap );
-		//void  CalculatePickupToDropoffPathway( CEOSAIUnit2* pMovingUnit, CEOSAIRegionPathwayMap* pStartingMap, CEOSAIRegionPathwayMap* pEndingMap );
+		//void  CalculatePickupToDropoffPathway( CEOSAIUnit* pMovingUnit, CEOSAIRegionPathwayMap* pStartingMap, CEOSAIRegionPathwayMap* pEndingMap );
 
 		//CEOSAIRegionPathwayMap  m_AIRegionMapToEverywhere;
 		//CEOSAIRegionPathwayMap  m_AIRegionMapToCoasts;

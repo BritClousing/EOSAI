@@ -34,8 +34,8 @@ static char THIS_FILE[]=__FILE__;
 
 
 //CAISeaUnitPathway::CAISeaUnitPathway( CEOSAIBrain* pAIBrain, long iPlayer, CEOSAIPoiObject* pActor, CUnitTemplate* pUnitTemplate )
-CAIGroundUnitPathwayFinder::CAIGroundUnitPathwayFinder( CEOSAIUnit2* pAIUnitActor )
-	: CEOSAIUnit2PathwayFinder( pAIUnitActor )
+CAIGroundUnitPathwayFinder::CAIGroundUnitPathwayFinder( CEOSAIUnit* pAIUnitActor )
+	: CEOSAIUnitPathwayFinder( pAIUnitActor )
 {
 	ASSERT( pAIUnitActor->GetAIUnitTemplate()->IsGroundUnit() );
 	if( pAIUnitActor->GetAIUnitTemplate()->IsGroundUnit() == false ) return;
@@ -43,7 +43,7 @@ CAIGroundUnitPathwayFinder::CAIGroundUnitPathwayFinder( CEOSAIUnit2* pAIUnitActo
 
 //CAISeaUnitPathway::CAISeaUnitPathway( CEOSAIBrain* pAIBrain, long iPlayer, CEOSAIPoiObject* pActor, CUnitTemplate* pUnitTemplate )
 CAIGroundUnitPathwayFinder::CAIGroundUnitPathwayFinder( CEOSAICity* pAICityActor, CEOSAIUnitTemplate* pAIUnitTemplate, float fBuildTime )
-	: CEOSAIUnit2PathwayFinder( pAICityActor, pAIUnitTemplate, fBuildTime )
+	: CEOSAIUnitPathwayFinder( pAICityActor, pAIUnitTemplate, fBuildTime )
 {
 	ASSERT( pAIUnitTemplate->IsGroundUnit() );
 	if( pAIUnitTemplate->IsGroundUnit() == false ) return;
@@ -143,7 +143,7 @@ void  CAIGroundUnitPathwayFinder::PreprocessPath()
 	POSITION pos = m_PreDefinedPath.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2PathwayPredefinedStep* pPredefinedStep = m_PreDefinedPath.GetNext( pos );
+		CEOSAIUnitPathwayPredefinedStep* pPredefinedStep = m_PreDefinedPath.GetNext( pos );
 
 		if( pPredefinedStep->GetStartLocation() != CurrentLocation )
 		{
@@ -167,7 +167,7 @@ void  CAIGroundUnitPathwayFinder::CalculateAIRegionPathFromPredefinedSteps()
 	POSITION pos = m_PreDefinedPath.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2PathwayPredefinedStep* pPredefinedStep = m_PreDefinedPath.GetNext( pos );
+		CEOSAIUnitPathwayPredefinedStep* pPredefinedStep = m_PreDefinedPath.GetNext( pos );
 		pPredefinedStep->ClearDirectMovementPath();
 		pPredefinedStep->GetAIRegionAllowedMovementPath()->RemoveAll();
 
@@ -191,7 +191,7 @@ void  CAIGroundUnitPathwayFinder::CalculateAIRegionPathFromPredefinedSteps()
 			// Update the pathway with a RealTransport route - if one has been set
 			if( pPredefinedStep->GetTransportToUse() )
 			{
-				CEOSAIUnit2* pAIUnitTransport = pPredefinedStep->GetTransportToUse();
+				CEOSAIUnit* pAIUnitTransport = pPredefinedStep->GetTransportToUse();
 
 				// Create Pickup/Dropoff Predefined Steps for the Transport
 				pPredefinedStep->UseTransportAndCreatePickupDropoffSteps( pAIUnitTransport );
@@ -250,23 +250,23 @@ void  CAIGroundUnitPathwayFinder::CalculateAIRegionPathTiming()
 	POSITION pos = m_PreDefinedPath.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2PathwayPredefinedStep* pPredefinedStep = m_PreDefinedPath.GetNext( pos );
+		CEOSAIUnitPathwayPredefinedStep* pPredefinedStep = m_PreDefinedPath.GetNext( pos );
 		pPredefinedStep->UpdatePathTimingIfNecessary();
 	}
 }
 */
 
-//float CAIGroundUnitPathwayFinder::GetTransporteeArrivalTimeAtPickupLocation( CEOSAIUnit2PathwayPredefinedStep* pTransportPickupStep )
+//float CAIGroundUnitPathwayFinder::GetTransporteeArrivalTimeAtPickupLocation( CEOSAIUnitPathwayPredefinedStep* pTransportPickupStep )
 /*
-float CAIGroundUnitPathwayFinder::GetTransporteeArrivalTimeAtPickupLocation( CEOSAIUnit2PathwayPredefinedStep* pTransportPickupStep )
+float CAIGroundUnitPathwayFinder::GetTransporteeArrivalTimeAtPickupLocation( CEOSAIUnitPathwayPredefinedStep* pTransportPickupStep )
 {
 	ASSERT( pTransportPickupStep->GetAIUnitPathwayFinder()->GetUnitTemplate()->IsTransport() );
-	CEOSAIUnit2PathwayPredefinedStep* pTransporteeStep = pTransportPickupStep->GetTransporteeStep();
+	CEOSAIUnitPathwayPredefinedStep* pTransporteeStep = pTransportPickupStep->GetTransporteeStep();
 
 	POSITION pos = m_PreDefinedPath.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2PathwayPredefinedStep* pStep = m_PreDefinedPath.GetNext( pos );
+		CEOSAIUnitPathwayPredefinedStep* pStep = m_PreDefinedPath.GetNext( pos );
 		if( pStep == pTransporteeStep )
 		{
 			ASSERT( pStep->GetTransportToUse() );
@@ -297,7 +297,7 @@ void  CAIGroundUnitPathwayFinder::CalculateResultPath()
 	POSITION pos = m_PreDefinedPath.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2PathwayPredefinedStep* pPredefinedStep = m_PreDefinedPath.GetNext( pos );
+		CEOSAIUnitPathwayPredefinedStep* pPredefinedStep = m_PreDefinedPath.GetNext( pos );
 		//pPredefinedStep->GetActualMovementPath()->RemoveAll();
 		//pPredefinedStep->GetAIRegionAllowedMovementPath()->RemoveAll();
 
@@ -322,7 +322,7 @@ void  CAIGroundUnitPathwayFinder::CalculateResultPath()
 			// Update the pathway with a RealTransport route - if one has been set
 			if( pPredefinedStep->GetTransportToUse() )
 			{
-				CEOSAIUnit2* pAITransportToUse = pPredefinedStep->GetTransportToUse();
+				CEOSAIUnit* pAITransportToUse = pPredefinedStep->GetTransportToUse();
 				//m_pResultPath->UseTransport( pPredefinedStep->GetTransportToUse() );
 				pPredefinedStep->UseTransportAndCreatePickupDropoffSteps( pAITransportToUse );
 				//pResultStep->UpdateWithTransportAssistedPath( pPredefinedStep->GetTransportToUse() );

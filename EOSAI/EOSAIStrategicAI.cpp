@@ -1397,8 +1397,8 @@ float CEOSAIStrategicAI::GetTechValue( CEOSAITechnologyDesc* pTechDesc )
 			while( pos2 )
 			{
 				CEOSAIPoiObject* pAIPoiObject = pAIThoughtDatabase->GetMyActors()->GetNext( pos2 );
-				//CEOSAIUnit2* pUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject->GetServerPoiObject() );
-				CEOSAIUnit2* pUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+				//CEOSAIUnit* pUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject->GetServerPoiObject() );
+				CEOSAIUnit* pUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 				//
 				if( pUnit && pUnit->GetAIUnitTemplate() == pUpgradesFrom )
 				{

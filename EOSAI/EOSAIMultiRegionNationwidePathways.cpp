@@ -380,7 +380,7 @@ void CEOSAIMultiRegionNationwidePathways::CalculateSightingAndPathwayInformation
 	{
 		//CPoi* pPoi = pWorldDescServer->GetPoiList()->GetNext( pos )->GetPtr();
 		CEOSAIPoiObject* pAIPoiObject = g_pEOSAICommonData->GetAIPoiObjects()->GetNext( pos );
-		CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+		CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 		if( pAIUnit && pAIUnit->GetOwner() == m_iPlayer && pAIUnit->IsAirUnit() )
 		{
 			fMaxAirRange = max( fMaxAirRange, pAIUnit->GetMovementRangeForAttack() );
@@ -399,7 +399,7 @@ void CEOSAIMultiRegionNationwidePathways::CalculateSightingAndPathwayInformation
 			{
 				Airbases.AddTail( pAIPoiObject );
 			}
-			CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+			CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 			if( pAIUnit && pAIUnit->GetNumberOfAirUnitsThatICanContain() && pAIUnit->CanLaunchAirUnits() )
 			{
 				Airbases.AddTail( pAIPoiObject );
@@ -602,7 +602,7 @@ void CEOSAIMultiRegionNationwidePathways::CalculateSightingAndPathwayInformation
 									}
 									if( pPoiObject->GetAIPoiObjectType() == EnumAIPoiObjectType::enum_Unit )
 									{
-										CEOSAIUnit2* pAIUnit = ( CEOSAIUnit2* ) pPoiObject;
+										CEOSAIUnit* pAIUnit = ( CEOSAIUnit* ) pPoiObject;
 										fThisMultiRegionResistance += pAIUnit->GetAICombatSignificance();
 									}
 								}
@@ -641,7 +641,7 @@ void CEOSAIMultiRegionNationwidePathways::CalculateSightingAndPathwayInformation
 											}
 											if( pAIPoiObject->GetAIPoiObjectType() == EnumAIPoiObjectType::enum_Unit )
 											{
-												CEOSAIUnit2* pAIUnit = ( CEOSAIUnit2* ) pAIPoiObject;
+												CEOSAIUnit* pAIUnit = ( CEOSAIUnit* ) pAIPoiObject;
 												fThisMultiRegionResistance += pAIUnit->GetAICombatSignificance();
 											}
 										}

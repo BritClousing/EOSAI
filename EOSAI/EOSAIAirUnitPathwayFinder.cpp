@@ -26,8 +26,8 @@ static char THIS_FILE[]=__FILE__;
 #define new DEBUG_NEW
 #endif
 
-CEOSAIAirUnitPathwayFinder::CEOSAIAirUnitPathwayFinder( CEOSAIUnit2* pAIUnitActor )
-	: CEOSAIUnit2PathwayFinder( pAIUnitActor )
+CEOSAIAirUnitPathwayFinder::CEOSAIAirUnitPathwayFinder( CEOSAIUnit* pAIUnitActor )
+	: CEOSAIUnitPathwayFinder( pAIUnitActor )
 {
 	ASSERT( pAIUnitActor->GetAIUnitTemplate()->IsAirUnit() );
 	if( pAIUnitActor->GetAIUnitTemplate()->IsAirUnit() == false ) return;
@@ -37,7 +37,7 @@ CEOSAIAirUnitPathwayFinder::CEOSAIAirUnitPathwayFinder( CEOSAIUnit2* pAIUnitActo
 }
 
 CEOSAIAirUnitPathwayFinder::CEOSAIAirUnitPathwayFinder( CEOSAICity* pAICityActor, CEOSAIUnitTemplate* pAIUnitTemplate, float fBuildTime )
-	: CEOSAIUnit2PathwayFinder( pAICityActor, pAIUnitTemplate, fBuildTime )
+	: CEOSAIUnitPathwayFinder( pAICityActor, pAIUnitTemplate, fBuildTime )
 {
 	ASSERT( pAIUnitTemplate->IsAirUnit() );
 	if( pAIUnitTemplate->IsAirUnit() == false ) return;
@@ -46,7 +46,7 @@ CEOSAIAirUnitPathwayFinder::CEOSAIAirUnitPathwayFinder( CEOSAICity* pAICityActor
 	m_bAirbasesHaveBeenAddedToMapPoints = false;
 }
 /*
-CEOSAIAirUnitPathwayFinder::CEOSAIAirUnitPathwayFinder( CEOSAIBrain* pAIBrain ) : CEOSAIUnit2Pathway( pAIBrain )
+CEOSAIAirUnitPathwayFinder::CEOSAIAirUnitPathwayFinder( CEOSAIBrain* pAIBrain ) : CEOSAIUnitPathway( pAIBrain )
 {
 	m_fInitialDistanceSinceLastAirbase = 0.0f;
 	m_bAirbasesHaveBeenAddedToMapPoints = false;
@@ -73,14 +73,14 @@ void CEOSAIAirUnitPathwayFinder::SetUnit( CEOSAIPoiObject* pAIActor, CUnitTempla
 {
 	if( pAIActor )
 	{
-		CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIActor );
+		CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIActor );
 		if( pAIUnit )
 		{
 			SetConsumedMovement( pAIUnit->GetMovementConsumed() );
 			//m_fInitialDistanceSinceLastAirbase = pAIUnit->GetMovementConsumed();
 		}
 	}
-	CEOSAIUnit2Pathway::SetUnit( iOwner, pAIActor, pUnitTemplate );
+	CEOSAIUnitPathway::SetUnit( iOwner, pAIActor, pUnitTemplate );
 }
 */
 //void CEOSAIAirUnitPathwayFinder::TurnAirbasesIntoMapPoints()
@@ -172,7 +172,7 @@ void CEOSAIAirUnitPathwayFinder::InvokeAirbaseMapPoints()
 
 // Transports
 //
-bool CEOSAIAirUnitPathwayFinder::UpdateEndLocation( CEOSAIUnit2PathwayPredefinedStep* pTransportPickupOrDropoffStep )
+bool CEOSAIAirUnitPathwayFinder::UpdateEndLocation( CEOSAIUnitPathwayPredefinedStep* pTransportPickupOrDropoffStep )
 {
 	//ASSERT( false );
 	return true;
@@ -196,7 +196,7 @@ bool CEOSAIAirUnitPathwayFinder::QuickCheck_PathwayCanExist()
 	POSITION pos = m_PreDefinedPath.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2PathwayPredefinedStep* pStep = m_PreDefinedPath.GetNext( pos );
+		CEOSAIUnitPathwayPredefinedStep* pStep = m_PreDefinedPath.GetNext( pos );
 		if( pStep->IsAWaypoint() )
 		{
 			float fClosestAirbase = AirbasesSet.GetClosestAirbaseDistance( pStep->GetEndLocation() );
@@ -296,7 +296,7 @@ bool CEOSAIAirUnitPathwayFinder::RunInitialEvaluation()
 	POSITION pos = m_PreDefinedPath.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2PathwayPredefinedStep* pPredefinedStep = m_PreDefinedPath.GetNext( pos );
+		CEOSAIUnitPathwayPredefinedStep* pPredefinedStep = m_PreDefinedPath.GetNext( pos );
 		iCurrentStep++;
 
 		bool bWantToLandAfterThisStep = false;
@@ -359,7 +359,7 @@ void  CEOSAIAirUnitPathwayFinder::CalculateAIRegionPathFromPredefinedSteps()
 	POSITION pos = m_PreDefinedPath.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2PathwayPredefinedStep* pPredefinedStep = m_PreDefinedPath.GetNext( pos );
+		CEOSAIUnitPathwayPredefinedStep* pPredefinedStep = m_PreDefinedPath.GetNext( pos );
 		pPredefinedStep->ClearDirectMovementPath();
 		pPredefinedStep->GetAIRegionAllowedMovementPath()->RemoveAll();
 
@@ -398,7 +398,7 @@ void  CEOSAIAirUnitPathwayFinder::CalculateAIRegionPathTiming()
 	POSITION pos = m_PreDefinedPath.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2PathwayPredefinedStep* pPredefinedStep = m_PreDefinedPath.GetNext( pos );
+		CEOSAIUnitPathwayPredefinedStep* pPredefinedStep = m_PreDefinedPath.GetNext( pos );
 		pPredefinedStep->UpdatePathTimingIfNecessary();
 	}
 }
@@ -498,7 +498,7 @@ void CEOSAIAirUnitPathwayFinder::CalculateResultPath()
 	pos = m_PreDefinedPath.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2PathwayPredefinedStep* pStep = m_PreDefinedPath.GetNext( pos );
+		CEOSAIUnitPathwayPredefinedStep* pStep = m_PreDefinedPath.GetNext( pos );
 		iCount++;
 		//
 		if( pStep->IsALandAtAirbase() )
@@ -817,15 +817,15 @@ void CEOSAIAirUnitPathwayFinder::CalculateResultPath()
 								/-*
 								else if( pTempPoint->m_pMapPoint->m_bIsAnAttack )
 								{
-									if( pTempPoint->m_pPredefinedStep->GetTask() == CEOSAIUnit2PathwayPredefinedStep::enum_AttackUnit )
+									if( pTempPoint->m_pPredefinedStep->GetTask() == CEOSAIUnitPathwayPredefinedStep::enum_AttackUnit )
 									{
 										pResultStep->AttackUnit( pTempPoint->m_pMapPoint->m_pAIPoiObject );
 									}
-									if( pTempPoint->m_pPredefinedStep->GetTask() == CEOSAIUnit2PathwayPredefinedStep::enum_CaptureCitRes )
+									if( pTempPoint->m_pPredefinedStep->GetTask() == CEOSAIUnitPathwayPredefinedStep::enum_CaptureCitRes )
 									{
 										pResultStep->CaptureCitRes( pTempPoint->m_pMapPoint->m_pAIPoiObject );
 									}
-									if( pTempPoint->m_pPredefinedStep->GetTask() == CEOSAIUnit2PathwayPredefinedStep::enum_DegradeCityOrAirfield )
+									if( pTempPoint->m_pPredefinedStep->GetTask() == CEOSAIUnitPathwayPredefinedStep::enum_DegradeCityOrAirfield )
 									{
 										pResultStep->DegradeCityOrAirfield( pTempPoint->m_pMapPoint->m_pAIPoiObject );
 									}

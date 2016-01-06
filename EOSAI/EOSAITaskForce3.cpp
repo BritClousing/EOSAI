@@ -31,7 +31,7 @@ static char THIS_FILE[]=__FILE__;
 
 //
 /*
-bool SortByTimeToTarget( CEOSAIUnit2ActionIdea* pUnitActionIdea1, CEOSAIUnit2ActionIdea* pUnitActionIdea2 )
+bool SortByTimeToTarget( CEOSAIUnitActionIdea* pUnitActionIdea1, CEOSAIUnitActionIdea* pUnitActionIdea2 )
 {
 	if( pUnitActionIdea1->GetBuildAndTransportAndMoveToTargetTime() > pUnitActionIdea2->GetBuildAndTransportAndMoveToTargetTime() ){ return true; }
 	else if( pUnitActionIdea1->GetBuildAndTransportAndMoveToTargetTime() < pUnitActionIdea2->GetBuildAndTransportAndMoveToTargetTime() ){ return false; }
@@ -143,7 +143,7 @@ void CEOSAITaskForce3::CopyUnitActionIdeasIntoStack()
 	ASSERT( m_UnitActionStack.m_ItemsSortedByArrivalTime.IsEmpty() );
 	if( m_UnitActionStack.m_ItemsSortedByArrivalTime.IsEmpty() )
 	{
-		CList< CEOSAIUnit2ActionIdea* >* pUnitActionIdeas;
+		CList< CEOSAIUnitActionIdea* >* pUnitActionIdeas;
 		if( m_pTacticalProject2 ){ pUnitActionIdeas = m_pTacticalProject2->GetUnitActionIdeas(); }
 
 		// Create the UnitActionStack from UnitActionIdeas
@@ -151,7 +151,7 @@ void CEOSAITaskForce3::CopyUnitActionIdeasIntoStack()
 		POSITION pos = pUnitActionIdeas->GetHeadPosition();
 		while( pos )
 		{
-			CEOSAIUnit2ActionIdea* pUnitActionIdea = pUnitActionIdeas->GetNext( pos );
+			CEOSAIUnitActionIdea* pUnitActionIdea = pUnitActionIdeas->GetNext( pos );
 
 			if( pUnitActionIdea->GetAIUnitActor() &&
 				pUnitActionIdea->GetAIUnitActor()->GetNeedForRepair01BasedOnDistanceAndDamage() >= 1.0f )
@@ -161,14 +161,14 @@ void CEOSAITaskForce3::CopyUnitActionIdeasIntoStack()
 			}
 
 			m_UnitActionStack.Insert( pUnitActionIdea );
-			//CEOSAIUnit2ActionStackItem* pItem = m_UnitActionStack.Insert( pUnitActionIdea );
+			//CEOSAIUnitActionStackItem* pItem = m_UnitActionStack.Insert( pUnitActionIdea );
 
 			// If a unit is already inside a transport, then mark the space as 'allocated'
 			/*
 			if( pUnitActionIdea->GetAIUnitActor() &&
 				pUnitActionIdea->GetAIUnitActor()->GetCurrentAIUnitContainer() )
 			{
-				CEOSAIUnit2* pAITransportUnit = pUnitActionIdea->GetAIUnitActor()->GetCurrentAIUnitContainer();
+				CEOSAIUnit* pAITransportUnit = pUnitActionIdea->GetAIUnitActor()->GetCurrentAIUnitContainer();
 				pItem->SetSuggestedTransportMoveDesc( pAITransportUnit );
 				pItem->AllocateSuggestedTransportMoveDesc();
 				pItem->AllocateSuggestedTransportSpace();
@@ -181,7 +181,7 @@ void CEOSAITaskForce3::CopyUnitActionIdeasIntoStack()
 				if( pUnitActionIdea->GetAIUnitActor()->GetUnit()->GetContainerUnit() )
 				{
 					long iTransportObjectId = pUnitActionIdea->GetAIUnitActor()->GetUnit()->GetContainerUnit()->GetObjectId();
-					CEOSAIUnit2* pAITransportUnit = GetAIBrain()->GetAIUnit( iTransportObjectId );
+					CEOSAIUnit* pAITransportUnit = GetAIBrain()->GetAIUnit( iTransportObjectId );
 					ASSERT( pAITransportUnit );
 
 					pItem->SetSuggestedTransportMoveDesc( pAITransportUnit );
@@ -202,7 +202,7 @@ long CEOSAITaskForce3::GetNumberOfAllocatedUnitsAndCities()
 	POSITION pos = m_UnitActionStack.m_ItemsSortedByArrivalTime.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2ActionStackItem* pStackItem = m_UnitActionStack.m_ItemsSortedByArrivalTime.GetNext( pos );
+		CEOSAIUnitActionStackItem* pStackItem = m_UnitActionStack.m_ItemsSortedByArrivalTime.GetNext( pos );
 		if( pStackItem->ActorIsAllocatedByThisTaskForce() )
 		{
 			iNumberOfAllocatedUnitsAndCities++;
@@ -356,7 +356,7 @@ bool CEOSAITaskForce3::TryInsertingOneBuildActionIntoStack()
 
 	//CEOSAICityActionIdeaNode* pBestAICityActionIdeaNode = NULL;
 	CEOSAICity*           pBestAICity = NULL;
-	CEOSAIUnit2ActionIdea* pBestUnitActionIdea = NULL;
+	CEOSAIUnitActionIdea* pBestUnitActionIdea = NULL;
 	CEOSAIUnitTemplate*   pBestUnitTemplate = NULL;
 	float              fBestScore = 0.0f;
 
@@ -378,7 +378,7 @@ bool CEOSAITaskForce3::TryInsertingOneBuildActionIntoStack()
 	pos = m_UnitActionStack.m_ItemsSortedByArrivalTime.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2ActionStackItem* pStackItem = m_UnitActionStack.m_ItemsSortedByArrivalTime.GetNext( pos );
+		CEOSAIUnitActionStackItem* pStackItem = m_UnitActionStack.m_ItemsSortedByArrivalTime.GetNext( pos );
 		if( pStackItem->m_pUnitActionIdea->m_pAICityActor )
 		{
 			pStackItem->m_pUnitActionIdea->m_pAICityActor->m_iTempItemsInTaskForceStack++;
@@ -450,8 +450,8 @@ bool CEOSAITaskForce3::TryInsertingOneBuildActionIntoStack()
 
 		//	Don't allocate a city more than twice
 
-			//CEOSAIUnit2ActionIdea* pUnitActionIdea = pCityActionIdeaNode->CreateAIUnitActionIdea( pUnitTemplate );
-			CEOSAIUnit2ActionIdea* pUnitActionIdea;
+			//CEOSAIUnitActionIdea* pUnitActionIdea = pCityActionIdeaNode->CreateAIUnitActionIdea( pUnitTemplate );
+			CEOSAIUnitActionIdea* pUnitActionIdea;
 			/*
 			if( m_pTacticalProject )
 			{
@@ -462,7 +462,7 @@ bool CEOSAITaskForce3::TryInsertingOneBuildActionIntoStack()
 			{
 				pUnitActionIdea = pAICity->CreateAIUnitActionIdea( m_pTacticalProject2, pAIUnitTemplate );
 			}
-			CEOSAIUnit2ActionStackItem* pUnitActionStackItem = m_UnitActionStack.Insert( pUnitActionIdea );
+			CEOSAIUnitActionStackItem* pUnitActionStackItem = m_UnitActionStack.Insert( pUnitActionIdea );
 			ASSERT( pUnitActionStackItem->m_fArrivalTime >= 0.0f && pUnitActionStackItem->m_fArrivalTime <= 1000000.0f );
 			ASSERT( m_UnitActionStack.m_ItemsSortedByArrivalTime.GetCount() < 500 );
 			long iItemsAllocated = m_UnitActionStack.GetNumberOfAllocatedItems();
@@ -504,7 +504,7 @@ bool CEOSAITaskForce3::TryInsertingOneBuildActionIntoStack()
 	if( pBestAICity && pBestUnitActionIdea && pBestUnitTemplate )
 	{
 		// Insert the UnitActionIdea into the Stack
-		CEOSAIUnit2ActionStackItem* pUnitActionStackItem = m_UnitActionStack.Insert( pBestUnitActionIdea );
+		CEOSAIUnitActionStackItem* pUnitActionStackItem = m_UnitActionStack.Insert( pBestUnitActionIdea );
 		AllocateUnitsInStack();
 		return true; // item inserted
 	}
@@ -516,7 +516,7 @@ void CEOSAITaskForce3::CreateTransportUnitActionIdeaFromSuggestedTransportMoveDe
 	POSITION pos = m_UnitActionStack.m_ItemsSortedByArrivalTime.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2ActionStackItem* pStackItem = m_UnitActionStack.m_ItemsSortedByArrivalTime.GetNext( pos );
+		CEOSAIUnitActionStackItem* pStackItem = m_UnitActionStack.m_ItemsSortedByArrivalTime.GetNext( pos );
 		if( pStackItem->ActorIsAllocatedByThisTaskForce() &&
 			pStackItem->GetSuggestedTransportMoveDesc() )
 		{
@@ -592,7 +592,7 @@ void CEOSAITaskForce3::CreatePredefinedSteps()
 	POSITION pos = m_UnitActionStack.m_ItemsSortedByArrivalTime.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2ActionStackItem* pStackItem = m_UnitActionStack.m_ItemsSortedByArrivalTime.GetNext( pos );
+		CEOSAIUnitActionStackItem* pStackItem = m_UnitActionStack.m_ItemsSortedByArrivalTime.GetNext( pos );
 		if( pStackItem->ActorIsAllocatedByThisTaskForce() )
 		{
 			pStackItem->m_pUnitActionIdea->CompileDesireValues();//CompileTargetDesires();
@@ -670,10 +670,10 @@ void CEOSAITaskForce3::CreatePredefinedSteps()
 			pos = m_UnitActionStack.m_ItemsSortedByArrivalTime.GetHeadPosition();
 			while( pos )
 			{
-				CEOSAIUnit2ActionStackItem* pStackItem = m_UnitActionStack.m_ItemsSortedByArrivalTime.GetNext( pos );
+				CEOSAIUnitActionStackItem* pStackItem = m_UnitActionStack.m_ItemsSortedByArrivalTime.GetNext( pos );
 				if( pStackItem->ActorIsAllocatedByThisTaskForce() )
 				{
-					CEOSAIUnit2ActionIdea* pAIUnitActionIdea = pStackItem->m_pUnitActionIdea;
+					CEOSAIUnitActionIdea* pAIUnitActionIdea = pStackItem->m_pUnitActionIdea;
 					if( pAIUnitActionIdea->GetNumberOfDesireAllocations() > 0 ) continue; // already allocated
 
 					if( pAIUnitActionIdea->GetAIPoiObjectActor()->GetObjectId() == 120 )
@@ -697,13 +697,13 @@ void CEOSAITaskForce3::CreatePredefinedSteps()
 					#endif
 					*/
 					float fBestUnitActionIdeaTargetValue = 0.0f;
-					CEOSAIUnit2ActionIdeaTargetValue* pBestUnitActionIdeaTargetValue = NULL;
+					CEOSAIUnitActionIdeaTargetValue* pBestUnitActionIdeaTargetValue = NULL;
 
-					CList< CEOSAIUnit2ActionIdeaTargetValue* >* pTargets = &pAIUnitActionIdea->m_DesireValues;
+					CList< CEOSAIUnitActionIdeaTargetValue* >* pTargets = &pAIUnitActionIdea->m_DesireValues;
 					POSITION pos2 = pTargets->GetHeadPosition();
 					while( pos2 )
 					{
-						CEOSAIUnit2ActionIdeaTargetValue* pTargetValue = pTargets->GetNext( pos2 );
+						CEOSAIUnitActionIdeaTargetValue* pTargetValue = pTargets->GetNext( pos2 );
 						//if( GetTacticalProject()->IsPrimaryGoal( pTargetValue->m_pDesire ) == false ) continue;
 
 						float fUnfulfillment = 1.0f - (0.5f*pTargetValue->m_pDesire->GetAllocatedFulfillment());
@@ -718,7 +718,7 @@ void CEOSAITaskForce3::CreatePredefinedSteps()
 						bAllUnitsHaveBeenSubAllocated = false;
 
 						CEOSAIDesireSpatial* pDesire = pBestUnitActionIdeaTargetValue->m_pDesire;
-						CEOSAIUnit2ActionIdea* pAIUnitActionIdea = pBestUnitActionIdeaTargetValue->m_pAIUnitActionIdea;
+						CEOSAIUnitActionIdea* pAIUnitActionIdea = pBestUnitActionIdeaTargetValue->m_pAIUnitActionIdea;
 
 						pDesire->AddAllocation( pAIUnitActionIdea );
 						pAIUnitActionIdea->AddDesireAllocation( pDesire );
@@ -727,21 +727,21 @@ void CEOSAITaskForce3::CreatePredefinedSteps()
 			}
 			/*
 			float fBestUnitActionIdeaTargetValue = 0.0f;
-			CEOSAIUnit2ActionIdeaTargetValue* pBestUnitActionIdeaTargetValue = NULL;
+			CEOSAIUnitActionIdeaTargetValue* pBestUnitActionIdeaTargetValue = NULL;
 			pos = m_UnitActionStack.m_Items.GetHeadPosition();
 			while( pos )
 			{
-				CEOSAIUnit2ActionStackItem* pStackItem = m_UnitActionStack.m_Items.GetNext( pos );
+				CEOSAIUnitActionStackItem* pStackItem = m_UnitActionStack.m_Items.GetNext( pos );
 				if( pStackItem->ActorIsAllocatedByThisTaskForce() )
 				{
-					CEOSAIUnit2ActionIdea* pAIUnitActionIdea = pStackItem->m_pUnitActionIdea;
+					CEOSAIUnitActionIdea* pAIUnitActionIdea = pStackItem->m_pUnitActionIdea;
 					if( pAIUnitActionIdea->GetNumberOfDesireAllocations() > 0 ) continue; // already allocated
 
-					CList< CEOSAIUnit2ActionIdeaTargetValue* >* pTargets = &pAIUnitActionIdea->m_DesireValues;
+					CList< CEOSAIUnitActionIdeaTargetValue* >* pTargets = &pAIUnitActionIdea->m_DesireValues;
 					POSITION pos2 = pTargets->GetHeadPosition();
 					while( pos2 )
 					{
-						CEOSAIUnit2ActionIdeaTargetValue* pTargetValue = pTargets->GetNext( pos2 );
+						CEOSAIUnitActionIdeaTargetValue* pTargetValue = pTargets->GetNext( pos2 );
 						//if( GetTacticalProject()->IsPrimaryGoal( pTargetValue->m_pDesire ) == false ) continue;
 
 						float fUnfulfillment = 0.1f + (0.9f - pTargetValue->m_pDesire->GetAllocatedFulfillment());
@@ -758,7 +758,7 @@ void CEOSAITaskForce3::CreatePredefinedSteps()
 				bAllUnitsHaveBeenSubAllocated = false;
 
 				CEOSAIDesireSpatial* pDesire = pBestUnitActionIdeaTargetValue->m_pDesire;
-				CEOSAIUnit2ActionIdea* pAIUnitActionIdea = pBestUnitActionIdeaTargetValue->m_pAIUnitActionIdea;
+				CEOSAIUnitActionIdea* pAIUnitActionIdea = pBestUnitActionIdeaTargetValue->m_pAIUnitActionIdea;
 
 				pDesire->AddAllocation( pAIUnitActionIdea );
 				pAIUnitActionIdea->AddDesireAllocation( pDesire );
@@ -775,17 +775,17 @@ void CEOSAITaskForce3::CreatePredefinedSteps()
 		pos = m_UnitActionStack.m_Items.GetHeadPosition();
 		while( pos )
 		{
-			CEOSAIUnit2ActionStackItem* pStackItem = m_UnitActionStack.m_Items.GetNext( pos );
+			CEOSAIUnitActionStackItem* pStackItem = m_UnitActionStack.m_Items.GetNext( pos );
 			if( pStackItem->ActorIsAllocated() )
 			{
-				CEOSAIUnit2ActionIdea* pAIUnitActionIdea = pStackItem->m_pUnitActionIdea;
+				CEOSAIUnitActionIdea* pAIUnitActionIdea = pStackItem->m_pUnitActionIdea;
 				//pAIUnitActionIdea->GetNumberOfDesireValues();
 
-				CList< CEOSAIUnit2ActionIdeaTargetValue* >* pTargets = &pAIUnitActionIdea->m_DesireValues;
+				CList< CEOSAIUnitActionIdeaTargetValue* >* pTargets = &pAIUnitActionIdea->m_DesireValues;
 				POSITION pos2 = pTargets->GetHeadPosition();
 				while( pos2 )
 				{
-					CEOSAIUnit2ActionIdeaTargetValue* pTargetValue = pTargets->GetNext( pos2 );
+					CEOSAIUnitActionIdeaTargetValue* pTargetValue = pTargets->GetNext( pos2 );
 					CEOSAIDesireSpatial* pDesire = pTargetValue->m_pDesire;
 					float fFulfillment = pDesire->GetAllocatedFulfillment();
 					if( fFulfillment <= fLowestFulfillment )
@@ -809,7 +809,7 @@ void CEOSAITaskForce3::CreatePredefinedSteps()
 	pos = m_UnitActionStack.m_ItemsSortedByArrivalTime.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2ActionStackItem* pStackItem = m_UnitActionStack.m_ItemsSortedByArrivalTime.GetNext( pos );
+		CEOSAIUnitActionStackItem* pStackItem = m_UnitActionStack.m_ItemsSortedByArrivalTime.GetNext( pos );
 
 		#ifdef _DEBUG
 		if( pStackItem->m_pUnitActionIdea->GetAIUnitActor() )
@@ -823,13 +823,13 @@ void CEOSAITaskForce3::CreatePredefinedSteps()
 
 		if( pStackItem->ActorIsAllocatedByThisTaskForce() )
 		{
-			CEOSAIUnit2ActionIdea* pUnitActionIdea = pStackItem->m_pUnitActionIdea;
+			CEOSAIUnitActionIdea* pUnitActionIdea = pStackItem->m_pUnitActionIdea;
 			//ASSERT( pUnitActionIdea->GetAIUnitAction() == NULL );
 			if( pUnitActionIdea->GetNumberOfDesireAllocations() == 0 ) continue;
 
 			if( pUnitActionIdea->GetAITransportUnitActionIdea() )
 			{
-				CEOSAIUnit2ActionIdea* pTransportUnitActionIdea = pUnitActionIdea->GetAITransportUnitActionIdea();
+				CEOSAIUnitActionIdea* pTransportUnitActionIdea = pUnitActionIdea->GetAITransportUnitActionIdea();
 				CEOSAICity* pAICity = pTransportUnitActionIdea->GetAIUnitActor()->GetBuiltByCity();
 				if( pAICity && pAICity->GetNumberOfBuildOrders() == 0 )
 				{
@@ -845,7 +845,7 @@ void CEOSAITaskForce3::CreatePredefinedSteps()
 
 				// Create an AIUnit - which can be used for tasks 
 				// (this code is not currently setup)!  I don't need to create the AIUnit if I don't use it
-//				CEOSAIUnit2* pAIUnit = new CEOSAIUnit2( m_pAIBrain );
+//				CEOSAIUnit* pAIUnit = new CEOSAIUnit( m_pAIBrain );
 //				pAIUnit->
 			}
 		}
@@ -854,10 +854,10 @@ void CEOSAITaskForce3::CreatePredefinedSteps()
 	pos = m_UnitActionStack.m_ItemsSortedByArrivalTime.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2ActionStackItem* pStackItem = m_UnitActionStack.m_ItemsSortedByArrivalTime.GetNext( pos );
+		CEOSAIUnitActionStackItem* pStackItem = m_UnitActionStack.m_ItemsSortedByArrivalTime.GetNext( pos );
 		if( pStackItem->ActorIsAllocatedByThisTaskForce() )
 		{
-			CEOSAIUnit2ActionIdea* pUnitActionIdea = pStackItem->m_pUnitActionIdea;
+			CEOSAIUnitActionIdea* pUnitActionIdea = pStackItem->m_pUnitActionIdea;
 			if( pUnitActionIdea->GetNumberOfDesireAllocations() == 0 ) continue;
 
 			if( pUnitActionIdea->GetAIUnitActor() )
@@ -873,21 +873,21 @@ void  CEOSAITaskForce3::SynchronizeInvasionUsingRedPath()
 	//ASSERT( m_pTacticalProject2->GetTaskForceStrategy() == CEOSAITacticalProject2::EnumTaskForceStrategy_SecretInvasion );
 	long iTargetGeo = this->GetTacticalProject2()->GetTargetGeo();
 
-	CList< CEOSAIUnit2* >  AllUnitsInvolvedInTaskForce;
+	CList< CEOSAIUnit* >  AllUnitsInvolvedInTaskForce;
 	POSITION pos = m_UnitActionStack.m_ItemsSortedByArrivalTime.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2ActionStackItem* pStackItem = m_UnitActionStack.m_ItemsSortedByArrivalTime.GetNext( pos );
+		CEOSAIUnitActionStackItem* pStackItem = m_UnitActionStack.m_ItemsSortedByArrivalTime.GetNext( pos );
 		if( pStackItem->ActorIsAllocatedByThisTaskForce() )
 		{
-			CEOSAIUnit2ActionIdea* pUnitActionIdea = pStackItem->m_pUnitActionIdea;
+			CEOSAIUnitActionIdea* pUnitActionIdea = pStackItem->m_pUnitActionIdea;
 			if( pUnitActionIdea->GetNumberOfDesireAllocations() == 0 )
 			{
 				int g=0;
 				continue;
 			}
 
-			CEOSAIUnit2* pAIUnit = pUnitActionIdea->GetAIUnitActor();
+			CEOSAIUnit* pAIUnit = pUnitActionIdea->GetAIUnitActor();
 			if( pAIUnit )
 			{
 				AllUnitsInvolvedInTaskForce.AddTail( pAIUnit );
@@ -904,7 +904,7 @@ void  CEOSAITaskForce3::SynchronizeInvasionUsingRedPath()
 	pos = AllUnitsInvolvedInTaskForce.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2* pAIUnit = AllUnitsInvolvedInTaskForce.GetNext( pos );
+		CEOSAIUnit* pAIUnit = AllUnitsInvolvedInTaskForce.GetNext( pos );
 		if( pAIUnit->IsGroundUnit() || pAIUnit->IsSeaUnit() )
 		{
 			if( pAIUnit->GetInitialState()->GetGeo() == iTargetGeo )
@@ -918,7 +918,7 @@ void  CEOSAITaskForce3::SynchronizeInvasionUsingRedPath()
 			else
 			{
 				// This unit is not on the target geo
-				CEOSAIUnit2* pAITransportUnit = pAIUnit->GetTransportUsedInTacticalProject( GetTacticalProject2() );
+				CEOSAIUnit* pAITransportUnit = pAIUnit->GetTransportUsedInTacticalProject( GetTacticalProject2() );
 				if( pAITransportUnit )
 				{
 					float fTime = 0.0f;
@@ -967,7 +967,7 @@ void  CEOSAITaskForce3::SynchronizeInvasionUsingRedPath()
 	pos = AllUnitsInvolvedInTaskForce.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2* pAIUnit = AllUnitsInvolvedInTaskForce.GetNext( pos );
+		CEOSAIUnit* pAIUnit = AllUnitsInvolvedInTaskForce.GetNext( pos );
 		if( pAIUnit->IsGroundUnit() || pAIUnit->IsSeaUnit() )
 		{
 			if( pAIUnit->GetInitialState()->GetGeo() != iTargetGeo )
@@ -1062,12 +1062,12 @@ void  CEOSAITaskForce3::AllocateUnitsInStack()
 	POSITION pos = m_UnitActionStack.m_ItemsSortedByArrivalTime.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2ActionStackItem* pUnitStackItem = m_UnitActionStack.m_ItemsSortedByArrivalTime.GetNext( pos );
+		CEOSAIUnitActionStackItem* pUnitStackItem = m_UnitActionStack.m_ItemsSortedByArrivalTime.GetNext( pos );
 		if( pUnitStackItem->ActorIsAllocatedByThisTaskForce() ) continue; // Can occur if I reposition the item
 		if( pUnitStackItem->ActorIsAllocatedByOtherTaskForce() ) continue; // Can occur if I reposition the item
 		iIterationCount++;
 
-		CEOSAIUnit2ActionIdea* pUnitActionIdea = pUnitStackItem->m_pUnitActionIdea;
+		CEOSAIUnitActionIdea* pUnitActionIdea = pUnitStackItem->m_pUnitActionIdea;
 		CEOSAIUnitTemplate* pAIUnitTemplate = pUnitStackItem->GetAIUnitTemplate();
 
 		if( m_pTacticalProject2Strategy && m_pTacticalProject2Strategy->UseOnlyAirUnits() )
@@ -1226,8 +1226,8 @@ void  CEOSAITaskForce3::AllocateUnitsInStack()
 		/*
 		if( pUnitActionIdea->RequiresTransport() )
 		{
-			CEOSAIUnit2TransportMovementDesc* pBestPossibleMovementDesc = NULL;
-			CEOSAIUnit2TransportMovementDesc* pBestAvailableMovementDesc = NULL;
+			CEOSAIUnitTransportMovementDesc* pBestPossibleMovementDesc = NULL;
+			CEOSAIUnitTransportMovementDesc* pBestAvailableMovementDesc = NULL;
 			pUnitActionIdea->GetTransportIdeas( &pBestPossibleMovementDesc, &pBestAvailableMovementDesc );
 
 			// Use the best possible transport (ignore competition for this transport)
@@ -1302,17 +1302,17 @@ void  CEOSAITaskForce3::AllocateUnitsInStack()
 			pUnitStackItem->AllocateSuggestedTransportMoveDesc();
 
 			/-*
-			CEOSAIUnit2TransportMovementDesc* pSuggestedTransportMovementDesc = pUnitStackItem->GetSuggestedTransportMoveDesc();
+			CEOSAIUnitTransportMovementDesc* pSuggestedTransportMovementDesc = pUnitStackItem->GetSuggestedTransportMoveDesc();
 
 			// Look-up the transport
 			if( m_eBestCaseOrRealTaskForce == BestCaseTaskForce )
 			{
-				CEOSAIUnit2ActionIdea* pAITransportActionIdea = pSuggestedTransportMovementDesc->CreateAIUnitActionIdea( m_pTacticalProject );
+				CEOSAIUnitActionIdea* pAITransportActionIdea = pSuggestedTransportMovementDesc->CreateAIUnitActionIdea( m_pTacticalProject );
 				pUnitActionIdea->SetAITransportActionIdea( pAITransportActionIdea );
 			}
 			if( m_eBestCaseOrRealTaskForce == RealTaskForce )
 			{
-				CEOSAIUnit2ActionIdea* pAITransportActionIdea = pSuggestedTransportMovementDesc->CreateAIUnitActionIdea( m_pTacticalProject );
+				CEOSAIUnitActionIdea* pAITransportActionIdea = pSuggestedTransportMovementDesc->CreateAIUnitActionIdea( m_pTacticalProject );
 
 				// Allocate the Transport to this UnitActionIdea
 				pAITransportActionIdea->GetAIPoiObjectActor()->SetAllocation( pAITransportActionIdea );
@@ -1465,7 +1465,7 @@ void CEOSAITaskForce3::GetCityBuildArrivalTimes( CEOSAIUnitTemplate* pUnitTempla
 
 	// Iterate over the cities, figure out how long it will take for a built pUnitTemplate to arrive
 	// Create an imaginary unit (so we can do all the terrain calculations)
-	//CEOSAIUnit2  UnitActor( m_pTacticalProject->GetAIBrain() );
+	//CEOSAIUnit  UnitActor( m_pTacticalProject->GetAIBrain() );
 	//UnitActor.CreateHypotheticalUnit( pUnitTemplate, iAIPlayer, CEOSAILocation( Pixel,0,0 ), 0.0f );
 	CEOSAIThoughtDatabase* pAIThoughtDatabase = GetAIBrain()->GetAIThoughtDatabase();
 	//POSITION pos = m_pTacticalProject->GetCityActionIdeaNodes()->GetHeadPosition();
@@ -1499,16 +1499,16 @@ void CEOSAITaskForce3::GetCityBuildArrivalTimes( CEOSAIUnitTemplate* pUnitTempla
 	}
 }
 
-void CEOSAITaskForce3::SimpleCalc_SetSuggestedTransport( CEOSAIUnit2ActionStackItem* pUnitStackItem )
+void CEOSAITaskForce3::SimpleCalc_SetSuggestedTransport( CEOSAIUnitActionStackItem* pUnitStackItem )
 {
-	CEOSAIUnit2ActionIdea* pUnitActionIdea = pUnitStackItem->m_pUnitActionIdea;
+	CEOSAIUnitActionIdea* pUnitActionIdea = pUnitStackItem->m_pUnitActionIdea;
 
 	// Use the best possible transport (ignore competition for this transport)
 	if( m_eBestCaseOrRealTaskForce == BestCaseTaskForce )
 	{
-		CEOSAIUnit2TransportMovementDesc* pBestMovementDesc = NULL;
-		//pUnitActionIdea->GetTransportIdeas( CEOSAIUnit2ActionIdea::EnumMovementDescFilter_BestPossible, this, &pBestMovementDesc );
-		pUnitActionIdea->GetTransportIdeas2( CEOSAIUnit2ActionIdea::EnumMovementDescFilter_BestAvailable, this, &pBestMovementDesc );
+		CEOSAIUnitTransportMovementDesc* pBestMovementDesc = NULL;
+		//pUnitActionIdea->GetTransportIdeas( CEOSAIUnitActionIdea::EnumMovementDescFilter_BestPossible, this, &pBestMovementDesc );
+		pUnitActionIdea->GetTransportIdeas2( CEOSAIUnitActionIdea::EnumMovementDescFilter_BestAvailable, this, &pBestMovementDesc );
 
 		if( pBestMovementDesc == NULL ) return;
 		if( pUnitStackItem->GetSuggestedTransportMoveDesc() != pBestMovementDesc )
@@ -1520,8 +1520,8 @@ void CEOSAITaskForce3::SimpleCalc_SetSuggestedTransport( CEOSAIUnit2ActionStackI
 	//   (I could negotiate for a better transport, but that is not yet implimented)
 	if( m_eBestCaseOrRealTaskForce == RealTaskForce )
 	{
-		CEOSAIUnit2TransportMovementDesc* pBestMovementDesc = NULL;
-		pUnitActionIdea->GetTransportIdeas2( CEOSAIUnit2ActionIdea::EnumMovementDescFilter_BestAvailable, this, &pBestMovementDesc );
+		CEOSAIUnitTransportMovementDesc* pBestMovementDesc = NULL;
+		pUnitActionIdea->GetTransportIdeas2( CEOSAIUnitActionIdea::EnumMovementDescFilter_BestAvailable, this, &pBestMovementDesc );
 
 		if( pBestMovementDesc == NULL ) return;
 		if( pUnitStackItem->GetSuggestedTransportMoveDesc() != pBestMovementDesc )
@@ -1541,10 +1541,10 @@ void CEOSAITaskForce3::OptimizeTransportAndGroundUnitMatchup()
 		POSITION pos = m_UnitActionStack.m_ItemsSortedByArrivalTime.GetHeadPosition();
 		while( pos )
 		{
-			CEOSAIUnit2ActionStackItem* pUnitStackItem = m_UnitActionStack.m_ItemsSortedByArrivalTime.GetNext( pos );
-			CEOSAIUnit2ActionIdea* pUnitActionItem = pUnitStackItem->m_pUnitActionIdea;
+			CEOSAIUnitActionStackItem* pUnitStackItem = m_UnitActionStack.m_ItemsSortedByArrivalTime.GetNext( pos );
+			CEOSAIUnitActionIdea* pUnitActionItem = pUnitStackItem->m_pUnitActionIdea;
 
-			CEOSAIUnit2TransportMovementDesc* pMoveDesc = pUnitStackItem->GetSuggestedTransportMoveDesc(); // disconnect all suggested transport information
+			CEOSAIUnitTransportMovementDesc* pMoveDesc = pUnitStackItem->GetSuggestedTransportMoveDesc(); // disconnect all suggested transport information
 			if( pMoveDesc && pMoveDesc->m_pAITransport )
 			{
 				pUnitStackItem->ClearSuggestedTransportMoveDesc();
@@ -1561,13 +1561,13 @@ void CEOSAITaskForce3::OptimizeTransportAndGroundUnitMatchup()
 		while( bKeepMatchingTransportsAndGroundUnits )
 		{
 			long iGroundUnitsWithoutTransports = 0;
-			CEOSAIUnit2ActionStackItem* pBestUnitStackItem = NULL;
-			CEOSAIUnit2TransportMovementDesc* pBestAvailable1 = NULL;
+			CEOSAIUnitActionStackItem* pBestUnitStackItem = NULL;
+			CEOSAIUnitTransportMovementDesc* pBestAvailable1 = NULL;
 			pos = m_UnitActionStack.m_ItemsSortedByArrivalTime.GetHeadPosition();
 			while( pos )
 			{
-				CEOSAIUnit2ActionStackItem* pUnitStackItem = m_UnitActionStack.m_ItemsSortedByArrivalTime.GetNext( pos );
-				CEOSAIUnit2ActionIdea* pUnitActionItem = pUnitStackItem->m_pUnitActionIdea;
+				CEOSAIUnitActionStackItem* pUnitStackItem = m_UnitActionStack.m_ItemsSortedByArrivalTime.GetNext( pos );
+				CEOSAIUnitActionIdea* pUnitActionItem = pUnitStackItem->m_pUnitActionIdea;
 
 				if( pUnitStackItem->ActorIsAllocatedByThisTaskForce() &&
 					pUnitActionItem->RequiresTransport() &&
@@ -1575,10 +1575,10 @@ void CEOSAITaskForce3::OptimizeTransportAndGroundUnitMatchup()
 				{
 					iGroundUnitsWithoutTransports++;
 
-					CEOSAIUnit2ActionIdea* pUnitActionIdea = pUnitStackItem->m_pUnitActionIdea;
+					CEOSAIUnitActionIdea* pUnitActionIdea = pUnitStackItem->m_pUnitActionIdea;
 
-					CEOSAIUnit2TransportMovementDesc* pBestAvailable2 = NULL;
-					pUnitActionIdea->GetTransportIdeas2( CEOSAIUnit2ActionIdea::EnumMovementDescFilter_BestAvailable, this, &pBestAvailable2 );
+					CEOSAIUnitTransportMovementDesc* pBestAvailable2 = NULL;
+					pUnitActionIdea->GetTransportIdeas2( CEOSAIUnitActionIdea::EnumMovementDescFilter_BestAvailable, this, &pBestAvailable2 );
 					if( pBestAvailable2 )
 					{
 						if( pBestAvailable1 == NULL ||
@@ -1589,8 +1589,8 @@ void CEOSAITaskForce3::OptimizeTransportAndGroundUnitMatchup()
 						}
 					}
 					/*
-					CEOSAIUnit2TransportMovementDesc* pBestPossible2 = NULL;
-					CEOSAIUnit2TransportMovementDesc* pBestAvailable2 = NULL;
+					CEOSAIUnitTransportMovementDesc* pBestPossible2 = NULL;
+					CEOSAIUnitTransportMovementDesc* pBestAvailable2 = NULL;
 					pUnitActionIdea->GetTransportIdeas( this, &pBestPossible2, &pBestAvailable2 );
 
 					if( pBestAvailable2 )
@@ -1707,7 +1707,7 @@ void CEOSAITaskForce3::CalculateScores()
 	POSITION pos = m_UnitActionStack.m_ItemsSortedByArrivalTime.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2ActionStackItem* pItem = m_UnitActionStack.m_ItemsSortedByArrivalTime.GetNext( pos );
+		CEOSAIUnitActionStackItem* pItem = m_UnitActionStack.m_ItemsSortedByArrivalTime.GetNext( pos );
 		if( pItem->ActorIsAllocatedByThisTaskForce() )
 		{
 			float fAttritionScore01 = pItem->GetAIUnitTemplate()->GetAIUnitCombatCapability()->GetCombatAttritionSignificance01();
@@ -1720,7 +1720,7 @@ void CEOSAITaskForce3::CalculateScores()
 			if( pItem->m_pUnitActionIdea &&
 				pItem->m_pUnitActionIdea->GetAIUnitActor() )
 			{
-				CEOSAIUnit2* pAIUnitActor = pItem->m_pUnitActionIdea->GetAIUnitActor();
+				CEOSAIUnit* pAIUnitActor = pItem->m_pUnitActionIdea->GetAIUnitActor();
 				fAppropriateUnitScore01 -= 0.6f * pAIUnitActor->GetNeedForRepair01BasedOnDistanceAndDamage();
 				fAppropriateUnitScore01 -= 0.4f * pAIUnitActor->GetDesireForUpgrade01();
 			}
@@ -1756,7 +1756,7 @@ void CEOSAITaskForce3::CalculateEnemyUnitCount()
 	POSITION pos = m_JobsToDo.m_EnemyUnits.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2* pAIUnit = m_JobsToDo.m_EnemyUnits.GetNext( pos );
+		CEOSAIUnit* pAIUnit = m_JobsToDo.m_EnemyUnits.GetNext( pos );
 		//m_CompleteTargetUnitsList.AddTail( pUnit );
 
 		if( pAIUnit->GetOwner() == 0 )
@@ -1846,7 +1846,7 @@ void CEOSAITaskForce3::CalculateCombatSuccess()
 	pos = m_UnitActionStack.m_ItemsSortedByArrivalTime.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2ActionStackItem* pItem = m_UnitActionStack.m_ItemsSortedByArrivalTime.GetNext( pos );
+		CEOSAIUnitActionStackItem* pItem = m_UnitActionStack.m_ItemsSortedByArrivalTime.GetNext( pos );
 		if( pItem->ActorIsAllocatedByThisTaskForce() == false ) continue;
 		if( pItem->m_pUnitActionIdea->GetJobRole()->m_bCombat == false ) continue;
 		if( pItem->GetAIUnitActor() )
@@ -1861,7 +1861,7 @@ void CEOSAITaskForce3::CalculateCombatSuccess()
 	pos = m_TargetUnitsList.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2* pAIUnit = m_TargetUnitsList.GetNext( pos );
+		CEOSAIUnit* pAIUnit = m_TargetUnitsList.GetNext( pos );
 		m_CombatCalculation.AddToDefenders( pAIUnit );
 	}
 	//
@@ -1900,7 +1900,7 @@ void CEOSAITaskForce3::CalculateCombatSuccess()
 		pos = m_UnitActionStack.m_ItemsSortedByArrivalTime.GetHeadPosition();
 		while( pos )
 		{
-			CEOSAIUnit2ActionStackItem* pItem = m_UnitActionStack.m_ItemsSortedByArrivalTime.GetNext( pos );
+			CEOSAIUnitActionStackItem* pItem = m_UnitActionStack.m_ItemsSortedByArrivalTime.GetNext( pos );
 			if( pItem->ActorIsAllocatedByThisTaskForce() == false ) continue;
 			if( pItem->m_pUnitActionIdea->GetJobRole()->m_bCombat == false ) continue;
 			if( pItem->GetUnitActor() )

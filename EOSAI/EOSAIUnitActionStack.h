@@ -19,19 +19,19 @@ class CEOSAITaskForce3;
 class CEOSAIPoiObject;
 //class CUnitTemplate;
 class CEOSAIJobsToDo;
-class CEOSAIUnit2ActionIdea;
+class CEOSAIUnitActionIdea;
 class CEOSAIMathFunction;
-class CEOSAIUnit2ActionStack;
+class CEOSAIUnitActionStack;
 class CEOSAITaskForce3;
-class CEOSAIUnit2;
+class CEOSAIUnit;
 class CEOSAIUnitTemplate;
 //class CUnit;
-class CEOSAIUnit2TransportMovementDesc;
+class CEOSAIUnitTransportMovementDesc;
 
-class CEOSAIUnit2ActionStackItem
+class CEOSAIUnitActionStackItem
 {
 	public:
-		CEOSAIUnit2ActionStackItem()
+		CEOSAIUnitActionStackItem()
 		{
 			m_bHypotheticallyAllocated = false;
 			m_iSanityCheck231987 = 231987;
@@ -43,7 +43,7 @@ class CEOSAIUnit2ActionStackItem
 			m_pSuggestedTransportMoveDesc = NULL;
 			m_fArrivalTime = 0.0f;
 		}
-		~CEOSAIUnit2ActionStackItem();
+		~CEOSAIUnitActionStackItem();
 		//
 		CEOSAITaskForce3* GetParentTaskForce();
 		//
@@ -52,14 +52,14 @@ class CEOSAIUnit2ActionStackItem
 		bool  ActorIsAllocatedByThisTaskForce();
 		bool  ActorIsAllocatedByOtherTaskForce();
 		//
-		CEOSAIUnit2*         GetAIUnitActor();
+		CEOSAIUnit*         GetAIUnitActor();
 		CEOSAIUnitTemplate* GetAIUnitTemplate();
 		CEOSAIJobRole*      GetJobRole();
 		//
 		void  ClearSuggestedTransportMoveDesc();
-		void  SetSuggestedTransportMoveDesc( CEOSAIUnit2* pAITransportUnit );
-		void  SetSuggestedTransportMoveDesc( CEOSAIUnit2TransportMovementDesc* pMoveDesc );
-		CEOSAIUnit2TransportMovementDesc*  GetSuggestedTransportMoveDesc(){ return m_pSuggestedTransportMoveDesc; }
+		void  SetSuggestedTransportMoveDesc( CEOSAIUnit* pAITransportUnit );
+		void  SetSuggestedTransportMoveDesc( CEOSAIUnitTransportMovementDesc* pMoveDesc );
+		CEOSAIUnitTransportMovementDesc*  GetSuggestedTransportMoveDesc(){ return m_pSuggestedTransportMoveDesc; }
 		//
 		void  AllocateSuggestedTransportSpace();
 		void  DeAllocateSuggestedTransportSpace();
@@ -73,39 +73,39 @@ class CEOSAIUnit2ActionStackItem
 
 		long  m_iSanityCheck231987;
 
-		CEOSAIUnit2ActionStack* m_pUnitActionStack; // Parent
-		CEOSAIUnit2ActionIdea*  m_pUnitActionIdea;
+		CEOSAIUnitActionStack* m_pUnitActionStack; // Parent
+		CEOSAIUnitActionIdea*  m_pUnitActionIdea;
 		//CEOSAIPoiObject*       m_pAIActor; // City or Unit
-		CEOSAIUnit2TransportMovementDesc*  m_pSuggestedTransportMoveDesc;
+		CEOSAIUnitTransportMovementDesc*  m_pSuggestedTransportMoveDesc;
 		float               m_fArrivalTime;
 };
 
-class CEOSAIUnit2ActionStack
+class CEOSAIUnitActionStack
 {
 	public:
-		CEOSAIUnit2ActionStack();
-		~CEOSAIUnit2ActionStack(){ Delete(); }
+		CEOSAIUnitActionStack();
+		~CEOSAIUnitActionStack(){ Delete(); }
 
 		void  Delete();
-		CEOSAIUnit2ActionStackItem*  Insert( CEOSAIUnit2ActionIdea* pIdea );
-		void                     Remove( CEOSAIUnit2ActionStackItem* pItem );
-		bool                     UpdateStackPosition( CEOSAIUnit2ActionStackItem* pItem ); // Update the sorted position of this item
+		CEOSAIUnitActionStackItem*  Insert( CEOSAIUnitActionIdea* pIdea );
+		void                     Remove( CEOSAIUnitActionStackItem* pItem );
+		bool                     UpdateStackPosition( CEOSAIUnitActionStackItem* pItem ); // Update the sorted position of this item
 
 		long                     GetNumberOfAllocatedItems();
-		CEOSAIUnit2ActionStackItem*  GetLastAllocatedItem();
+		CEOSAIUnitActionStackItem*  GetLastAllocatedItem();
 		float                    GetLastAllocatedItemTime();
 
 		//bool   InvolvesTransports();
 		//float  GetLastShoreArrivalTime();
 
 		void   ReleaseAllAllocations();
-		//void   ReleaseAllocationsRelatedToAIUnit( CEOSAIUnit2* pAIUnit );
-		//void   DeleteStackItemsRelatedToAIUnit( CEOSAIUnit2* pAIUnit );
+		//void   ReleaseAllocationsRelatedToAIUnit( CEOSAIUnit* pAIUnit );
+		//void   DeleteStackItemsRelatedToAIUnit( CEOSAIUnit* pAIUnit );
 
 		//void  Insert( CEOSAIPoiObject* pAIActor, CUnitTemplate* pUnitTemplate, float fArrivalTime );
 		//void  CalculateSet( CEOSAIJobsToDo* pAIJobsToDo, CEOSAIMathFunction* pTimeValueFunction, float fAcceptableAttritionBalance );
 
 		CEOSAITaskForce3* m_pParentTaskForce;
-		CEOSAIListSort< CEOSAIUnit2ActionStackItem* >  m_ItemsSortedByArrivalTime; // sorted by arrival time
+		CEOSAIListSort< CEOSAIUnitActionStackItem* >  m_ItemsSortedByArrivalTime; // sorted by arrival time
 };
 

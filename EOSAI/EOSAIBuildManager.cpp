@@ -142,7 +142,7 @@ void CAIBuildManager::CreateBuildOrders_FirstPass()
 			if( pAIUnitTemplate )
 			{
 				// Create an AIUnit
-				CEOSAIUnit2* pAIUnit = new CEOSAIUnit2();// m_pAIPlayer->GetAIBrain() );
+				CEOSAIUnit* pAIUnit = new CEOSAIUnit();// m_pAIPlayer->GetAIBrain() );
 				pAIUnit->CreateHypotheticalUnit( pAICity, pAIUnitTemplate, fMostCompletedTurnsUntilCompletion );
 				//m_pAIPlayer->GetAIBrain()->AddAIPoiObject( pAIUnit );
 				g_pEOSAICommonData->AddHypotheticalAIPoiObject( pAIUnit );
@@ -162,7 +162,7 @@ void CAIBuildManager::CreateBuildOrders_FirstPass()
 			if( pAIUnitTemplate )
 			{
 				// Create an AIUnit
-				CEOSAIUnit2* pAIUnit = new CEOSAIUnit2();// m_pAIPlayer->GetAIBrain() );
+				CEOSAIUnit* pAIUnit = new CEOSAIUnit();// m_pAIPlayer->GetAIBrain() );
 				pAIUnit->CreateHypotheticalUnit( pAICity, pAIUnitTemplate, fMostCompletedTurnsUntilCompletion );
 				//m_pAIPlayer->GetAIBrain()->AddAIPoiObject( pAIUnit );
 				g_pEOSAICommonData->AddHypotheticalAIPoiObject( pAIUnit );
@@ -201,8 +201,8 @@ void CAIBuildManager::CreateBuildOrders_Final()
 	CEOSAIGlobalForeignRelations* pGlobalForeignRelations = g_pEOSAICommonData->GetGlobalForeignRelations();
 	long iAIPlayer = pAIBrain->GetAIPlayer()->GetPlayerNumber();
 
-	//CEOSAIUnit2TemplatesAndFloat  MyUnits;
-	//CEOSAIUnit2TemplatesAndFloat  EnemyUnits;
+	//CEOSAIUnitTemplatesAndFloat  MyUnits;
+	//CEOSAIUnitTemplatesAndFloat  EnemyUnits;
 	CEOSAIJobCapability  AIJobCapability;
 	CEOSAIJobsToDo       AIJobsToDo;
 	CEOSAIJobSolution    AIJobSolution( &AIJobsToDo, &AIJobCapability );
@@ -214,7 +214,7 @@ void CAIBuildManager::CreateBuildOrders_Final()
 		CEOSAIPoiObject* pPoi = g_pEOSAICommonData->GetAIPoiObjects()->GetNext( pos );
 		//CPoi* pPoi = pWorldDescServer->GetPoiList()->GetNext( pos )->GetPtr();
 		//CUnit* pUnit = dynamic_cast< CUnit* >( pPoi );
-		CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pPoi );
+		CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pPoi );
 		if( pAIUnit )//&& pAIUnit->IsAlive() )
 		{
 			EOSAIEnumForeignRelations eRel = pAIUnit->GetForeignRelationsTo( iAIPlayer );
@@ -245,49 +245,49 @@ void CAIBuildManager::CreateBuildOrders_Final()
 	//
 	/*
 	{
-		CEOSAIUnit2TemplatesAndFloat  MyUnits2;
+		CEOSAIUnitTemplatesAndFloat  MyUnits2;
 		MyUnits2.Add( GetCommonState()->GetActiveUnitset()->GetUnitTemplate( "Infantry (Class 1)" ), 1.0f );
-		CEOSAIUnit2TemplatesAndFloat  EnemyUnits2;
+		CEOSAIUnitTemplatesAndFloat  EnemyUnits2;
 		EnemyUnits2.Add( GetCommonState()->GetActiveUnitset()->GetUnitTemplate( "Infantry (Class 1)" ), 1.0f );
-		CEOSAIUnit2TemplatesAndFloat  PowerLevels;
+		CEOSAIUnitTemplatesAndFloat  PowerLevels;
 		PowerLevels.CalculatePowerLevelsAgainst( MyUnits2, EnemyUnits2 );
 		int g=0;
 	}
 	{
-		CEOSAIUnit2TemplatesAndFloat  MyUnits2;
+		CEOSAIUnitTemplatesAndFloat  MyUnits2;
 		MyUnits2.Add( GetCommonState()->GetActiveUnitset()->GetUnitTemplate( "Infantry (Class 1)" ), 1.0f );
-		CEOSAIUnit2TemplatesAndFloat  EnemyUnits2;
+		CEOSAIUnitTemplatesAndFloat  EnemyUnits2;
 		EnemyUnits2.Add( GetCommonState()->GetActiveUnitset()->GetUnitTemplate( "Infantry (Class 1)" ), 2.0f );
-		CEOSAIUnit2TemplatesAndFloat  PowerLevels;
+		CEOSAIUnitTemplatesAndFloat  PowerLevels;
 		PowerLevels.CalculatePowerLevelsAgainst( MyUnits2, EnemyUnits2 );
 		int g=0;
 	}
 	{
-		CEOSAIUnit2TemplatesAndFloat  MyUnits2;
+		CEOSAIUnitTemplatesAndFloat  MyUnits2;
 		MyUnits2.Add( GetCommonState()->GetActiveUnitset()->GetUnitTemplate( "Infantry (Class 1)" ), 2.0f );
-		CEOSAIUnit2TemplatesAndFloat  EnemyUnits2;
+		CEOSAIUnitTemplatesAndFloat  EnemyUnits2;
 		EnemyUnits2.Add( GetCommonState()->GetActiveUnitset()->GetUnitTemplate( "Infantry (Class 1)" ), 1.0f );
 		EnemyUnits2.Add( GetCommonState()->GetActiveUnitset()->GetUnitTemplate( "Militia" ), 1.0f );
-		CEOSAIUnit2TemplatesAndFloat  PowerLevels;
+		CEOSAIUnitTemplatesAndFloat  PowerLevels;
 		PowerLevels.CalculatePowerLevelsAgainst( MyUnits2, EnemyUnits2 );
 		int g=0;
 	}
 	{
-		CEOSAIUnit2TemplatesAndFloat  MyUnits2;
+		CEOSAIUnitTemplatesAndFloat  MyUnits2;
 		MyUnits2.Add( GetCommonState()->GetActiveUnitset()->GetUnitTemplate( "Infantry (Class 1)" ), 1.0f );
-		CEOSAIUnit2TemplatesAndFloat  EnemyUnits2;
+		CEOSAIUnitTemplatesAndFloat  EnemyUnits2;
 		EnemyUnits2.Add( GetCommonState()->GetActiveUnitset()->GetUnitTemplate( "Infantry (Class 1)" ), 1.0f );
 		EnemyUnits2.Add( GetCommonState()->GetActiveUnitset()->GetUnitTemplate( "Militia" ), 1.0f );
-		CEOSAIUnit2TemplatesAndFloat  PowerLevels;
+		CEOSAIUnitTemplatesAndFloat  PowerLevels;
 		PowerLevels.CalculatePowerLevelsAgainst( MyUnits2, EnemyUnits2 );
 		int g=0;
 	}
 	{
-		CEOSAIUnit2TemplatesAndFloat  MyUnits2;
+		CEOSAIUnitTemplatesAndFloat  MyUnits2;
 		MyUnits2.Add( GetCommonState()->GetActiveUnitset()->GetUnitTemplate( "Infantry (Class 1)" ), 2.0f );
-		CEOSAIUnit2TemplatesAndFloat  EnemyUnits2;
+		CEOSAIUnitTemplatesAndFloat  EnemyUnits2;
 		EnemyUnits2.Add( GetCommonState()->GetActiveUnitset()->GetUnitTemplate( "Infantry (Class 1)" ), 1.0f );
-		CEOSAIUnit2TemplatesAndFloat  PowerLevels;
+		CEOSAIUnitTemplatesAndFloat  PowerLevels;
 		PowerLevels.CalculatePowerLevelsAgainst( MyUnits2, EnemyUnits2 );
 		int g=0;
 	}
@@ -298,14 +298,14 @@ void CAIBuildManager::CreateBuildOrders_Final()
 
 	// Add-up the current capability
 	/*
-	CEOSAIUnit2TemplatesAndFloat  MyUnits;
-	CEOSAIUnit2TemplatesAndFloat  EnemyUnits;
+	CEOSAIUnitTemplatesAndFloat  MyUnits;
+	CEOSAIUnitTemplatesAndFloat  EnemyUnits;
 
 	pos = pAIThoughtDatabase->GetMyActors()->GetHeadPosition();
 	while( pos )
 	{
 		CEOSAIPoiObject* pAIPoiObject = pAIThoughtDatabase->GetMyActors()->GetNext( pos );
-		CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+		CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 		if( pAIUnit )
 		{
 			MyUnits.Add( pAIUnit->GetUnitTemplate(), pAIUnit->GetServerUnit()->GetCurrentHP01() );
@@ -446,7 +446,7 @@ void CAIBuildManager::CreateBuildOrders_Final()
 		float fFeelingsAboutPlayer01 = pGlobalForeignRelations->GetFeelings01( iAIPlayer, pAIPoiObject->GetOwner() );
 		if( fFeelingsAboutPlayer01 < 0.7f )
 		{
-			CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+			CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 			if( pAIUnit )
 			{
 				float fCurrentHP01 = 1.0f;
@@ -766,7 +766,7 @@ this is actually a bad way to handle things
 		/*
 		float fCurrentDamageToEnemyProduction = 0.0f;
 		float fCurrentDamageToEnemyCombatCapability = 0.0f;
-		CEOSAIUnit2TemplatesAndFloat  CurrentCombatResults;
+		CEOSAIUnitTemplatesAndFloat  CurrentCombatResults;
 		CEOSAIStopwatch2  Stopwatch;
 		Stopwatch.Start();
 		//CEOSAIQuickCombatCalculation::QuickCombatResults( MyUnits, EnemyUnits, CurrentCombatResults );
@@ -779,7 +779,7 @@ this is actually a bad way to handle things
 		POSITION pos2 = AIJobCapability.m_UnitTemplatesAndFloat.m_List.GetHeadPosition();
 		while( pos2 )
 		{
-			CEOSAIUnit2TemplateAndFloat* pUnitTemplateAndFloat = AIJobCapability.m_UnitTemplatesAndFloat.m_List.GetNext( pos2 );
+			CEOSAIUnitTemplateAndFloat* pUnitTemplateAndFloat = AIJobCapability.m_UnitTemplatesAndFloat.m_List.GetNext( pos2 );
 			fMyTotalUnitProductionValue += 
 				pUnitTemplateAndFloat->m_pAIUnitTemplate->GetProductionCost() *
 				pUnitTemplateAndFloat->m_fValue;
@@ -812,7 +812,7 @@ this is actually a bad way to handle things
 		while( pos )
 		{
 			CEOSAIPoiObject* pAIPoiObject = pAIThoughtDatabase->GetMyActors()->GetNext( pos );
-			CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+			CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 			if( pAIUnit )
 			{
 				float fDistance = g_pWorldDistanceTool->GetDistance( pAIUnit->GetInitialState()->GetLocation(), pAICity->GetInitialState()->GetLocation() );

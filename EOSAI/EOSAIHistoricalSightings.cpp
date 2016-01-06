@@ -59,9 +59,9 @@ float CAIPoiObjectInvolvedInSighting::GetBaseSignificance()
 		{
 			fSignificance = 1.0f;
 		}
-		if( dynamic_cast< CEOSAIUnit2* >( m_pAIPoiObject ) )
+		if( dynamic_cast< CEOSAIUnit* >( m_pAIPoiObject ) )
 		{
-			CEOSAIUnit2* pUnit = dynamic_cast< CEOSAIUnit2* >( m_pAIPoiObject );
+			CEOSAIUnit* pUnit = dynamic_cast< CEOSAIUnit* >( m_pAIPoiObject );
 			if( pUnit->GetNumberOfGroundUnitsThatICanContain() > 0 )
 			{
 				fSignificance = 0.6f;

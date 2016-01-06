@@ -7,7 +7,7 @@
 #define DLLIMPEXP __declspec(dllimport)
 #endif
 
-class CEOSAIUnit2;
+class CEOSAIUnit;
 class CEOSAIUnitTemplate;
 class CEOSAIBrain;
 #include "EOSAIStringAndFloatSet.h"

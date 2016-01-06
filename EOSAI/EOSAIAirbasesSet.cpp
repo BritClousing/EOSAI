@@ -44,7 +44,7 @@ float  CEOSAIAirbasesSet::GetClosestAirbaseDistanceX5Turns( CEOSAILocation Locat
 		float fDistance = g_pWorldDistanceTool->GetDistance( pPoiObject->GetLocation(), Location );
 
 		float fMovementRate = 0.0f;
-		CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pPoiObject );
+		CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pPoiObject );
 		if( pAIUnit )
 		{
 			fMovementRate = pAIUnit->GetMovementRate();

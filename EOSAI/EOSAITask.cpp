@@ -35,7 +35,7 @@ CEOSAITask* CEOSAITask::CreateTask( CAIObject* pActor, CAILogicalAction* pLogica
 	CString strAction = pLogicalAction->m_strAction;
 	if( strAction == "CaptureCity" )
 	{
-		CEOSAIUnit2* pAIUnitSymbolActor = dynamic_cast< CEOSAIUnit2* >( pActor );
+		CEOSAIUnit* pAIUnitSymbolActor = dynamic_cast< CEOSAIUnit* >( pActor );
 		CEOSAICity* pCity              = dynamic_cast< CEOSAICity* >( pPassiveObject );
 		ASSERT( pAIUnitSymbolActor );
 		ASSERT( pCity );
@@ -44,7 +44,7 @@ CEOSAITask* CEOSAITask::CreateTask( CAIObject* pActor, CAILogicalAction* pLogica
 	}
 	if( strAction == "Explore" )
 	{
-		CEOSAIUnit2* pAIUnitSymbolActor = dynamic_cast< CEOSAIUnit2* >( pActor );
+		CEOSAIUnit* pAIUnitSymbolActor = dynamic_cast< CEOSAIUnit* >( pActor );
 		CEOSAIRegion2*     pAIRegion          = dynamic_cast< CEOSAIRegion2*     >( pPassiveObject );
 		ASSERT( pAIUnitSymbolActor );
 		ASSERT( pAIRegion );

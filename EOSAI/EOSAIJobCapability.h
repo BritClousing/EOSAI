@@ -9,7 +9,7 @@
 //
 
 #include "EOSAIUnitTemplatesAndFloat.h"
-class CEOSAIUnit2TemplateAndFloat;
+class CEOSAIUnitTemplateAndFloat;
 class CEOSAIUnitTemplate;
 class CEOSAIJobRole;
 
@@ -92,6 +92,6 @@ class CEOSAIJobCapability
 		//CList< CUnitTemplateAndFloat* >  m_AttritionValue01Versus; // attrition or chances of defeat? both are important
 		//CEOSAIBCArray< CUnitTemplateAndFloat* >  m_AttritionValue01Versus;
 
-		CEOSAIUnit2TemplatesAndFloat  m_UnitTemplatesAndFloat;
+		CEOSAIUnitTemplatesAndFloat  m_UnitTemplatesAndFloat;
 		CList< CEOSAIUnitTemplate* >   m_UnitTemplatesForCombat;
 };

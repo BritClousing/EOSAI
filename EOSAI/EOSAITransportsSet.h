@@ -8,7 +8,7 @@
 class CEOSAIThoughtDatabase;
 class CEOSAIUnitTemplate;
 class CEOSAIPoiObject;
-class CEOSAIUnit2;
+class CEOSAIUnit;
 class CEOSAICity;
 
 class CEOSAITransportsSet
@@ -29,7 +29,7 @@ class CEOSAITransportsSet
 		// Rather than collect all the information for later processing, I'll just access the 
 		//   ThoughtDatabase when needed to lookup the information.
 		//
-		CList< CEOSAIUnit2* >   m_ExistingTransports;
+		CList< CEOSAIUnit* >   m_ExistingTransports;
 
 		// Information about buildable transports
 		CList< CEOSAICity* >          m_Cities;

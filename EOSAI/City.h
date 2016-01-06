@@ -17,7 +17,7 @@ class CEOSAIBrain;
 class CCity;
 class CAIProductionSymbol;
 class CEOSAIBuildOption;
-class CEOSAIUnit2;
+class CEOSAIUnit;
 //class CAISymbolProcessor;
 class CEOSAIGeo;
 class CEOSAIGeoLand;
@@ -78,10 +78,10 @@ class DLLIMPEXP CEOSAICity : public CEOSAIPoiObject
 	// AITacticalProject methods
 	//
 		//float GetBuildTimeAndTimeToTarget( CAITacticalProject* pAITacticalProject, CUnitTemplate* pUnitTemplate );
-		//CEOSAIUnit2ActionIdea* CreateAIUnitActionIdea( CAITacticalProject* pAITacticalProject, CUnitTemplate* pUnitTemplate );
+		//CEOSAIUnitActionIdea* CreateAIUnitActionIdea( CAITacticalProject* pAITacticalProject, CUnitTemplate* pUnitTemplate );
 
 		float GetBuildTimeAndTimeToTarget( CEOSAITacticalProject2* pAITacticalProject2, CEOSAIUnitTemplate* pUnitTemplate );
-		CEOSAIUnit2ActionIdea* CreateAIUnitActionIdea( CEOSAITacticalProject2* pAITacticalProject2, CEOSAIUnitTemplate* pUnitTemplate );
+		CEOSAIUnitActionIdea* CreateAIUnitActionIdea( CEOSAITacticalProject2* pAITacticalProject2, CEOSAIUnitTemplate* pUnitTemplate );
 
 	// Buildings
 	//
@@ -144,7 +144,7 @@ class DLLIMPEXP CEOSAICity : public CEOSAIPoiObject
 
 	// Containment
 	//
-		//CList< CEOSAIUnit2* >*  GetUnitsInsideMe(){ return &m_UnitsInsideMe; }
+		//CList< CEOSAIUnit* >*  GetUnitsInsideMe(){ return &m_UnitsInsideMe; }
 
 	// Production
 	//
@@ -229,7 +229,7 @@ class DLLIMPEXP CEOSAICity : public CEOSAIPoiObject
 		bool   m_bIAmACoastalCity;
 		CEOSAILongSet  m_AdjacentWaterGeos; // Must be setup ahead of time
 
-		//CList< CEOSAIUnit2* >  m_UnitsInsideMe;
+		//CList< CEOSAIUnit* >  m_UnitsInsideMe;
 		CList< CEOSAIBuildingDescription* >  m_BuildingList; // not owned
 
 		float  m_fStrategicBomberDanger01;

@@ -12,7 +12,7 @@ static char THIS_FILE[]=__FILE__;
 #define new DEBUG_NEW
 #endif
 
-CEOSAIUnit2VsUnitValue::CEOSAIUnit2VsUnitValue( CEOSAIUnitTemplate* pAttacker, CEOSAIUnitTemplate* pDefender )
+CEOSAIUnitVsUnitValue::CEOSAIUnitVsUnitValue( CEOSAIUnitTemplate* pAttacker, CEOSAIUnitTemplate* pDefender )
 {
 	m_pAttackerUnitTemplate = pAttacker;
 	m_pTargetUnitTemplate = pDefender;
@@ -91,7 +91,7 @@ CEOSAIUnit2VsUnitValue::CEOSAIUnit2VsUnitValue( CEOSAIUnitTemplate* pAttacker, C
 }
 
 // CombatSignificance = My Unit's Attrition Value against Target * MyUnits Cost
-float CEOSAIUnit2VsUnitValue::GetCombatSignificance()
+float CEOSAIUnitVsUnitValue::GetCombatSignificance()
 {
 	if( m_fOutgoingProdDamagePerTurn == 0.0f ) return 0.0f;
 
@@ -107,7 +107,7 @@ float CEOSAIUnit2VsUnitValue::GetCombatSignificance()
 	return fValue;
 }
 
-bool CEOSAIUnit2VsUnitValue::IsUsefulInCombat()
+bool CEOSAIUnitVsUnitValue::IsUsefulInCombat()
 {
 	long iMyPlayerNumber = g_pAIPlayerManager->CurrentlyProcessingAIPlayer();
 
@@ -156,7 +156,7 @@ bool CEOSAIUnit2VsUnitValue::IsUsefulInCombat()
 	return false;
 }
 /*
-float CEOSAIUnit2VsUnitValue::GetCombatUsefulness01()
+float CEOSAIUnitVsUnitValue::GetCombatUsefulness01()
 {
 	// An infantry vs. Infantry will have an AverageAttrition01 of 0.5
 	//   The AverageAttrition01 tends not to get too much over 0.5 against enemy combat units
@@ -176,17 +176,17 @@ float CEOSAIUnit2VsUnitValue::GetCombatUsefulness01()
 	return max( fUsefulness1, fUsefulness2 );
 }
 */
-float CEOSAIUnit2VsUnitValue::GetOffenseFreedomOfAttack()
+float CEOSAIUnitVsUnitValue::GetOffenseFreedomOfAttack()
 {
 	return m_fMovementRateBalance*1.2f + m_fTerrainMovementAdvantage*1.2f + m_fAttackRangeAdvantage*0.5f;
 }
 
-float CEOSAIUnit2VsUnitValue::GetDefenseFreedomOfAttack()
+float CEOSAIUnitVsUnitValue::GetDefenseFreedomOfAttack()
 {
 	return m_fMovementRateBalance*0.5f + m_fTerrainMovementAdvantage*0.5f + m_fAttackRangeAdvantage*1.5f;
 }
 
-float CEOSAIUnit2VsUnitValue::GetMyRelativeMeleeAttritionValue01( long iMyPlayerNumber )
+float CEOSAIUnitVsUnitValue::GetMyRelativeMeleeAttritionValue01( long iMyPlayerNumber )
 {
 	EOSAI::AIPlayer* pAIPlayer = g_pAIPlayerManager->GetAIPlayer( iMyPlayerNumber );
 	if( pAIPlayer &&
@@ -209,7 +209,7 @@ float CEOSAIUnit2VsUnitValue::GetMyRelativeMeleeAttritionValue01( long iMyPlayer
 	return 1.0f;
 }
 
-float CEOSAIUnit2VsUnitValue::GetMyRelativeRangedAttritionValue01( long iMyPlayerNumber )
+float CEOSAIUnitVsUnitValue::GetMyRelativeRangedAttritionValue01( long iMyPlayerNumber )
 {
 	EOSAI::AIPlayer* pAIPlayer = g_pAIPlayerManager->GetAIPlayer( iMyPlayerNumber );
 	if( pAIPlayer &&
@@ -232,7 +232,7 @@ float CEOSAIUnit2VsUnitValue::GetMyRelativeRangedAttritionValue01( long iMyPlaye
 	return 1.0f;
 }
 
-float CEOSAIUnit2VsUnitValue::GetMyRelativeRangeX2AttritionValue01( long iMyPlayerNumber )
+float CEOSAIUnitVsUnitValue::GetMyRelativeRangeX2AttritionValue01( long iMyPlayerNumber )
 {
 	EOSAI::AIPlayer* pAIPlayer = g_pAIPlayerManager->GetAIPlayer( iMyPlayerNumber );
 	if( pAIPlayer &&
@@ -255,19 +255,19 @@ float CEOSAIUnit2VsUnitValue::GetMyRelativeRangeX2AttritionValue01( long iMyPlay
 	return 1.0f;
 }
 /*
-float CEOSAIUnit2VsUnitValue::GetMyRelativeAttritionValue01( long iMyPlayerNumber )
+float CEOSAIUnitVsUnitValue::GetMyRelativeAttritionValue01( long iMyPlayerNumber )
 {
 }
 */
 
-float CEOSAIUnit2VsUnitValue::GetTimeToDestroyTarget()
+float CEOSAIUnitVsUnitValue::GetTimeToDestroyTarget()
 {
 	if( m_fOutgoingProdDamagePerTurn == 0.0f ) return 1000000.0f;
 	return m_pTargetUnitTemplate->GetProductionAndIronCost1() / m_fOutgoingProdDamagePerTurn;
 	//return m_pTargetUnitTemplate->GetMaxHP() / m_fOutgoingHPDamagePerTurn;
 }
 
-float CEOSAIUnit2VsUnitValue::GetTimeToBeDestroyed()
+float CEOSAIUnitVsUnitValue::GetTimeToBeDestroyed()
 {
 	if( m_fIncomingProdDamagePerTurn == 0.0f ) return 1000000.0f;
 	return m_pAttackerUnitTemplate->GetProductionAndIronCost1() / m_fIncomingProdDamagePerTurn;

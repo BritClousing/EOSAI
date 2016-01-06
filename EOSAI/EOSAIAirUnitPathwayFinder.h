@@ -16,7 +16,7 @@
 #include "EOSAIUnitPathwayFinder.h"
 class CEOSAIBrain;
 class CEOSAIPoiObject;
-class CEOSAIUnit2;
+class CEOSAIUnit;
 class CEOSAIUnitTemplate;
 class CEOSAIAirbasesSet;
 
@@ -25,10 +25,10 @@ class CAIAirPathWaypoint;
 
 
 
-class CEOSAIAirUnitPathwayFinder : public CEOSAIUnit2PathwayFinder
+class CEOSAIAirUnitPathwayFinder : public CEOSAIUnitPathwayFinder
 {
 	public:
-		CEOSAIAirUnitPathwayFinder( CEOSAIUnit2* pAIUnitActor );
+		CEOSAIAirUnitPathwayFinder( CEOSAIUnit* pAIUnitActor );
 		CEOSAIAirUnitPathwayFinder( CEOSAICity* pAICityActor, CEOSAIUnitTemplate* pAIUnitTemplate, float fBuildTime = 0.0f );
 		virtual ~CEOSAIAirUnitPathwayFinder();
 
@@ -40,7 +40,7 @@ class CEOSAIAirUnitPathwayFinder : public CEOSAIUnit2PathwayFinder
 
 		// Transports
 		//
-			virtual bool UpdateEndLocation( CEOSAIUnit2PathwayPredefinedStep* pTransportPickupOrDropoffStep );
+			virtual bool UpdateEndLocation( CEOSAIUnitPathwayPredefinedStep* pTransportPickupOrDropoffStep );
 
 		//
 		// Results

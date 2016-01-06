@@ -128,7 +128,7 @@ void  CEOSAIJobsToDo::Set( CEOSAIJobsToDo* pAIJobsToDo )
 	POSITION pos = pAIJobsToDo->m_EnemyUnits.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2* pUnit = pAIJobsToDo->m_EnemyUnits.GetNext( pos );
+		CEOSAIUnit* pUnit = pAIJobsToDo->m_EnemyUnits.GetNext( pos );
 		m_EnemyUnits.AddTail( pUnit );
 	}
 }
@@ -175,13 +175,13 @@ void  CEOSAIJobsToDo::Add( CEOSAIJobsToDo* pAIJobsToDo )
 	POSITION pos = pAIJobsToDo->m_EnemyUnits.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2* pAIUnit = pAIJobsToDo->m_EnemyUnits.GetNext( pos );
+		CEOSAIUnit* pAIUnit = pAIJobsToDo->m_EnemyUnits.GetNext( pos );
 
 		bool bExistsInList = false;
 		POSITION pos2 = m_EnemyUnits.GetHeadPosition();
 		while( pos2 )
 		{
-			CEOSAIUnit2* pAIUnitAlreadyInList = m_EnemyUnits.GetNext( pos2 );
+			CEOSAIUnit* pAIUnitAlreadyInList = m_EnemyUnits.GetNext( pos2 );
 			if( pAIUnitAlreadyInList == pAIUnit )
 			{
 				bExistsInList = true;
@@ -196,7 +196,7 @@ void  CEOSAIJobsToDo::Add( CEOSAIJobsToDo* pAIJobsToDo )
 	}
 }
 
-void  CEOSAIJobsToDo::AddEnemyUnit( CEOSAIUnit2* pAIUnit )
+void  CEOSAIJobsToDo::AddEnemyUnit( CEOSAIUnit* pAIUnit )
 {
 	m_EnemyUnits.AddTail( pAIUnit );
 	m_UnitTemplatesAndFloat.Add( pAIUnit->GetAIUnitTemplate(), 1.0f );
@@ -310,7 +310,7 @@ float CEOSAIJobsToDo::GetMinimumFulfillment01( CEOSAIJobCapability* pCapability 
 		POSITION pos = m_EnemyUnits.GetHeadPosition();
 		while( pos )
 		{
-			CEOSAIUnit2* pEnemyUnit = m_EnemyUnits.GetNext( pos );
+			CEOSAIUnit* pEnemyUnit = m_EnemyUnits.GetNext( pos );
 			CombatCalc.AddToDefenders( pEnemyUnit );
 		}
 		pos = pCapability->m_UnitTemplatesForCombat.GetHeadPosition();
@@ -436,7 +436,7 @@ bool CEOSAIJobsToDo::CanFulfillAJob( CEOSAIPoiObject* pActor )
 	CEOSAICity* pActorCity = dynamic_cast< CEOSAICity* >( pActor );
 	if( pActorCity ){ return true; }
 
-	CEOSAIUnit2* pActorUnit = dynamic_cast< CEOSAIUnit2* >( pActor );
+	CEOSAIUnit* pActorUnit = dynamic_cast< CEOSAIUnit* >( pActor );
 	if( pActorUnit ){ return CanFulfillAJob( pActorUnit->GetAIUnitTemplate() ); }
 
 	return false;
@@ -454,7 +454,7 @@ bool CEOSAIJobsToDo::CanFulfillASpecificCombatJob( CEOSAIUnitTemplate* pMyUnitTe
 	POSITION pos = m_EnemyUnits.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2* pEnemy = m_EnemyUnits.GetNext( pos );
+		CEOSAIUnit* pEnemy = m_EnemyUnits.GetNext( pos );
 		if( pMyUnitTemplate->GetAIUnitCombatCapability()->InvokeCombatValue( pEnemy->GetAIUnitTemplate() )->IsUsefulInCombat() )
 		{
 			return true;

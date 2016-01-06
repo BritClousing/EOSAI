@@ -13,17 +13,17 @@
 //#include "EnumPathwayResultStep.h"
 //#include "UnitTemplate.h"
 #include "EOSAILocation.h"
-class CEOSAIUnit2PathwayPredefinedStep;
+class CEOSAIUnitPathwayPredefinedStep;
 namespace EOSAI
 {
 	class UnitPathwayResult;
 }
-class CEOSAIUnit2PathwayFinder;
-//class CEOSAIUnit2PathwayFinder;
+class CEOSAIUnitPathwayFinder;
+//class CEOSAIUnitPathwayFinder;
 class CUnitTemplate;
 class CEOSAIRegion2;
 class CEOSAIPoiObject;
-class CEOSAIUnit2;
+class CEOSAIUnit;
 class CUnitOrder;
 
 //
@@ -64,11 +64,11 @@ namespace EOSAI
 		UnitPathwayResultStep(EOSAI::UnitPathwayResult* pPathwayResult);
 		~UnitPathwayResultStep();
 
-		CEOSAIUnit2PathwayFinder*  GetAIUnitPathwayFinder();
+		CEOSAIUnitPathwayFinder*  GetAIUnitPathwayFinder();
 
 		// Initialization
 		//
-		void  SetPredefinedStep(CEOSAIUnit2PathwayPredefinedStep* pPredefinedStep);
+		void  SetPredefinedStep(CEOSAIUnitPathwayPredefinedStep* pPredefinedStep);
 
 		//
 		EOSAI::UnitPathwayResultStep*  GetPrevStep();
@@ -84,7 +84,7 @@ namespace EOSAI
 		float GetGroundUnitDropoffTimeToTargetTime() { return m_fDropoffTimeToTargetTime; } // Delta time
 		float GetStepTime() { return m_fStepTime; }
 		//	float GetEndTime(); // based on previous steps + StepTime + waiting periods
-			//void  UpdateWithTransportAssistedPath( CEOSAIUnit2* pAITransport );
+			//void  UpdateWithTransportAssistedPath( CEOSAIUnit* pAITransport );
 			//
 		CEOSAILocation  GetGroundPickupLocation();
 		//
@@ -97,7 +97,7 @@ namespace EOSAI
 
 		//
 		EOSAI::UnitPathwayResult*  m_pResult;
-		CEOSAIUnit2PathwayPredefinedStep*  m_pPredefinedStep; // NULL if this is a Pickup or Dropoff
+		CEOSAIUnitPathwayPredefinedStep*  m_pPredefinedStep; // NULL if this is a Pickup or Dropoff
 		EnumTask   m_eTask; // Pickup, Dropoff, etc
 		//
 		CEOSAILocation  m_StartLocation;
@@ -143,6 +143,6 @@ namespace EOSAI
 
 		// Support units (Transports, Carriers used in movement)
 		//CList< EOSAI::UnitPathwayResult* >  m_SupportUnits; // Transports, Carriers used in movement
-		//CList< CEOSAIUnit2PathwayFinder* >  m_SupportUnitPathways; // Defines the Unit + PredefinedSteps + Pathway
+		//CList< CEOSAIUnitPathwayFinder* >  m_SupportUnitPathways; // Defines the Unit + PredefinedSteps + Pathway
 };
 }

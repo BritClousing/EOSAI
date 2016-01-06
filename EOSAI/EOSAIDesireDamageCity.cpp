@@ -98,7 +98,7 @@ bool CAIDesireDamageCity::CanFulfillDesire( CEOSAIPoiObject* pActor ) // CityHun
 	CEOSAICity* pActorAICity = dynamic_cast< CEOSAICity* >( pActor );
 	if( pActorAICity ){ return true; }
 
-	CEOSAIUnit2* pActorAIUnit = dynamic_cast< CEOSAIUnit2* >( pActor );
+	CEOSAIUnit* pActorAIUnit = dynamic_cast< CEOSAIUnit* >( pActor );
 	if( pActorAIUnit ){ return CanFulfillDesire( pActorAIUnit->GetAIUnitTemplate() ); }
 
 	return false;

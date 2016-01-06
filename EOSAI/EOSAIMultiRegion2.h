@@ -33,7 +33,7 @@ class CAITacticalProject;
 #include "EOSAIGenericRegion.h"
 #include "EOSAIRegionPathwayMap.h"
 //#include "EOSAIPublic.h"
-class CEOSAIUnit2Proximity;
+class CEOSAIUnitProximity;
 class CPoiObject;
 class CEOSAIBrain;
 class CEOSAIDesireSpatial;

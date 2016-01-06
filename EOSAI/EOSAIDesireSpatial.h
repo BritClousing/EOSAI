@@ -6,9 +6,9 @@
 #include "EOSAIMultiRegionManager2.h"
 #include "EOSAIEnumDesireType.h"
 class CEOSAIDesireConnection;
-class CEOSAIUnit2;
+class CEOSAIUnit;
 class CEOSAIPoiObject;
-class CEOSAIUnit2ActionIdea;
+class CEOSAIUnitActionIdea;
 
 //
 // This is an abstract class
@@ -47,7 +47,7 @@ class CEOSAIDesireSpatial : public CEOSAIDesire2
 		// AttachedUnits = Units within 30 pixels of this target
 		//
 			void   GetDestroyUnitDesiresInTheImmediateArea( CList< CEOSAIDesireSpatial* >* pDesires );
-			void   GetUnitsInTheImmediateArea( CList< CEOSAIUnit2* >* pEnemyUnits );
+			void   GetUnitsInTheImmediateArea( CList< CEOSAIUnit* >* pEnemyUnits );
 
 		//
 			virtual bool InvolvesGroundTargets(){ return false; }
@@ -66,7 +66,7 @@ class CEOSAIDesireSpatial : public CEOSAIDesire2
 		// Effort
 		//
 			void                CalculateExpectedPathwayResistance();
-			CList< CEOSAIUnit2* >*  GetPathwayResistance(){ return &m_PathwayResistance; }
+			CList< CEOSAIUnit* >*  GetPathwayResistance(){ return &m_PathwayResistance; }
 
 			float  GetNationwideEstimatedTimeToTarget(){ return m_fNationwideEstimatedTimeToTarget; }
 
@@ -107,7 +107,7 @@ class CEOSAIDesireSpatial : public CEOSAIDesire2
 
 		// UnitActionIdea Allocations
 		//
-			void  AddAllocation( CEOSAIUnit2ActionIdea* pAIUnitActionIdea ){ m_UnitActionIdeaAllocations.AddTail( pAIUnitActionIdea ); CalculateAllocatedFulfillment(); }
+			void  AddAllocation( CEOSAIUnitActionIdea* pAIUnitActionIdea ){ m_UnitActionIdeaAllocations.AddTail( pAIUnitActionIdea ); CalculateAllocatedFulfillment(); }
 			void  CalculateAllocatedFulfillment();
 			float GetAllocatedFulfillment(); // 0.0 = no fulfillment, 1.0 = completely fulfilled
 
@@ -136,7 +136,7 @@ class CEOSAIDesireSpatial : public CEOSAIDesire2
 			CList< CEOSAIDesireConnection* >  m_ConnectedDesires; // owned
 
 			bool   m_bPotentialResistanceHasBeenCalculated;
-			CList< CEOSAIUnit2* >  m_PathwayResistance; // pathway
+			CList< CEOSAIUnit* >  m_PathwayResistance; // pathway
 
 		// m_eProcessingLevel = EnumCustomPathwayCalculation
 		//    At this level, I know the pathways from everywhere (i.e. from every unit) to [here]
@@ -146,5 +146,5 @@ class CEOSAIDesireSpatial : public CEOSAIDesire2
 
 		//
 			float  m_fFulfillment;
-			CList< CEOSAIUnit2ActionIdea* >  m_UnitActionIdeaAllocations;//m_Allocations;
+			CList< CEOSAIUnitActionIdea* >  m_UnitActionIdeaAllocations;//m_Allocations;
 };

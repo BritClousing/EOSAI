@@ -12,17 +12,17 @@
 //#include "EnumPathwayResultStep.h"
 #include "EOSAIRegionPathfinder.h"
 //class EOSAI::UnitPathwayResultStep;
-class CEOSAIUnit2PathwayFinder;
+class CEOSAIUnitPathwayFinder;
 class CEOSAIPoiObject;
 class CEOSAICity;
-class CEOSAIUnit2;
-class CEOSAIUnit2PathwayPredefinedStep;
+class CEOSAIUnit;
+class CEOSAIUnitPathwayPredefinedStep;
 namespace EOSAI
 {
 	class UnitPathwayResultStep;
 }
 class CEOSAIRegion2;
-class CEOSAIUnit2ActionIdea;
+class CEOSAIUnitActionIdea;
 
 // Describes the movement of a Transport (UnitTemplate) from pickup to dropoff
 /*
@@ -67,26 +67,26 @@ class CAITransportPossibility
 };
 */
 /*
-class CEOSAIUnit2PathwayPredefinedStepSeq
+class CEOSAIUnitPathwayPredefinedStepSeq
 {
 	public:
-		CEOSAIUnit2PathwayPredefinedStepSeq( CEOSAIUnit2PathwayPredefinedStep* pStep, long iSubStep )
+		CEOSAIUnitPathwayPredefinedStepSeq( CEOSAIUnitPathwayPredefinedStep* pStep, long iSubStep )
 		{
 			m_pPredefinedStep = pStep;
 			m_iSubStep = iSubStep;
 		}
 		CEOSAILocation  GetEndLocation();
 
-		CEOSAIUnit2PathwayPredefinedStep*  m_pPredefinedStep;
+		CEOSAIUnitPathwayPredefinedStep*  m_pPredefinedStep;
 		long  m_iSubStep; // if this is a Transport Step, SubStep1 = Pickup, SubStep2 = Dropoff
 };
 */
 
 // Used to track a Predefined Step's pathway through different PathfinderPoints
-class CEOSAIUnit2PathwayPredefinedStepPathStep
+class CEOSAIUnitPathwayPredefinedStepPathStep
 {
 	public:
-		CEOSAIUnit2PathwayPredefinedStepPathStep( CEOSAIPathfinderPoint* pPathfinderPoint, float fOffsetTime )
+		CEOSAIUnitPathwayPredefinedStepPathStep( CEOSAIPathfinderPoint* pPathfinderPoint, float fOffsetTime )
 		{
 			m_pPathfinderPoint = pPathfinderPoint;
 			m_fOffsetTime = fOffsetTime;
@@ -95,7 +95,7 @@ class CEOSAIUnit2PathwayPredefinedStepPathStep
 		float m_fOffsetTime;
 };
 
-class DLLIMPEXP CEOSAIUnit2PathwayPredefinedStep
+class DLLIMPEXP CEOSAIUnitPathwayPredefinedStep
 {
 	public:
 		enum EnumEndType
@@ -124,18 +124,18 @@ class DLLIMPEXP CEOSAIUnit2PathwayPredefinedStep
 			enum_DropoffTarget,
 		};
 
-		CEOSAIUnit2PathwayPredefinedStep( CEOSAIUnit2PathwayFinder* pAIUnitPathwayFinder );
-		~CEOSAIUnit2PathwayPredefinedStep();
+		CEOSAIUnitPathwayPredefinedStep( CEOSAIUnitPathwayFinder* pAIUnitPathwayFinder );
+		~CEOSAIUnitPathwayPredefinedStep();
 
-		void  SetAIUnitActionIdea( CEOSAIUnit2ActionIdea* pIdea ){ m_pAIUnitActionIdea = pIdea; }
-		CEOSAIUnit2ActionIdea*  GetAIUnitActionIdea(){ return m_pAIUnitActionIdea; }
+		void  SetAIUnitActionIdea( CEOSAIUnitActionIdea* pIdea ){ m_pAIUnitActionIdea = pIdea; }
+		CEOSAIUnitActionIdea*  GetAIUnitActionIdea(){ return m_pAIUnitActionIdea; }
 
-		CEOSAIUnit2PathwayFinder*      GetAIUnitPathwayFinder(){ return m_pAIUnitPathwayFinder; }
+		CEOSAIUnitPathwayFinder*      GetAIUnitPathwayFinder(){ return m_pAIUnitPathwayFinder; }
 		EOSAI::UnitPathwayResultStep*  GetResultStep();
 
 		//
-			CEOSAIUnit2PathwayPredefinedStep*  GetPrevStep();
-			CEOSAIUnit2PathwayPredefinedStep*  GetNextStep();
+			CEOSAIUnitPathwayPredefinedStep*  GetPrevStep();
+			CEOSAIUnitPathwayPredefinedStep*  GetNextStep();
 
 		// Setup
 		//
@@ -174,8 +174,8 @@ class DLLIMPEXP CEOSAIUnit2PathwayPredefinedStep
 			void  LandAtAnyAirbase();
 			void  BuildAirfield( CEOSAILocation BuildLocation );
 			//
-			void  Pickup( CEOSAIUnit2PathwayPredefinedStep* pTransporteeStep );
-			void  Dropoff( CEOSAIUnit2PathwayPredefinedStep* pTransporteeStep );
+			void  Pickup( CEOSAIUnitPathwayPredefinedStep* pTransporteeStep );
+			void  Dropoff( CEOSAIUnitPathwayPredefinedStep* pTransporteeStep );
 			void  UpgradeAt( CEOSAIPoiObject* pAIPoiObject );
 			//
 			void  RepairAt( CEOSAIPoiObject* pAIPoiObject );
@@ -183,7 +183,7 @@ class DLLIMPEXP CEOSAIUnit2PathwayPredefinedStep
 			//
 			void  CaptureCitRes( CEOSAIPoiObject* pAITarget );
 			void  DegradeTarget( CEOSAIPoiObject* pAITarget );
-			void  AttackUnit( CEOSAIUnit2* pAITarget );
+			void  AttackUnit( CEOSAIUnit* pAITarget );
 			//
 			EnumTask  GetTask(){ return m_eTask; }
 			bool      IsAWaypoint(){ return m_eTask == enum_Waypoint; }
@@ -217,8 +217,8 @@ class DLLIMPEXP CEOSAIUnit2PathwayPredefinedStep
 				//void  UpdateEndLocation(); // Pickup or Dropoff Locations can change
 
 				// If this step get deleted, then notify the transport to remove support for this step
-				CEOSAIUnit2*  GetTransportToUse(){ return m_pTransportToUse; }
-				void  UseTransportAndCreatePickupDropoffSteps( CEOSAIUnit2* pTransportToUse );
+				CEOSAIUnit*  GetTransportToUse(){ return m_pTransportToUse; }
+				void  UseTransportAndCreatePickupDropoffSteps( CEOSAIUnit* pTransportToUse );
 				void  SetRealTransport_PickupGroundAIRegion( long i ){ m_iRealTransport_PickupGroundAIRegion = i; }
 				long  GetRealTransport_PickupGroundAIRegion(){ return m_iRealTransport_PickupGroundAIRegion; }
 				void  SetRealTransport_PickupWaterAIRegion( long i ){ m_iRealTransport_PickupWaterAIRegion = i; }
@@ -231,9 +231,9 @@ class DLLIMPEXP CEOSAIUnit2PathwayPredefinedStep
 
 				CEOSAILocation  GetRealTransportPickupLocation();
 
-			CEOSAIUnit2PathwayPredefinedStep*  GetTransporteeStep(){ return m_pTransporteeStep; }
-			CEOSAIUnit2PathwayPredefinedStep*  GetTransportPickupStep(){ return m_pTransportPickupStep; }
-			CEOSAIUnit2PathwayPredefinedStep*  GetTransportDropoffStep(){ return m_pTransportDropoffStep; }
+			CEOSAIUnitPathwayPredefinedStep*  GetTransporteeStep(){ return m_pTransporteeStep; }
+			CEOSAIUnitPathwayPredefinedStep*  GetTransportPickupStep(){ return m_pTransportPickupStep; }
+			CEOSAIUnitPathwayPredefinedStep*  GetTransportDropoffStep(){ return m_pTransportDropoffStep; }
 
 		//
 			void  SetDirectPathDistance( float f ){ m_fDirectPathDistance = f; }
@@ -275,9 +275,9 @@ class DLLIMPEXP CEOSAIUnit2PathwayPredefinedStep
 			void   DeletePreTransportTimedMovementPath();
 			void   DeletePostTransportTimedMovementPath();
 
-			CList< CEOSAIUnit2PathwayPredefinedStepPathStep* >*  GetDirectRedMovementPath(){ return &m_DirectRedMovementPath; }
-			CList< CEOSAIUnit2PathwayPredefinedStepPathStep* >*  GetPreTransportRedMovementPath(){ return &m_PreTransportRedMovementPath; }
-			CList< CEOSAIUnit2PathwayPredefinedStepPathStep* >*  GetPostTransportRedMovementPath(){ return &m_PostTransportRedMovementPath; }
+			CList< CEOSAIUnitPathwayPredefinedStepPathStep* >*  GetDirectRedMovementPath(){ return &m_DirectRedMovementPath; }
+			CList< CEOSAIUnitPathwayPredefinedStepPathStep* >*  GetPreTransportRedMovementPath(){ return &m_PreTransportRedMovementPath; }
+			CList< CEOSAIUnitPathwayPredefinedStepPathStep* >*  GetPostTransportRedMovementPath(){ return &m_PostTransportRedMovementPath; }
 
 			//void UpdateRedMovementPathTimingIfNecessary(); // Update the timing
 
@@ -291,7 +291,7 @@ class DLLIMPEXP CEOSAIUnit2PathwayPredefinedStep
 			//void CalculatePostTransportRedPathTiming();
 			//
 			float GetRedPathEndTime( EnumEndType eEndType );
-			void  GetFullRedMovementPath( float fStartTime, CList< CEOSAIUnit2PathwayPredefinedStepPathStep* >* pTimedMovementPath );
+			void  GetFullRedMovementPath( float fStartTime, CList< CEOSAIUnitPathwayPredefinedStepPathStep* >* pTimedMovementPath );
 
 		// Allowed MovementPath
 		//
@@ -312,8 +312,8 @@ class DLLIMPEXP CEOSAIUnit2PathwayPredefinedStep
 
 	private:
 
-			CEOSAIUnit2PathwayFinder*  m_pAIUnitPathwayFinder;
-			CEOSAIUnit2ActionIdea*     m_pAIUnitActionIdea;  // used for debugging
+			CEOSAIUnitPathwayFinder*  m_pAIUnitPathwayFinder;
+			CEOSAIUnitActionIdea*     m_pAIUnitActionIdea;  // used for debugging
 			EnumTask   m_eTask;
 
 		// Start Location
@@ -342,10 +342,10 @@ class DLLIMPEXP CEOSAIUnit2PathwayPredefinedStep
 			long  m_iImaginaryTransport_PickupWaterAIRegion;
 			long  m_iImaginaryTransport_DropoffGroundAIRegion;
 			long  m_iImaginaryTransport_DropoffWaterAIRegion;
-			CEOSAIUnit2*   m_pTransportToUse;
+			CEOSAIUnit*   m_pTransportToUse;
 
 			// Used only if [this] is a Transport Action
-			CEOSAIUnit2PathwayPredefinedStep*  m_pTransporteeStep;
+			CEOSAIUnitPathwayPredefinedStep*  m_pTransporteeStep;
 			long  m_iRealTransport_PickupGroundAIRegion;
 			long  m_iRealTransport_PickupWaterAIRegion;
 			//float m_fRealTransport_PickupTime;
@@ -353,8 +353,8 @@ class DLLIMPEXP CEOSAIUnit2PathwayPredefinedStep
 			long  m_iRealTransport_DropoffWaterAIRegion;
 			//float m_fRealTransport_DropoffTime;
 
-			CEOSAIUnit2PathwayPredefinedStep*  m_pTransportPickupStep;
-			CEOSAIUnit2PathwayPredefinedStep*  m_pTransportDropoffStep;
+			CEOSAIUnitPathwayPredefinedStep*  m_pTransportPickupStep;
+			CEOSAIUnitPathwayPredefinedStep*  m_pTransportDropoffStep;
 
 		// MovementPath
 		//
@@ -379,9 +379,9 @@ class DLLIMPEXP CEOSAIUnit2PathwayPredefinedStep
 			// Used for timing, danger calculations.  It includes the transport's path, too
 			float  m_fRedMovementPath_ArrivalOffsetTimeAtPickupLocation;  // Used by transport and transportee
 			float  m_fRedMovementPath_ArrivalOffsetTimeAtDropoffLocation; // Used by transport and transportee
-			CList< CEOSAIUnit2PathwayPredefinedStepPathStep* >  m_DirectRedMovementPath;
-			CList< CEOSAIUnit2PathwayPredefinedStepPathStep* >  m_PreTransportRedMovementPath;
-			CList< CEOSAIUnit2PathwayPredefinedStepPathStep* >  m_PostTransportRedMovementPath;
+			CList< CEOSAIUnitPathwayPredefinedStepPathStep* >  m_DirectRedMovementPath;
+			CList< CEOSAIUnitPathwayPredefinedStepPathStep* >  m_PreTransportRedMovementPath;
+			CList< CEOSAIUnitPathwayPredefinedStepPathStep* >  m_PostTransportRedMovementPath;
 
 			CList< CEOSAIRegion2* >  m_AIRegionAllowedMovementPath; // Used for allowed pathway
 

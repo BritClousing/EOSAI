@@ -60,7 +60,7 @@ void CEOSAINationalSummary3::CalculatePlayerPower()
 			{
 				m_CitResSummary.AddToSummary( pRes );
 			}
-			CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+			CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 			if( pAIUnit )
 			{
 				// INCOMPLETE: this isn't a bad measure of military power, although it

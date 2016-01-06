@@ -29,7 +29,7 @@ static char THIS_FILE[]=__FILE__;
 //
 // 0.0 = e1 is best, 0.5 = are equal, 1.0 = e2 is best
 /*
-float  CEOSAIUnit2PathwayPredefinedStep::CompareResultTimes( EnumPathwayResultStep e1, EnumPathwayResultStep e2 )
+float  CEOSAIUnitPathwayPredefinedStep::CompareResultTimes( EnumPathwayResultStep e1, EnumPathwayResultStep e2 )
 {
 	EOSAI::UnitPathwayResultStep* p1 = GetResult( e1 );
 	EOSAI::UnitPathwayResultStep* p2 = GetResult( e2 );
@@ -65,12 +65,12 @@ float  CEOSAIUnit2PathwayPredefinedStep::CompareResultTimes( EnumPathwayResultSt
 }
 */
 /*
-CEOSAILocation  CEOSAIUnit2PathwayPredefinedStepSeq::GetEndLocation()
+CEOSAILocation  CEOSAIUnitPathwayPredefinedStepSeq::GetEndLocation()
 {
 	return m_pPredefinedStep->GetSubStepEndLocation( m_iSubStep );
 }
 */
-CEOSAIUnit2PathwayPredefinedStep::CEOSAIUnit2PathwayPredefinedStep( CEOSAIUnit2PathwayFinder* pAIUnitPathwayFinder )
+CEOSAIUnitPathwayPredefinedStep::CEOSAIUnitPathwayPredefinedStep( CEOSAIUnitPathwayFinder* pAIUnitPathwayFinder )
 {
 	m_pAIUnitPathwayFinder = pAIUnitPathwayFinder;
 	m_pAIUnitActionIdea = NULL;
@@ -117,14 +117,14 @@ CEOSAIUnit2PathwayPredefinedStep::CEOSAIUnit2PathwayPredefinedStep( CEOSAIUnit2P
 	//m_fStepTime = 0.0f;
 }
 
-CEOSAIUnit2PathwayPredefinedStep::~CEOSAIUnit2PathwayPredefinedStep()
+CEOSAIUnitPathwayPredefinedStep::~CEOSAIUnitPathwayPredefinedStep()
 {
 	while( m_DirectRedMovementPath.IsEmpty() == FALSE ){ delete m_DirectRedMovementPath.RemoveHead(); }
 	while( m_PreTransportRedMovementPath.IsEmpty() == FALSE ){ delete m_PreTransportRedMovementPath.RemoveHead(); }
 	while( m_PostTransportRedMovementPath.IsEmpty() == FALSE ){ delete m_PostTransportRedMovementPath.RemoveHead(); }
 }
 
-EOSAI::UnitPathwayResultStep*  CEOSAIUnit2PathwayPredefinedStep::GetResultStep()
+EOSAI::UnitPathwayResultStep*  CEOSAIUnitPathwayPredefinedStep::GetResultStep()
 {
 	if( m_pAIUnitPathwayFinder->GetResultPath() )
 	{
@@ -138,25 +138,25 @@ EOSAI::UnitPathwayResultStep*  CEOSAIUnit2PathwayPredefinedStep::GetResultStep()
 	return NULL;
 }
 
-CEOSAIUnit2PathwayPredefinedStep*  CEOSAIUnit2PathwayPredefinedStep::GetPrevStep()
+CEOSAIUnitPathwayPredefinedStep*  CEOSAIUnitPathwayPredefinedStep::GetPrevStep()
 {
-	CEOSAIUnit2PathwayPredefinedStep* pPrevStep = NULL;
+	CEOSAIUnitPathwayPredefinedStep* pPrevStep = NULL;
 	POSITION pos = m_pAIUnitPathwayFinder->GetPreDefinedPath()->GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2PathwayPredefinedStep* pExistingStep = m_pAIUnitPathwayFinder->GetPreDefinedPath()->GetNext( pos );
+		CEOSAIUnitPathwayPredefinedStep* pExistingStep = m_pAIUnitPathwayFinder->GetPreDefinedPath()->GetNext( pos );
 		if( pExistingStep == this ){ return pPrevStep; }
 		pPrevStep = pExistingStep;
 	}
 	return NULL;
 }
 
-CEOSAIUnit2PathwayPredefinedStep*  CEOSAIUnit2PathwayPredefinedStep::GetNextStep()
+CEOSAIUnitPathwayPredefinedStep*  CEOSAIUnitPathwayPredefinedStep::GetNextStep()
 {
 	POSITION pos = m_pAIUnitPathwayFinder->GetPreDefinedPath()->GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2PathwayPredefinedStep* pExistingStep = m_pAIUnitPathwayFinder->GetPreDefinedPath()->GetNext( pos );
+		CEOSAIUnitPathwayPredefinedStep* pExistingStep = m_pAIUnitPathwayFinder->GetPreDefinedPath()->GetNext( pos );
 		if( pExistingStep == this )
 		{
 			if( pos )
@@ -169,7 +169,7 @@ CEOSAIUnit2PathwayPredefinedStep*  CEOSAIUnit2PathwayPredefinedStep::GetNextStep
 	return NULL;
 }
 
-void  CEOSAIUnit2PathwayPredefinedStep::SetStartLocation( CEOSAILocation StartLocation )
+void  CEOSAIUnitPathwayPredefinedStep::SetStartLocation( CEOSAILocation StartLocation )
 {
 	if( m_StartLocation != StartLocation )
 	{
@@ -178,7 +178,7 @@ void  CEOSAIUnit2PathwayPredefinedStep::SetStartLocation( CEOSAILocation StartLo
 	}
 }
 
-void  CEOSAIUnit2PathwayPredefinedStep::SetEndLocation( CEOSAILocation EndLocation )
+void  CEOSAIUnitPathwayPredefinedStep::SetEndLocation( CEOSAILocation EndLocation )
 {
 	if( fabs( EndLocation.GetRealX() - 506.0f ) < 0.1f && fabs( EndLocation.GetRealY() - 1058.0f ) < 0.1f ){ ASSERT( false ); }
 
@@ -197,14 +197,14 @@ void  CEOSAIUnit2PathwayPredefinedStep::SetEndLocation( CEOSAILocation EndLocati
 	UpdateStartToEndDistancesAndTimes();
 
 	// update next start
-	CEOSAIUnit2PathwayPredefinedStep* pNextStep = GetNextStep();
+	CEOSAIUnitPathwayPredefinedStep* pNextStep = GetNextStep();
 	if( pNextStep )
 	{
 		pNextStep->SetStartLocation( EndLocation );
 	}
 }
 
-void  CEOSAIUnit2PathwayPredefinedStep::UpdateStartToEndDistancesAndTimes()
+void  CEOSAIUnitPathwayPredefinedStep::UpdateStartToEndDistancesAndTimes()
 {
 	/*
 	if( m_pAIUnitActionIdea &&
@@ -266,15 +266,15 @@ void  CEOSAIUnit2PathwayPredefinedStep::UpdateStartToEndDistancesAndTimes()
 	*/
 }
 /*
-float CEOSAIUnit2PathwayPredefinedStep::GetEstimatedPickupTime()
+float CEOSAIUnitPathwayPredefinedStep::GetEstimatedPickupTime()
 {
 	ASSERT( this->RequiresTransport() );
 }
 */
 
-float CEOSAIUnit2PathwayPredefinedStep::GetStartTime()
+float CEOSAIUnitPathwayPredefinedStep::GetStartTime()
 {
-	CEOSAIUnit2PathwayPredefinedStep* pPreviousStep = GetPrevStep();
+	CEOSAIUnitPathwayPredefinedStep* pPreviousStep = GetPrevStep();
 	if( pPreviousStep )
 	{
 		//return pPreviousStep->GetEndTime();
@@ -287,17 +287,17 @@ float CEOSAIUnit2PathwayPredefinedStep::GetStartTime()
 }
 
 /*
-float CEOSAIUnit2PathwayPredefinedStep::GetTransportTimeToPickupLocation()
+float CEOSAIUnitPathwayPredefinedStep::GetTransportTimeToPickupLocation()
 {
 	ASSERT( this->IsAPickup() );
 	if( IsAPickup() )
 	{
-		CEOSAIUnit2PathwayPredefinedStep* pGroundUnitStep = this->GetTransporteeStep();
+		CEOSAIUnitPathwayPredefinedStep* pGroundUnitStep = this->GetTransporteeStep();
 		float fGroundUnitArrivalTime = pGroundUnitStep->GetGroundUnitTimeToPickupLocation();
 
 		/-*
 		float fTransportArrivalTime = 0.0f;
-		CEOSAIUnit2PathwayPredefinedStep* pPreviousStep = GetPrevStep();
+		CEOSAIUnitPathwayPredefinedStep* pPreviousStep = GetPrevStep();
 		if( pPreviousStep )
 		{
 			fTransportArrivalTime = this->GetStepTime() + pPreviousStep->GetEndTime();
@@ -314,7 +314,7 @@ float CEOSAIUnit2PathwayPredefinedStep::GetTransportTimeToPickupLocation()
 }
 */
 /*
-float CEOSAIUnit2PathwayPredefinedStep::GetEndTime()
+float CEOSAIUnitPathwayPredefinedStep::GetEndTime()
 {
 	return m_fStepEndTime;
 
@@ -332,7 +332,7 @@ float CEOSAIUnit2PathwayPredefinedStep::GetEndTime()
 	// If this step uses a transport, then figure out the Transport-dropoff time + Dropoff->Target time
 	if( this->GetTransportToUse() )
 	{
-		CEOSAIUnit2PathwayPredefinedStep* pTransportDropoffPredefinedStep = this->GetTransportToUse()->GetAIUnitPathwayFinder()->GetTransportDropoffStep( this );
+		CEOSAIUnitPathwayPredefinedStep* pTransportDropoffPredefinedStep = this->GetTransportToUse()->GetAIUnitPathwayFinder()->GetTransportDropoffStep( this );
 		ASSERT( pTransportDropoffPredefinedStep );
 		float fTransportDropoffEndTime = pTransportDropoffPredefinedStep->GetEndTime();
 
@@ -352,13 +352,13 @@ float CEOSAIUnit2PathwayPredefinedStep::GetEndTime()
 	// If this is a transport, and I am picking-up a unit, check my arrival time and GroundUnit arrival time
 	else if( this->IsAPickup() )
 	{
-		CEOSAIUnit2PathwayPredefinedStep* pGroundUnitStep = this->GetTransporteeStep();
+		CEOSAIUnitPathwayPredefinedStep* pGroundUnitStep = this->GetTransporteeStep();
 		float fGroundUnitArrivalTime = pGroundUnitStep->GetGroundUnitTimeToPickupLocation();
 
 		float fTransportArrivalTime = GetStepTime() + GetStartTime();
 		/-*
 		float fTransportArrivalTime = 0.0f;
-		CEOSAIUnit2PathwayPredefinedStep* pPreviousStep = GetPrevStep();
+		CEOSAIUnitPathwayPredefinedStep* pPreviousStep = GetPrevStep();
 		if( pPreviousStep )
 		{
 			fTransportArrivalTime = this->GetStepTime() + pPreviousStep->GetEndTime();
@@ -374,7 +374,7 @@ float CEOSAIUnit2PathwayPredefinedStep::GetEndTime()
 	{
 		float fEndTime = GetStepTime() + GetStartTime();
 		/-*
-		CEOSAIUnit2PathwayPredefinedStep* pPreviousStep = GetPrevStep();
+		CEOSAIUnitPathwayPredefinedStep* pPreviousStep = GetPrevStep();
 		if( pPreviousStep )
 		{
 			fEndTime = this->GetStepTime() + pPreviousStep->GetEndTime();
@@ -397,12 +397,12 @@ float CEOSAIUnit2PathwayPredefinedStep::GetEndTime()
 	POSITION pos = m_pAIUnitPathwayFinder->GetPreDefinedPath()->GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2PathwayPredefinedStep* pPredefinedStep = m_pAIUnitPathwayFinder->GetPreDefinedPath()->GetNext( pos );
+		CEOSAIUnitPathwayPredefinedStep* pPredefinedStep = m_pAIUnitPathwayFinder->GetPreDefinedPath()->GetNext( pos );
 
 		// If I am a GroundUnit using a Transport, then I have to wait for the transport to move me
 		if( pPredefinedStep->GetTransportToUse() )
 		{
-			CEOSAIUnit2PathwayPredefinedStep* pTransportDropoffPredefinedStep = pPredefinedStep->GetTransportToUse()->GetAIUnitPathwayFinder()->GetTransportDropoffStep( pPredefinedStep );
+			CEOSAIUnitPathwayPredefinedStep* pTransportDropoffPredefinedStep = pPredefinedStep->GetTransportToUse()->GetAIUnitPathwayFinder()->GetTransportDropoffStep( pPredefinedStep );
 			ASSERT( pTransportDropoffPredefinedStep );
 			float fTransportDropoffEndTime = pTransportDropoffPredefinedStep->GetEndTime();
 
@@ -437,7 +437,7 @@ float CEOSAIUnit2PathwayPredefinedStep::GetEndTime()
 */
 
 /*
-float CEOSAIUnit2PathwayPredefinedStep::GetStepTime()
+float CEOSAIUnitPathwayPredefinedStep::GetStepTime()
 {
 	EOSAI::UnitPathwayResultStep* pResultStep = GetResultStep();
 	if( pResultStep )
@@ -452,21 +452,21 @@ float CEOSAIUnit2PathwayPredefinedStep::GetStepTime()
 */
 
 /*
-float CEOSAIUnit2PathwayPredefinedStep::GetEndTime() // EstimatedEndTime, or the ResultStep's EndTime
+float CEOSAIUnitPathwayPredefinedStep::GetEndTime() // EstimatedEndTime, or the ResultStep's EndTime
 {
 	if( GetResultStep() ) return GetResultStep()->GetEndTime();
 	return GetEstimatedEndTime();
 }
 */
 /*
-float CEOSAIUnit2PathwayPredefinedStep::GetGroundUnitTimeToPickupLocation() //GetTimeToPickup()
+float CEOSAIUnitPathwayPredefinedStep::GetGroundUnitTimeToPickupLocation() //GetTimeToPickup()
 {
 	CUnitTemplate* pUnitTemplate = this->GetAIUnitPathwayFinder()->GetUnitTemplate();
 	ASSERT( this->GetAIUnitPathwayFinder()->GetUnitTemplate()->IsGroundUnit() );
 	ASSERT( this->RequiresTransport() );
 
 	float fStepStartTime = this->GetAIUnitPathwayFinder()->GetStartTime();
-	CEOSAIUnit2PathwayPredefinedStep* pPreviousStep = this->GetPrevStep();
+	CEOSAIUnitPathwayPredefinedStep* pPreviousStep = this->GetPrevStep();
 	if( pPreviousStep ){ fStepStartTime = pPreviousStep->GetEndTime(); }
 
 	EOSAI::UnitPathwayResultStep* pResultStep = GetResultStep();
@@ -478,7 +478,7 @@ float CEOSAIUnit2PathwayPredefinedStep::GetGroundUnitTimeToPickupLocation() //Ge
 }
 */
 /*
-float CEOSAIUnit2PathwayPredefinedStep::GetGroundUnitWaitTimeAtPickupLocation()
+float CEOSAIUnitPathwayPredefinedStep::GetGroundUnitWaitTimeAtPickupLocation()
 {
 	CUnitTemplate* pUnitTemplate = this->GetAIUnitPathwayFinder()->GetUnitTemplate();
 	ASSERT( this->GetAIUnitPathwayFinder()->GetUnitTemplate()->IsGroundUnit() );
@@ -486,13 +486,13 @@ float CEOSAIUnit2PathwayPredefinedStep::GetGroundUnitWaitTimeAtPickupLocation()
 	ASSERT( this->m_pTransportToUse );
 
 	float fGroundUnitArrivalTime = GetGroundUnitTimeToPickupLocation();
-	CEOSAIUnit2PathwayPredefinedStep* pTransportPickupStep = m_pTransportToUse->GetAIUnitPathwayFinder()->GetTransportPickupStep( this );
+	CEOSAIUnitPathwayPredefinedStep* pTransportPickupStep = m_pTransportToUse->GetAIUnitPathwayFinder()->GetTransportPickupStep( this );
 	float fTransportArrivalTime = pTransportPickupStep->GetTransportTimeToPickupLocation();
 
 	return fTransportArrivalTime - fGroundUnitArrivalTime;
 	/-*
 	float fStepStartTime = this->GetAIUnitPathwayFinder()->GetStartTime();
-	CEOSAIUnit2PathwayPredefinedStep* pPreviousStep = this->GetPrevStep();
+	CEOSAIUnitPathwayPredefinedStep* pPreviousStep = this->GetPrevStep();
 	if( pPreviousStep ){ fStepStartTime = pPreviousStep->GetEndTime(); }
 
 	EOSAI::UnitPathwayResultStep* pResultStep = GetResultStep();
@@ -504,7 +504,7 @@ float CEOSAIUnit2PathwayPredefinedStep::GetGroundUnitWaitTimeAtPickupLocation()
 	*-/
 }
 */
-void  CEOSAIUnit2PathwayPredefinedStep::InvokeImaginaryTransportPath()
+void  CEOSAIUnitPathwayPredefinedStep::InvokeImaginaryTransportPath()
 {
 	CEOSAIUnitTemplate* pUnitTemplate = GetAIUnitPathwayFinder()->GetAIUnitTemplate();
 	bool bRequiresTransport = this->RequiresTransport();
@@ -610,14 +610,14 @@ void  CEOSAIUnit2PathwayPredefinedStep::InvokeImaginaryTransportPath()
 	}
 }
 
-void  CEOSAIUnit2PathwayPredefinedStep::AvoidDangerousPathways( bool b )
+void  CEOSAIUnitPathwayPredefinedStep::AvoidDangerousPathways( bool b )
 {
 	if( m_bAvoidDangerousPathways == b ) return; // Nothing changed
 	m_bAvoidDangerousPathways = b;
 	ClearCachedMapData();
 }
 /*
-CEOSAILocation CEOSAIUnit2PathwayPredefinedStep::GetSubStepEndLocation( long iSubStep )
+CEOSAILocation CEOSAIUnitPathwayPredefinedStep::GetSubStepEndLocation( long iSubStep )
 {
 	if( m_eTask == enum_Transport )
 	{
@@ -627,7 +627,7 @@ CEOSAILocation CEOSAIUnit2PathwayPredefinedStep::GetSubStepEndLocation( long iSu
 	return m_EndLocation;
 }
 */
-void  CEOSAIUnit2PathwayPredefinedStep::GotoWaypoint( CEOSAILocation WaypointLocation )
+void  CEOSAIUnitPathwayPredefinedStep::GotoWaypoint( CEOSAILocation WaypointLocation )
 {
 	ASSERT( m_eTask == enum_Undefined );
 	m_eTask = enum_Waypoint;
@@ -635,7 +635,7 @@ void  CEOSAIUnit2PathwayPredefinedStep::GotoWaypoint( CEOSAILocation WaypointLoc
 	ClearCachedMapData();
 }
 /*
-void  CEOSAIUnit2PathwayPredefinedStep::Attack( CEOSAIPoiObject* pAITarget )
+void  CEOSAIUnitPathwayPredefinedStep::Attack( CEOSAIPoiObject* pAITarget )
 {
 	ASSERT( m_eTask == enum_Undefined );
 	m_eTask = enum_AttackUnit;
@@ -644,7 +644,7 @@ void  CEOSAIUnit2PathwayPredefinedStep::Attack( CEOSAIPoiObject* pAITarget )
 	ClearCachedMapData();
 }
 
-void  CEOSAIUnit2PathwayPredefinedStep::CaptureCitRes( CEOSAIPoiObject* pAITarget )
+void  CEOSAIUnitPathwayPredefinedStep::CaptureCitRes( CEOSAIPoiObject* pAITarget )
 {
 	ASSERT( m_eTask == enum_Undefined );
 	m_eTask = enum_CaptureCitRes;
@@ -653,7 +653,7 @@ void  CEOSAIUnit2PathwayPredefinedStep::CaptureCitRes( CEOSAIPoiObject* pAITarge
 	ClearCachedMapData();
 }
 */
-void  CEOSAIUnit2PathwayPredefinedStep::BuildAirfield( CEOSAILocation BuildLocation )
+void  CEOSAIUnitPathwayPredefinedStep::BuildAirfield( CEOSAILocation BuildLocation )
 {
 	ASSERT( m_eTask == enum_Undefined );
 	m_eTask = enum_BuildAirfield;
@@ -661,35 +661,35 @@ void  CEOSAIUnit2PathwayPredefinedStep::BuildAirfield( CEOSAILocation BuildLocat
 	ClearCachedMapData();
 }
 /*
-void  CEOSAIUnit2PathwayPredefinedStep::Pickup( CEOSAIPoiObject* pAIPoiObjectToPickup, CEOSAILocation TransportEndLocation )
+void  CEOSAIUnitPathwayPredefinedStep::Pickup( CEOSAIPoiObject* pAIPoiObjectToPickup, CEOSAILocation TransportEndLocation )
 {
 	//pStep->Pickup( pAIUnitToPickup, OtherUnitLocation );
-	m_eTask = CEOSAIUnit2PathwayPredefinedStep::enum_PickupTarget;
+	m_eTask = CEOSAIUnitPathwayPredefinedStep::enum_PickupTarget;
 	m_pAITarget = pAIUnitToPickup;
 	m_EndLocation = TransportEndLocation;
 }
 
-void  CEOSAIUnit2PathwayPredefinedStep::Dropoff( CEOSAIPoiObject* pAIPoiObjectToDropoff, CEOSAILocation TransporteeEndLocation )
+void  CEOSAIUnitPathwayPredefinedStep::Dropoff( CEOSAIPoiObject* pAIPoiObjectToDropoff, CEOSAILocation TransporteeEndLocation )
 {
 	//pStep->Pickup( pAIUnitToPickup, OtherUnitLocation );
-	m_eTask = CEOSAIUnit2PathwayPredefinedStep::enum_DropoffTarget;
+	m_eTask = CEOSAIUnitPathwayPredefinedStep::enum_DropoffTarget;
 	m_pAITarget = pAIPoiObjectToDropoff;
 	m_EndLocation = TransporteeEndLocation;
 }
 */
 /*
-void  CEOSAIUnit2PathwayPredefinedStep::Transport( CEOSAIPoiObject* pAITransportee, CEOSAILocation TransporteeStartLocation, CEOSAILocation TransporteeEndLocation )
+void  CEOSAIUnitPathwayPredefinedStep::Transport( CEOSAIPoiObject* pAITransportee, CEOSAILocation TransporteeStartLocation, CEOSAILocation TransporteeEndLocation )
 {
-	m_eTask = CEOSAIUnit2PathwayPredefinedStep::enum_Transport;
+	m_eTask = CEOSAIUnitPathwayPredefinedStep::enum_Transport;
 	m_pAITarget = pAITransportee;
 	m_TransporteeStartLocation = TransporteeStartLocation;
 	m_TransporteeEndLocation = TransporteeEndLocation;
 	ClearCachedMapData();
 }
 */
-void  CEOSAIUnit2PathwayPredefinedStep::Pickup( CEOSAIUnit2PathwayPredefinedStep* pTransporteeStep )
+void  CEOSAIUnitPathwayPredefinedStep::Pickup( CEOSAIUnitPathwayPredefinedStep* pTransporteeStep )
 {
-	m_eTask = CEOSAIUnit2PathwayPredefinedStep::enum_PickupTarget;
+	m_eTask = CEOSAIUnitPathwayPredefinedStep::enum_PickupTarget;
 	m_pAITarget = pTransporteeStep->GetAIUnitPathwayFinder()->GetAIPoiObjectActor();
 	m_pTransporteeStep = pTransporteeStep;
 	pTransporteeStep->m_pTransportPickupStep = this;
@@ -723,9 +723,9 @@ void  CEOSAIUnit2PathwayPredefinedStep::Pickup( CEOSAIUnit2PathwayPredefinedStep
 	ClearCachedMapData();
 }
 
-void  CEOSAIUnit2PathwayPredefinedStep::Dropoff( CEOSAIUnit2PathwayPredefinedStep* pTransporteeStep )
+void  CEOSAIUnitPathwayPredefinedStep::Dropoff( CEOSAIUnitPathwayPredefinedStep* pTransporteeStep )
 {
-	m_eTask = CEOSAIUnit2PathwayPredefinedStep::enum_DropoffTarget;
+	m_eTask = CEOSAIUnitPathwayPredefinedStep::enum_DropoffTarget;
 	m_pAITarget = pTransporteeStep->GetAIUnitPathwayFinder()->GetAIPoiObjectActor();
 	m_pTransporteeStep = pTransporteeStep;
 	pTransporteeStep->m_pTransportDropoffStep = this;
@@ -760,9 +760,9 @@ void  CEOSAIUnit2PathwayPredefinedStep::Dropoff( CEOSAIUnit2PathwayPredefinedSte
 }
 
 /*
-void  CEOSAIUnit2PathwayPredefinedStep::Transport( CEOSAIUnit2PathwayPredefinedStep* pAITransporteePredefinedStep )
+void  CEOSAIUnitPathwayPredefinedStep::Transport( CEOSAIUnitPathwayPredefinedStep* pAITransporteePredefinedStep )
 {
-	m_eTask = CEOSAIUnit2PathwayPredefinedStep::enum_Transport;
+	m_eTask = CEOSAIUnitPathwayPredefinedStep::enum_Transport;
 	m_pAITarget = pAITransporteePredefinedStep->GetAIUnitPathwayFinder()->GetAIPoiObjectActor();
 	m_TransporteeStartLocation = pAITransporteePredefinedStep->m_StartLocation; //TransporteeStartLocation;
 	m_TransporteeEndLocation = pAITransporteePredefinedStep->m_EndLocation; //TransporteeEndLocation;
@@ -770,7 +770,7 @@ void  CEOSAIUnit2PathwayPredefinedStep::Transport( CEOSAIUnit2PathwayPredefinedS
 }
 */
 
-void  CEOSAIUnit2PathwayPredefinedStep::LandAtAirbase( CEOSAIPoiObject* pAIAirbase )
+void  CEOSAIUnitPathwayPredefinedStep::LandAtAirbase( CEOSAIPoiObject* pAIAirbase )
 {
 	ASSERT( m_eTask == enum_Undefined );
 	m_eTask = enum_LandAtAirbase;
@@ -779,7 +779,7 @@ void  CEOSAIUnit2PathwayPredefinedStep::LandAtAirbase( CEOSAIPoiObject* pAIAirba
 	ClearCachedMapData();
 }
 
-void  CEOSAIUnit2PathwayPredefinedStep::LandAtAnyAirbase()
+void  CEOSAIUnitPathwayPredefinedStep::LandAtAnyAirbase()
 {
 	ASSERT( m_eTask == enum_Undefined );
 	m_eTask = enum_LandAtAirbase;
@@ -788,7 +788,7 @@ void  CEOSAIUnit2PathwayPredefinedStep::LandAtAnyAirbase()
 	ClearCachedMapData();
 }
 
-void  CEOSAIUnit2PathwayPredefinedStep::UpgradeAt( CEOSAIPoiObject* pAIPoiObject )
+void  CEOSAIUnitPathwayPredefinedStep::UpgradeAt( CEOSAIPoiObject* pAIPoiObject )
 {
 	ASSERT( m_eTask == enum_Undefined );
 	m_eTask = enum_Upgrade;
@@ -797,7 +797,7 @@ void  CEOSAIUnit2PathwayPredefinedStep::UpgradeAt( CEOSAIPoiObject* pAIPoiObject
 	ClearCachedMapData();
 }
 
-void  CEOSAIUnit2PathwayPredefinedStep::RepairAt( CEOSAIPoiObject* pAIPoiObject )
+void  CEOSAIUnitPathwayPredefinedStep::RepairAt( CEOSAIPoiObject* pAIPoiObject )
 {
 	ASSERT( m_eTask == enum_Undefined );
 	m_eTask = enum_Repair;
@@ -806,7 +806,7 @@ void  CEOSAIUnit2PathwayPredefinedStep::RepairAt( CEOSAIPoiObject* pAIPoiObject 
 	ClearCachedMapData();
 }
 
-void  CEOSAIUnit2PathwayPredefinedStep::RepairAnywhere()
+void  CEOSAIUnitPathwayPredefinedStep::RepairAnywhere()
 {
 	ASSERT( m_eTask == enum_Undefined );
 	m_eTask = enum_Repair;
@@ -815,34 +815,34 @@ void  CEOSAIUnit2PathwayPredefinedStep::RepairAnywhere()
 	ClearCachedMapData();
 }
 
-void  CEOSAIUnit2PathwayPredefinedStep::CaptureCitRes( CEOSAIPoiObject* pAITarget )
+void  CEOSAIUnitPathwayPredefinedStep::CaptureCitRes( CEOSAIPoiObject* pAITarget )
 {
 	ASSERT( m_eTask == enum_Undefined );
-	m_eTask = CEOSAIUnit2PathwayPredefinedStep::enum_CaptureCitRes;
+	m_eTask = CEOSAIUnitPathwayPredefinedStep::enum_CaptureCitRes;
 	m_pAITarget = pAITarget;
 	m_EndLocation = pAITarget->GetLocation();
 	ClearCachedMapData();
 }
 
-void  CEOSAIUnit2PathwayPredefinedStep::DegradeTarget( CEOSAIPoiObject* pAITarget )
+void  CEOSAIUnitPathwayPredefinedStep::DegradeTarget( CEOSAIPoiObject* pAITarget )
 {
 	ASSERT( m_eTask == enum_Undefined );
-	m_eTask = CEOSAIUnit2PathwayPredefinedStep::enum_DegradeCityOrAirfield;
+	m_eTask = CEOSAIUnitPathwayPredefinedStep::enum_DegradeCityOrAirfield;
 	m_pAITarget = pAITarget;
 	m_EndLocation = pAITarget->GetLocation();
 	ClearCachedMapData();
 }
 
-void  CEOSAIUnit2PathwayPredefinedStep::AttackUnit( CEOSAIUnit2* pAITarget )
+void  CEOSAIUnitPathwayPredefinedStep::AttackUnit( CEOSAIUnit* pAITarget )
 {
 	ASSERT( m_eTask == enum_Undefined );
-	m_eTask = CEOSAIUnit2PathwayPredefinedStep::enum_AttackUnit;
+	m_eTask = CEOSAIUnitPathwayPredefinedStep::enum_AttackUnit;
 	m_pAITarget = pAITarget;
 	m_EndLocation = pAITarget->GetLocation();
 	ClearCachedMapData();
 }
 
-CEOSAILocation  CEOSAIUnit2PathwayPredefinedStep::GetImaginaryTransportPickupLocation()
+CEOSAILocation  CEOSAIUnitPathwayPredefinedStep::GetImaginaryTransportPickupLocation()
 {
 	ASSERT( m_iImaginaryTransport_PickupWaterAIRegion > 0 );
 	CEOSAIRegion2* pPickupRegion =
@@ -850,7 +850,7 @@ CEOSAILocation  CEOSAIUnit2PathwayPredefinedStep::GetImaginaryTransportPickupLoc
 	return pPickupRegion->GetLocation();
 }
 
-CEOSAILocation  CEOSAIUnit2PathwayPredefinedStep::GetImaginaryTransportDropoffLocation()
+CEOSAILocation  CEOSAIUnitPathwayPredefinedStep::GetImaginaryTransportDropoffLocation()
 {
 	ASSERT( m_iImaginaryTransport_DropoffWaterAIRegion > 0 );
 	CEOSAIRegion2* pDropoffRegion =
@@ -858,7 +858,7 @@ CEOSAILocation  CEOSAIUnit2PathwayPredefinedStep::GetImaginaryTransportDropoffLo
 	return pDropoffRegion->GetLocation();
 }
 /*
-float CEOSAIUnit2PathwayPredefinedStep::GetImaginaryTransport_DropoffToTargetDistance()
+float CEOSAIUnitPathwayPredefinedStep::GetImaginaryTransport_DropoffToTargetDistance()
 {
 	ASSERT( m_iImaginaryTransport_DropoffWaterAIRegion > 0 );
 	CEOSAIRegion2* pDropoffRegion =
@@ -867,7 +867,7 @@ float CEOSAIUnit2PathwayPredefinedStep::GetImaginaryTransport_DropoffToTargetDis
 }
 */
 
-float CEOSAIUnit2PathwayPredefinedStep::GetStartToPickupDistance() // Using Real or Imaginary Transport
+float CEOSAIUnitPathwayPredefinedStep::GetStartToPickupDistance() // Using Real or Imaginary Transport
 {
 	if( GetRealTransport_PickupGroundAIRegion() > 0 )
 	{
@@ -883,7 +883,7 @@ float CEOSAIUnit2PathwayPredefinedStep::GetStartToPickupDistance() // Using Real
 	return 0.0f;
 }
 /*
-void  CEOSAIUnit2PathwayPredefinedStep::UpdateEndLocation() // Pickup or Dropoff Locations can change
+void  CEOSAIUnitPathwayPredefinedStep::UpdateEndLocation() // Pickup or Dropoff Locations can change
 {
 	if( m_eTask == enum_PickupTarget || m_eTask == enum_DropoffTarget )
 	{
@@ -891,7 +891,7 @@ void  CEOSAIUnit2PathwayPredefinedStep::UpdateEndLocation() // Pickup or Dropoff
 	}
 }
 */
-void  CEOSAIUnit2PathwayPredefinedStep::UseTransportAndCreatePickupDropoffSteps( CEOSAIUnit2* pTransportToUse )
+void  CEOSAIUnitPathwayPredefinedStep::UseTransportAndCreatePickupDropoffSteps( CEOSAIUnit* pTransportToUse )
 {
 	if( m_pTransportToUse == pTransportToUse ) return;
 
@@ -915,7 +915,7 @@ void  CEOSAIUnit2PathwayPredefinedStep::UseTransportAndCreatePickupDropoffSteps(
 	*/
 }
 
-CEOSAILocation  CEOSAIUnit2PathwayPredefinedStep::GetRealTransportPickupLocation()
+CEOSAILocation  CEOSAIUnitPathwayPredefinedStep::GetRealTransportPickupLocation()
 {
 	if( EOSAISettings::m_bAssertWhenAIPathwayFails )
 	{
@@ -926,7 +926,7 @@ CEOSAILocation  CEOSAIUnit2PathwayPredefinedStep::GetRealTransportPickupLocation
 	return pPickupRegion->GetLocation();
 }
 
-void  CEOSAIUnit2PathwayPredefinedStep::ClearCachedMapData()
+void  CEOSAIUnitPathwayPredefinedStep::ClearCachedMapData()
 {
 	m_EndLocationToEverywhereDirectMap.Clear();
 	m_EndLocationToEverywhereDirectMapPlusCoasts.Clear();
@@ -934,54 +934,54 @@ void  CEOSAIUnit2PathwayPredefinedStep::ClearCachedMapData()
 	m_EndLocationToEverywhereByAirMap.Clear();
 }
 
-void CEOSAIUnit2PathwayPredefinedStep::ClearDirectMovementPath()
+void CEOSAIUnitPathwayPredefinedStep::ClearDirectMovementPath()
 {
 	m_bDirectRedMovementPathIsValid = false;
 	m_DirectMovementPath.RemoveAll();
 }
 
-void CEOSAIUnit2PathwayPredefinedStep::AddToDirectMovementPathTail( CEOSAIPathfinderPoint* p )
+void CEOSAIUnitPathwayPredefinedStep::AddToDirectMovementPathTail( CEOSAIPathfinderPoint* p )
 {
 	m_bDirectRedMovementPathIsValid = false;
 	m_DirectMovementPath.AddTail( p );
 }
 
-void CEOSAIUnit2PathwayPredefinedStep::ClearPreTransportMovementPath()
+void CEOSAIUnitPathwayPredefinedStep::ClearPreTransportMovementPath()
 {
 	m_bPreTransportRedMovementPathIsValid = false;
 	m_PreTransportMovementPath.RemoveAll();
 }
 
-void CEOSAIUnit2PathwayPredefinedStep::AddToPreTransportMovementPathHead( CEOSAIPathfinderPoint* p )
+void CEOSAIUnitPathwayPredefinedStep::AddToPreTransportMovementPathHead( CEOSAIPathfinderPoint* p )
 {
 	m_bPreTransportRedMovementPathIsValid = false;
 	m_PreTransportMovementPath.AddHead( p );
 }
 
-void CEOSAIUnit2PathwayPredefinedStep::ClearPostTransportMovementPath()
+void CEOSAIUnitPathwayPredefinedStep::ClearPostTransportMovementPath()
 {
 	m_bPostTransportRedMovementPathIsValid = false;
 	m_PostTransportMovementPath.RemoveAll();
 }
 
-void CEOSAIUnit2PathwayPredefinedStep::AddToPostTransportMovementPathTail( CEOSAIPathfinderPoint* p )
+void CEOSAIUnitPathwayPredefinedStep::AddToPostTransportMovementPathTail( CEOSAIPathfinderPoint* p )
 {
 	m_bPostTransportRedMovementPathIsValid = false;
 	m_PostTransportMovementPath.AddTail( p );
 }
 
-float CEOSAIUnit2PathwayPredefinedStep::GetRedMovementPath_ArrivalOffsetTimeAtPickupLocation()
+float CEOSAIUnitPathwayPredefinedStep::GetRedMovementPath_ArrivalOffsetTimeAtPickupLocation()
 {
 	return m_fRedMovementPath_ArrivalOffsetTimeAtPickupLocation;
 }
 
-float CEOSAIUnit2PathwayPredefinedStep::GetRedMovementPath_ArrivalOffsetTimeAtDropoffLocation()
+float CEOSAIUnitPathwayPredefinedStep::GetRedMovementPath_ArrivalOffsetTimeAtDropoffLocation()
 {
 	return m_fRedMovementPath_ArrivalOffsetTimeAtDropoffLocation;
 }
 
 /*
-float CEOSAIUnit2PathwayPredefinedStep::GetGroundUnitArrivalTimeAtPickupLocation()
+float CEOSAIUnitPathwayPredefinedStep::GetGroundUnitArrivalTimeAtPickupLocation()
 {
 	if( this->GetTransportToUse() )
 	{
@@ -998,12 +998,12 @@ float CEOSAIUnit2PathwayPredefinedStep::GetGroundUnitArrivalTimeAtPickupLocation
 }
 */
 /*
-float CEOSAIUnit2PathwayPredefinedStep::GetTransportArrivalTimeAtPickupLocation()
+float CEOSAIUnitPathwayPredefinedStep::GetTransportArrivalTimeAtPickupLocation()
 {
 	if( this->GetTransportToUse() )
 	{
 		GetTransportToUse()->UpdateRedPathTimingIfNecessary();
-		CEOSAIUnit2PathwayPredefinedStep* pPickupTask = GetTransportToUse()->GetPickupStep( this );
+		CEOSAIUnitPathwayPredefinedStep* pPickupTask = GetTransportToUse()->GetPickupStep( this );
 		return pPickupTask->GetRedMovementPath_ArrivalOffsetTimeAtPickupLocation();
 	}
 	if( this->IsAPickup() )
@@ -1015,12 +1015,12 @@ float CEOSAIUnit2PathwayPredefinedStep::GetTransportArrivalTimeAtPickupLocation(
 }
 */
 /*
-float CEOSAIUnit2PathwayPredefinedStep::GetTransportArrivalTimeAtDropoffLocation()
+float CEOSAIUnitPathwayPredefinedStep::GetTransportArrivalTimeAtDropoffLocation()
 {
 	if( this->GetTransportToUse() )
 	{
 		GetTransportToUse()->UpdateRedPathTimingIfNecessary();
-		CEOSAIUnit2PathwayPredefinedStep* pDropoffTask = GetTransportToUse()->GetDropoffStep( this );
+		CEOSAIUnitPathwayPredefinedStep* pDropoffTask = GetTransportToUse()->GetDropoffStep( this );
 		return pDropoffTask->GetRedMovementPath_ArrivalOffsetTimeAtDropoffLocation();
 	}
 	if( this->IsADropoff() )
@@ -1031,28 +1031,28 @@ float CEOSAIUnit2PathwayPredefinedStep::GetTransportArrivalTimeAtDropoffLocation
 	return 0.0f;
 }
 */
-void CEOSAIUnit2PathwayPredefinedStep::DeleteDirectTimedMovementPath()
+void CEOSAIUnitPathwayPredefinedStep::DeleteDirectTimedMovementPath()
 {
 	m_bDirectRedMovementPathIsValid = false;
 	while( m_DirectRedMovementPath.IsEmpty() == FALSE ){ delete m_DirectRedMovementPath.RemoveHead(); }
 }
 
-void CEOSAIUnit2PathwayPredefinedStep::DeletePreTransportTimedMovementPath()
+void CEOSAIUnitPathwayPredefinedStep::DeletePreTransportTimedMovementPath()
 {
 	m_bPreTransportRedMovementPathIsValid = false;
 	while( m_PreTransportRedMovementPath.IsEmpty() == FALSE ){ delete m_PreTransportRedMovementPath.RemoveHead(); }
 }
 
-void CEOSAIUnit2PathwayPredefinedStep::DeletePostTransportTimedMovementPath()
+void CEOSAIUnitPathwayPredefinedStep::DeletePostTransportTimedMovementPath()
 {
 	m_bPreTransportRedMovementPathIsValid = false;
 	while( m_PostTransportRedMovementPath.IsEmpty() == FALSE ){ delete m_PostTransportRedMovementPath.RemoveHead(); }
 }
 /*
-float CEOSAIUnit2PathwayPredefinedStep::GetStepStartTime()
+float CEOSAIUnitPathwayPredefinedStep::GetStepStartTime()
 {
 	float fThisStepStartTime = 0.0f;
-	CEOSAIUnit2PathwayPredefinedStep* pPrevStep = this->GetPrevStep();
+	CEOSAIUnitPathwayPredefinedStep* pPrevStep = this->GetPrevStep();
 	if( pPrevStep )
 	{
 		fThisStepStartTime = pPrevStep->GetEndTime();
@@ -1064,7 +1064,7 @@ float CEOSAIUnit2PathwayPredefinedStep::GetStepStartTime()
 	return fThisStepStartTime;
 }
 */
-void CEOSAIUnit2PathwayPredefinedStep::UpdateRedMovementPath()
+void CEOSAIUnitPathwayPredefinedStep::UpdateRedMovementPath()
 {
 	if( GetTransportToUse() )
 	{
@@ -1077,7 +1077,7 @@ void CEOSAIUnit2PathwayPredefinedStep::UpdateRedMovementPath()
 	}
 }
 /*
-void CEOSAIUnit2PathwayPredefinedStep::UpdateRedMovementPathTimingIfNecessary()
+void CEOSAIUnitPathwayPredefinedStep::UpdateRedMovementPathTimingIfNecessary()
 {
 	UpdateRedMovementPath();
 
@@ -1101,18 +1101,18 @@ void CEOSAIUnit2PathwayPredefinedStep::UpdateRedMovementPathTimingIfNecessary()
 }
 */
 /*
-void CEOSAIUnit2PathwayPredefinedStep::UpdatePathTimingIfNecessary_UptoDropoffTask( CEOSAIUnit2PathwayPredefinedStep* pGroundUnitsStep )
+void CEOSAIUnitPathwayPredefinedStep::UpdatePathTimingIfNecessary_UptoDropoffTask( CEOSAIUnitPathwayPredefinedStep* pGroundUnitsStep )
 {
 
 }
 
-float CEOSAIUnit2PathwayPredefinedStep::GetTransportsArrivalTimeAtPickupPoint( CEOSAIUnit2PathwayPredefinedStep* pGroundUnitsStep )
+float CEOSAIUnitPathwayPredefinedStep::GetTransportsArrivalTimeAtPickupPoint( CEOSAIUnitPathwayPredefinedStep* pGroundUnitsStep )
 {
 	
 }
 */
 
-void CEOSAIUnit2PathwayPredefinedStep::UpdateDirectRedMovementPath()
+void CEOSAIUnitPathwayPredefinedStep::UpdateDirectRedMovementPath()
 {
 	// Calculate the pre-transport pathway time and add the pathway to the TimedMovementPath
 	if( m_bDirectRedMovementPathIsValid == false )
@@ -1138,7 +1138,7 @@ void CEOSAIUnit2PathwayPredefinedStep::UpdateDirectRedMovementPath()
 				fCurrentOffsetTime += fAdditionalTime;
 			}
 			m_DirectRedMovementPath.AddTail(
-				new CEOSAIUnit2PathwayPredefinedStepPathStep( pCurrentPathfinderPoint, fCurrentOffsetTime ) );
+				new CEOSAIUnitPathwayPredefinedStepPathStep( pCurrentPathfinderPoint, fCurrentOffsetTime ) );
 
 			pLastPathfinderPoint = pCurrentPathfinderPoint;
 		}
@@ -1158,14 +1158,14 @@ void CEOSAIUnit2PathwayPredefinedStep::UpdateDirectRedMovementPath()
 	}
 }
 
-float CEOSAIUnit2PathwayPredefinedStep::GetRedPathEndTime( EnumEndType eEndType )
+float CEOSAIUnitPathwayPredefinedStep::GetRedPathEndTime( EnumEndType eEndType )
 {
 	// Calculate the full pathway
 	float fTime = GetAIUnitPathwayFinder()->GetStartTime();
 	POSITION pos = GetAIUnitPathwayFinder()->GetPreDefinedPath()->GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2PathwayPredefinedStep* pStep = GetAIUnitPathwayFinder()->GetPreDefinedPath()->GetNext( pos );
+		CEOSAIUnitPathwayPredefinedStep* pStep = GetAIUnitPathwayFinder()->GetPreDefinedPath()->GetNext( pos );
 		if( pStep == this && eEndType == enum_MyArrivalAtPickupLocation )
 		{
 			float fMyArrivalAtPickupLocation = 
@@ -1223,7 +1223,7 @@ float CEOSAIUnit2PathwayPredefinedStep::GetRedPathEndTime( EnumEndType eEndType 
 	return fTime;
 }
 /*
-void CEOSAIUnit2PathwayPredefinedStep::CalculateDirectRedPathTiming()
+void CEOSAIUnitPathwayPredefinedStep::CalculateDirectRedPathTiming()
 {
 	UpdateDirectRedMovementPath();
 	//float fThisStepStartTime = GetStepStartTime();
@@ -1231,7 +1231,7 @@ void CEOSAIUnit2PathwayPredefinedStep::CalculateDirectRedPathTiming()
 	//m_fStepEndTime = fThisStepStartTime + m_fDirectMovementStepTime;
 }
 */
-void CEOSAIUnit2PathwayPredefinedStep::UpdatePreTransportRedMovementPath()
+void CEOSAIUnitPathwayPredefinedStep::UpdatePreTransportRedMovementPath()
 {
 	// Calculate the pre-transport pathway time and add the pathway to the TimedMovementPath
 	if( m_bPreTransportRedMovementPathIsValid == false )
@@ -1257,7 +1257,7 @@ void CEOSAIUnit2PathwayPredefinedStep::UpdatePreTransportRedMovementPath()
 				fCurrentOffsetTime += fAdditionalTime;
 			}
 			m_PreTransportRedMovementPath.AddTail(
-				new CEOSAIUnit2PathwayPredefinedStepPathStep( pCurrentPathfinderPoint, fCurrentOffsetTime ) );
+				new CEOSAIUnitPathwayPredefinedStepPathStep( pCurrentPathfinderPoint, fCurrentOffsetTime ) );
 
 			pLastPathfinderPoint = pCurrentPathfinderPoint;
 		}
@@ -1269,7 +1269,7 @@ void CEOSAIUnit2PathwayPredefinedStep::UpdatePreTransportRedMovementPath()
 	}
 }
 /*
-void CEOSAIUnit2PathwayPredefinedStep::CalculatePreTransportRedPathTiming()
+void CEOSAIUnitPathwayPredefinedStep::CalculatePreTransportRedPathTiming()
 {
 	UpdatePreTransportRedMovementPath();
 
@@ -1281,7 +1281,7 @@ void CEOSAIUnit2PathwayPredefinedStep::CalculatePreTransportRedPathTiming()
 	//SetRedMovementPath_ArrivalTimeAtPickupLocation( m_fPreTransportMovementStepEndTime );
 }
 */
-void CEOSAIUnit2PathwayPredefinedStep::UpdatePostTransportRedMovementPath()
+void CEOSAIUnitPathwayPredefinedStep::UpdatePostTransportRedMovementPath()
 {
 	// Calculate the pre-transport pathway time and add the pathway to the TimedMovementPath
 	if( m_bPostTransportRedMovementPathIsValid == false )
@@ -1307,7 +1307,7 @@ void CEOSAIUnit2PathwayPredefinedStep::UpdatePostTransportRedMovementPath()
 				fCurrentOffsetTime += fAdditionalTime;
 			}
 			m_PostTransportRedMovementPath.AddTail(
-				new CEOSAIUnit2PathwayPredefinedStepPathStep( pCurrentPathfinderPoint, fCurrentOffsetTime ) );
+				new CEOSAIUnitPathwayPredefinedStepPathStep( pCurrentPathfinderPoint, fCurrentOffsetTime ) );
 
 			pLastPathfinderPoint = pCurrentPathfinderPoint;
 		}
@@ -1319,7 +1319,7 @@ void CEOSAIUnit2PathwayPredefinedStep::UpdatePostTransportRedMovementPath()
 	}
 }
 /*
-void CEOSAIUnit2PathwayPredefinedStep::CalculatePostTransportRedPathTiming()
+void CEOSAIUnitPathwayPredefinedStep::CalculatePostTransportRedPathTiming()
 {
 	UpdatePostTransportRedMovementPath();
 /-*
@@ -1337,7 +1337,7 @@ void CEOSAIUnit2PathwayPredefinedStep::CalculatePostTransportRedPathTiming()
 }
 */
 
-void CEOSAIUnit2PathwayPredefinedStep::GetFullRedMovementPath( float fStartTime, CList< CEOSAIUnit2PathwayPredefinedStepPathStep* >* pTimedMovementPath )
+void CEOSAIUnitPathwayPredefinedStep::GetFullRedMovementPath( float fStartTime, CList< CEOSAIUnitPathwayPredefinedStepPathStep* >* pTimedMovementPath )
 {
 	if( this->GetTransportToUse() )
 	{
@@ -1345,22 +1345,22 @@ void CEOSAIUnit2PathwayPredefinedStep::GetFullRedMovementPath( float fStartTime,
 		pos = m_PreTransportRedMovementPath.GetHeadPosition();
 		while( pos )
 		{
-			CEOSAIUnit2PathwayPredefinedStepPathStep* pStep = m_PreTransportRedMovementPath.GetNext( pos );
+			CEOSAIUnitPathwayPredefinedStepPathStep* pStep = m_PreTransportRedMovementPath.GetNext( pos );
 			pTimedMovementPath->AddTail( 
-				new CEOSAIUnit2PathwayPredefinedStepPathStep( pStep->m_pPathfinderPoint, fStartTime+pStep->m_fOffsetTime ) );
+				new CEOSAIUnitPathwayPredefinedStepPathStep( pStep->m_pPathfinderPoint, fStartTime+pStep->m_fOffsetTime ) );
 		}
 
 		float fTransporteeTime = fStartTime+m_fRedMovementPath_ArrivalOffsetTimeAtPickupLocation;
-		CEOSAIUnit2* pAIUnitTransport = GetTransportToUse();
+		CEOSAIUnit* pAIUnitTransport = GetTransportToUse();
 		ASSERT( pAIUnitTransport );
 		pAIUnitTransport->GetAIUnitPathwayFinder()->AddPickupToDropoffToTimedMovementPath( this, &fTransporteeTime, pTimedMovementPath );
 
 		pos = m_PostTransportRedMovementPath.GetHeadPosition();
 		while( pos )
 		{
-			CEOSAIUnit2PathwayPredefinedStepPathStep* pStep = m_PostTransportRedMovementPath.GetNext( pos );
+			CEOSAIUnitPathwayPredefinedStepPathStep* pStep = m_PostTransportRedMovementPath.GetNext( pos );
 			pTimedMovementPath->AddTail( 
-				new CEOSAIUnit2PathwayPredefinedStepPathStep( pStep->m_pPathfinderPoint, fTransporteeTime+pStep->m_fOffsetTime ) );
+				new CEOSAIUnitPathwayPredefinedStepPathStep( pStep->m_pPathfinderPoint, fTransporteeTime+pStep->m_fOffsetTime ) );
 			//pTimedMovementPath->AddTail( m_PostTransportRedMovementPath.GetNext( pos ) );
 		}
 	}
@@ -1369,15 +1369,15 @@ void CEOSAIUnit2PathwayPredefinedStep::GetFullRedMovementPath( float fStartTime,
 		POSITION pos = m_DirectRedMovementPath.GetHeadPosition();
 		while( pos )
 		{
-			CEOSAIUnit2PathwayPredefinedStepPathStep* pStep = m_DirectRedMovementPath.GetNext( pos );
+			CEOSAIUnitPathwayPredefinedStepPathStep* pStep = m_DirectRedMovementPath.GetNext( pos );
 			//pTimedMovementPath->AddTail( m_DirectRedMovementPath.GetNext( pos ) );
 			pTimedMovementPath->AddTail( 
-				new CEOSAIUnit2PathwayPredefinedStepPathStep( pStep->m_pPathfinderPoint, fStartTime+pStep->m_fOffsetTime ) );
+				new CEOSAIUnitPathwayPredefinedStepPathStep( pStep->m_pPathfinderPoint, fStartTime+pStep->m_fOffsetTime ) );
 		}
 	}
 }
 
-CEOSAIRegionPathwayMap*  CEOSAIUnit2PathwayPredefinedStep::InvokeEndLocationToEverywhereDirectMap()
+CEOSAIRegionPathwayMap*  CEOSAIUnitPathwayPredefinedStep::InvokeEndLocationToEverywhereDirectMap()
 {
 	//bool bRecreateMap = false;
 	//if( m_MapCache_EndLocation != m_EndLocation ){ bRecreateMap = true; }
@@ -1422,7 +1422,7 @@ CEOSAIRegionPathwayMap*  CEOSAIUnit2PathwayPredefinedStep::InvokeEndLocationToEv
 	return &m_EndLocationToEverywhereDirectMap;
 }
 
-CEOSAIRegionPathwayMap* CEOSAIUnit2PathwayPredefinedStep::InvokeEndLocationToEverywhereDirectMapPlusCoasts()
+CEOSAIRegionPathwayMap* CEOSAIUnitPathwayPredefinedStep::InvokeEndLocationToEverywhereDirectMapPlusCoasts()
 {
 	ASSERT( m_pAIUnitPathwayFinder->GetAIUnitTemplate()->IsGroundUnit() );
 
@@ -1435,7 +1435,7 @@ CEOSAIRegionPathwayMap* CEOSAIUnit2PathwayPredefinedStep::InvokeEndLocationToEve
 	return &m_EndLocationToEverywhereDirectMapPlusCoasts;
 }
 
-CEOSAIRegionPathwayMap*  CEOSAIUnit2PathwayPredefinedStep::InvokeEndLocationToEverywhereByAirMap()
+CEOSAIRegionPathwayMap*  CEOSAIUnitPathwayPredefinedStep::InvokeEndLocationToEverywhereByAirMap()
 {
 	ASSERT( m_pAIUnitPathwayFinder->GetAIUnitTemplate()->IsGroundUnit() );
 	if( m_EndLocationToEverywhereByAirMap.IsEmpty() )
@@ -1477,7 +1477,7 @@ CEOSAIRegionPathwayMap*  CEOSAIUnit2PathwayPredefinedStep::InvokeEndLocationToEv
 	return &m_EndLocationToEverywhereByAirMap;
 }
 
-CEOSAIRegionPathwayMap*  CEOSAIUnit2PathwayPredefinedStep::InvokeEndLocationToEverywhereGroundUnitAndSeaTransportMap()
+CEOSAIRegionPathwayMap*  CEOSAIUnitPathwayPredefinedStep::InvokeEndLocationToEverywhereGroundUnitAndSeaTransportMap()
 {
 	ASSERT( m_pAIUnitPathwayFinder->GetAIUnitTemplate()->IsGroundUnit() );
 	if( m_EndLocationToEverywhereGroundUnitAndSeaTransportMap.IsEmpty() )
@@ -1528,7 +1528,7 @@ CEOSAIRegionPathwayMap*  CEOSAIUnit2PathwayPredefinedStep::InvokeEndLocationToEv
 }
 
 /*
-EOSAI::UnitPathwayResultStep*  CEOSAIUnit2PathwayPredefinedStep::GetResult( EnumPathwayResultStep e )
+EOSAI::UnitPathwayResultStep*  CEOSAIUnitPathwayPredefinedStep::GetResult( EnumPathwayResultStep e )
 {
 	POSITION pos = m_PathwayResults.GetHeadPosition();
 	while( pos )
@@ -1539,7 +1539,7 @@ EOSAI::UnitPathwayResultStep*  CEOSAIUnit2PathwayPredefinedStep::GetResult( Enum
 	return NULL;
 }
 
-void  CEOSAIUnit2PathwayPredefinedStep::AddResult( EOSAI::UnitPathwayResultStep* pResultStep )
+void  CEOSAIUnitPathwayPredefinedStep::AddResult( EOSAI::UnitPathwayResultStep* pResultStep )
 {
 	// Check if it already exists in the list
 	ASSERT( pResultStep->m_ePathType != enum_Undefined );
@@ -1550,7 +1550,7 @@ void  CEOSAIUnit2PathwayPredefinedStep::AddResult( EOSAI::UnitPathwayResultStep*
 }
 */
 /*
-CAITransportPossibility*  CEOSAIUnit2PathwayPredefinedStep::GetTransportPossibilityShortestTime()
+CAITransportPossibility*  CEOSAIUnitPathwayPredefinedStep::GetTransportPossibilityShortestTime()
 {
 	CAITransportPossibility* pBestAITransportPossibility = NULL;
 	POSITION pos = m_AITransportPossibility.GetHeadPosition();
@@ -1570,7 +1570,7 @@ CAITransportPossibility*  CEOSAIUnit2PathwayPredefinedStep::GetTransportPossibil
 }
 */
 /*
-CAITransportTemplatePathway* CEOSAIUnit2PathwayPredefinedStep::GetDropoffToPickupMap( CUnitTemplate* pTransportUnitTemplate, bool bSneakAttackPathway )
+CAITransportTemplatePathway* CEOSAIUnitPathwayPredefinedStep::GetDropoffToPickupMap( CUnitTemplate* pTransportUnitTemplate, bool bSneakAttackPathway )
 {
 	POSITION pos = m_SeaRoutes_DropoffToPickup.GetHeadPosition();
 	while( pos )

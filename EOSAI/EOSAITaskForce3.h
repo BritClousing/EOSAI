@@ -14,16 +14,16 @@
 #include "EOSAIPublic.h"
 class CEOSAIPoiObject;
 class CEOSAIJobsToDo;
-//class CEOSAIUnit2;
+//class CEOSAIUnit;
 class CEOSAIPoiObject;
-class CEOSAIUnit2;
+class CEOSAIUnit;
 class CEOSAICity;
 class CEOSAIUnitTemplate;
-class CEOSAIUnit2ActionIdea;
+class CEOSAIUnitActionIdea;
 class CEOSAICity;
 //class CEOSAICityActionIdeaNode;
 class CEOSAIJobCapability;
-class CEOSAIUnit2ActionStack;
+class CEOSAIUnitActionStack;
 class CEOSAIBrain;
 class CEOSAIMathFunction;
 class CAITacticalProjectStrategy;
@@ -177,7 +177,7 @@ class CEOSAITaskForce3
 		//
 		// UnitActionStack
 		//
-			CEOSAIUnit2ActionStack*  GetUnitActionStack(){ return &m_UnitActionStack; }
+			CEOSAIUnitActionStack*  GetUnitActionStack(){ return &m_UnitActionStack; }
 
 		// Result
 		//   Note: The task force is allowed to negotiate for extra units - like transports
@@ -235,7 +235,7 @@ class CEOSAITaskForce3
 		bool  TryInsertingOneBuildActionIntoStack();
 		void  GetCityBuildArrivalTimes( CEOSAIUnitTemplate* pUnitTemplate, CList< CEOSAICityAndTime >* pCityUnitTemplateTimeList );
 
-		void  SimpleCalc_SetSuggestedTransport( CEOSAIUnit2ActionStackItem* pUnitStackItem );//CEOSAIUnit2ActionIdea* pUnitActionIdea );
+		void  SimpleCalc_SetSuggestedTransport( CEOSAIUnitActionStackItem* pUnitStackItem );//CEOSAIUnitActionIdea* pUnitActionIdea );
 		void  OptimizeTransportAndGroundUnitMatchup();
 
 		//
@@ -263,13 +263,13 @@ class CEOSAITaskForce3
 			void  CalculateEnemyUnitCount();
 			long  m_iNumberOfPlayer0Units; // Calculated
 			long  m_iNumberOfPlayerNUnits; // Calculated
-			CList< CEOSAIUnit2* >  m_TargetUnitsList;  // All PlayerN units + one Player0 units
+			CList< CEOSAIUnit* >  m_TargetUnitsList;  // All PlayerN units + one Player0 units
 			//CList< CUnit* >  m_MinimalTargetUnitsList;  // All PlayerN units + one Player0 units
 			//CList< CUnit* >  m_CompleteTargetUnitsList; // All PlayerN units + all Player0 units
 
 		// Unit Action Stack
 		//
-			CEOSAIUnit2ActionStack  m_UnitActionStack;
+			CEOSAIUnitActionStack  m_UnitActionStack;
 
 			// Scoring Functions
 			CEOSAIMathFunction  m_TimeValueFunction;

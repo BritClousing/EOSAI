@@ -49,7 +49,7 @@ void  EOSAI::UnitPathwayResult::Clear()
 	while( m_Steps.IsEmpty() == FALSE ){ delete m_Steps.RemoveHead(); }
 }
 
-void EOSAI::UnitPathwayResult::UseTransport( CEOSAIUnit2* pAITransport )
+void EOSAI::UnitPathwayResult::UseTransport( CEOSAIUnit* pAITransport )
 {
 	// I should try to insert pickup/dropoff tasks into the Results
 	ASSERT( pAITransport->CanContain_IgnoreForeignRelations( m_pAIUnitPathwayFinder->GetAIUnitTemplate() ) );
@@ -91,7 +91,7 @@ bool  EOSAI::UnitPathwayResult::CreateOrders()
 	//CWorldDescServer* pWorldDescServer = m_pAIUnitPathwayFinder->GetAIBrain()->GetWorldDescServer();
 	//CWorldDescPlayerProxy* pWorldDescPlayerProxy = m_pAIUnitPathwayFinder->GetAIBrain()->GetWorldDescPlayerProxy();
 
-	CEOSAIUnit2* pAIUnitActor = m_pAIUnitPathwayFinder->GetAIUnitActor();//>GetAIPoiObjectActor();
+	CEOSAIUnit* pAIUnitActor = m_pAIUnitPathwayFinder->GetAIUnitActor();//>GetAIPoiObjectActor();
 	//EOSAI::UnitPathwayResult* pPath = &m_SimpleRoute;
 	//CEOSAIBrain* pAIBrain = pAIUnitActor->GetAIBrain();
 	//long iAIPlayer = pAIBrain->GetAIPlayerNumber();
@@ -99,9 +99,9 @@ bool  EOSAI::UnitPathwayResult::CreateOrders()
 
 	ASSERT( m_pAIUnitPathwayFinder->GetStartLocation() == pAIUnitActor->GetInitialState()->GetLocation() );
 
-	//CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( m_pActor );
+	//CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( m_pActor );
 	//if( m_pAIUnitActor == NULL ) return;
-	CEOSAIUnit2* pUnit = pAIUnitActor;//->GetServerUnit();
+	CEOSAIUnit* pUnit = pAIUnitActor;//->GetServerUnit();
 	if( pUnit == NULL ) return false;
 	pUnit->DeleteOrders();
 
@@ -156,7 +156,7 @@ bool  EOSAI::UnitPathwayResult::CreateOrders()
 	POSITION pos = m_Steps.GetHeadPosition();
 	while( pos )
 	{
-		//CEOSAIUnit2PathwayPredefinedStep* pPredefinedStep = m_Steps.GetNext( pos );
+		//CEOSAIUnitPathwayPredefinedStep* pPredefinedStep = m_Steps.GetNext( pos );
 		EOSAI::UnitPathwayResultStep* pResultStep = m_Steps.GetNext( pos );
 
 		bool bSimultaneousArrival = false;
@@ -189,13 +189,13 @@ bool  EOSAI::UnitPathwayResult::CreateOrders()
 			pResultStep->m_pPredefinedStep->GetTransportToUse() )
 		{
 			// Make sure this transport has setup its orders
-			CEOSAIUnit2* pAITransport = pResultStep->m_pPredefinedStep->GetTransportToUse();
+			CEOSAIUnit* pAITransport = pResultStep->m_pPredefinedStep->GetTransportToUse();
 			pAITransport->GetAIUnitPathwayFinder()->CreateOrders();
 
 			bool bUsingHypotheticalTransport = false;
 			CEOSAILocation TransporteePickupLocation;
 			//
-			CEOSAIUnit2PathwayPredefinedStep* pPredefinedTransportPickupStep = pAITransport->GetAIUnitPathwayFinder()->GetTransportPickupStep( pResultStep->m_pPredefinedStep );
+			CEOSAIUnitPathwayPredefinedStep* pPredefinedTransportPickupStep = pAITransport->GetAIUnitPathwayFinder()->GetTransportPickupStep( pResultStep->m_pPredefinedStep );
 			EOSAI::UnitPathwayResultStep* pResultTransportPickupStep = NULL;
 			CUnitOrder* pTransportPickupOrder = NULL;
 			if( pPredefinedTransportPickupStep ) // Not all transport tasks have a 'pickup'
@@ -216,7 +216,7 @@ bool  EOSAI::UnitPathwayResult::CreateOrders()
 				}
 			}
 
-			CEOSAIUnit2PathwayPredefinedStep* pPredefinedTransportDropoffStep = pAITransport->GetAIUnitPathwayFinder()->GetTransportDropoffStep( pResultStep->m_pPredefinedStep );
+			CEOSAIUnitPathwayPredefinedStep* pPredefinedTransportDropoffStep = pAITransport->GetAIUnitPathwayFinder()->GetTransportDropoffStep( pResultStep->m_pPredefinedStep );
 			if( Public::m_bAssertWhenAIPathwayFails )
 			{
 				ASSERT( pPredefinedTransportDropoffStep );
@@ -237,7 +237,7 @@ bool  EOSAI::UnitPathwayResult::CreateOrders()
 			// Given a WaterAIRegion and a LandAIRegion, return Water and Land Locations for Pickup/Dropoff
 			/*
 			CEOSAILocation WaterLocation, LandLocation;
-			CEOSAIUnit2PathwayFinder::FindPickupDropoffLocations( 
+			CEOSAIUnitPathwayFinder::FindPickupDropoffLocations( 
 				pPredefinedTransportPickupStep->GetRealTransport_PickupWaterAIRegion(),
 				pPredefinedTransportPickupStep->GetRealTransport_PickupLandAIRegion(),
 				&WaterLocation, &LandLocation );
@@ -349,20 +349,20 @@ bool  EOSAI::UnitPathwayResult::CreateOrders()
 			}
 			CList< EOSAI::UnitPathwayResultStep* >* pResults = &m_pAIUnitPathwayFinder->GetResultPath()->m_Steps;
 			int g=0;
-			CList< CEOSAIUnit2PathwayPredefinedStep* >* pPredefinedList = m_pAIUnitPathwayFinder->GetPreDefinedPath();
+			CList< CEOSAIUnitPathwayPredefinedStep* >* pPredefinedList = m_pAIUnitPathwayFinder->GetPreDefinedPath();
 			int g2=0;
 		}
 		#endif _DEBUG
-		//CEOSAIUnit2PathwayPredefinedStep* pPoint = pResultStep->m_pPredefinedStep;
-		//CEOSAIUnit2PathwayPredefinedStep* pPredefinedStep = pResultStep->m_pPredefinedStep;
+		//CEOSAIUnitPathwayPredefinedStep* pPoint = pResultStep->m_pPredefinedStep;
+		//CEOSAIUnitPathwayPredefinedStep* pPredefinedStep = pResultStep->m_pPredefinedStep;
 		CWorldDescBase* pDEBUG_WorldDesc = pUnit->GetWorldDesc();
 
 		/*
-		CEOSAIUnit2PathwayFinder* pPathwayFinder = m_pAIUnitPathwayFinder;
+		CEOSAIUnitPathwayFinder* pPathwayFinder = m_pAIUnitPathwayFinder;
 		POSITION pos3 = pPathwayFinder->GetPreDefinedPath()->GetHeadPosition();
 		while( pos3 )
 		{
-			CEOSAIUnit2PathwayPredefinedStep* p = pPathwayFinder->GetPreDefinedPath()->GetNext( pos3 );
+			CEOSAIUnitPathwayPredefinedStep* p = pPathwayFinder->GetPreDefinedPath()->GetNext( pos3 );
 			int g=0;
 		}
 		*/
@@ -469,7 +469,7 @@ bool  EOSAI::UnitPathwayResult::CreateOrders()
 			}
 		}
 
-		CEOSAIUnit2PathwayPredefinedStep* pPredefinedStep = pResultStep->m_pPredefinedStep;
+		CEOSAIUnitPathwayPredefinedStep* pPredefinedStep = pResultStep->m_pPredefinedStep;
 		//if( pUnit->GetObjectId() == 232 &&
 		//	pResultStep->m_eTask == EOSAI::UnitPathwayResultStep::enum_Dropoff )
 		//{

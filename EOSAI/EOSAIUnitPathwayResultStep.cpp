@@ -56,38 +56,38 @@ EOSAI::UnitPathwayResultStep::~UnitPathwayResultStep()
 	int g=0;
 }
 
-CEOSAIUnit2PathwayFinder*  EOSAI::UnitPathwayResultStep::GetAIUnitPathwayFinder()
+CEOSAIUnitPathwayFinder*  EOSAI::UnitPathwayResultStep::GetAIUnitPathwayFinder()
 {
 	return m_pResult->m_pAIUnitPathwayFinder;
 }
 
-void  EOSAI::UnitPathwayResultStep::SetPredefinedStep( CEOSAIUnit2PathwayPredefinedStep* pPredefinedStep )
+void  EOSAI::UnitPathwayResultStep::SetPredefinedStep( CEOSAIUnitPathwayPredefinedStep* pPredefinedStep )
 {
 	m_pPredefinedStep = pPredefinedStep;
 
 	m_StartLocation = pPredefinedStep->GetStartLocation();
 	m_EndLocation = pPredefinedStep->GetEndLocation();
 
-	if(      m_pPredefinedStep->GetTask() == CEOSAIUnit2PathwayPredefinedStep::enum_Waypoint ){ m_eTask = enum_Waypoint; }
-	else if( m_pPredefinedStep->GetTask() == CEOSAIUnit2PathwayPredefinedStep::enum_LandAtAirbase ){ m_eTask = enum_LandAtAirbase; }
+	if(      m_pPredefinedStep->GetTask() == CEOSAIUnitPathwayPredefinedStep::enum_Waypoint ){ m_eTask = enum_Waypoint; }
+	else if( m_pPredefinedStep->GetTask() == CEOSAIUnitPathwayPredefinedStep::enum_LandAtAirbase ){ m_eTask = enum_LandAtAirbase; }
 	//
-	else if( m_pPredefinedStep->GetTask() == CEOSAIUnit2PathwayPredefinedStep::enum_BuildAirfield ){ m_eTask = enum_BuildAirfield; }
-	else if( m_pPredefinedStep->GetTask() == CEOSAIUnit2PathwayPredefinedStep::enum_Repair ){ m_eTask = enum_Repair; }
-	else if( m_pPredefinedStep->GetTask() == CEOSAIUnit2PathwayPredefinedStep::enum_Upgrade ){ m_eTask = enum_Upgrade; }
+	else if( m_pPredefinedStep->GetTask() == CEOSAIUnitPathwayPredefinedStep::enum_BuildAirfield ){ m_eTask = enum_BuildAirfield; }
+	else if( m_pPredefinedStep->GetTask() == CEOSAIUnitPathwayPredefinedStep::enum_Repair ){ m_eTask = enum_Repair; }
+	else if( m_pPredefinedStep->GetTask() == CEOSAIUnitPathwayPredefinedStep::enum_Upgrade ){ m_eTask = enum_Upgrade; }
 	//
-	else if( m_pPredefinedStep->GetTask() == CEOSAIUnit2PathwayPredefinedStep::enum_AttackUnit ){ m_eTask = enum_AttackUnit; }
-	else if( m_pPredefinedStep->GetTask() == CEOSAIUnit2PathwayPredefinedStep::enum_CaptureCitRes ){ m_eTask = enum_CaptureCitRes; }
-	else if( m_pPredefinedStep->GetTask() == CEOSAIUnit2PathwayPredefinedStep::enum_DegradeCityOrAirfield ){ m_eTask = enum_DegradeCityOrAirfield; }
+	else if( m_pPredefinedStep->GetTask() == CEOSAIUnitPathwayPredefinedStep::enum_AttackUnit ){ m_eTask = enum_AttackUnit; }
+	else if( m_pPredefinedStep->GetTask() == CEOSAIUnitPathwayPredefinedStep::enum_CaptureCitRes ){ m_eTask = enum_CaptureCitRes; }
+	else if( m_pPredefinedStep->GetTask() == CEOSAIUnitPathwayPredefinedStep::enum_DegradeCityOrAirfield ){ m_eTask = enum_DegradeCityOrAirfield; }
 	//
 	/*
-	else if( m_pPredefinedStep->GetTask() == CEOSAIUnit2PathwayPredefinedStep::enum_Transport )
+	else if( m_pPredefinedStep->GetTask() == CEOSAIUnitPathwayPredefinedStep::enum_Transport )
 	{
 		// This task gets split into Pickup + Dropoff
 		ASSERT( false );
 	}
 	*/
-	else if( m_pPredefinedStep->GetTask() == CEOSAIUnit2PathwayPredefinedStep::enum_PickupTarget ){ m_eTask = enum_Pickup; }
-	else if( m_pPredefinedStep->GetTask() == CEOSAIUnit2PathwayPredefinedStep::enum_DropoffTarget ){ m_eTask = enum_Dropoff; }
+	else if( m_pPredefinedStep->GetTask() == CEOSAIUnitPathwayPredefinedStep::enum_PickupTarget ){ m_eTask = enum_Pickup; }
+	else if( m_pPredefinedStep->GetTask() == CEOSAIUnitPathwayPredefinedStep::enum_DropoffTarget ){ m_eTask = enum_Dropoff; }
 	else{ ASSERT( false ); }
 
 	m_pAITarget = m_pPredefinedStep->GetAITarget();
@@ -158,7 +158,7 @@ float EOSAI::UnitPathwayResultStep::GetGroundUnitTimeToPickupLocation() //GetPic
 			// If I am a GroundUnit using a Transport, then I have to wait for the transport to move me
 			if( pResultStep->m_pPredefinedStep->GetTransportToUse() )
 			{
-				CEOSAIUnit2PathwayPredefinedStep* pTransportDropoffPredefinedStep = pResultStep->m_pPredefinedStep->GetTransportToUse()->GetAIUnitPathwayFinder()->GetTransportDropoffStep( pResultStep->m_pPredefinedStep );
+				CEOSAIUnitPathwayPredefinedStep* pTransportDropoffPredefinedStep = pResultStep->m_pPredefinedStep->GetTransportToUse()->GetAIUnitPathwayFinder()->GetTransportDropoffStep( pResultStep->m_pPredefinedStep );
 				ASSERT( pTransportDropoffPredefinedStep );
 				float fTransportDropoffEndTime = pTransportDropoffPredefinedStep->GetEndTime();
 
@@ -173,9 +173,9 @@ float EOSAI::UnitPathwayResultStep::GetGroundUnitTimeToPickupLocation() //GetPic
 			// If I am a Transport picking up a GroundUnit, then I have to wait for the GroundUnit to arrive
 			if( pResultStep->m_eTask == enum_Pickup )
 			{
-				CEOSAIUnit2PathwayPredefinedStep* pGroundUnitPredefinedStep = pResultStep->m_pPredefinedStep->GetTransporteeStep();
+				CEOSAIUnitPathwayPredefinedStep* pGroundUnitPredefinedStep = pResultStep->m_pPredefinedStep->GetTransporteeStep();
 				//float fEndTime = pGroundUnitPredefinedStep->GetRealOrEstimatedPickupTime();
-				//CEOSAIUnit2PathwayPredefinedStep*  GetTransporteeStep(){ return m_pTransporteeStep; }
+				//CEOSAIUnitPathwayPredefinedStep*  GetTransporteeStep(){ return m_pTransporteeStep; }
 				fEndTime = max( fEndTime+pResultStep->m_fStepTime, pGroundUnitPredefinedStep->GetGroundUnitTimeToPickupLocation() );
 			}
 			// Otherwise
@@ -202,7 +202,7 @@ float EOSAI::UnitPathwayResultStep::GetEndTime()
 	if( m_pPredefinedStep && m_pPredefinedStep->GetTransportToUse() )
 	{
 		// Use the transport result path - in case this is an aircraft
-		CEOSAIUnit2PathwayPredefinedStep* pTransportDropoffPredefinedStep = m_pPredefinedStep->GetTransportToUse()->GetAIUnitPathwayFinder()->GetTransportDropoffStep( m_pPredefinedStep );
+		CEOSAIUnitPathwayPredefinedStep* pTransportDropoffPredefinedStep = m_pPredefinedStep->GetTransportToUse()->GetAIUnitPathwayFinder()->GetTransportDropoffStep( m_pPredefinedStep );
 		ASSERT( pTransportDropoffPredefinedStep );
 		float fTransportDropoffEndTime = pTransportDropoffPredefinedStep->GetEndTime();
 /-*
@@ -234,7 +234,7 @@ float EOSAI::UnitPathwayResultStep::GetEndTime()
 	// If this is a transport, and I am picking-up a unit, check my arrival time and GroundUnit arrival time
 	else if( this->IsAPickup() )
 	{
-		CEOSAIUnit2PathwayPredefinedStep* pGroundUnitStep = m_pPredefinedStep->GetTransporteeStep();
+		CEOSAIUnitPathwayPredefinedStep* pGroundUnitStep = m_pPredefinedStep->GetTransporteeStep();
 		float fGroundUnitArrivalTime = pGroundUnitStep->GetGroundUnitTimeToPickupLocation();
 
 		float fTransportArrivalTime = 0.0f;
@@ -277,7 +277,7 @@ float EOSAI::UnitPathwayResultStep::GetEndTime()
 		// If I am a GroundUnit using a Transport, then I have to wait for the transport to move me
 		if( pResultStep->m_pPredefinedStep->GetTransportToUse() )
 		{
-			CEOSAIUnit2PathwayPredefinedStep* pTransportDropoffPredefinedStep = pResultStep->m_pPredefinedStep->GetTransportToUse()->GetAIUnitPathwayFinder()->GetTransportDropoffStep( pResultStep->m_pPredefinedStep );
+			CEOSAIUnitPathwayPredefinedStep* pTransportDropoffPredefinedStep = pResultStep->m_pPredefinedStep->GetTransportToUse()->GetAIUnitPathwayFinder()->GetTransportDropoffStep( pResultStep->m_pPredefinedStep );
 			ASSERT( pTransportDropoffPredefinedStep );
 			float fTransportDropoffEndTime = pTransportDropoffPredefinedStep->GetEndTime();
 
@@ -292,9 +292,9 @@ float EOSAI::UnitPathwayResultStep::GetEndTime()
 		// If I am a Transport picking up a GroundUnit, then I have to wait for the GroundUnit to arrive
 		if( pResultStep->m_eTask == enum_Pickup )
 		{
-			CEOSAIUnit2PathwayPredefinedStep* pGroundUnitPredefinedStep = pResultStep->m_pPredefinedStep->GetTransporteeStep();
+			CEOSAIUnitPathwayPredefinedStep* pGroundUnitPredefinedStep = pResultStep->m_pPredefinedStep->GetTransporteeStep();
 			//float fEndTime = pGroundUnitPredefinedStep->GetRealOrEstimatedPickupTime();
-			//CEOSAIUnit2PathwayPredefinedStep*  GetTransporteeStep(){ return m_pTransporteeStep; }
+			//CEOSAIUnitPathwayPredefinedStep*  GetTransporteeStep(){ return m_pTransporteeStep; }
 			fEndTime = max( fEndTime+pResultStep->m_fStepTime, pGroundUnitPredefinedStep->GetGroundUnitTimeToPickupLocation() );
 		}
 		// Otherwise
@@ -310,7 +310,7 @@ float EOSAI::UnitPathwayResultStep::GetEndTime()
 }
 */
 /*
-void EOSAI::UnitPathwayResultStep::UpdateWithTransportAssistedPath( CEOSAIUnit2* pAITransport )
+void EOSAI::UnitPathwayResultStep::UpdateWithTransportAssistedPath( CEOSAIUnit* pAITransport )
 {
 	// Update the result - if it exists
 	//    I put this code inside "UpdateResultStepWithTransportAssistedPath" because it requires
@@ -343,7 +343,7 @@ CEOSAILocation  EOSAI::UnitPathwayResultStep::GetGroundPickupLocation()
 {
 	//m_pPredefinedStep->GetRealTransport_PickupGroundAIRegion()
 	CEOSAILocation WaterLocation, LandLocation;
-	CEOSAIUnit2PathwayFinder::FindPickupDropoffLocations( 
+	CEOSAIUnitPathwayFinder::FindPickupDropoffLocations( 
 		m_pPredefinedStep->GetRealTransport_PickupWaterAIRegion(),
 		m_pPredefinedStep->GetRealTransport_PickupGroundAIRegion(),
 		//pTransportPickupPredefinedStep->GetRealTransport_PickupWaterAIRegion(),
@@ -353,7 +353,7 @@ CEOSAILocation  EOSAI::UnitPathwayResultStep::GetGroundPickupLocation()
 }
 
 /*
-void EOSAI::UnitPathwayResultStep::UpdateStepWithTransportAssistedPath( CEOSAIUnit2* pTransport )
+void EOSAI::UnitPathwayResultStep::UpdateStepWithTransportAssistedPath( CEOSAIUnit* pTransport )
 {
 	bool bSuccess = pTransport->GetAIUnitPathwayFinder()->UpdateTransportResultStep( this );
 	ASSERT( bSuccess );

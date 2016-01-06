@@ -8,10 +8,10 @@
 #include "EOSAILocation.h"
 class CAITacticalProject;
 class CEOSAITacticalProject2;
-class CEOSAIUnit2;
+class CEOSAIUnit;
 class CEOSAICity;
 class CEOSAIPoiObjectProximity_Unit;
-class CEOSAIUnit2PathwayIdea;
+class CEOSAIUnitPathwayIdea;
 class CAIPoiObjectStateProgressionValue;
 class CEOSAIActionOutline;
 class CEOSAIBrain;
@@ -19,23 +19,23 @@ class CEOSAIPoiObject;
 class CEOSAIMultiRegion2;
 class CUnitTemplate;
 class CEOSAIAction;
-class CEOSAIUnit2Action;
+class CEOSAIUnitAction;
 //class CMovementPathIdeas;
 class CMovementPath;
-class CEOSAIUnit2Proximity;
+class CEOSAIUnitProximity;
 class CEOSAIPoiObjectProximity2;
 class CEOSAIDesire2;
 class CEOSAITaskForce3;
-class CEOSAIUnit2PathwayFinder;
+class CEOSAIUnitPathwayFinder;
 class CEOSAIPoiObject;
-class CEOSAIUnit2ActionIdea;
+class CEOSAIUnitActionIdea;
 class CEOSAITransportAssistedPath;
 namespace EOSAI
 {
 	class UnitTask_Pickup;
 	class UnitTask_Dropoff;
 }
-class CEOSAIUnit2PathwayPredefinedStep;
+class CEOSAIUnitPathwayPredefinedStep;
 class CEOSAIDesireSpatial;
 class CEOSAIUnitTemplate;
 
@@ -55,23 +55,23 @@ class CEOSAIUnitTemplate;
 // 
 
 //
-class CEOSAIUnit2TransportMovementDesc
+class CEOSAIUnitTransportMovementDesc
 {
 	public:
-		CEOSAIUnit2TransportMovementDesc( CEOSAIUnit2* pAITransportee, CEOSAIUnit2ActionIdea* pAITransporteeUnitActionIdea );
-		~CEOSAIUnit2TransportMovementDesc();
+		CEOSAIUnitTransportMovementDesc( CEOSAIUnit* pAITransportee, CEOSAIUnitActionIdea* pAITransporteeUnitActionIdea );
+		~CEOSAIUnitTransportMovementDesc();
 
 		CEOSAIPoiObject* GetAIPoiActor();
-		//CEOSAIUnit2ActionIdea* CreateAIUnitActionIdea( CAITacticalProject* pAITacticalProject );
-		CEOSAIUnit2ActionIdea* CreateAIUnitActionIdea( CEOSAITacticalProject2* pAITacticalProject );
+		//CEOSAIUnitActionIdea* CreateAIUnitActionIdea( CAITacticalProject* pAITacticalProject );
+		CEOSAIUnitActionIdea* CreateAIUnitActionIdea( CEOSAITacticalProject2* pAITacticalProject );
 
 	//private:
-		CEOSAIUnit2*            m_pAITransportee;
-		CEOSAIUnit2ActionIdea*  m_pAITransporteeUnitActionIdea; // not owned
-		CEOSAIUnit2ActionIdea*  m_pAITransportUnitActionIdea; // owned, gets filled in by "CreateAIUnitActionIdea"
-		//CEOSAIUnit2*            m_pHypotheticalAITransportUnit; // owned
+		CEOSAIUnit*            m_pAITransportee;
+		CEOSAIUnitActionIdea*  m_pAITransporteeUnitActionIdea; // not owned
+		CEOSAIUnitActionIdea*  m_pAITransportUnitActionIdea; // owned, gets filled in by "CreateAIUnitActionIdea"
+		//CEOSAIUnit*            m_pHypotheticalAITransportUnit; // owned
 
-		CEOSAIUnit2*          m_pAITransport; // required    // optional
+		CEOSAIUnit*          m_pAITransport; // required    // optional
 		//CEOSAICity*        m_pAICity;          // optional (if I build a transport, it gets built here)
 		CEOSAIUnitTemplate*  m_pTransportAIUnitTemplate;
 
@@ -79,10 +79,10 @@ class CEOSAIUnit2TransportMovementDesc
 		float   m_fTotalTime;
 };
 
-class CEOSAIUnit2ActionIdeaTargetValue
+class CEOSAIUnitActionIdeaTargetValue
 {
 	public:
-		CEOSAIUnit2ActionIdeaTargetValue( CEOSAIUnit2ActionIdea* pAIUnitActionIdea, CEOSAIDesireSpatial* pDesire )
+		CEOSAIUnitActionIdeaTargetValue( CEOSAIUnitActionIdea* pAIUnitActionIdea, CEOSAIDesireSpatial* pDesire )
 		{
 			m_pAIUnitActionIdea = pAIUnitActionIdea;
 			m_pDesire = pDesire;
@@ -95,7 +95,7 @@ class CEOSAIUnit2ActionIdeaTargetValue
 		// Should include pathway information (for bombardment, anti-air), combat difficultly, etc
 		void  CalculateValue(); 
 
-		CEOSAIUnit2ActionIdea* m_pAIUnitActionIdea;
+		CEOSAIUnitActionIdea* m_pAIUnitActionIdea;
 		CEOSAIDesireSpatial*  m_pDesire;
 		float  m_fTimeToTarget;
 		float  m_fAttrition;
@@ -105,8 +105,8 @@ class CEOSAIUnit2ActionIdeaTargetValue
 		float  m_fTargetValue;
 };
 
-//class CEOSAIUnit2ActionIdea
-class CEOSAIUnit2ActionIdea //: public CAIPoiObjectActionIdea
+//class CEOSAIUnitActionIdea
+class CEOSAIUnitActionIdea //: public CAIPoiObjectActionIdea
 {
 	public:
 		// This is important for a number of reasons:
@@ -150,12 +150,12 @@ class CEOSAIUnit2ActionIdea //: public CAIPoiObjectActionIdea
 
 	public:
 
-		CEOSAIUnit2ActionIdea();//{ m_pTacticalProject = NULL; Clear(); }
-		//CEOSAIUnit2ActionIdea( CAITacticalProject* pTacticalProject, CEOSAIUnit2* pAIUnit );
-		CEOSAIUnit2ActionIdea( CEOSAITacticalProject2* pTacticalProject, CEOSAIUnit2* pAIUnit );
-		//CEOSAIUnit2ActionIdea( CAITacticalProject* pTacticalProject, CEOSAICity* pAICity, CUnitTemplate* pUnitTemplate );
-		CEOSAIUnit2ActionIdea( CEOSAITacticalProject2* pTacticalProject, CEOSAICity* pAICity, CEOSAIUnitTemplate* pUnitTemplate );
-		~CEOSAIUnit2ActionIdea();
+		CEOSAIUnitActionIdea();//{ m_pTacticalProject = NULL; Clear(); }
+		//CEOSAIUnitActionIdea( CAITacticalProject* pTacticalProject, CEOSAIUnit* pAIUnit );
+		CEOSAIUnitActionIdea( CEOSAITacticalProject2* pTacticalProject, CEOSAIUnit* pAIUnit );
+		//CEOSAIUnitActionIdea( CAITacticalProject* pTacticalProject, CEOSAICity* pAICity, CUnitTemplate* pUnitTemplate );
+		CEOSAIUnitActionIdea( CEOSAITacticalProject2* pTacticalProject, CEOSAICity* pAICity, CEOSAIUnitTemplate* pUnitTemplate );
+		~CEOSAIUnitActionIdea();
 		//void  SetAITacticalProject( CAITacticalProject* pTacticalProject ){ m_pTacticalProject = pTacticalProject; }
 
 		// Initialization
@@ -166,7 +166,7 @@ class CEOSAIUnit2ActionIdea //: public CAIPoiObjectActionIdea
 		// Actor
 		//
 			CEOSAIPoiObject*  GetAIPoiObjectActor();
-			CEOSAIUnit2*       GetAIUnitActor(){ return m_pAIUnitActor; } // May be NULL
+			CEOSAIUnit*       GetAIUnitActor(){ return m_pAIUnitActor; } // May be NULL
 			CEOSAICity*       GetAICityActor();//{ return m_pAICityActor; } // May be NULL
 			CEOSAIUnitTemplate* GetAIUnitTemplate(){ return m_pAIUnitTemplate; }
 			//CAITacticalProject*  GetTacticalProject(){ return m_pTacticalProject; }
@@ -180,7 +180,7 @@ class CEOSAIUnit2ActionIdea //: public CAIPoiObjectActionIdea
 			EnumActionType GetActionType(){ return m_eActionType; }
 
 			//void  Capture(){ m_eActionType = EnumActionType_Capture; }
-			void  Transport( CEOSAIUnit2* pAITransportee, CEOSAIUnit2ActionIdea* pAITransporteeUnitActionIdea ){ m_eActionType = EnumActionType_Transport; m_pAITransportee = pAITransportee; m_pAITransporteeUnitActionIdea = pAITransporteeUnitActionIdea; }
+			void  Transport( CEOSAIUnit* pAITransportee, CEOSAIUnitActionIdea* pAITransporteeUnitActionIdea ){ m_eActionType = EnumActionType_Transport; m_pAITransportee = pAITransportee; m_pAITransporteeUnitActionIdea = pAITransporteeUnitActionIdea; }
 			
 			CEOSAILocation  GetTargetLocation();
 
@@ -194,10 +194,10 @@ class CEOSAIUnit2ActionIdea //: public CAIPoiObjectActionIdea
 			bool  RequiresTransport(){ return m_bTransportRequired; }
 			//float GetBestTransportArrivalTime(){ return m_fTransportArrivalTime; }
 			//void  SetTransportArrivalTime( float f ){ m_fTransportArrivalTime = f; }
-			void  GetTransportIdeas2( EnumMovementDescFilter eFilter, CEOSAITaskForce3* pAITaskForce, CEOSAIUnit2TransportMovementDesc** pBestMovementDesc );
+			void  GetTransportIdeas2( EnumMovementDescFilter eFilter, CEOSAITaskForce3* pAITaskForce, CEOSAIUnitTransportMovementDesc** pBestMovementDesc );
 
-			CEOSAIUnit2ActionIdea*  GetAITransportUnitActionIdea(){ return m_pAITransportUnitActionIdea; }
-			void                SetAITransportUnitActionIdea( CEOSAIUnit2ActionIdea* pTransportUnitActionIdea );
+			CEOSAIUnitActionIdea*  GetAITransportUnitActionIdea(){ return m_pAITransportUnitActionIdea; }
+			void                SetAITransportUnitActionIdea( CEOSAIUnitActionIdea* pTransportUnitActionIdea );
 
 		// Task Force
 		//
@@ -224,7 +224,7 @@ class CEOSAIUnit2ActionIdea //: public CAIPoiObjectActionIdea
 			//float GetMoveToTargetTimeScore(){ return 1.0f / m_fMoveToTargetTime+0.1f; }
 
 			//float GetTimeToTargetUsingNoTransports();
-			//float GetTimeToTargetUsingTransport( CEOSAIUnit2* pAITransport );
+			//float GetTimeToTargetUsingTransport( CEOSAIUnit* pAITransport );
 			//float GetTimeToTargetUsingTransport( CEOSAIPoiObject* pAITransportOrCity );
 			//float GetTimeToTargetUsingTransport( CEOSAIPoiObjectProximity2* pAITransportOrCity );
 
@@ -270,8 +270,8 @@ class CEOSAIUnit2ActionIdea //: public CAIPoiObjectActionIdea
 		// Scheduling - I plan to use this UnitActionIdea, and have created AIActions for the Unit
 		//
 			//bool IsScheduled(){ return m_pScheduledAIUnitAction != NULL; }
-			//void SetAIUnitAction( CEOSAIUnit2Action* pScheduledAIAction ){ m_pScheduledAIUnitAction = pScheduledAIAction; }
-			//CEOSAIUnit2Action* GetAIUnitAction(){ return m_pScheduledAIUnitAction; }
+			//void SetAIUnitAction( CEOSAIUnitAction* pScheduledAIAction ){ m_pScheduledAIUnitAction = pScheduledAIAction; }
+			//CEOSAIUnitAction* GetAIUnitAction(){ return m_pScheduledAIUnitAction; }
 
 		// Desire Allocation (one of the Desires in the TacticalProject)
 		//
@@ -303,7 +303,7 @@ class CEOSAIUnit2ActionIdea //: public CAIPoiObjectActionIdea
 		//CEOSAITaskForce3*  m_pTaskForce;
 		EnumActionType    m_eActionType;
 		//CEOSAIPoiObject*   m_pActor; // always valid - might be AIUnit, might be AICity (build)
-		CEOSAIUnit2*          m_pAIUnitActor; // (valid if Unit) includes current HP information
+		CEOSAIUnit*          m_pAIUnitActor; // (valid if Unit) includes current HP information
 		//CEOSAICityActionIdeaNode*  m_pAICityActionIdeaNode; // (valid if City)
 		CEOSAICity*          m_pAICityActor; // (valid if City)
 		CEOSAIUnitTemplate*  m_pAIUnitTemplate; // (always valid) if the actor is a city, this is the build
@@ -313,8 +313,8 @@ class CEOSAIUnit2ActionIdea //: public CAIPoiObjectActionIdea
 		long   GetNumberOfDesireValues(){ return (long) m_DesireValues.GetCount(); }
 		long   GetNumberOfAvailableDesireTargets();
 		void   CreatePredefinedStep();
-		CEOSAIUnit2PathwayPredefinedStep*  GetPredefinedStep();
-		CEOSAIUnit2PathwayPredefinedStep*  m_pPredefinedStep; // not owned (ownership passed to AIUnit)
+		CEOSAIUnitPathwayPredefinedStep*  GetPredefinedStep();
+		CEOSAIUnitPathwayPredefinedStep*  m_pPredefinedStep; // not owned (ownership passed to AIUnit)
 
 		// The three pathways are used for determining if a new transport would be useful
 		//bool  ValidSingleGeoRouteExists(){ return m_bSingleGeoRouteExists; }
@@ -367,15 +367,15 @@ class CEOSAIUnit2ActionIdea //: public CAIPoiObjectActionIdea
 		//float  m_fTransportArrivalTime; // (this is just an estimate based on CrowsFlight Distance)
 		float  m_fTransportComboTime;
 
-		//CList< CEOSAIUnit2TransportMovementDesc* >  m_MultiRegionTransportMovementDescs; // owned
+		//CList< CEOSAIUnitTransportMovementDesc* >  m_MultiRegionTransportMovementDescs; // owned
 		//
 		bool   m_bMultiRegionTransportMovementDescs_Exist;
 		bool   m_bAIRegionTransportMovementDescs_Exist;
-		CList< CEOSAIUnit2TransportMovementDesc* >  m_UnitTransportMovementDescs; // owned
+		CList< CEOSAIUnitTransportMovementDesc* >  m_UnitTransportMovementDescs; // owned
 		//bool   m_bAIRegionTransportMovementDescs_Exist;
-		//CList< CEOSAIUnit2TransportMovementDesc* >  m_AIRegionTransportMovementDescs; // owned
+		//CList< CEOSAIUnitTransportMovementDesc* >  m_AIRegionTransportMovementDescs; // owned
 		//
-		CEOSAIUnit2ActionIdea*  m_pAITransportUnitActionIdea;
+		CEOSAIUnitActionIdea*  m_pAITransportUnitActionIdea;
 
 		bool   m_bFailureCondition_TargetIsNotWithinAirRange;
 
@@ -399,11 +399,11 @@ class CEOSAIUnit2ActionIdea //: public CAIPoiObjectActionIdea
 		//   Aircraft might play an attack role (to destroy units in a city), but cannot capture the CitRes
 		CEOSAIJobRole  m_JobRole;
 
-		//CList< CEOSAIUnit2Proximity* >  m_PotentialTransports;
+		//CList< CEOSAIUnitProximity* >  m_PotentialTransports;
 		//CList< CEOSAIPoiObjectProximity2* >  m_PotentialTransports;
 
 		// Pathway Ideas - sorted by value (which is based on distance, danger, transports, etc)
-		//CEOSAIListSort< CEOSAIUnit2PathwayIdea* >  m_PathwayIdeas;
+		//CEOSAIListSort< CEOSAIUnitPathwayIdea* >  m_PathwayIdeas;
 		//CEOSAIListSort< CAIPoiObjectStateProgressionValue* >  m_PathwayIdeas;
 
 		// Used by AIHypotheticalTaskForce
@@ -419,14 +419,14 @@ class CEOSAIUnit2ActionIdea //: public CAIPoiObjectActionIdea
 			EOSAI::UnitTask_Dropoff*  GetAIDropoffTask(){ return NULL; }//m_pAIUnitTask_Dropoff; }
 
 			CEOSAITransportAssistedPath*  m_pAITransportAssistedPath;
-			CEOSAIUnit2*              m_pAITransportee;
-			CEOSAIUnit2ActionIdea*    m_pAITransporteeUnitActionIdea;
+			CEOSAIUnit*              m_pAITransportee;
+			CEOSAIUnitActionIdea*    m_pAITransporteeUnitActionIdea;
 		//	EOSAI::UnitTask_Pickup*   m_pAIUnitTask_Pickup;
 		//	EOSAI::UnitTask_Dropoff*  m_pAIUnitTask_Dropoff;
 
 		// Possible Targets (out of the subset of Desires in the TacticalProject)
 		//
 			float  m_fBestTimeToTargetDesire;
-			CList< CEOSAIUnit2ActionIdeaTargetValue* >  m_DesireValues; // owned
+			CList< CEOSAIUnitActionIdeaTargetValue* >  m_DesireValues; // owned
 			CList< CEOSAIDesireSpatial* >              m_DesireAllocations; // not owned
 };

@@ -95,7 +95,7 @@ class CEOSAIBrain
 
 			//CAIObject*     GetAIObject( long iObjectId );
 			//CEOSAIPoiObject*  GetAIPoiObject( long iObjectId );
-			//CEOSAIUnit2*       GetAIUnit( long iObjectId );
+			//CEOSAIUnit*       GetAIUnit( long iObjectId );
 			//
 			//CList< CAIObject* >*     GetAIObjectList(){ return &m_AIObjectList; }
 			//CList< CEOSAIPoiObject* >*  GetAIPoiObjectList(){ return &m_AIPoiObjects; }

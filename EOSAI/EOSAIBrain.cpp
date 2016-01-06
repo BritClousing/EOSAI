@@ -85,7 +85,7 @@ extern EOSAI::CInterface* g_pEOSAIInterface;
 #include <math.h>
 
 // DEBUG
-CEOSAIUnit2* g_pAIUnit17 = NULL;
+CEOSAIUnit* g_pAIUnit17 = NULL;
 
 #ifdef _DEBUG
 #undef THIS_FILE
@@ -460,7 +460,7 @@ void CEOSAIBrain::CreateTransportCombinedAIRegionMaps()
 		while( pos2 )
 		{
 			CEOSAIPoiObject* pMyActor = pMyActors->GetNext( pos2 );
-			CEOSAIUnit2* pTransportAIUnit = dynamic_cast< CEOSAIUnit2* >( pMyActor );
+			CEOSAIUnit* pTransportAIUnit = dynamic_cast< CEOSAIUnit* >( pMyActor );
 			if( pTransportAIUnit )
 			{
 				if( pTransportAIUnit->GetAIUnitTemplate() == pTransportUnitTemplate )
@@ -589,7 +589,7 @@ void CEOSAIBrain::CreateTransportCombinedMultiRegionMaps()
 		while( pos2 )
 		{
 			CEOSAIPoiObject* pMyActor = pMyActors->GetNext( pos2 );
-			CEOSAIUnit2* pTransportAIUnit = dynamic_cast< CEOSAIUnit2* >( pMyActor );
+			CEOSAIUnit* pTransportAIUnit = dynamic_cast< CEOSAIUnit* >( pMyActor );
 			if( pTransportAIUnit )//false )//pTransportAIUnit )
 			{
 				if( pTransportAIUnit->GetAIUnitTemplate() == pTransportUnitTemplate )
@@ -2683,7 +2683,7 @@ void CEOSAIBrain::Process()
 		while( pos )
 		{
 			CEOSAIPoiObject* pAIPoiObject = m_AIPoiObjects.GetNext( pos );
-			CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+			CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 			if( pAIUnit )
 			{
 				if( pAIUnit->IsSubmarine() )
@@ -2780,7 +2780,7 @@ void CEOSAIBrain::Process()
 			// DEBUG
 			/-*
 			#ifdef _DEBUG
-			CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+			CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 			if( pAIUnit && pAIUnit->GetServerUnit() )
 			{
 				if( pAIUnit->GetObjectId() == 201 )
@@ -2794,7 +2794,7 @@ void CEOSAIBrain::Process()
 			/-*
 			if( pAIPoiObject->GetInitialState()->GetOwner() == iAIPlayer )
 			{
-				CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+				CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 				if( pAIUnit && 
 					pAIUnit->GetServerUnit() &&
 					pAIUnit->GetAIUnitPathwayFinder()->GetPreDefinedPath()->IsEmpty() )
@@ -2855,7 +2855,7 @@ void CEOSAIBrain::Process()
 			strScenarioFilename == "AITestScenario6" ) //"ScenTest2" )
 		{
 			CEOSAIPoiObject* pAIPoiObject229 = GetAIPoiObject( 229 );
-			CEOSAIUnit2* pAIUnit229 = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject229 );
+			CEOSAIUnit* pAIUnit229 = dynamic_cast< CEOSAIUnit* >( pAIPoiObject229 );
 
 			long iAIPlayer = GetAIPlayerNumber();
 			if( false ) // air unit
@@ -2864,14 +2864,14 @@ void CEOSAIBrain::Process()
 				//CEOSAICity* pAICity3 = dynamic_cast< CEOSAICity* >( pAIPoiObject3 );
 				//
 				CEOSAIPoiObject* pAIPoiObject222 = GetAIPoiObject( 222 );
-				CEOSAIUnit2* pAIUnit222 = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject222 );
+				CEOSAIUnit* pAIUnit222 = dynamic_cast< CEOSAIUnit* >( pAIPoiObject222 );
 				CEOSAIPoiObject* pAIPoiObject219 = GetAIPoiObject( 219 );
 				CEOSAICity* pAICity219 = dynamic_cast< CEOSAICity* >( pAIPoiObject219 );
 				//
 				if( pAIUnit222 && pAICity219 )
 				{
-					//CEOSAIUnit2PathwayFinder* pPathway = CEOSAIUnit2PathwayFinder::CreatePathwayFinder( pAIUnit222 );
-					CEOSAIUnit2PathwayFinder* pPathway = pAIUnit222->GetAIUnitPathwayFinder();
+					//CEOSAIUnitPathwayFinder* pPathway = CEOSAIUnitPathwayFinder::CreatePathwayFinder( pAIUnit222 );
+					CEOSAIUnitPathwayFinder* pPathway = pAIUnit222->GetAIUnitPathwayFinder();
 					pPathway->ClearPredefinedAndResultPaths();
 
 					pPathway->SetNeutralsPathwayStategy( CEOSAIRegionPathfinder::PoliteToNeutrals );
@@ -2902,14 +2902,14 @@ void CEOSAIBrain::Process()
 				//CEOSAICity* pAICity3 = dynamic_cast< CEOSAICity* >( pAIPoiObject3 );
 				//
 				CEOSAIPoiObject* pAIPoiObject225 = GetAIPoiObject( 225 );
-				CEOSAIUnit2* pAIUnit225 = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject225 );
+				CEOSAIUnit* pAIUnit225 = dynamic_cast< CEOSAIUnit* >( pAIPoiObject225 );
 				CEOSAIPoiObject* pAIPoiObject219 = GetAIPoiObject( 219 );
 				CEOSAICity* pAICity219 = dynamic_cast< CEOSAICity* >( pAIPoiObject219 );
 				//
 				if( pAIUnit225 && pAICity219 )
 				{
-					//CEOSAIUnit2PathwayFinder* pPathway = CEOSAIUnit2PathwayFinder::CreatePathwayFinder( pAIUnit225 );
-					CEOSAIUnit2PathwayFinder* pPathway = pAIUnit225->GetAIUnitPathwayFinder();
+					//CEOSAIUnitPathwayFinder* pPathway = CEOSAIUnitPathwayFinder::CreatePathwayFinder( pAIUnit225 );
+					CEOSAIUnitPathwayFinder* pPathway = pAIUnit225->GetAIUnitPathwayFinder();
 					pPathway->ClearPredefinedAndResultPaths();
 
 					pPathway->SetNeutralsPathwayStategy( CEOSAIRegionPathfinder::PoliteToNeutrals );
@@ -2937,19 +2937,19 @@ void CEOSAIBrain::Process()
 			if( false ) // the ground unit
 			{
 				CEOSAIPoiObject* pAIPoiObject221 = GetAIPoiObject( 221 );
-				CEOSAIUnit2* pAIInfantry221 = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject221 );
+				CEOSAIUnit* pAIInfantry221 = dynamic_cast< CEOSAIUnit* >( pAIPoiObject221 );
 				ASSERT( pAIInfantry221->IsGroundUnit() );
 
 				CEOSAIPoiObject* pAIPoiObject231 = GetAIPoiObject( 231 );
-				CEOSAIUnit2* pAIInfantry231 = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject231 );
+				CEOSAIUnit* pAIInfantry231 = dynamic_cast< CEOSAIUnit* >( pAIPoiObject231 );
 				ASSERT( pAIInfantry231->IsGroundUnit() );
 
 				CEOSAIPoiObject* pAIPoiObject230 = GetAIPoiObject( 230 );
-				CEOSAIUnit2* pAITransport230 = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject230 );
+				CEOSAIUnit* pAITransport230 = dynamic_cast< CEOSAIUnit* >( pAIPoiObject230 );
 				ASSERT( pAITransport230->IsTransport() );
 
 				CEOSAIPoiObject* pAIPoiObject232 = GetAIPoiObject( 232 );
-				CEOSAIUnit2* pAITransport232 = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject232 );
+				CEOSAIUnit* pAITransport232 = dynamic_cast< CEOSAIUnit* >( pAIPoiObject232 );
 				ASSERT( pAITransport232->IsTransport() );
 
 				// Land-based Iron Resource
@@ -2971,9 +2971,9 @@ void CEOSAIBrain::Process()
 					pAITransport230->GetAIUnitPathwayFinder()->ClearPredefinedAndResultPaths();
 					pAITransport232->GetAIUnitPathwayFinder()->ClearPredefinedAndResultPaths();
 
-					//CEOSAIUnit2PathwayFinder* pPathway = CEOSAIUnit2PathwayFinder::CreatePathwayFinder( pAIInfantry221 );
-					CEOSAIUnit2PathwayFinder* pInfantry221Pathway = pAIInfantry221->GetAIUnitPathwayFinder();
-					CEOSAIUnit2PathwayFinder* pInfantry231Pathway = pAIInfantry231->GetAIUnitPathwayFinder();
+					//CEOSAIUnitPathwayFinder* pPathway = CEOSAIUnitPathwayFinder::CreatePathwayFinder( pAIInfantry221 );
+					CEOSAIUnitPathwayFinder* pInfantry221Pathway = pAIInfantry221->GetAIUnitPathwayFinder();
+					CEOSAIUnitPathwayFinder* pInfantry231Pathway = pAIInfantry231->GetAIUnitPathwayFinder();
 
 					pInfantry221Pathway->SetNeutralsPathwayStategy( CEOSAIRegionPathfinder::PoliteToNeutrals );
 					pInfantry221Pathway->SetEnemiesPathwayStategy( CEOSAIRegionPathfinder::AvoidEnemyContact );
@@ -2982,11 +2982,11 @@ void CEOSAIBrain::Process()
 					//pAITransport232->GetAIUnitPathwayFinder()->SetStartTime( 5.0f );
 					//pInfantry221Pathway->SetStartTime( 5.0f );
 				//	pInfantry221Pathway->AppendStep( pInfantry221Pathway->CreateCaptureTarget( pAIRes220 ) );
-					CEOSAIUnit2PathwayPredefinedStep* pStepA = pInfantry221Pathway->CreateCaptureTarget( pAICity219 ); // Requires a transport
+					CEOSAIUnitPathwayPredefinedStep* pStepA = pInfantry221Pathway->CreateCaptureTarget( pAICity219 ); // Requires a transport
 					pInfantry221Pathway->AppendStep( pStepA );
 				//	pStepA->UseTransportAndCreatePickupDropoffSteps( pAITransport230 );
 
-		//			CEOSAIUnit2PathwayPredefinedStep* pStepB = pInfantry231Pathway->CreateCaptureTarget( pAICity219 ); // Requires a transport
+		//			CEOSAIUnitPathwayPredefinedStep* pStepB = pInfantry231Pathway->CreateCaptureTarget( pAICity219 ); // Requires a transport
 		//			pInfantry231Pathway->AppendStep( pStepB );
 				//	pStepB->UseTransportAndCreatePickupDropoffSteps( pAITransport230 );
 					//pStep2->SetTransportToUse( pAITransport229 );
@@ -3046,7 +3046,7 @@ void CEOSAIBrain::Process()
 					pos2 = pInfantry231Pathway->GetPreDefinedPath()->GetHeadPosition();
 					while( pos2 )
 					{
-						CEOSAIUnit2PathwayPredefinedStep* pStep = pInfantry231Pathway->GetPreDefinedPath()->GetNext( pos2 );
+						CEOSAIUnitPathwayPredefinedStep* pStep = pInfantry231Pathway->GetPreDefinedPath()->GetNext( pos2 );
 						float f1 = pStep->GetEndTime();
 						int g=0;
 					}
@@ -3061,7 +3061,7 @@ void CEOSAIBrain::Process()
 					pos2 = pAITransport230->GetAIUnitPathwayFinder()->GetPreDefinedPath()->GetHeadPosition();
 					while( pos2 )
 					{
-						CEOSAIUnit2PathwayPredefinedStep* pStep = pAITransport230->GetAIUnitPathwayFinder()->GetPreDefinedPath()->GetNext( pos2 );
+						CEOSAIUnitPathwayPredefinedStep* pStep = pAITransport230->GetAIUnitPathwayFinder()->GetPreDefinedPath()->GetNext( pos2 );
 						float f1 = pStep->GetEndTime();
 						int g=0;
 					}
@@ -3077,7 +3077,7 @@ void CEOSAIBrain::Process()
 					pos2 = pAITransport232->GetAIUnitPathwayFinder()->GetPreDefinedPath()->GetHeadPosition();
 					while( pos2 )
 					{
-						CEOSAIUnit2PathwayPredefinedStep* pStep = pAITransport232->GetAIUnitPathwayFinder()->GetPreDefinedPath()->GetNext( pos2 );
+						CEOSAIUnitPathwayPredefinedStep* pStep = pAITransport232->GetAIUnitPathwayFinder()->GetPreDefinedPath()->GetNext( pos2 );
 						float f1 = pStep->GetEndTime();
 						int g=0;
 					}
@@ -3102,7 +3102,7 @@ void CEOSAIBrain::Process()
 					if( pPathway->TransportNeeded() )
 					{
 						CEOSAIPoiObject* pAIPoiObject230 = GetAIPoiObject( 230 );
-						CEOSAIUnit2* pAITransport230 = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject230 );
+						CEOSAIUnit* pAITransport230 = dynamic_cast< CEOSAIUnit* >( pAIPoiObject230 );
 				//		pPathway->GetPathwayResult()->UseTransport( pAITransport230 );
 					}
 					*-/
@@ -3136,21 +3136,21 @@ void CEOSAIBrain::Process()
 			if( false ) // Sea-Unit
 			{
 				CEOSAIPoiObject* pAIPoiObject228 = GetAIPoiObject( 228 );
-				CEOSAIUnit2* pAIDreadnaught228 = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject228 );
+				CEOSAIUnit* pAIDreadnaught228 = dynamic_cast< CEOSAIUnit* >( pAIPoiObject228 );
 				CEOSAIPoiObject* pAIPoiObject224 = GetAIPoiObject( 224 );
 				CEOSAIResource* pAIRes224 = dynamic_cast< CEOSAIResource* >( pAIPoiObject224 );
 				//ASSERT( pAIUnit6 );
 				if( pAIDreadnaught228 )//&& pAIUnit6->GetUnitTemplate()->GetInternalName() == "Transport (Class 1)" )
 				{
-					//CEOSAIUnit2PathwayFinder* pPathway = CEOSAIUnit2PathwayFinder::CreatePathwayFinder( pAIUnit228 );
-					CEOSAIUnit2PathwayFinder* pPathway = pAIDreadnaught228->GetAIUnitPathwayFinder();
+					//CEOSAIUnitPathwayFinder* pPathway = CEOSAIUnitPathwayFinder::CreatePathwayFinder( pAIUnit228 );
+					CEOSAIUnitPathwayFinder* pPathway = pAIDreadnaught228->GetAIUnitPathwayFinder();
 					pAIDreadnaught228->GetAIUnitPathwayFinder()->ClearPredefinedAndResultPaths();
 
 					//CAISeaUnitPathway* pSeaPathway = dynamic_cast< CAISeaUnitPathway* >( pPathway );
 					//pSeaPathway->AddWaypoint( CEOSAILocation( Pixel,650,270 ) );
-					//pSeaPathway->SetPathwayStategy( CEOSAIUnit2PathwayFinder::PoliteToNeutrals_AvoidEnemyContact );
+					//pSeaPathway->SetPathwayStategy( CEOSAIUnitPathwayFinder::PoliteToNeutrals_AvoidEnemyContact );
 
-					//pPathway->SetNeutralsPathwayStategy( CEOSAIUnit2Pathway::PoliteToNeutrals );
+					//pPathway->SetNeutralsPathwayStategy( CEOSAIUnitPathway::PoliteToNeutrals );
 					pPathway->SetEnemiesPathwayStategy( CEOSAIRegionPathfinder::AllowSomeEnemyContact );
 					pPathway->TreatAsEnemy( 1 );
 					//pSeaPathway->SetDangerAvoidance01( 1.0f );
@@ -3181,10 +3181,10 @@ void CEOSAIBrain::Process()
 				Sleep( 10 );
 
 				CEOSAIPoiObject* pAIPoiObject7 = GetAIPoiObject( 7 );
-				CEOSAIUnit2* pAIUnit7 = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject7 );
+				CEOSAIUnit* pAIUnit7 = dynamic_cast< CEOSAIUnit* >( pAIPoiObject7 );
 				ASSERT( pAIUnit7 );
-				//CEOSAIUnit2PathwayFinder* pPathway = CEOSAIUnit2PathwayFinder::CreatePathwayFinder( pAIUnit7 );
-				CEOSAIUnit2PathwayFinder* pPathway = pAIUnit7->GetAIUnitPathwayFinder();
+				//CEOSAIUnitPathwayFinder* pPathway = CEOSAIUnitPathwayFinder::CreatePathwayFinder( pAIUnit7 );
+				CEOSAIUnitPathwayFinder* pPathway = pAIUnit7->GetAIUnitPathwayFinder();
 
 				CAIObject* pAIObject3 = GetAIObject( 3 );
 				CEOSAICity* pAICity3 = dynamic_cast< CEOSAICity* >( pAIObject3 );
@@ -3218,8 +3218,8 @@ void CEOSAIBrain::Process()
 				//
 				//CAIAirUnitPathway  AirUnitPathway( this );
 				//CAIGroundUnitPathway* pPathway = 
-				//	(CAIGroundUnitPathway*) CEOSAIUnit2Pathway::CreatePathway( pAICity1,pUnitTemplate );
-				CEOSAIUnit2PathwayFinder* pPathway = CEOSAIUnit2PathwayFinder::CreatePathwayFinder( pAICity1,pUnitTemplate );
+				//	(CAIGroundUnitPathway*) CEOSAIUnitPathway::CreatePathway( pAICity1,pUnitTemplate );
+				CEOSAIUnitPathwayFinder* pPathway = CEOSAIUnitPathwayFinder::CreatePathwayFinder( pAICity1,pUnitTemplate );
 				//AirUnitPathway.SetUnit( 1, pAICity1,pUnitTemplate );
 				//AirUnitPathway.m_pAIBrain = this;//pActor->GetAIBrain();
 				//AirUnitPathway.m_iUnitOwner = 1;
@@ -3262,8 +3262,8 @@ void CEOSAIBrain::Process()
 				//
 				//CAIAirUnitPathway  AirUnitPathway( this );
 				//CAIGroundUnitPathway* pPathway = 
-				//	(CAIGroundUnitPathway*) CEOSAIUnit2Pathway::CreatePathway( pAICity1,pUnitTemplate );
-				CEOSAIUnit2PathwayFinder* pPathway = CEOSAIUnit2PathwayFinder::CreatePathwayFinder( pAICity1,pUnitTemplate );
+				//	(CAIGroundUnitPathway*) CEOSAIUnitPathway::CreatePathway( pAICity1,pUnitTemplate );
+				CEOSAIUnitPathwayFinder* pPathway = CEOSAIUnitPathwayFinder::CreatePathwayFinder( pAICity1,pUnitTemplate );
 				//AirUnitPathway.SetUnit( 1, pAICity1,pUnitTemplate );
 				//AirUnitPathway.m_pAIBrain = this;//pActor->GetAIBrain();
 				//AirUnitPathway.m_iUnitOwner = 1;
@@ -3303,7 +3303,7 @@ void CEOSAIBrain::Process()
 				CEOSAICity* pAICity5 = dynamic_cast< CEOSAICity* >( pAIObject5 );
 				//
 
-				CEOSAIUnit2PathwayFinder* pPathway = CEOSAIUnit2PathwayFinder::CreatePathwayFinder( pAICity1,pUnitTemplate );
+				CEOSAIUnitPathwayFinder* pPathway = CEOSAIUnitPathwayFinder::CreatePathwayFinder( pAICity1,pUnitTemplate );
 				pPathway->AppendStep( pPathway->CreateDegradeTarget( pAICity5 ) );
 				pPathway->AppendALandingIfPossible(); //AppendALanding( true );
 
@@ -3425,7 +3425,7 @@ void CEOSAIBrain::Process()
 
 		/*
 		CAIObject* pAIObject17 = this->GetAIObject( 17 );
-		CEOSAIUnit2* pAIUnit17 = dynamic_cast< CEOSAIUnit2* >( pAIObject17 );
+		CEOSAIUnit* pAIUnit17 = dynamic_cast< CEOSAIUnit* >( pAIObject17 );
 		if( pAIUnit17 )
 		{
 			g_pAIUnit17 = pAIUnit17;
@@ -3466,13 +3466,13 @@ void CEOSAIBrain::Process()
 		// DEBUG: Iterate over the units, check the UnitActionValues list
 		/*
 		CAIObject* pDebugAIObject = GetAIObject( 183 );
-		CEOSAIUnit2* pDebugAIUnit = dynamic_cast< CEOSAIUnit2* >( pDebugAIObject );
+		CEOSAIUnit* pDebugAIUnit = dynamic_cast< CEOSAIUnit* >( pDebugAIObject );
 		if( pDebugAIUnit )
 		{
 			int z=0;
 		}
 		pDebugAIObject = GetAIObject( 184 );
-		pDebugAIUnit = dynamic_cast< CEOSAIUnit2* >( pDebugAIObject );
+		pDebugAIUnit = dynamic_cast< CEOSAIUnit* >( pDebugAIObject );
 		if( pDebugAIUnit )
 		{
 			int z=0;
@@ -3975,7 +3975,7 @@ void CEOSAIBrain::TurnPoiObjectsIntoAIObjects()
 		CUnit* pUnit = dynamic_cast< CUnit* >( pServerPoiObject );
 		if( pUnit )
 		{
-			CEOSAIUnit2* pAIUnit = new CEOSAIUnit2( this );
+			CEOSAIUnit* pAIUnit = new CEOSAIUnit( this );
 			pAIUnit->SetServerPoiObject( pServerPoiObject );
 			this->AddAIObject( pAIUnit );
 		}
@@ -3986,7 +3986,7 @@ void CEOSAIBrain::TurnPoiObjectsIntoAIObjects()
 	while( pos )
 	{
 		CAIObject* pAIObject = GetAIObjectList()->GetNext( pos );
-		CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIObject );
+		CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIObject );
 		if( pAIUnit )
 		{
 			pAIUnit->CreatePersonalDesires();
@@ -3998,7 +3998,7 @@ void CEOSAIBrain::TurnPoiObjectsIntoAIObjects()
 	while( pos )
 	{
 		CAIObject* pAIObject = GetAIObjectList()->GetNext( pos );
-		CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIObject );
+		CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIObject );
 		if( pAIUnit )
 		{
 			// void SetContainer( CEOSAIBrain* pAIPlan, long iContainer );
@@ -4027,7 +4027,7 @@ void CEOSAIBrain::TurnPoiObjectsIntoAIObjects()
 				}
 			}
 
-			//CEOSAIUnit2* pUnitSymbol = new CEOSAIUnit2( m_pCurrentPlan, pUnit->GetOwner(), pUnit );
+			//CEOSAIUnit* pUnitSymbol = new CEOSAIUnit( m_pCurrentPlan, pUnit->GetOwner(), pUnit );
 			//m_pCurrentPlan->AddPoiObjectSymbol( pUnitSymbol );
 		}
 	}
@@ -4196,7 +4196,7 @@ void CEOSAIBrain::CreateDesires()
 
 		CEOSAICity* pAICitySymbol = dynamic_cast< CEOSAICity* >( pAIObject );
 		CEOSAIAirfield* pAIAirfield = dynamic_cast< CEOSAIAirfield* >( pAIObject );
-		CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIObject );
+		CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIObject );
 		CEOSAIRegion2* pAIRegion = dynamic_cast< CEOSAIRegion2* >( pAIObject );
 		CEOSAIResource* pAIResource = dynamic_cast< CEOSAIResource* >( pAIObject );
 
@@ -4813,7 +4813,7 @@ void CEOSAIBrain::CreateAPlan_UsingDesiresAndActions()
 		while( pos )
 		{
 			CAIObject* pAIObject = GetAIObjectList()->GetNext( pos );
-			CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIObject );
+			CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIObject );
 			if( pAIUnit )
 			{
 				long iObjectId = pAIUnit->GetUnit()->ObjectId();
@@ -5062,7 +5062,7 @@ void CEOSAIBrain::EvaluateCurrentMilitaryCapability()
 		CEOSAIPoiObject* pAIPoiObject = m_AIPoiObjects.GetNext( pos );
 		if( pAIPoiObject )
 		{
-			CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+			CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 			if( pAIUnit )
 			{
 				// Get Unit Values
@@ -5141,7 +5141,7 @@ void CEOSAIBrain::InstanciateOrders()
 			{
 				int zz=0;
 			}
-			CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIObject );
+			CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIObject );
 			if( pAIUnit && 
 				pAIUnit->GetObjectId() == 17 &&
 				pAIUnit->GetUnitTemplate()->GetInternalName() == "Tank (Class 6)" )
@@ -5477,7 +5477,7 @@ void CEOSAIBrain::DefineDecentSeaTransportActions(
 	}
 
 	// If the unit is already inside a transport, use that transport
-	CList< CEOSAIUnit2* > TransportUnits;
+	CList< CEOSAIUnit* > TransportUnits;
 	if( pUnitToBeTransportedState->IsInsideATransport() )
 	{
 		//TransportUnits.AddTail( pUnitToBeTransportedState->GetHighestUnitContainer() );
@@ -5490,7 +5490,7 @@ void CEOSAIBrain::DefineDecentSeaTransportActions(
 		while( pos )
 		{
 			CAIObject* pAIObject = GetAIObjectList()->GetNext( pos );
-			CEOSAIUnit2* pUnitSymbol = dynamic_cast< CEOSAIUnit2* >( pAIObject );
+			CEOSAIUnit* pUnitSymbol = dynamic_cast< CEOSAIUnit* >( pAIObject );
 			if( pUnitSymbol )
 			{
 				if( pUnitSymbol->IsMine() &&
@@ -5507,7 +5507,7 @@ void CEOSAIBrain::DefineDecentSeaTransportActions(
 	POSITION pos = TransportUnits.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2* pTransportUnit = TransportUnits.GetNext( pos );
+		CEOSAIUnit* pTransportUnit = TransportUnits.GetNext( pos );
 		CEOSAILocation TransportLocation = pTransportUnit->GetFinalLocation();
 		long iTransportGeo = pTransportUnit->GetFinalGeo();
 
@@ -5632,12 +5632,12 @@ void CEOSAIBrain::DefineDecentSeaTransportActions(
 	CEOSAILocation GroundUnitLocation = pUnitToBeTransported->GetFinalLocation();
 
 	// Get a list of all the transports
-	CList< CEOSAIUnit2* > TransportUnits;
+	CList< CEOSAIUnit* > TransportUnits;
 	POSITION pos = pAIPlan->GetAIObjectList()->GetHeadPosition();
 	while( pos )
 	{
 		CAIObject* pAIObject = pAIPlan->GetAIObjectList()->GetNext( pos );
-		CEOSAIUnit2* pUnitSymbol = dynamic_cast< CEOSAIUnit2* >( pAIObject );
+		CEOSAIUnit* pUnitSymbol = dynamic_cast< CEOSAIUnit* >( pAIObject );
 		if( pUnitSymbol )
 		{
 			if( pUnitSymbol->IsMine() &&
@@ -5653,7 +5653,7 @@ void CEOSAIBrain::DefineDecentSeaTransportActions(
 	pos = TransportUnits.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2* pTransportUnit = TransportUnits.GetNext( pos );
+		CEOSAIUnit* pTransportUnit = TransportUnits.GetNext( pos );
 		CEOSAILocation TransportLocation = pTransportUnit->GetFinalLocation();
 		long iTransportGeo = pTransportUnit->GetFinalGeo();
 
@@ -5766,7 +5766,7 @@ CAIObject* CEOSAIBrain::GetAIObject( long iObjectId )
 				return pAICity;
 			}
 		}
-		CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+		CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 		if( pAIUnit )
 		{
 			if( pAIUnit->GetObjectId() == iObjectId )
@@ -5785,20 +5785,20 @@ CEOSAIPoiObject* CEOSAIBrain::GetAIPoiObject( long iObjectId )
 	return dynamic_cast< CEOSAIPoiObject* >( pAIObject );
 }
 
-CEOSAIUnit2* CEOSAIBrain::GetAIUnit( long iObjectId )
+CEOSAIUnit* CEOSAIBrain::GetAIUnit( long iObjectId )
 {
 	CAIObject* pAIObject = GetAIObject( iObjectId );
-	return dynamic_cast< CEOSAIUnit2* >( pAIObject );
+	return dynamic_cast< CEOSAIUnit* >( pAIObject );
 }
 */
 /*
-CEOSAIUnit2* CEOSAIBrain::GetAIUnit( long iOwner, CString strUnitTemplate )
+CEOSAIUnit* CEOSAIBrain::GetAIUnit( long iOwner, CString strUnitTemplate )
 {
 	POSITION pos = m_AIPoiObjects.GetHeadPosition();
 	while( pos )
 	{
 		CEOSAIPoiObject* pAIPoiObject = m_AIPoiObjects.GetNext( pos );
-		CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+		CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 		if( pAIUnit )
 		{
 			if( pAIUnit->GetOwner() == iOwner &&

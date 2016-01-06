@@ -310,7 +310,7 @@ void Interproc::UpdateSharedMemory()
 						{
 							CopyString("Unit", g_pSharedMemoryBuffer->m_CommonData_Poi[iCurrentSharedMemoryPoi].m_szPoiType );
 
-							CEOSAIUnit2* pUnit = dynamic_cast<CEOSAIUnit2*>(pPoiObject);
+							CEOSAIUnit* pUnit = dynamic_cast<CEOSAIUnit*>(pPoiObject);
 							strDesc.Format(_T("%d/%d HP"), pUnit->GetCurrentHP(), pUnit->GetAIUnitTemplate()->GetMaxHP());
 							if (g_pSharedMemoryBuffer->m_CommonData_Poi[iCurrentSharedMemoryPoi].m_iOwner > 0)
 							{
@@ -391,7 +391,7 @@ void Interproc::UpdateSharedMemory()
 						CEOSAIPoiObject* pPoiObject = g_pEOSAIInterface->GetAICommonData()->GetAIPoiObjects()->GetNext(pos);
 						if (pPoiObject->GetOwner() == iPlayer)
 						{
-							CEOSAIUnit2* pUnit = dynamic_cast<CEOSAIUnit2*>(pPoiObject);
+							CEOSAIUnit* pUnit = dynamic_cast<CEOSAIUnit*>(pPoiObject);
 							if (pUnit)
 							{
 								strTemp.Format(_T("    %s \"%s\"\n"), pUnit->GetAIUnitTemplate()->GetInternalName(), pUnit->GetName()); strStatus += strTemp;

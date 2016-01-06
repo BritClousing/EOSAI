@@ -222,14 +222,14 @@ void CAIAirUnitPathway::AddToResistance( CEOSAILocation Start, CEOSAILocation En
 	CWorldBuildDesc* pWorldBuildDesc = GetCommonState()->GetWorldBuildDesc();
 
 	// First, find all the units that can fire on my air unit
-	CList< CEOSAIUnit2* >  m_EnemyUnits;
+	CList< CEOSAIUnit* >  m_EnemyUnits;
 	POSITION pos = m_pAIBrain->GetAIPoiObjectList()->GetHeadPosition();
 	while( pos )
 	{
 		CEOSAIPoiObject* pAIPoiObject = m_pAIBrain->GetAIPoiObjectList()->GetNext( pos );
 		if( pAIPoiObject->GetForeignRelations().IsEnemy() )
 		{
-			CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+			CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 			if( pAIUnit )
 			{
 				//CEOSAIAttackVs2* pAttackVs = pAIPoiObject->GetPoiObject()->GetAttackVs( m_pAIAirUnit->GetUnit(), false );
@@ -250,7 +250,7 @@ void CAIAirUnitPathway::AddToResistance( CEOSAILocation Start, CEOSAILocation En
 	pos = m_EnemyUnits.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2* pEnemy = m_EnemyUnits.GetNext( pos );
+		CEOSAIUnit* pEnemy = m_EnemyUnits.GetNext( pos );
 		CEOSAILocation EnemyLocation = pEnemy->GetInitialState()->GetLocation();
 
 		float fCombatRange = 0.0f;

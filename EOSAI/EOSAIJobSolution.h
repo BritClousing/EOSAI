@@ -49,7 +49,7 @@ class CEOSAIJobSolution
 		//bool  CanFulfillAJob( CUnitTemplate* pActor ){ return CanFulfillANonCombatJob( pActor ) || CanFulfillACombatJob( pActor ); }
 		//bool  CanFulfillACombatJob( CUnitTemplate* pActor );
 		//bool  CanFulfillANonCombatJob( CUnitTemplate* pActor );
-		//bool  CanFulfillANonCombatJob( CEOSAIUnit2Capability* pAIUnitCapability );
+		//bool  CanFulfillANonCombatJob( CEOSAIUnitCapability* pAIUnitCapability );
 		//
 		
 

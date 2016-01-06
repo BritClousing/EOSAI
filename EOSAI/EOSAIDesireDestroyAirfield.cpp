@@ -76,7 +76,7 @@ bool CAIDesireDestroyAirfield::CanFulfillDesire( CEOSAIPoiObject* pActor ) // Ci
 	CEOSAICity* pActorCity = dynamic_cast< CEOSAICity* >( pActor );
 	if( pActorCity ){ return true; }
 
-	CEOSAIUnit2* pActorUnit = dynamic_cast< CEOSAIUnit2* >( pActor );
+	CEOSAIUnit* pActorUnit = dynamic_cast< CEOSAIUnit* >( pActor );
 	if( pActorUnit ){ return CanFulfillDesire( pActorUnit->GetAIUnitTemplate() ); }
 
 	return false;

@@ -140,7 +140,7 @@ cpin .\EOSAIUnit2.h %ExportDirectory%\Include\
 cpin .\EOSAIUnit2CombatCapability.h %ExportDirectory%\Include\
 cpin .\EOSAIUnitPathwayFinder.h %ExportDirectory%\Include\
 cpin .\EOSAIUnitPathwayResultStep.h %ExportDirectory%\Include\
-cpin .\EOSAIUnit2Summary.h %ExportDirectory%\Include\
+cpin .\EOSAIUnitSummary.h %ExportDirectory%\Include\
 cpin .\EOSAIUnitActionIdea.h %ExportDirectory%\Include\
 cpin .\EOSAIUnitActionStack.h %ExportDirectory%\Include\
 cpin .\EOSAIUnitPathwayResult.h %ExportDirectory%\Include\

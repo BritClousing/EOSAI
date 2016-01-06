@@ -8,9 +8,9 @@
 //class CPoiObject;
 class CEOSAIPoiObject;
 class CAIAirPathPoint;
-class CEOSAIUnit2;
+class CEOSAIUnit;
 
-class CEOSAIUnit2PathwayPredefinedStep;
+class CEOSAIUnitPathwayPredefinedStep;
 class CAirPathfinderSubPoint;
 class CAirPathfinderSubPointsList
 {
@@ -52,7 +52,7 @@ class CEOSAIAirPathfinderMapPoint
 		//
 		CEOSAIPoiObject*     m_pAIPoiObject;
 		//CPoiObject*       m_pPoiObject;
-		CEOSAIUnit2PathwayPredefinedStep*  m_pPredefinedStep;
+		CEOSAIUnitPathwayPredefinedStep*  m_pPredefinedStep;
 		CEOSAILocation         m_Location;
 
 		bool  CanContainMultipleSubPoints(){ return !m_bIsAnAirbase; }
@@ -96,7 +96,7 @@ class CAirPathfinderSubPoint
 			m_pPrevStep = NULL;
 		}
 
-		CEOSAIUnit2PathwayPredefinedStep*  m_pPredefinedStep;
+		CEOSAIUnitPathwayPredefinedStep*  m_pPredefinedStep;
 		CEOSAIAirPathfinderMapPoint*  m_pMapPoint;
 
 		long  m_iStepNumber; // example: 0
@@ -119,12 +119,12 @@ class CAirPathfinderSubPoint
 class CAIAirResistance
 {
 	public:
-		CAIAirResistance( CEOSAIUnit2* pAIUnit, float fTimeSpan )
+		CAIAirResistance( CEOSAIUnit* pAIUnit, float fTimeSpan )
 		{
 			m_pAIUnit = pAIUnit;
 			m_fTimeWithinCombatRange = fTimeSpan;
 		}
-		CEOSAIUnit2*  m_pAIUnit;
+		CEOSAIUnit*  m_pAIUnit;
 		float     m_fTimeWithinCombatRange; // amount of time the air unit is within unit's attack range
 };
 
@@ -135,7 +135,7 @@ class CAIAirResistanceSet
 		~CAIAirResistanceSet(){ Clear(); }
 
 		void  Clear(){ while( m_Resistance.IsEmpty() == FALSE ){ delete m_Resistance.RemoveHead(); } }
-		void  Add( CEOSAIUnit2* pAIUnit, float fTimeSpan )
+		void  Add( CEOSAIUnit* pAIUnit, float fTimeSpan )
 		{
 			POSITION pos = m_Resistance.GetHeadPosition();
 			while( pos )

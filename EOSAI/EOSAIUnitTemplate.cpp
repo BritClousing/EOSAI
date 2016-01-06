@@ -11,7 +11,7 @@ static char THIS_FILE[]=__FILE__;
 #define new DEBUG_NEW
 #endif
 
-CEOSAIUnitTemplate::CEOSAIUnit2Template( CUnitTemplate* pUnitTemplate )
+CEOSAIUnitTemplate::CEOSAIUnitTemplate( CUnitTemplate* pUnitTemplate )
 {
 	ASSERT( pUnitTemplate );
 	m_pUnitTemplate = pUnitTemplate;
@@ -1241,7 +1241,7 @@ void  CEOSAIUnitTemplate::Serialize( CEOSAISerial* pSerial )
 }
 
 #ifdef DO_NOT_COMPILE
-void  CEOSAIUnit2Template::AppendDataToXMLString( CStringANSI8& strData )
+void  CEOSAIUnitTemplate::AppendDataToXMLString( CStringANSI8& strData )
 {
 	ASSERT( false ); // Depreciate?
 
@@ -1504,7 +1504,7 @@ void  CEOSAIUnit2Template::AppendDataToXMLString( CStringANSI8& strData )
 
 
 /*
-void CEOSAIUnit2Template::LoadMovementAnimation()
+void CEOSAIUnitTemplate::LoadMovementAnimation()
 {
 	if( m_strMovementAnimationBaseFilename != "" )
 	{
@@ -1515,33 +1515,33 @@ void CEOSAIUnit2Template::LoadMovementAnimation()
 #include <sys/types.h>
 #include <sys/stat.h>
 /*
-CAnimationTemplate* CEOSAIUnit2Template::GetIdleAnimation()
+CAnimationTemplate* CEOSAIUnitTemplate::GetIdleAnimation()
 {
 	return m_pUnitTemplateImage->GetIdleAnimation();
 }
 
-CString  CEOSAIUnit2Template::GetMovementAnimationPath()
+CString  CEOSAIUnitTemplate::GetMovementAnimationPath()
 {
 	return m_pUnitTemplateImage->GetMovementAnimationPath();
 }
 
-CAnimationTemplate* CEOSAIUnit2Template::GetMovementAnimation()
+CAnimationTemplate* CEOSAIUnitTemplate::GetMovementAnimation()
 {
 	return m_pUnitTemplateImage->GetMovementAnimation();
 }
 
-CAnimationTemplate* CEOSAIUnit2Template::GetDieAnimation()
+CAnimationTemplate* CEOSAIUnitTemplate::GetDieAnimation()
 {
 	return m_pUnitTemplateImage->GetDieAnimation();
 }
 
-CString CEOSAIUnit2Template::GetStaticCombatImageString()
+CString CEOSAIUnitTemplate::GetStaticCombatImageString()
 {
 	return m_pUnitTemplateImage->GetStaticCombatImageString();
 }
 
 
-CGLTexture* CEOSAIUnit2Template::GetStaticCombatImage( long iRotation )
+CGLTexture* CEOSAIUnitTemplate::GetStaticCombatImage( long iRotation )
 {
 	return m_pUnitTemplateImage->GetStaticCombatImage( iRotation );
 	/-*
@@ -1553,13 +1553,13 @@ CGLTexture* CEOSAIUnit2Template::GetStaticCombatImage( long iRotation )
 	*-/
 }
 
-long  CEOSAIUnit2Template::GetNumberOfImages()
+long  CEOSAIUnitTemplate::GetNumberOfImages()
 {
 	return m_pUnitTemplateImage->GetNumberOfImages();
 }
 */
 /*
-void  CEOSAIUnit2Template::LoadGLTexture( CString strBaseFilename )
+void  CEOSAIUnitTemplate::LoadGLTexture( CString strBaseFilename )
 {
 	CString strFullPath = g_pApp->GetBaseDirectory() + "\\" + strBaseFilename;
 
@@ -1641,7 +1641,7 @@ void  CEOSAIUnit2Template::LoadGLTexture( CString strBaseFilename )
 }
 */
 /*
-CGLTexture* CEOSAIUnit2Template::GetGLTexture( long iRotation )
+CGLTexture* CEOSAIUnitTemplate::GetGLTexture( long iRotation )
 {
 	ASSERT( m_pUnitTemplateImage );
 	return m_pUnitTemplateImage->GetGLTexture( iRotation );
@@ -1654,13 +1654,13 @@ CGLTexture* CEOSAIUnit2Template::GetGLTexture( long iRotation )
 	*-/
 }
 
-long CEOSAIUnit2Template::GetDefaultRotation()
+long CEOSAIUnitTemplate::GetDefaultRotation()
 {
 	return m_pUnitTemplateImage->GetDefaultRotation();
 }
 */
 /*
-void  CEOSAIUnit2Template::SetGrayMBitmap( CString strFilename )
+void  CEOSAIUnitTemplate::SetGrayMBitmap( CString strFilename )
 {
 	//	m_iImageCenterX = -1;
 	//m_GrayMBitmap.m_iImageCenterY = -1;
@@ -1683,14 +1683,14 @@ void  CEOSAIUnit2Template::SetGrayMBitmap( CString strFilename )
 }
 */
 /*
-CMaskedBitmap* CEOSAIUnit2Template::GetGrayMBitmap()
+CMaskedBitmap* CEOSAIUnitTemplate::GetGrayMBitmap()
 {
 	if( m_pUnitTemplateImage == NULL ) return NULL;
 	return m_pUnitTemplateImage->GetGrayMBitmap();
 }
 */
 /*
-void  CEOSAIUnit2Template::SetWhiteBitmap( CString strFilename )
+void  CEOSAIUnitTemplate::SetWhiteBitmap( CString strFilename )
 {
 	if( CBCString::EndsWith( strFilename, ".bmp" ) )
 	{
@@ -1712,7 +1712,7 @@ void  CEOSAIUnit2Template::SetWhiteBitmap( CString strFilename )
 */
 
 /*
-CUnitTemplateCombatAnimationDesc* CEOSAIUnit2Template::GetUnitTemplateCombatAnimation( CString strName )
+CUnitTemplateCombatAnimationDesc* CEOSAIUnitTemplate::GetUnitTemplateCombatAnimation( CString strName )
 {
 	POSITION pos = m_UnitTemplateCombatAnimationDescs.GetHeadPosition();
 	while( pos )
@@ -1726,7 +1726,7 @@ CUnitTemplateCombatAnimationDesc* CEOSAIUnit2Template::GetUnitTemplateCombatAnim
 	return NULL;
 }
 
-CUnitTemplateCombatAnimationDesc* CEOSAIUnit2Template::GetUnitTemplateCombatAnimation( CPoi* pTarget )
+CUnitTemplateCombatAnimationDesc* CEOSAIUnitTemplate::GetUnitTemplateCombatAnimation( CPoi* pTarget )
 {
 	CUnitTemplateCombatAnimationDesc* pAnimDesc = NULL;
 	//pAnimDesc = GetUnitTemplate()->GetCombatAnimationDescription( pTarget );
@@ -1762,7 +1762,7 @@ CUnitTemplateCombatAnimationDesc* CEOSAIUnit2Template::GetUnitTemplateCombatAnim
 }
 */
 /*
-CUnitTemplateCombatAnimationImage*  CEOSAIUnit2Template::GetUnitCombatAnimation( CString strName )
+CUnitTemplateCombatAnimationImage*  CEOSAIUnitTemplate::GetUnitCombatAnimation( CString strName )
 {
 	return m_pUnitTemplateImage->GetUnitCombatAnimation( strName );
 	/-*
@@ -1781,7 +1781,7 @@ CUnitTemplateCombatAnimationImage*  CEOSAIUnit2Template::GetUnitCombatAnimation(
 }
 */
 /*
-void  CEOSAIUnit2Template::LoadTextures()
+void  CEOSAIUnitTemplate::LoadTextures()
 {
 	if( m_pUnitTemplateImage )
 	{
@@ -2012,7 +2012,7 @@ EnumMovementType CEOSAIUnitTemplate::GetMovementType()
 	return EOSAIEnumMovementType3_Undefined;
 }
 
-void  CEOSAIUnit2Template::SetMovementType2( EnumMovementType eType )
+void  CEOSAIUnitTemplate::SetMovementType2( EnumMovementType eType )
 {
 	m_eMovementType = eType;
 	if( m_eMovementType == EOSAIEnumMovementType3_Air )
@@ -2024,7 +2024,7 @@ void  CEOSAIUnit2Template::SetMovementType2( EnumMovementType eType )
 
 // Four types: SoftGround, Armor, Air, Sea
 /*
-void   CEOSAIUnit2Template::SetMovementUnitType( CString strMovementUnitType )
+void   CEOSAIUnitTemplate::SetMovementUnitType( CString strMovementUnitType )
 {
 	m_strMovementUnitType = strMovementUnitType;
 	ASSERT( m_pUnitset->GetMovementUnitType( strMovementUnitType ) );
@@ -2034,7 +2034,7 @@ void   CEOSAIUnit2Template::SetMovementUnitType( CString strMovementUnitType )
 	m_MovementDescription.Set( pType );
 }
 
-CMovementUnitType*  CEOSAIUnit2Template::GetMovementUnitType()
+CMovementUnitType*  CEOSAIUnitTemplate::GetMovementUnitType()
 {
 	return m_pUnitset->GetMovementUnitType( m_strMovementUnitType );
 }
@@ -2112,7 +2112,7 @@ void CEOSAIUnitTemplate::SetCombatUnitType( long iCombatUnitType )
 	m_pCombatUnitType = pCombatUnitType;
 }
 
-//void CEOSAIUnit2Template::SetCombatUnitType( CString strUnitType, CCombatUnitType* pCombatUnitType )
+//void CEOSAIUnitTemplate::SetCombatUnitType( CString strUnitType, CCombatUnitType* pCombatUnitType )
 void CEOSAIUnitTemplate::SetCombatUnitTypeByExternalName( CString strUnitType )
 {
 	CEOSAICombatUnitType* pCombatUnitType = m_pAIGameRules->GetCombatUnitTypeByExternalName( strUnitType );
@@ -2207,7 +2207,7 @@ bool  CEOSAIUnitTemplate::IsSeaUnit() //{ return m_MovementDescription.GetMoveme
 
 // Six types: SoftGround, Armor, Aircraft, Missile, Ship, Submarine
 /*
-void   CEOSAIUnit2Template::SetCombatUnitType( CString strCombatUnitType )
+void   CEOSAIUnitTemplate::SetCombatUnitType( CString strCombatUnitType )
 {
 	m_strCombatUnitType = strCombatUnitType;
 	ASSERT( m_pUnitset->GetCombatUnitType( strCombatUnitType ) );
@@ -2216,7 +2216,7 @@ void   CEOSAIUnit2Template::SetCombatUnitType( CString strCombatUnitType )
 
 bool  CEOSAIUnitTemplate::CanContain( CEOSAIPoiObject* pAIPoiObject )
 {
-	CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+	CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 	if( pAIUnit )
 	{
 		/*
@@ -2230,7 +2230,7 @@ bool  CEOSAIUnitTemplate::CanContain( CEOSAIPoiObject* pAIPoiObject )
 		return CanContain( pAIUnit->GetAIUnitTemplate() );
 	}
 	/*
-	CEOSAIUnit2Group* pAIUnitGroup = dynamic_cast< CEOSAIUnit2Group* >( pAIPoiObject );
+	CEOSAIUnitGroup* pAIUnitGroup = dynamic_cast< CEOSAIUnitGroup* >( pAIPoiObject );
 	if( pAIUnitGroup )
 	{
 		POSITION pos = pUnitGroup->GetUnitsInsideMe()->GetHeadPosition();
@@ -2372,7 +2372,7 @@ long  CEOSAIUnitTemplate::GetNumberOfAirUnitsThatICanContain()
 // ViewRange
 //
 /*
-void  CEOSAIUnit2Template::InvokeViewRange( CString strUnitTag, float fViewRange )
+void  CEOSAIUnitTemplate::InvokeViewRange( CString strUnitTag, float fViewRange )
 {
 	POSITION pos = m_ViewRangeList.GetHeadPosition();
 	while( pos )
@@ -2390,7 +2390,7 @@ void  CEOSAIUnit2Template::InvokeViewRange( CString strUnitTag, float fViewRange
 	m_ViewRangeList.AddTail( pViewRange );
 }
 
-void CEOSAIUnit2Template::RemoveViewRange( CString strUnitTag )
+void CEOSAIUnitTemplate::RemoveViewRange( CString strUnitTag )
 {
 	POSITION pos = m_ViewRangeList.GetHeadPosition();
 	while( pos )
@@ -2405,7 +2405,7 @@ void CEOSAIUnit2Template::RemoveViewRange( CString strUnitTag )
 	}
 }
 
-CViewRange* CEOSAIUnit2Template::GetViewRangeObj( CString strUnitTag )//, bool bUseUnitDefaults )
+CViewRange* CEOSAIUnitTemplate::GetViewRangeObj( CString strUnitTag )//, bool bUseUnitDefaults )
 {
 	POSITION pos = m_ViewRangeList.GetHeadPosition();
 	while( pos )
@@ -2419,7 +2419,7 @@ CViewRange* CEOSAIUnit2Template::GetViewRangeObj( CString strUnitTag )//, bool b
 	return NULL;
 }
 
-float CEOSAIUnit2Template::GetViewRange( CString strUnitTag, bool bUseUnitDefaults )
+float CEOSAIUnitTemplate::GetViewRange( CString strUnitTag, bool bUseUnitDefaults )
 {
 	ASSERT( false );
 	/*
@@ -2452,10 +2452,10 @@ float CEOSAIUnit2Template::GetViewRange( CString strUnitTag, bool bUseUnitDefaul
 float CEOSAIUnitTemplate::GetViewRange( CEOSAIPoiObject* pPoi )
 {
 	/*
-	EOSAI::PoiMobile* pOtherPoiMobile = dynamic_cast< CEOSAIUnit2* >( pPoi );
+	EOSAI::PoiMobile* pOtherPoiMobile = dynamic_cast< CEOSAIUnit* >( pPoi );
 	if( pOtherPoiMobile )
 	{
-		CEOSAIUnit2* pOtherUnit = dynamic_cast< CEOSAIUnit2* >( pPoi );
+		CEOSAIUnit* pOtherUnit = dynamic_cast< CEOSAIUnit* >( pPoi );
 		if( pOtherUnit )
 		{
 			CEOSAIUnitTemplate* pOtherUnitTemplate = pOtherUnit->GetAIUnitTemplate();
@@ -2516,7 +2516,7 @@ bool CEOSAIUnitTemplate::CanDestroy( CEOSAIPoiObject* pTarget )
 	EOSAI::PoiMobile* pTargetPoiMobile = dynamic_cast< EOSAI::PoiMobile* >( pTarget );
 	if( pTargetPoiMobile )
 	{
-		CEOSAIUnit2* pTargetUnit = dynamic_cast< CEOSAIUnit2* >( pTargetPoiMobile );
+		CEOSAIUnit* pTargetUnit = dynamic_cast< CEOSAIUnit* >( pTargetPoiMobile );
 		if( pTargetUnit )
 		{
 			//CEOSAIAttackVs2* pAttackVs = GetAttackVs( pTargetPoiObject, enum_UseDefendersCurrentProneState );
@@ -3117,7 +3117,7 @@ CEOSAIAttackVs2*  CEOSAIUnitTemplate::GetAttackVs( CEOSAIPoiObject* pTarget, boo
 	{
 		return GetAttackVsCitResFort();
 	}
-	CEOSAIUnit2* pOtherUnit = dynamic_cast< CEOSAIUnit2* >( pTarget );
+	CEOSAIUnit* pOtherUnit = dynamic_cast< CEOSAIUnit* >( pTarget );
 	if( pOtherUnit )
 	{
 		if( pOtherUnit->IsLandedOrDocked() )
@@ -3157,7 +3157,7 @@ CEOSAIAttackVs2* CEOSAIUnitTemplate::GetAttackVs( CEOSAIPoiObject* pTarget, bool
 	{
 		return GetAttackVsCitResFort();
 	}
-	CEOSAIUnit2* pOtherUnit = dynamic_cast< CEOSAIUnit2* >( pTarget );
+	CEOSAIUnit* pOtherUnit = dynamic_cast< CEOSAIUnit* >( pTarget );
 	if( pOtherUnit )
 	{
 		if( bIsLandedOrDocked )
@@ -3314,7 +3314,7 @@ float CEOSAIUnitTemplate::GetAttackToHitVs( EnumAIPoiObjectType ePoiObjectType, 
 //float CEOSAIUnitTemplate::GetAttackToHitVs( CPoiObject* pTarget, Enum_Prone eDefendersProneState )
 float CEOSAIUnitTemplate::GetAttackToHitVs( CEOSAIPoiObject* pTarget, bool bIsLandedOrDocked )
 {
-	CEOSAIUnit2* pUnit = dynamic_cast< CEOSAIUnit2* >( pTarget );
+	CEOSAIUnit* pUnit = dynamic_cast< CEOSAIUnit* >( pTarget );
 	if( pUnit )
 	{
 		return GetAttackToHitVs( pTarget->GetAIPoiObjectType(), pUnit->GetAIUnitTemplate(), bIsLandedOrDocked );
@@ -3446,9 +3446,9 @@ long CEOSAIUnitTemplate::GetAttackDamageVs( CEOSAIPoiObject* pTarget, bool bIsLa
 		if( this->CanCaptureAirfields() ){ return 1; }
 		return 0;
 	}
-	if( dynamic_cast< CEOSAIUnit2* >( pTarget ) )
+	if( dynamic_cast< CEOSAIUnit* >( pTarget ) )
 	{
-		CEOSAIUnit2* pUnit = (CEOSAIUnit2*) pTarget;
+		CEOSAIUnit* pUnit = (CEOSAIUnit*) pTarget;
 		//CString strTargetCombatUnitType = pUnit->GetCombatUnitTypeString();
 		long iTargetCombatUnitType = pUnit->GetCombatUnitTypeLong();
 		//if( eDefendersProneState == enum_UseDefendersCurrentProneState &&
@@ -4061,9 +4061,10 @@ void  CEOSAIUnitTemplate::CalculateAIJobCapability( CEOSAIJobCapability* pAIJobC
 	}
 }
 
-CEOSAIUnit2CombatCapability* CEOSAIUnitTemplate::GetAIUnitCombatCapability()
+CEOSAIUnitCombatCapability* CEOSAIUnitTemplate::GetAIUnitCombatCapability()
 {
 	ASSERT( g_pEOSAICommonData );
+	ASSERT( m_AIUnitCombatCapability.GetCombatSignificance() > 0.0f);
 	return &m_AIUnitCombatCapability;
 }
 
@@ -4303,7 +4304,7 @@ void CEOSAIUnitTemplate::GetUnitStrength( CString* pstrUnitType, float* pfValue 
 	*pfValue = GetMaxHP() * GetDefenseValueForNormalTerrain();
 }
 
-float CEOSAIUnitTemplate::GetExpectedHPDamage( CEOSAIUnit2* pTargetUnit, bool bUseNormalTerrainIfBetterThanCurrentDefense )
+float CEOSAIUnitTemplate::GetExpectedHPDamage( CEOSAIUnit* pTargetUnit, bool bUseNormalTerrainIfBetterThanCurrentDefense )
 {
 	CEOSAIAttackVs2* pAttackVs = this->GetAttackVsCombatUnitType( pTargetUnit->GetCombatUnitTypeLong() );
 	if( pAttackVs )

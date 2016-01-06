@@ -236,7 +236,7 @@ void CEOSAITacticalProject2::Dump( CString& strData )
 			{
 				CEOSAIDesireSpatial* pDesire = pDesires->GetNext( pos );
 				CEOSAIPoiObject* pPoiObject = pDesire->GetAIPoiObjectTarget();
-				CEOSAIUnit2* pAITargetUnit = dynamic_cast< CEOSAIUnit2* >( pPoiObject );
+				CEOSAIUnit* pAITargetUnit = dynamic_cast< CEOSAIUnit* >( pPoiObject );
 				if( pAITargetUnit )
 				{
 					fEnemyUnitCost += pAITargetUnit->GetProductionCost();
@@ -258,7 +258,7 @@ void CEOSAITacticalProject2::Dump( CString& strData )
 			{
 				CEOSAIDesireSpatial* pDesire = pDesires->GetNext( pos );
 				CEOSAIPoiObject* pAIPoiObject = pDesire->GetAIPoiObjectTarget();
-				CEOSAIUnit2* pAITargetUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+				CEOSAIUnit* pAITargetUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 				if( pAITargetUnit )
 				{
 					fEnemyUnitCost += pAITargetUnit->GetProductionCost();
@@ -279,7 +279,7 @@ void CEOSAITacticalProject2::Dump( CString& strData )
 			{
 				CEOSAIDesireSpatial* pDesire = pDesires->GetNext( pos );
 				CEOSAIPoiObject* pAIPoiObject = pDesire->GetAIPoiObjectTarget();
-				CEOSAIUnit2* pAITargetUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+				CEOSAIUnit* pAITargetUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 				if( pAITargetUnit )
 				{
 					fEnemyUnitCost += pAITargetUnit->GetProductionCost();
@@ -320,9 +320,9 @@ void CEOSAITacticalProject2::Dump( CString& strData )
 			/*
 			strData += pDesire->GetPoiObjectTarget()->GetName();
 			*/
-			if( dynamic_cast< CEOSAIUnit2* >( pDesire->GetAIPoiObjectTarget() ) )
+			if( dynamic_cast< CEOSAIUnit* >( pDesire->GetAIPoiObjectTarget() ) )
 			{
-				CEOSAIUnit2* pAIUnitTarget = dynamic_cast< CEOSAIUnit2* >( pDesire->GetAIPoiObjectTarget() );
+				CEOSAIUnit* pAIUnitTarget = dynamic_cast< CEOSAIUnit* >( pDesire->GetAIPoiObjectTarget() );
 				strData += pAIUnitTarget->GetAIUnitTemplate()->GetInternalName();
 			}
 			eif( dynamic_cast< CEOSAIResource* >( pDesire->GetAIPoiObjectTarget() ) )
@@ -806,7 +806,7 @@ void  CEOSAITacticalProject2::CalculateNationalPathway()
 			{
 				CEOSAICity* pAICity = dynamic_cast< CEOSAICity* >( pAIPoiObject );
 				CEOSAIResource* pAIRes = dynamic_cast< CEOSAIResource* >( pAIPoiObject );
-				CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+				CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 
 				if( pAICity )
 				{
@@ -979,7 +979,7 @@ void  CEOSAITacticalProject2::CalculateInitialEvaluation()
 			CEOSAIDesireSpatial* pDesire = m_PrimaryGoals.GetNext( pos );
 			if( pDesire->GetAIPoiObjectTarget() )
 			{
-				CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pDesire->GetAIPoiObjectTarget() );
+				CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pDesire->GetAIPoiObjectTarget() );
 				if( pAIUnit && pAIUnit->GetAIUnitTemplate()->IsTransport() )
 				{
 					fTransportUrgency = 0.2f;
@@ -1003,19 +1003,19 @@ void  CEOSAITacticalProject2::CalculateInitialEvaluation()
 	pos = m_PrimaryGoals_JobsToDo.m_EnemyUnits.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2* pUnit = m_PrimaryGoals_JobsToDo.m_EnemyUnits.GetNext( pos );
+		CEOSAIUnit* pUnit = m_PrimaryGoals_JobsToDo.m_EnemyUnits.GetNext( pos );
 		m_fResistanceCombatSignificance += pUnit->GetAICombatSignificance();
 	}
 	pos = m_LocalResistance_JobsToDo.m_EnemyUnits.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2* pUnit = m_LocalResistance_JobsToDo.m_EnemyUnits.GetNext( pos );
+		CEOSAIUnit* pUnit = m_LocalResistance_JobsToDo.m_EnemyUnits.GetNext( pos );
 		m_fResistanceCombatSignificance += pUnit->GetAICombatSignificance();
 	}
 	pos = m_PathwayResistance_JobsToDo.m_EnemyUnits.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2* pUnit = m_PathwayResistance_JobsToDo.m_EnemyUnits.GetNext( pos );
+		CEOSAIUnit* pUnit = m_PathwayResistance_JobsToDo.m_EnemyUnits.GetNext( pos );
 		m_fResistanceCombatSignificance += pUnit->GetAICombatSignificance();
 	}
 
@@ -1450,14 +1450,14 @@ void  CEOSAITacticalProject2::CalculateExpectedPathwayResistance_UsingNationalPa
 		float fPoiObjectDistanceFromPath = pPoiObjectDistance->m_fDistanceFromRegionEdge;
 
 		// Lookup the Spatial desire and add it to the ExpectedResistance (if it's not mine, not Player0,...)
-		CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+		CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 		if( pAIUnit )
 		{
 			//CPoiObject* pPlayerPoiObject = pWorldDescPlayer->GetPoiObject( pServerPoiObject->GetObjectId() );
 			//ASSERT( pPlayerPoiObject );
 
 			//CPoiObject* pPoiObjectCopy = pRes->AIFunc_GetWorldDescPlayerCopyOfThisPoiObject();
-			CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+			CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 			if( pAIUnit ) // AIPoiObject can be NULL if unit is dead
 			{
 				long iPoiObjectGeo = pAIPoiObject->GetGeoId();
@@ -1661,7 +1661,7 @@ void  CEOSAITacticalProject2::CreateStrategiesAndUnitActionIdeas()
 		{
 			iCityCount++;
 		}
-		CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+		CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 		if( pAIUnit )
 		{
 			iUnitCount++;
@@ -1691,7 +1691,7 @@ void  CEOSAITacticalProject2::CreateStrategiesAndUnitActionIdeas()
 			//Checkpoint::Write( "c2" );
 		}
 		//
-		CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+		CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 		if( pAIUnit )
 		{
 			ASSERT( pAIUnit->IsHypotheticalPoiObject() == false );//>m_pBuiltByCity == NULL );
@@ -1710,8 +1710,8 @@ void  CEOSAITacticalProject2::CreateStrategiesAndUnitActionIdeas()
 			{
 				m_pAIBrain->m_MyUnits_CreateUnitActionIdeas.Continue();
 				// Create an AIUnitActionIdea
-				CEOSAIUnit2ActionIdea* pAIUnitActionIdea = new CEOSAIUnit2ActionIdea( this, pAIUnit );
-				//pAIUnitActionIdea->SetActionType( CEOSAIUnit2ActionIdea::EnumActionType_Capture ); // TEMP
+				CEOSAIUnitActionIdea* pAIUnitActionIdea = new CEOSAIUnitActionIdea( this, pAIUnit );
+				//pAIUnitActionIdea->SetActionType( CEOSAIUnitActionIdea::EnumActionType_Capture ); // TEMP
 				//pAIUnitActionIdea->Capture(); // TEMP
 
 				if( this->ProjectIncludesObjectIdAsPrimaryTask( 12 ) )
@@ -1768,18 +1768,18 @@ void  CEOSAITacticalProject2::CreateBestCaseTaskForce()
 	}
 }
 /*
-void CEOSAITacticalProject2::AddUnitActionIdea( CEOSAIUnit2ActionIdea* pUnitActionValue )
+void CEOSAITacticalProject2::AddUnitActionIdea( CEOSAIUnitActionIdea* pUnitActionValue )
 {
 	m_UnitActionIdeas.AddTail( pUnitActionValue );
 }
 
-void CEOSAITacticalProject2::RemoveUnitActionIdea( CEOSAIUnit2ActionIdea* pUnitActionValue )
+void CEOSAITacticalProject2::RemoveUnitActionIdea( CEOSAIUnitActionIdea* pUnitActionValue )
 {
 	POSITION pos = m_UnitActionIdeas.GetHeadPosition();
 	while( pos )
 	{
 		POSITION prevPos = pos;
-		CEOSAIUnit2ActionIdea* pUnitActionValueInList = m_UnitActionIdeas.GetNext( pos );
+		CEOSAIUnitActionIdea* pUnitActionValueInList = m_UnitActionIdeas.GetNext( pos );
 		if( pUnitActionValueInList == pUnitActionValue )
 		{
 			m_UnitActionIdeas.RemoveAt( prevPos );

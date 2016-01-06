@@ -26,25 +26,25 @@ class CGlobalForeignRelations;
 //class EOSAI::UnitPathwayResult;
 class CEOSAIUnitTemplate;
 class CEOSAIPoiObject;
-class CEOSAIUnit2;
+class CEOSAIUnit;
 class CEOSAICity;
 class CEOSAIBrain;
 class CEOSAIRegion2;
-class CEOSAIUnit2PathwayPredefinedStep;
-class CEOSAIUnit2PathwayPredefinedStepSeq;
+class CEOSAIUnitPathwayPredefinedStep;
+class CEOSAIUnitPathwayPredefinedStepSeq;
 namespace EOSAI
 {
 	class UnitPathwayResult;
 	class UnitPathwayResultStep;
 }
-class CEOSAIUnit2PathwayPredefinedStepPathStep;
+class CEOSAIUnitPathwayPredefinedStepPathStep;
 
 
-class DLLIMPEXP CEOSAIUnit2PathwayFinder
+class DLLIMPEXP CEOSAIUnitPathwayFinder
 {
 	public:
-		static CEOSAIUnit2PathwayFinder* CreatePathwayFinder( CEOSAIUnit2* pAIUnitActor );
-		static CEOSAIUnit2PathwayFinder* CreatePathwayFinder( CEOSAICity* pAICityActor, CEOSAIUnitTemplate* pAIUnitTemplate, float fBuildTime = 0.0f );
+		static CEOSAIUnitPathwayFinder* CreatePathwayFinder( CEOSAIUnit* pAIUnitActor );
+		static CEOSAIUnitPathwayFinder* CreatePathwayFinder( CEOSAICity* pAICityActor, CEOSAIUnitTemplate* pAIUnitTemplate, float fBuildTime = 0.0f );
 
 		// Given a WaterAIRegion and a LandAIRegion, return Water and Land Locations for Pickup/Dropoff
 		static bool FindPickupDropoffLocations( 
@@ -52,14 +52,14 @@ class DLLIMPEXP CEOSAIUnit2PathwayFinder
 						CEOSAILocation* pWaterLocation, CEOSAILocation* pLandLocation );
 
 	public:
-		CEOSAIUnit2PathwayFinder( CEOSAIUnit2* pAIUnitActor );
-		CEOSAIUnit2PathwayFinder( CEOSAICity* pAICityActor, CEOSAIUnitTemplate* pAIUnitTemplate, float fBuildTime = 0.0f );
-		virtual ~CEOSAIUnit2PathwayFinder();
+		CEOSAIUnitPathwayFinder( CEOSAIUnit* pAIUnitActor );
+		CEOSAIUnitPathwayFinder( CEOSAICity* pAICityActor, CEOSAIUnitTemplate* pAIUnitTemplate, float fBuildTime = 0.0f );
+		virtual ~CEOSAIUnitPathwayFinder();
 
 		//
 			//CEOSAIBrain*      GetAIBrain(){ return m_pAIBrain; }
 		//
-			CEOSAIUnit2*         GetAIUnitActor(){ return m_pAIUnitActor; }
+			CEOSAIUnit*         GetAIUnitActor(){ return m_pAIUnitActor; }
 			CEOSAIPoiObject*    GetAIPoiObjectActor();
 			CEOSAIUnitTemplate* GetAIUnitTemplate(){ return m_pAIUnitTemplate; }
 			long             GetUnitOwner(){ return m_iUnitOwner; }
@@ -95,36 +95,36 @@ class DLLIMPEXP CEOSAIUnit2PathwayFinder
 			// Waypoint
 			void  AddWaypoint( CEOSAILocation Location );
 			// Pickup/Dropoff - Transports
-		//	void  AddPickupTarget( CEOSAIUnit2* pAIUnitToPickup, CEOSAILocation OtherUnitLocation );//( CEOSAIUnit2* pAIUnitToPickup );
-		//	void  AddDropoffTarget( CEOSAIUnit2* pAIUnitToDropoff, CEOSAILocation OtherUnitTargetLocation ); // Dropoff near this location
-		//	CEOSAIUnit2PathwayPredefinedStep*  CreateTransportAction( CEOSAIUnit2* pAITransportee, CEOSAILocation TransporteeStartLocation, CEOSAILocation TransporteeEndLocation );
-			//void  AddTransportAction( CEOSAIUnit2* pAITransportee, CEOSAILocation TransporteeStartLocation, CEOSAILocation TransporteeEndLocation );
-			//CEOSAIUnit2PathwayPredefinedStep*  CreateTransportAction( CEOSAIUnit2PathwayPredefinedStep* pTransporteeStep );
+		//	void  AddPickupTarget( CEOSAIUnit* pAIUnitToPickup, CEOSAILocation OtherUnitLocation );//( CEOSAIUnit* pAIUnitToPickup );
+		//	void  AddDropoffTarget( CEOSAIUnit* pAIUnitToDropoff, CEOSAILocation OtherUnitTargetLocation ); // Dropoff near this location
+		//	CEOSAIUnitPathwayPredefinedStep*  CreateTransportAction( CEOSAIUnit* pAITransportee, CEOSAILocation TransporteeStartLocation, CEOSAILocation TransporteeEndLocation );
+			//void  AddTransportAction( CEOSAIUnit* pAITransportee, CEOSAILocation TransporteeStartLocation, CEOSAILocation TransporteeEndLocation );
+			//CEOSAIUnitPathwayPredefinedStep*  CreateTransportAction( CEOSAIUnitPathwayPredefinedStep* pTransporteeStep );
 
 			// Used by Transportees (GroundUnits)
 			//
-				CEOSAIUnit2* GetCurrentTransport();
+				CEOSAIUnit* GetCurrentTransport();
 
 			//
 			// Used by transports
 			//
-				void  AppendTransportSteps( CEOSAIUnit2PathwayPredefinedStep* pTransporteeStep );
-				void  InsertTransportSteps( CEOSAIUnit2PathwayPredefinedStep* pTransporteeStep );
-				void  DeleteTransportSteps( CEOSAIUnit2PathwayPredefinedStep* pTransporteeStep );
+				void  AppendTransportSteps( CEOSAIUnitPathwayPredefinedStep* pTransporteeStep );
+				void  InsertTransportSteps( CEOSAIUnitPathwayPredefinedStep* pTransporteeStep );
+				void  DeleteTransportSteps( CEOSAIUnitPathwayPredefinedStep* pTransporteeStep );
 
-				CEOSAIUnit2PathwayPredefinedStep* GetTransportPickupStep( CEOSAIUnit2PathwayPredefinedStep* pTransporteeStep );
-				CEOSAIUnit2PathwayPredefinedStep* GetTransportDropoffStep( CEOSAIUnit2PathwayPredefinedStep* pTransporteeStep );
+				CEOSAIUnitPathwayPredefinedStep* GetTransportPickupStep( CEOSAIUnitPathwayPredefinedStep* pTransporteeStep );
+				CEOSAIUnitPathwayPredefinedStep* GetTransportDropoffStep( CEOSAIUnitPathwayPredefinedStep* pTransporteeStep );
 
 				//virtual bool  UpdateTransportResultStep( EOSAI::UnitPathwayResultStep* pResultStep ){ return false; }
-				virtual bool UpdateEndLocation( CEOSAIUnit2PathwayPredefinedStep* pTransportPickupOrDropoffStep ){ return false; }
-				virtual bool UpdateTransportPickupDropoffPath( CEOSAIUnit2PathwayPredefinedStep* pGroundUnitStep );
+				virtual bool UpdateEndLocation( CEOSAIUnitPathwayPredefinedStep* pTransportPickupOrDropoffStep ){ return false; }
+				virtual bool UpdateTransportPickupDropoffPath( CEOSAIUnitPathwayPredefinedStep* pGroundUnitStep );
 				// Calculate a real pathway using [this] unit as the transport
 				//virtual bool UpdateResultStepWithTransportAssistedPath( EOSAI::UnitPathwayResultStep* pGroundUnitResultStep ){ return false; }
 
 			//
 			// Used if [this] unit needs a transport
 			//
-				void  SetTransportToUse( CEOSAIUnit2* pAITransportToUse );
+				void  SetTransportToUse( CEOSAIUnit* pAITransportToUse );
 
 			// Airfield (ground unit only)
 			void  AddBuildAirfield( CEOSAILocation Location );
@@ -140,20 +140,20 @@ class DLLIMPEXP CEOSAIUnit2PathwayFinder
 			void  AddRepairTask( CEOSAIPoiObject* pAIPoiObject );
 			//void  AddRepairTaskAnywhere();
 			// Attack
-			CEOSAIUnit2PathwayPredefinedStep*  CreateCaptureTarget( CEOSAIPoiObject* pTarget );
-			CEOSAIUnit2PathwayPredefinedStep*  CreateDegradeTarget( CEOSAIPoiObject* pTarget );
-			CEOSAIUnit2PathwayPredefinedStep*  CreateAttackUnit( CEOSAIPoiObject* pTarget );
+			CEOSAIUnitPathwayPredefinedStep*  CreateCaptureTarget( CEOSAIPoiObject* pTarget );
+			CEOSAIUnitPathwayPredefinedStep*  CreateDegradeTarget( CEOSAIPoiObject* pTarget );
+			CEOSAIUnitPathwayPredefinedStep*  CreateAttackUnit( CEOSAIPoiObject* pTarget );
 
 		//
-			void  InsertPickupOrDropoffStep( CEOSAIUnit2PathwayPredefinedStep* pNewStep ); // Find best place
-			void  InsertAsFirstStep( CEOSAIUnit2PathwayPredefinedStep* pStep );
-			void  AppendStep( CEOSAIUnit2PathwayPredefinedStep* pNewStep ); // Add to the end
-			void  AddToPredefinedSteps_InsertBefore( CEOSAIUnit2PathwayPredefinedStep* pNewStep, CEOSAIUnit2PathwayPredefinedStep* pInsertBeforeStep );
-			//void  InvokeImaginaryTransport( CEOSAIUnit2PathwayPredefinedStep* pPredefinedStep );
+			void  InsertPickupOrDropoffStep( CEOSAIUnitPathwayPredefinedStep* pNewStep ); // Find best place
+			void  InsertAsFirstStep( CEOSAIUnitPathwayPredefinedStep* pStep );
+			void  AppendStep( CEOSAIUnitPathwayPredefinedStep* pNewStep ); // Add to the end
+			void  AddToPredefinedSteps_InsertBefore( CEOSAIUnitPathwayPredefinedStep* pNewStep, CEOSAIUnitPathwayPredefinedStep* pInsertBeforeStep );
+			//void  InvokeImaginaryTransport( CEOSAIUnitPathwayPredefinedStep* pPredefinedStep );
 		//
 			// zero-based index
-			CEOSAIUnit2PathwayPredefinedStep* GetPredefinedPathStep( long i );
-			CList< CEOSAIUnit2PathwayPredefinedStep* >*  GetPreDefinedPath(){ return &m_PreDefinedPath; } // This is somewhat ordered
+			CEOSAIUnitPathwayPredefinedStep* GetPredefinedPathStep( long i );
+			CList< CEOSAIUnitPathwayPredefinedStep* >*  GetPreDefinedPath(){ return &m_PreDefinedPath; } // This is somewhat ordered
 
 			bool IncludesAnAttack();
 
@@ -171,21 +171,21 @@ class DLLIMPEXP CEOSAIUnit2PathwayFinder
 				float         CalculateRedPathArrivalTimeAtGeo( long iTargetGeo );
 				//void          SetCacheRedPathGeoArrivalTime( float fTime ){ m_fCacheGeoArrivalTime = fTime; }
 				//float         GetCacheRedPathGeoArrivalTime(){ return m_fCacheGeoArrivalTime; }
-				//virtual float GetTransportArrivalTimeAtDropoffLocation( CEOSAIUnit2PathwayPredefinedStep* pGroundUnitStep ){ ASSERT( false ); return 0.0f; }
-				//virtual float GetTransporteeArrivalTimeAtPickupLocation( CEOSAIUnit2PathwayPredefinedStep* pTransportPickupStep ){ ASSERT( false ); return 0.0f; }
+				//virtual float GetTransportArrivalTimeAtDropoffLocation( CEOSAIUnitPathwayPredefinedStep* pGroundUnitStep ){ ASSERT( false ); return 0.0f; }
+				//virtual float GetTransporteeArrivalTimeAtPickupLocation( CEOSAIUnitPathwayPredefinedStep* pTransportPickupStep ){ ASSERT( false ); return 0.0f; }
 				virtual void  CalculateResultPath(){}
 				bool          ResultPathIsValid();
 				EOSAI::UnitPathwayResult* GetResultPath(){ return m_pResultPath; }
 
-				void  GetFullRedMovementPath( CList< CEOSAIUnit2PathwayPredefinedStepPathStep* >* pTimedMovementPath );
+				void  GetFullRedMovementPath( CList< CEOSAIUnitPathwayPredefinedStepPathStep* >* pTimedMovementPath );
 				void  ConstructFullRedPath();
 
 				void  AddPickupToDropoffToTimedMovementPath( 
-						CEOSAIUnit2PathwayPredefinedStep* pTransporteeStep,
+						CEOSAIUnitPathwayPredefinedStep* pTransporteeStep,
 						float* fTransporteeTime, // Starts as the Tranportee Pickup Time
-						CList< CEOSAIUnit2PathwayPredefinedStepPathStep* >* pTimedPath );
+						CList< CEOSAIUnitPathwayPredefinedStepPathStep* >* pTimedPath );
 				//void  AddPickupToDropoffToTimedMovementPath( 
-				//		CEOSAIUnit2PathwayPredefinedStep* pTransporteeStep,
+				//		CEOSAIUnitPathwayPredefinedStep* pTransporteeStep,
 				//		float* fTransporteeTime );
 
 		// Create orders
@@ -197,7 +197,7 @@ class DLLIMPEXP CEOSAIUnit2PathwayFinder
 		//CEOSAIBrain*  m_pAIBrain;
 
 		long              m_iUnitOwner;   // Important for airbase calculations
-		CEOSAIUnit2*          m_pAIUnitActor; // optional
+		CEOSAIUnit*          m_pAIUnitActor; // optional
 		CEOSAICity*          m_pAICityActor; // optional
 		CEOSAIUnitTemplate*  m_pAIUnitTemplate;
 
@@ -216,14 +216,14 @@ class DLLIMPEXP CEOSAIUnit2PathwayFinder
 
 		// Path Steps
 		//
-			//void  InsertPredefinedStep( CEOSAIUnit2PathwayPredefinedStep* pStep );
-			//void  InsertPredefinedStepAsFirstStep( CEOSAIUnit2PathwayPredefinedStep* pStep );
-			void  DeletePredefinedStep( CEOSAIUnit2PathwayPredefinedStep* pStep );
-			CList< CEOSAIUnit2PathwayPredefinedStep* >  m_PreDefinedPath; // This is somewhat ordered
+			//void  InsertPredefinedStep( CEOSAIUnitPathwayPredefinedStep* pStep );
+			//void  InsertPredefinedStepAsFirstStep( CEOSAIUnitPathwayPredefinedStep* pStep );
+			void  DeletePredefinedStep( CEOSAIUnitPathwayPredefinedStep* pStep );
+			CList< CEOSAIUnitPathwayPredefinedStep* >  m_PreDefinedPath; // This is somewhat ordered
 
 		// Full RedPath (this can be invalid if any units change their path or Predefined Steps)
 		//
-			CList< CEOSAIUnit2PathwayPredefinedStepPathStep* >  m_FullRedMovementPath;
+			CList< CEOSAIUnitPathwayPredefinedStepPathStep* >  m_FullRedMovementPath;
 			//float  m_fCacheGeoArrivalTime;
 
 		//

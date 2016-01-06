@@ -663,10 +663,10 @@ void CCommonData::AddHypotheticalAIPoiObject( CEOSAIPoiObject* pAIPoiObject ) //
 	m_AIPoiObjects.AddTail( pAIPoiObject );
 }
 
-CEOSAIUnit2* CCommonData::GetAIUnit( long iObjectId )
+CEOSAIUnit* CCommonData::GetAIUnit( long iObjectId )
 {
 	CEOSAIPoiObject* pAIObject = GetAIPoiObject( iObjectId );
-	return dynamic_cast< CEOSAIUnit2* >( pAIObject );
+	return dynamic_cast< CEOSAIUnit* >( pAIObject );
 }
 
 int  CCommonData::GetNumberOfPoi()
@@ -1005,7 +1005,7 @@ void CCommonData::CalculateAIUnitCombatCapabilities( long iCurrentTurn )
 			//if( pUnit )
 			if( pAIPoiObject->GetAIPoiObjectType() == EnumAIPoiObjectType::enum_Unit )
 			{
-				CEOSAIUnit2* pAIUnit = (CEOSAIUnit2*) pAIPoiObject;
+				CEOSAIUnit* pAIUnit = (CEOSAIUnit*) pAIPoiObject;
 				AllUnitsInTheGame.AddUnitTemplate( pAIUnit->GetAIUnitTemplate() );//pUnit->GetUnitTemplate() );
 			}
 		}
@@ -1402,7 +1402,7 @@ void CCommonData::CalculateUnitCombatCapabilities()
 		long iArraySize = pMyUnit->GetUnitCombatCapability()->GetArray()->m_iSize;
 		for( long i=0; i<iArraySize; i++ )
 		{
-			CEOSAIUnit2VsUnitValue* pVal = pMyUnit->GetUnitCombatCapability()->GetArray()->Value(i);
+			CEOSAIUnitVsUnitValue* pVal = pMyUnit->GetUnitCombatCapability()->GetArray()->Value(i);
 			if( pVal == NULL ) continue;
 			CUnitTemplate* pTargetUnitTemplate = pVal->GetTargetUnitTemplate();
 			float f1 = pVal->GetMeleeAttrition01();

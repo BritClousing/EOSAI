@@ -4,23 +4,23 @@
 #include "EOSAIAction.h"
 #include "PoiObjectState.h"
 class CAITacticalProject;
-class CEOSAIUnit2;
+class CEOSAIUnit;
 class EOSAI::UnitTask;
-class CEOSAIUnit2ActionIdea;
+class CEOSAIUnitActionIdea;
 class CEOSAIDesireSpatial;
 class CEOSAIBrain;
 
 // The AIUnitAction is created when I decided to use an AIUnitActionIdea.
 // It describes the action undertaken by a single unit - CaptureCitRes, Attack Enemy, etc
 //   AIUnitActionIdeas are used to fulfill TacticalProjects, and aren't attached directly to desires.
-class CEOSAIUnit2Action : public CEOSAIAction
+class CEOSAIUnitAction : public CEOSAIAction
 {
 	public:
-		CEOSAIUnit2Action( CEOSAIUnit2ActionIdea* pAIUnitActionValue ) : CEOSAIAction( pAIUnitActionValue )
+		CEOSAIUnitAction( CEOSAIUnitActionIdea* pAIUnitActionValue ) : CEOSAIAction( pAIUnitActionValue )
 		{
 			m_pTargetDesire = NULL;
 		}
-		virtual ~CEOSAIUnit2Action(){}
+		virtual ~CEOSAIUnitAction(){}
 
 		void               SetTargetDesire( CEOSAIDesireSpatial* pTargetDesire ){ m_pTargetDesire = pTargetDesire; }
 		CEOSAIDesireSpatial*  GetTargetDesire(){ return m_pTargetDesire; }
@@ -32,11 +32,11 @@ class CEOSAIUnit2Action : public CEOSAIAction
 		CEOSAIDesireSpatial*  m_pTargetDesire;
 };
 /*
-class CEOSAIUnit2Action_CaptureCitRes : public CEOSAIUnit2Action
+class CEOSAIUnitAction_CaptureCitRes : public CEOSAIUnitAction
 {
 	public:
-		CEOSAIUnit2Action_CaptureCitRes( CEOSAIUnit2ActionIdea* pAIUnitActionValue ) :
-			CEOSAIUnit2Action( pAIUnitActionValue ){}
+		CEOSAIUnitAction_CaptureCitRes( CEOSAIUnitActionIdea* pAIUnitActionValue ) :
+			CEOSAIUnitAction( pAIUnitActionValue ){}
 
 		virtual void CreateAndAppendAITasks();
 };

@@ -20,13 +20,13 @@ namespace EOSAI
 }
 class CEOSAICity;
 class CAITacticalProject;
-class CEOSAIUnit2ActionIdea;
+class CEOSAIUnitActionIdea;
 class CEOSAITaskForce3;
-class CEOSAIUnit2PathwayFinder;
+class CEOSAIUnitPathwayFinder;
 class CEOSAIAirUnitPathwayFinder;
 class CEOSAISeaUnitPathwayFinder;
 class CAIGroundUnitPathwayFinder;
-class CEOSAIUnit2PathwayPredefinedStep;
+class CEOSAIUnitPathwayPredefinedStep;
 class CEOSAITacticalProject2;
 
 // Used for hypothetical (BestCase) allocations
@@ -44,7 +44,7 @@ class CEOSAITransportSpaceAllocation
 			m_iPreAllocatedSpace = 0;
 			m_iAllocatedSpace = 0;
 		}
-		CEOSAITransportSpaceAllocation( CEOSAIUnit2* pAIUnit, CEOSAITaskForce3* p )
+		CEOSAITransportSpaceAllocation( CEOSAIUnit* pAIUnit, CEOSAITaskForce3* p )
 		{
 			m_pAIUnit = pAIUnit;
 			m_pAITaskForce = p;
@@ -54,33 +54,33 @@ class CEOSAITransportSpaceAllocation
 			SetAIUnit( pAIUnit );
 		}
 
-		void  SetAIUnit( CEOSAIUnit2* pAIUnit );
+		void  SetAIUnit( CEOSAIUnit* pAIUnit );
 		void  Clear();
 
 		void  CalculatePreAllocatedSpace();
 
-		bool  CanInsert( CEOSAIUnit2ActionIdea* pUnitActionIdea );
-		bool  HasAllocatedSpace( CEOSAIUnit2ActionIdea* pUnitActionIdea );
-		void  AllocateTransportSpace( CEOSAIUnit2ActionIdea* pUnitActionIdea );
-		void  DeAllocateTransportSpace( CEOSAIUnit2ActionIdea* pUnitActionIdea );
+		bool  CanInsert( CEOSAIUnitActionIdea* pUnitActionIdea );
+		bool  HasAllocatedSpace( CEOSAIUnitActionIdea* pUnitActionIdea );
+		void  AllocateTransportSpace( CEOSAIUnitActionIdea* pUnitActionIdea );
+		void  DeAllocateTransportSpace( CEOSAIUnitActionIdea* pUnitActionIdea );
 
 		long  GetAllocatedAndPreAllocatedSpace(){ return m_iPreAllocatedSpace + m_iAllocatedSpace; }
 
 	private:
-		CEOSAIUnit2*        m_pAIUnit;
+		CEOSAIUnit*        m_pAIUnit;
 	public:
 		CEOSAITaskForce3*  m_pAITaskForce; // if this is NULL, this is the "Real" list (not the hypothetical)
 		bool            m_bPreAllocatedSpaceHasBeenCalculated;
 		long            m_iPreAllocatedSpace;
 		long            m_iAllocatedSpace;
-		CList< CEOSAIUnit2ActionIdea* >  m_AllocatedUnitActionIdeaSpace;
+		CList< CEOSAIUnitActionIdea* >  m_AllocatedUnitActionIdeaSpace;
 };
 
-class DLLIMPEXP CEOSAIUnit2 : public EOSAI::PoiMobile
+class DLLIMPEXP CEOSAIUnit : public EOSAI::PoiMobile
 {
 	public:
-		CEOSAIUnit2();
-		virtual ~CEOSAIUnit2();
+		CEOSAIUnit();
+		virtual ~CEOSAIUnit();
 
 		virtual void ResetAIPlayerData();
 		void         ResetAIPlayerData_AIUnit();
@@ -98,7 +98,8 @@ class DLLIMPEXP CEOSAIUnit2 : public EOSAI::PoiMobile
 		long      GetCombatUnitTypeLong(){ return m_pAIUnitTemplate->GetCombatUnitTypeLong(); }
 		long      GetCombatUnitTypeWhenLandedOrDocked(){ return m_pAIUnitTemplate->GetCombatUnitTypeWhenLandedOrDocked(); }
 
-		CEOSAIUnit2CombatCapability*  GetAIUnitCombatCapability(){ ASSERT( false ); return NULL; }// &m_AIUnitCombatCapability; }
+		//CEOSAIUnitCombatCapability*  GetAIUnitCombatCapability(){ ASSERT(false); return NULL; }// &m_AIUnitCombatCapability; }
+		CEOSAIUnitCombatCapability*  GetAIUnitCombatCapability(){ return m_pAIUnitTemplate->GetAIUnitCombatCapability(); }// &m_AIUnitCombatCapability; }
 
 		// Unit-level Desires
 		//
@@ -119,9 +120,9 @@ class DLLIMPEXP CEOSAIUnit2 : public EOSAI::PoiMobile
 		// Potential Targets (used by the AI to assign targets to aircraft; tactical bombers)
 		//
 			void  ClearPotentialTargets();
-			void  AddPotentialTarget( CEOSAIUnit2* pAIUnit );
+			void  AddPotentialTarget( CEOSAIUnit* pAIUnit );
 			bool  HasPotentialTargets();
-			CEOSAIUnit2* GetRandomPotentialTarget();
+			CEOSAIUnit* GetRandomPotentialTarget();
 
 		//
 			//float GetCurrentHP01(){ ASSERT( false ); return 1.0f; }
@@ -170,10 +171,10 @@ class DLLIMPEXP CEOSAIUnit2 : public EOSAI::PoiMobile
 
 		// Container
 		//
-			CEOSAIUnit2* GetCurrentAIUnitContainer();
+			CEOSAIUnit* GetCurrentAIUnitContainer();
 
 			bool         IsInsideTransport();
-			CEOSAIUnit2* GetCurrentAITransport();
+			CEOSAIUnit* GetCurrentAITransport();
 
 			virtual bool CanContainUnits();
 
@@ -186,10 +187,10 @@ class DLLIMPEXP CEOSAIUnit2 : public EOSAI::PoiMobile
 			virtual long GetMySize();
 
 			long  GetContainerSize();
-			bool  HasAllocatedSpace( CEOSAITaskForce3* pAITaskForce, CEOSAIUnit2ActionIdea* pUnitActionIdea );
-			void  AllocateTransportSpace( CEOSAITaskForce3* pAITaskForce, CEOSAIUnit2ActionIdea* pIdea );
-			void  DeAllocateTransportSpace( CEOSAITaskForce3* pAITaskForce, CEOSAIUnit2ActionIdea* pIdea );
-			bool  CanInsertTransportIdea( CEOSAITaskForce3* pAITaskForce, CEOSAIUnit2ActionIdea* pIdea );
+			bool  HasAllocatedSpace( CEOSAITaskForce3* pAITaskForce, CEOSAIUnitActionIdea* pUnitActionIdea );
+			void  AllocateTransportSpace( CEOSAITaskForce3* pAITaskForce, CEOSAIUnitActionIdea* pIdea );
+			void  DeAllocateTransportSpace( CEOSAITaskForce3* pAITaskForce, CEOSAIUnitActionIdea* pIdea );
+			bool  CanInsertTransportIdea( CEOSAITaskForce3* pAITaskForce, CEOSAIUnitActionIdea* pIdea );
 
 		// Containment
 		//
@@ -253,13 +254,13 @@ class DLLIMPEXP CEOSAIUnit2 : public EOSAI::PoiMobile
 			// return Time-To-Target
 			float GetTransportCombinedAssistedMovementTime( CEOSAILocation TargetLocation );
 			//
-			float GetTransportAssistedAIRegionMovementPath( CEOSAIUnit2ActionIdea* pAITransportActionIdea, CEOSAILocation TargetLocation, CEOSAITransportAssistedPath* pPathResults = NULL );
-			float GetTransportAssistedAIRegionMovementPath( CEOSAIUnit2* pTransport, CEOSAILocation TargetLocation, CEOSAITransportAssistedPath* pPathResults = NULL );
+			float GetTransportAssistedAIRegionMovementPath( CEOSAIUnitActionIdea* pAITransportActionIdea, CEOSAILocation TargetLocation, CEOSAITransportAssistedPath* pPathResults = NULL );
+			float GetTransportAssistedAIRegionMovementPath( CEOSAIUnit* pTransport, CEOSAILocation TargetLocation, CEOSAITransportAssistedPath* pPathResults = NULL );
 			float GetTransportAssistedAIRegionMovementPath( CEOSAICity* pCity, CEOSAIUnitTemplate* pTransportUnitTemplate, float fTransportBuildTime, CEOSAILocation TargetLocation, CEOSAITransportAssistedPath* pPathResults = NULL );
 			float GetTransportAssistedAIRegionMovementPath( CEOSAIRegionPathwayMap* pTransportAIRegionMovementMap, CEOSAIUnitTemplate* pTransportUnitTemplate, float fTransportDelayTime, CEOSAILocation TargetLocation, CEOSAITransportAssistedPath* pPathResults = NULL );
 
-			float GetTransportAssistedMultiRegionMovementPath( CEOSAIUnit2ActionIdea* pAITransportActionIdea, CEOSAILocation TargetLocation, CEOSAITransportAssistedPath* pPathResults = NULL );
-			float GetTransportAssistedMultiRegionMovementPath( CEOSAIUnit2* pTransport, CEOSAILocation TargetLocation, CEOSAITransportAssistedPath* pPathResults = NULL );
+			float GetTransportAssistedMultiRegionMovementPath( CEOSAIUnitActionIdea* pAITransportActionIdea, CEOSAILocation TargetLocation, CEOSAITransportAssistedPath* pPathResults = NULL );
+			float GetTransportAssistedMultiRegionMovementPath( CEOSAIUnit* pTransport, CEOSAILocation TargetLocation, CEOSAITransportAssistedPath* pPathResults = NULL );
 			float GetTransportAssistedMultiRegionMovementPath( CEOSAICity* pCity, CEOSAIUnitTemplate* pTransportUnitTemplate, float fTransportBuildTime, CEOSAILocation TargetLocation, CEOSAITransportAssistedPath* pPathResults = NULL );
 			float GetTransportAssistedMultiRegionMovementPath( CEOSAIRegionPathwayMap* pTransportMultiRegionMovementMap, CEOSAIUnitTemplate* pTransportUnitTemplate, float fTransportDelayTime, CEOSAILocation TargetLocation, CEOSAITransportAssistedPath* pPathResults = NULL );
 
@@ -272,17 +273,17 @@ class DLLIMPEXP CEOSAIUnit2 : public EOSAI::PoiMobile
 			void  ConstructFullRedPath();
 			float CalculateRedPathArrivalTimeAtGeo( long iTargetGeo );
 			float     GetAttackTimeOfTacticalProject( CEOSAITacticalProject2* pTacticalProject );
-			CEOSAIUnit2*  GetTransportUsedInTacticalProject( CEOSAITacticalProject2* pTacticalProject );
+			CEOSAIUnit*  GetTransportUsedInTacticalProject( CEOSAITacticalProject2* pTacticalProject );
 			void  SetInitialWaitTime( float fWaitTime ){ m_fInitialWaitTime = fWaitTime; }
 			float GetInitialWaitTime(){ return m_fInitialWaitTime; }
-			//CEOSAIUnit2PathwayPredefinedStep*  GetPickupStep( CEOSAIUnit2PathwayPredefinedStep* pGroundUnitStep );
-			//CEOSAIUnit2PathwayPredefinedStep*  GetDropoffStep( CEOSAIUnit2PathwayPredefinedStep* pGroundUnitStep );
+			//CEOSAIUnitPathwayPredefinedStep*  GetPickupStep( CEOSAIUnitPathwayPredefinedStep* pGroundUnitStep );
+			//CEOSAIUnitPathwayPredefinedStep*  GetDropoffStep( CEOSAIUnitPathwayPredefinedStep* pGroundUnitStep );
 
 		//
 		//
 			void CalculateUnitPathway();
 
-			CEOSAIUnit2PathwayFinder*        GetAIUnitPathwayFinder(){ return m_pAIUnitPathway; }
+			CEOSAIUnitPathwayFinder*        GetAIUnitPathwayFinder(){ return m_pAIUnitPathway; }
 			CEOSAIAirUnitPathwayFinder*     GetAIAirUnitPathwayFinder();
 			CEOSAISeaUnitPathwayFinder*     GetAISeaUnitPathwayFinder();
 			CAIGroundUnitPathwayFinder*  GetAIGroundUnitPathwayFinder();
@@ -290,8 +291,8 @@ class DLLIMPEXP CEOSAIUnit2 : public EOSAI::PoiMobile
 			virtual void  AddOnTheWayAndWaitTasksAsPredefinedSteps(); // over-ridden from AIPoiObject
 
 			// If [this] is a Transport
-			//void AddTransportAction( CEOSAIUnit2PathwayPredefinedStep* pTransporteeStep ); // Support this step with a transport action
-			//void AddTransportAction( CEOSAIUnit2PathwayPredefinedStep* pTransporteeStep ); // Support this step with a transport action
+			//void AddTransportAction( CEOSAIUnitPathwayPredefinedStep* pTransporteeStep ); // Support this step with a transport action
+			//void AddTransportAction( CEOSAIUnitPathwayPredefinedStep* pTransporteeStep ); // Support this step with a transport action
 
 		//
 			//void AllocateMinorTaskToThisIdleUnit();
@@ -327,9 +328,9 @@ class DLLIMPEXP CEOSAIUnit2 : public EOSAI::PoiMobile
 		//CUnit*          m_pServerUnit;   // sometimes valid
 		CEOSAIUnitTemplate*  m_pAIUnitTemplate; // always valid
 
-		CList< CEOSAIUnit2* >  m_PotentialTargets; // not owned
+		CList< CEOSAIUnit* >  m_PotentialTargets; // not owned
 
-		CEOSAIUnit2CombatCapability  m_AIUnitCombatCapability;
+		CEOSAIUnitCombatCapability  m_AIUnitCombatCapability;
 
 		// Unit-level Desires
 		//
@@ -364,7 +365,7 @@ class DLLIMPEXP CEOSAIUnit2 : public EOSAI::PoiMobile
 		CEOSAIRegionPathwayMap  m_MultiRegionMapDirectToCoasts;
 		CEOSAIRegionPathwayMap  m_LandAndImaginarySeaTransportMultiRegionMapToEverywhere;
 
-		CEOSAIUnit2PathwayFinder*  m_pAIUnitPathway;
+		CEOSAIUnitPathwayFinder*  m_pAIUnitPathway;
 
 		float m_fInitialWaitTime;
 };

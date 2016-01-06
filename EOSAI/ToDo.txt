@@ -86,7 +86,7 @@ AI User Interface:
   For example, if iron is running low, then he needs to shift his city-build orders to construct fewer things that require iron.
   Of course, this depends on the AI understanding that iron is a consumable resource (not an infinite "available/unavailable" resource, like Civ does).
 
-- Get rid of the "2" -  e.g. "CEOSAIUnit2", etc
+- Get rid of the "2" -  e.g. "CEOSAIUnit", etc
 
 - CEOSAICity::GetGroundSeaDanger01() needs to be written better. If the AI is next to a neutral player, he doesn't register as "dangerous",
     even in cases where it's obvious war will occur within the next 20 turns (based on the fact that there are no other players, and few

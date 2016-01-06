@@ -4,7 +4,7 @@
 #include "EOSAIUnitTask.h"
 
 class CAISuperTask;
-class CEOSAIUnit2;
+class CEOSAIUnit;
 
 namespace EOSAI
 {

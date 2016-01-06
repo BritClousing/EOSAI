@@ -597,7 +597,7 @@ void AIPlayer::SetMyUnitsFieldOrders()
 		if( pPoiMobile &&
 			pPoiMobile->GetOwner() == iAIPlayer )
 		{
-			CEOSAIUnit2* pUnit = dynamic_cast< CEOSAIUnit2* >( pPoiMobile );
+			CEOSAIUnit* pUnit = dynamic_cast< CEOSAIUnit* >( pPoiMobile );
 			if( pUnit )
 			{
 				//if( pUnit->GetUnitTemplate()->GetUnitCombatCapability()->IsACombatUnit() &&
@@ -1430,7 +1430,7 @@ void  AIPlayer::Process()
 			while( pos )
 			{
 				pFirstAIPoiObject = m_pAIBrain->GetAIThoughtDatabase()->GetMyActors()->GetNext( pos );
-				if( dynamic_cast< CEOSAIUnit2* >( pFirstAIPoiObject ) )
+				if( dynamic_cast< CEOSAIUnit* >( pFirstAIPoiObject ) )
 				{
 					break;
 				}
@@ -1950,7 +1950,7 @@ void AIPlayer::FindUnitsWithinMyNationalBoundaries()
 		//if( pAIPoiObject->IsNeutralPlayer() == false ) continue;
 		if( pAIPoiObject->GetForeignRelationsTo( GetPlayerNumber() ) != EOSAIEnumForeignRelations::enum_Neutral ) continue;
 
-		CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+		CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 		if( pAIUnit )
 		{
 			// Ignore aircraft ( for now )
@@ -2307,7 +2307,7 @@ void AIPlayer::CalculateCitResValues()
 	while( pos )
 	{
 		CEOSAIPoiObject* pAIPoiObject = pAIThoughtDatabase->GetMyActors()->GetNext( pos );
-		CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+		CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 		if( pAIUnit )
 		{
 			//fEstimatedOilConsumption += pAIUnit->GetServerUnit()->GetOilConsumption();

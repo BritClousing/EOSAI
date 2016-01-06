@@ -141,7 +141,7 @@ void  CEOSAIUnitSummary::CalculateInProduction( CAIPlayer* pAIPlayer )  // Calcu
 
 void  CEOSAIUnitSummary::AddToSummary( CEOSAIPoiObject* pAIPoiObject )  // Calculate abilities of single unit
 {
-	CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+	CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 	if( pAIUnit )
 	{
 		m_AIPoiObjects.AddTail( pAIPoiObject );
@@ -151,7 +151,7 @@ void  CEOSAIUnitSummary::AddToSummary( CEOSAIPoiObject* pAIPoiObject )  // Calcu
 
 		m_fProductionValue += pAIUnitTemplate->GetProductionCost();
 		
-		CEOSAIUnit2CombatCapability* pUnit2CombatCapability = pAIUnitTemplate->GetAIUnitCombatCapability();
+		CEOSAIUnitCombatCapability* pUnit2CombatCapability = pAIUnitTemplate->GetAIUnitCombatCapability();
 		m_fCombatSignificance += pAIUnitTemplate->GetAIUnitCombatCapability()->GetCombatSignificance();
 		int g=0;
 	}
@@ -180,7 +180,7 @@ void  CEOSAIUnitSummary::AddToSummary( CEOSAIUnitTemplate* pAIUnitTemplate )
 
 void  CEOSAIUnitSummary::RemoveFromSummary( CEOSAIPoiObject* pAIPoiObject )
 {
-	CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+	CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 	ASSERT( pAIUnit );
 	if( pAIUnit )
 	{

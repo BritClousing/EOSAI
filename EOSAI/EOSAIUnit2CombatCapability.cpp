@@ -18,14 +18,14 @@ static char THIS_FILE[]=__FILE__;
 #define new DEBUG_NEW
 #endif
 
-CEOSAIUnit2CombatCapability::CEOSAIUnit2CombatCapability()
+CEOSAIUnitCombatCapability::CEOSAIUnitCombatCapability()
 {
 	m_pMyAIUnitTemplate = NULL;
 	m_fAverageVisibleRange = -1.0f;
 	m_fCombatAttritionSignificance01 = -1.0f;
 }
 
-CEOSAIUnit2CombatCapability::~CEOSAIUnit2CombatCapability()
+CEOSAIUnitCombatCapability::~CEOSAIUnitCombatCapability()
 {
 	for( long i=0; i<m_CombatValueArray.m_iSize; i++ )
 	{
@@ -33,23 +33,23 @@ CEOSAIUnit2CombatCapability::~CEOSAIUnit2CombatCapability()
 	}
 }
 
-CEOSAIUnit2VsUnitValue*  CEOSAIUnit2CombatCapability::InvokeCombatValue( CEOSAIUnitTemplate* pTargetTemplate )
+CEOSAIUnitVsUnitValue*  CEOSAIUnitCombatCapability::InvokeCombatValue( CEOSAIUnitTemplate* pTargetTemplate )
 {
 	// Make sure the array is allocated
 	InvokeArray();
-	CEOSAIUnit2VsUnitValue* pValue = m_CombatValueArray.Value( pTargetTemplate->GetIndex() );
+	CEOSAIUnitVsUnitValue* pValue = m_CombatValueArray.Value( pTargetTemplate->GetIndex() );
 	if( pValue == NULL )
 	{
-		pValue = new CEOSAIUnit2VsUnitValue( m_pMyAIUnitTemplate, pTargetTemplate );
+		pValue = new CEOSAIUnitVsUnitValue( m_pMyAIUnitTemplate, pTargetTemplate );
 		m_CombatValueArray.Value( pTargetTemplate->GetIndex() ) = pValue;
 	}
 
 	return pValue;
 }
 /*
-bool CEOSAIUnit2CombatCapability::IsACombatUnitAgainst( CUnitTemplate* pTarget )
+bool CEOSAIUnitCombatCapability::IsACombatUnitAgainst( CUnitTemplate* pTarget )
 {
-	CEOSAIUnit2VsUnitValue* pUnitVsUnitValue = GetCombatValue( pTarget );
+	CEOSAIUnitVsUnitValue* pUnitVsUnitValue = GetCombatValue( pTarget );
 	if( pUnitVsUnitValue )
 	{
 		if( m_pMyUnitTemplate->IsGroundUnit() && pTarget->IsSeaUnit() ) return false;
@@ -64,7 +64,7 @@ bool CEOSAIUnit2CombatCapability::IsACombatUnitAgainst( CUnitTemplate* pTarget )
 	return false;
 }
 */
-void CEOSAIUnit2CombatCapability::CalculateAverageVisibleRange( CEOSAIUnitTemplateSet* pEnemyUnitSet )
+void CEOSAIUnitCombatCapability::CalculateAverageVisibleRange( CEOSAIUnitTemplateSet* pEnemyUnitSet )
 {
 	float fCummulativeViewRange = 0.0f;
 	long  iCummulativeViewRangeCount = 0;
@@ -88,20 +88,21 @@ void CEOSAIUnit2CombatCapability::CalculateAverageVisibleRange( CEOSAIUnitTempla
 	}
 }
 
-float CEOSAIUnit2CombatCapability::GetAverageVisibleRange()
+float CEOSAIUnitCombatCapability::GetAverageVisibleRange()
 {
 	ASSERT( m_fAverageVisibleRange >= 0.0f );
 	return m_fAverageVisibleRange;
 }
 
 
-float CEOSAIUnit2CombatCapability::GetCombatSignificance()
+float CEOSAIUnitCombatCapability::GetCombatSignificance()
 {
+	I Need to calculate this.
 	ASSERT( m_fCombatAttritionSignificance01 >= 0.0f );
 	return m_pMyAIUnitTemplate->GetProductionAndIronCost1() * m_fCombatAttritionSignificance01;
 }
 
-void CEOSAIUnit2CombatCapability::CalculateRelativeValue( CEOSAIUnitTemplateSet* pMyUnitSet, CEOSAIUnitTemplateSet* pEnemyUnitSet )
+void CEOSAIUnitCombatCapability::CalculateRelativeValue( CEOSAIUnitTemplateSet* pMyUnitSet, CEOSAIUnitTemplateSet* pEnemyUnitSet )
 {
 	// Calculate the value of this unit relative to all my other units
 	//   This is useful in calculating if this unit is useful in combat against unit X.
@@ -110,7 +111,7 @@ void CEOSAIUnit2CombatCapability::CalculateRelativeValue( CEOSAIUnitTemplateSet*
 	while( pos )
 	{
 		CEOSAIUnitTemplate* pEnemyUnitTemplate = pEnemyUnitSet->m_List.GetNext( pos );
-		CEOSAIUnit2VsUnitValue* pValue = InvokeCombatValue( pEnemyUnitTemplate );
+		CEOSAIUnitVsUnitValue* pValue = InvokeCombatValue( pEnemyUnitTemplate );
 	}
 	/*
 	POSITION pos = pEnemyUnitSet->m_List.GetHeadPosition();
@@ -127,13 +128,13 @@ void CEOSAIUnit2CombatCapability::CalculateRelativeValue( CEOSAIUnitTemplateSet*
 		{
 			CUnitTemplate* pMyOtherTemplate = pMyUnitSet->m_List.GetNext( pos2 );
 			//
-			CEOSAIUnit2VsUnitValue* pValue = pMyOtherTemplate->GetAIUnitCombatCapability()->InvokeCombatValue( pEnemyUnitTemplate );
+			CEOSAIUnitVsUnitValue* pValue = pMyOtherTemplate->GetAIUnitCombatCapability()->InvokeCombatValue( pEnemyUnitTemplate );
 			fBestMeleeAttritionValue01 = max( fBestMeleeAttritionValue01, pValue->GetMeleeAttrition01() );
 			fBestRangedAttritionValue01 = max( fBestRangedAttritionValue01, pValue->GetRangedAttrition01() );
 			fBestRangeX2AttritionValue01 = max( fBestRangeX2AttritionValue01, pValue->GetRangeX2Attrition01() );
 		}
 
-		CEOSAIUnit2VsUnitValue* pValue = InvokeCombatValue( pEnemyUnitTemplate );
+		CEOSAIUnitVsUnitValue* pValue = InvokeCombatValue( pEnemyUnitTemplate );
 		pValue->SetMyRelativeMeleeAttritionValue01( pValue->GetMeleeAttrition01() / fBestMeleeAttritionValue01 );
 		pValue->SetMyRelativeRangedAttritionValue01( pValue->GetRangedAttrition01() / fBestRangedAttritionValue01 );
 		pValue->SetMyRelativeRangeX2AttritionValue01( pValue->GetRangeX2Attrition01() / fBestRangeX2AttritionValue01 );
@@ -154,7 +155,7 @@ void CEOSAIUnit2CombatCapability::CalculateRelativeValue( CEOSAIUnitTemplateSet*
 		if( m_CombatValueArray[i] == NULL ) continue;
 
 		float fWeight = 1.0f;
-		CEOSAIUnit2VsUnitValue* pUVUValue = m_CombatValueArray[i];
+		CEOSAIUnitVsUnitValue* pUVUValue = m_CombatValueArray[i];
 		if( pUVUValue->GetAttackerUnitTemplate()->IsGroundUnit() && pUVUValue->GetTargetUnitTemplate()->IsGroundUnit() )
 		{
 			fWeight = 3.0f;
@@ -198,7 +199,7 @@ void CEOSAIUnit2CombatCapability::CalculateRelativeValue( CEOSAIUnitTemplateSet*
 	int g=0;
 }
 
-void CEOSAIUnit2CombatCapability::InvokeArray()
+void CEOSAIUnitCombatCapability::InvokeArray()
 {
 	if( m_CombatValueArray.m_iSize == 0 )
 	{

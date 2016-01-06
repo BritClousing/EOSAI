@@ -3,7 +3,7 @@
 
 #include "EOSAIUnitPathwayResultStep.h"
 #include "EOSAIAirUnitPathwayData.h"
-class CEOSAIUnit2PathwayFinder;
+class CEOSAIUnitPathwayFinder;
 class CEOSAIPoiObject;
 //class CUnitTemplate;
 
@@ -12,7 +12,7 @@ namespace EOSAI
 class UnitPathwayResult
 {
 public:
-	UnitPathwayResult(CEOSAIUnit2PathwayFinder* pPathwayFinder)
+	UnitPathwayResult(CEOSAIUnitPathwayFinder* pPathwayFinder)
 	{
 		ASSERT(pPathwayFinder != NULL);
 		m_pAIUnitPathwayFinder = pPathwayFinder;
@@ -22,12 +22,12 @@ public:
 	//
 	void  Clear();
 	bool  PathIsValid() { return m_bPathIsValid; }
-	void  UseTransport(CEOSAIUnit2* pAITransport);
+	void  UseTransport(CEOSAIUnit* pAITransport);
 	//
 	bool  CreateOrders();
 	bool  AllOrdersWereCreated() { return m_bAllOrdersWereCreated; }
 	//
-	CEOSAIUnit2PathwayFinder*  m_pAIUnitPathwayFinder;
+	CEOSAIUnitPathwayFinder*  m_pAIUnitPathwayFinder;
 	//CEOSAIPoiObject*   m_pAIActor;
 	//CUnitTemplate*  m_pUnitTemplate;
 

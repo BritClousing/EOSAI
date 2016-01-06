@@ -210,10 +210,10 @@ void CEOSAIDesireSpatial::GetDestroyUnitDesiresInTheImmediateArea( CList< CEOSAI
 
 // AttachedUnits = Units within 30 pixels of this target
 //
-void CEOSAIDesireSpatial::GetUnitsInTheImmediateArea( CList< CEOSAIUnit2* >* pEnemyUnits )
+void CEOSAIDesireSpatial::GetUnitsInTheImmediateArea( CList< CEOSAIUnit* >* pEnemyUnits )
 {
 	CEOSAIPoiObject* pAIPoiObject = this->GetAIPoiObjectTarget();
-	CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+	CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 	if( pAIUnit )
 	{
 		pEnemyUnits->AddTail( pAIUnit );
@@ -228,7 +228,7 @@ void CEOSAIDesireSpatial::GetUnitsInTheImmediateArea( CList< CEOSAIUnit2* >* pEn
 			// Must handle this Desire as well - it might be combat
 			CEOSAIDesireSpatial* pOtherDesire = pConn->m_pConnectedAISpatialDesire;
 			CEOSAIPoiObject* pAIPoiObject = pOtherDesire->GetAIPoiObjectTarget();
-			CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+			CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 			if( pAIUnit )
 			{
 				pEnemyUnits->AddTail( pAIUnit );
@@ -292,7 +292,7 @@ void  CEOSAIDesireSpatial::CalculateExpectedPathwayResistance()
 	while( pos )
 	{
 		CEOSAIPoiObject* pAIPoiObject = g_pEOSAICommonData->GetAIPoiObjects()->GetNext( pos );
-		CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+		CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 		if( pAIUnit && pAIUnit->GetOwner() == 0 )
 		{
 			float fDistance = g_pWorldDistanceTool->GetDistance( pAIUnit->GetInitialState()->GetLocation(), GetLocation() );
@@ -321,7 +321,7 @@ void  CEOSAIDesireSpatial::CalculateExpectedPathwayResistance()
 		while( pos )
 		{
 			CEOSAIPoiObject* pAIPoiObject = g_pEOSAICommonData->GetAIPoiObjects()->GetNext( pos );
-			CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+			CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 			if( pAIUnit == NULL ) continue; // ignore non-units
 			//CPoiObject* pServerPoiObject = pAIPoiObject->GetServerPoiObject();
 			//if( pAIUnit->GetForeignRelationsTo( iAIPlayer ).IsEnemy() == false ) continue;
@@ -376,7 +376,7 @@ void CEOSAIDesireSpatial::CalculateAllocatedFulfillment()
 	pos = m_UnitActionIdeaAllocations.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2ActionIdea* pActionIdea = m_UnitActionIdeaAllocations.GetNext( pos );
+		CEOSAIUnitActionIdea* pActionIdea = m_UnitActionIdeaAllocations.GetNext( pos );
 		JobCapability.Add( pActionIdea->GetAIUnitTemplate() );
 	}
 	m_fFulfillment = JobsToDo.GetMinimumFulfillment01( &JobCapability );
@@ -667,7 +667,7 @@ float CEOSAIDesireSpatial::GetEnemyCombatPowerWithinRange( float fRange ) // Che
 			if( pNearbyUnit &&
 				pNearbyUnit->CurrentForeignRelationsPreventsPersuingThisDesire() == false )
 			{
-				CEOSAIUnit2* pTargetAIUnit = dynamic_cast< CEOSAIUnit2* >( pNearbyUnit->m_pAITarget );
+				CEOSAIUnit* pTargetAIUnit = dynamic_cast< CEOSAIUnit* >( pNearbyUnit->m_pAITarget );
 				ASSERT( pTargetAIUnit );
 				fPower += pTargetAIUnit->GetAIUnitTemplate()->GetAIUnitCombatCapability()->GetCombatSignificance();
 			}

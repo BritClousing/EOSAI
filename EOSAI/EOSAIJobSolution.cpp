@@ -39,7 +39,7 @@ void CEOSAIJobSolution::MultiplyExpandJobSignificance( float f )
 	POSITION pos = m_pAIJobsToDo->m_UnitTemplatesAndFloat.m_List.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2TemplateAndFloat* pUnitTemplateAndFloat = m_pAIJobsToDo->m_UnitTemplatesAndFloat.m_List.GetNext( pos );
+		CEOSAIUnitTemplateAndFloat* pUnitTemplateAndFloat = m_pAIJobsToDo->m_UnitTemplatesAndFloat.m_List.GetNext( pos );
 		CEOSAIUnitTemplate* pAIUnitTemplate = pUnitTemplateAndFloat->m_pAIUnitTemplate;
 
 		CStringList* pMilitiaUnits = g_pEOSAICommonData->GetActiveUnitset()->GetInitialMilitiaUnitList();
@@ -68,7 +68,7 @@ void CEOSAIJobSolution::MultiplyConquestJobSignificance( float f )
 	POSITION pos = m_pAIJobsToDo->m_UnitTemplatesAndFloat.m_List.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2TemplateAndFloat* pUnitTemplateAndFloat = m_pAIJobsToDo->m_UnitTemplatesAndFloat.m_List.GetNext( pos );
+		CEOSAIUnitTemplateAndFloat* pUnitTemplateAndFloat = m_pAIJobsToDo->m_UnitTemplatesAndFloat.m_List.GetNext( pos );
 		CEOSAIUnitTemplate* pUnitTemplate = pUnitTemplateAndFloat->m_pAIUnitTemplate;
 
 		CStringList* pMilitiaUnits = g_pEOSAICommonData->GetActiveUnitset()->GetInitialMilitiaUnitList();
@@ -192,11 +192,11 @@ float CEOSAIJobSolution::GetCurrentCapabilityValue()
 		}
 	}
 
-	CEOSAIUnit2TemplatesAndFloat& MyUnits = m_pAIJobCapability->m_UnitTemplatesAndFloat;
-	CEOSAIUnit2TemplatesAndFloat& EnemyUnits = m_pAIJobsToDo->m_UnitTemplatesAndFloat;
+	CEOSAIUnitTemplatesAndFloat& MyUnits = m_pAIJobCapability->m_UnitTemplatesAndFloat;
+	CEOSAIUnitTemplatesAndFloat& EnemyUnits = m_pAIJobsToDo->m_UnitTemplatesAndFloat;
 	float fDamageToEnemyProduction = 0.0f;
 	float fDamageToEnemyCombatCapability = 0.0f;
-	CEOSAIUnit2TemplatesAndFloat  NationalCombatResults;
+	CEOSAIUnitTemplatesAndFloat  NationalCombatResults;
 	CEOSAIQuickCombatCalculation::QuickCombatResults( MyUnits, EnemyUnits, NationalCombatResults );
 	CEOSAIQuickCombatCalculation::QuickCombatDamageSqrt( EnemyUnits, NationalCombatResults, &fDamageToEnemyProduction, &fDamageToEnemyCombatCapability );
 
@@ -204,7 +204,7 @@ float CEOSAIJobSolution::GetCurrentCapabilityValue()
 	pos = EnemyUnits.m_List.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2TemplateAndFloat* pAIUnitTemplateAndFloat = EnemyUnits.m_List.GetNext( pos );
+		CEOSAIUnitTemplateAndFloat* pAIUnitTemplateAndFloat = EnemyUnits.m_List.GetNext( pos );
 		CEOSAIUnitTemplate* pAIUnitTemplate = pAIUnitTemplateAndFloat->m_pAIUnitTemplate;
 
 		fTotalEnemyCost += pAIUnitTemplateAndFloat->m_fValue * pAIUnitTemplateAndFloat->m_pAIUnitTemplate->GetProductionCost();
@@ -263,7 +263,7 @@ bool CEOSAIJobSolution::CanFulfillANonCombatJob( CUnitTemplate* pActor )
 	return false;
 }
 
-bool CEOSAIJobSolution::CanFulfillANonCombatJob( CEOSAIUnit2Capability* pAIUnitCapability )
+bool CEOSAIJobSolution::CanFulfillANonCombatJob( CEOSAIUnitCapability* pAIUnitCapability )
 {
 	// Primary Jobs
 	if( m_iGroundCitResHunter > 0 && pCapability->m_iGroundCitResHunter > 0 ) return true;

@@ -15,7 +15,7 @@ namespace EOSAI
 {
 	class PoiMobile;
 }
-class CEOSAIUnit2;
+class CEOSAIUnit;
 //class CWorldDesc;
 class CEOSAIBrain;
 class CEOSAIPathfinderPoint;
@@ -68,8 +68,8 @@ public:
 	bool           Contains(CEOSAIPoiObject* pAIPoiObject);
 	long           GetNumberOfContainees();
 	//EOSAI::PoiMobile* GetHighestPoiMobileContainer();
-	//CEOSAIUnit2*      GetHighestUnitContainer();
-	CEOSAIUnit2*      GetAIUnitContainer();
+	//CEOSAIUnit*      GetHighestUnitContainer();
+	CEOSAIUnit*      GetAIUnitContainer();
 
 	void           AddContainee(EOSAI::PoiMobile* pObj) { m_Containees.AddTail(pObj); }
 	void           RemoveContainee(EOSAI::PoiMobile* pObj);

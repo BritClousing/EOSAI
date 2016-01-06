@@ -14,7 +14,7 @@ static char THIS_FILE[]=__FILE__;
 #define new DEBUG_NEW
 #endif
 
-CEOSAIAction::CEOSAIAction( CEOSAIUnit2ActionIdea* pUnitActionIdea )
+CEOSAIAction::CEOSAIAction( CEOSAIUnitActionIdea* pUnitActionIdea )
 {
 	ASSERT( pUnitActionIdea );
 	ASSERT( pUnitActionIdea->GetTacticalProject2() );

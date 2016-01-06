@@ -10,7 +10,7 @@ namespace EOSAI
 };
 class CEOSAIIntSet;
 class CEOSAIUnitTemplate;
-class CEOSAIUnit2ActionIdea;
+class CEOSAIUnitActionIdea;
 class CEOSAIMultiRegion2;
 class CEOSAIPoiObjectProximity;
 class CEOSAITaskForce3;
@@ -236,11 +236,11 @@ class CEOSAITacticalProject2
 			void  CreateStrategiesAndUnitActionIdeas();
 			void  CreateBestCaseTaskForce();
 
-			//void AddUnitActionIdea( CEOSAIUnit2ActionIdea* pUnitActionIdea );
-			//void RemoveUnitActionIdea( CEOSAIUnit2ActionIdea* pUnitActionIdea );
+			//void AddUnitActionIdea( CEOSAIUnitActionIdea* pUnitActionIdea );
+			//void RemoveUnitActionIdea( CEOSAIUnitActionIdea* pUnitActionIdea );
 			CList< CEOSAIUnitTemplate* >*  GetUsefulAvailableUnitTemplates(){ return &m_UsefulAvailableUnitTemplates; }
 			CList< CEOSAIUnitTemplate* >*  GetUsefulBuildableUnitTemplates(){ return &m_UsefulBuildableUnitTemplates; }
-			CList< CEOSAIUnit2ActionIdea* >*  GetUnitActionIdeas(){ return &m_UnitActionIdeas; } // CitResHunters, AntiGroundCombat, ...
+			CList< CEOSAIUnitActionIdea* >*  GetUnitActionIdeas(){ return &m_UnitActionIdeas; } // CitResHunters, AntiGroundCombat, ...
 
 			private:
 			// Action Scheduler only
@@ -366,7 +366,7 @@ class CEOSAITacticalProject2
 		//
 		// UnitActionIdeas
 		//
-			CList< CEOSAIUnit2ActionIdea* >  m_UnitActionIdeas;
+			CList< CEOSAIUnitActionIdea* >  m_UnitActionIdeas;
 
 			// Strategies
 			CEOSAITacticalProject2Strategy*  m_pInvasionStrategy;  // Fight all expected resistance

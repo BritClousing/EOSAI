@@ -2,7 +2,7 @@
 #pragma once
 
 #include "EOSAILocation.h"
-class CEOSAIUnit2;
+class CEOSAIUnit;
 //class CAISymbolProcessor;
 class CAIObject;
 #include "EOSAIUnit2.h"

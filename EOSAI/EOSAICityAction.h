@@ -10,7 +10,7 @@ class CEOSAICity;
 class CEOSAICityAction_Production : public CEOSAIAction
 {
 	public:
-		CEOSAICityAction_Production( CEOSAIUnit2ActionIdea* pAIUnitActionValue );
+		CEOSAICityAction_Production( CEOSAIUnitActionIdea* pAIUnitActionValue );
 		virtual ~CEOSAICityAction_Production(){}
 
 		void Update();

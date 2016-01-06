@@ -36,7 +36,7 @@ static char THIS_FILE[]=__FILE__;
 
 
 /*
-void CEOSAIUnit2Action::CreateAITasksBasedOnAIActionOutline()
+void CEOSAIUnitAction::CreateAITasksBasedOnAIActionOutline()
 {
 	//return;
 
@@ -49,7 +49,7 @@ void CEOSAIUnit2Action::CreateAITasksBasedOnAIActionOutline()
 	}
 
 	// Movement Pathway
-	CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( m_pAIUnitActionIdea->m_pActor );
+	CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( m_pAIUnitActionIdea->m_pActor );
 	ASSERT( pAIUnit );
 	if( pAIUnit )
 	{
@@ -140,7 +140,7 @@ void CEOSAIUnit2Action::CreateAITasksBasedOnAIActionOutline()
 					if( bSwitchFromLandToWater )
 					{
 						ASSERT( m_pActionOutline->m_pTransportOrCarrier );
-						CEOSAIUnit2* pAITransport = m_pActionOutline->m_pTransportOrCarrier;
+						CEOSAIUnit* pAITransport = m_pActionOutline->m_pTransportOrCarrier;
 
 						// pPreviousMultiRegion is the previous land MultiRegion
 						EOSAI::UnitTask_Enter* pEnterTransport = new EOSAI::UnitTask_Enter( pAIUnit, pAITransport, this, pAIUnit->GetFinalState(), pPreviousMultiRegion );
@@ -151,7 +151,7 @@ void CEOSAIUnit2Action::CreateAITasksBasedOnAIActionOutline()
 					if( bSwitchFromWaterToLand )
 					{
 						ASSERT( m_pActionOutline->m_pTransportOrCarrier );
-						CEOSAIUnit2* pAITransport = m_pActionOutline->m_pTransportOrCarrier;
+						CEOSAIUnit* pAITransport = m_pActionOutline->m_pTransportOrCarrier;
 
 						// pPreviousMultiRegion is the previous water MultiRegion
 						EOSAI::UnitTask_Exit* pExitTransport = new EOSAI::UnitTask_Exit( pAIUnit, pAITransport, this, pAIUnit->GetFinalState(), pMultiRegion );
@@ -184,7 +184,7 @@ void CEOSAIUnit2Action::CreateAITasksBasedOnAIActionOutline()
 */
 
 /*
-void CEOSAIUnit2Action_CaptureCitRes::CreateAndAppendAITasks()
+void CEOSAIUnitAction_CaptureCitRes::CreateAndAppendAITasks()
 {
 	/-*  Temporarily disabled
 

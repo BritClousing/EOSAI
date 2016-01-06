@@ -8,17 +8,17 @@
 
 #include "EOSAIBCDumbArray1D.h"
 //#include "AIUnitTemplateCombatAndAttritionValues.h"
-class CEOSAIUnit2VsUnitValue;
+class CEOSAIUnitVsUnitValue;
 class CEOSAIUnitTemplate;
 class CEOSAIUnitTemplateSet;
 
 // Describes a UnitTemplate's combat abilities against other units
 
-class DLLIMPEXP CEOSAIUnit2CombatCapability
+class DLLIMPEXP CEOSAIUnitCombatCapability
 {
 	public:
-		CEOSAIUnit2CombatCapability();
-		~CEOSAIUnit2CombatCapability();
+		CEOSAIUnitCombatCapability();
+		~CEOSAIUnitCombatCapability();
 
 		// Initialization
 		void  SetMyAIUnitTemplate( CEOSAIUnitTemplate* pAIUnitTemplate ){ m_pMyAIUnitTemplate = pAIUnitTemplate; }
@@ -34,8 +34,8 @@ class DLLIMPEXP CEOSAIUnit2CombatCapability
 		float GetCombatAttritionSignificance01(){ return m_fCombatAttritionSignificance01; }
 
 		// Used to calculate unit-vs-unit attrition balance
-		CEOSAIUnit2VsUnitValue*  InvokeCombatValue( CEOSAIUnitTemplate* pAIUnitTemplate );
-		CEOSAIBCDumbArray1D< CEOSAIUnit2VsUnitValue* >*  GetCombatValueArray(){ return &m_CombatValueArray; }
+		CEOSAIUnitVsUnitValue*  InvokeCombatValue( CEOSAIUnitTemplate* pAIUnitTemplate );
+		CEOSAIBCDumbArray1D< CEOSAIUnitVsUnitValue* >*  GetCombatValueArray(){ return &m_CombatValueArray; }
 
 	private:
 
@@ -45,6 +45,6 @@ class DLLIMPEXP CEOSAIUnit2CombatCapability
 		float  m_fCombatAttritionSignificance01;
 
 		void   InvokeArray();
-		CEOSAIBCDumbArray1D< CEOSAIUnit2VsUnitValue* >  m_CombatValueArray;
+		CEOSAIBCDumbArray1D< CEOSAIUnitVsUnitValue* >  m_CombatValueArray;
 };
 

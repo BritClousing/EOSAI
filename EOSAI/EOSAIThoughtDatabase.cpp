@@ -80,7 +80,7 @@ bool SortTacticalProjectsBySimpleInterest( CEOSAITacticalProject2* p1, CEOSAITac
 	return true;  // always return true when values are equal
 }
 /*
-bool SortTacticalProjectsBySimpleInterestAndAIPoiObjectRelativeScore( CEOSAIUnit2ActionIdea* p1, CEOSAIUnit2ActionIdea* p2 )
+bool SortTacticalProjectsBySimpleInterestAndAIPoiObjectRelativeScore( CEOSAIUnitActionIdea* p1, CEOSAIUnitActionIdea* p2 )
 {
 	if( p1->m_fTTTScoreAndAIPoiObjectRelativeScore > p2->m_fTTTScoreAndAIPoiObjectRelativeScore ){ return true; }
 	else if( p1->m_fTTTScoreAndAIPoiObjectRelativeScore < p2->m_fTTTScoreAndAIPoiObjectRelativeScore ){ return false; }
@@ -269,7 +269,7 @@ void CEOSAIThoughtDatabase::CreateDesires()
 		pAIPoiObject->ReleaseAllocatedUnitActionIdea();
 
 		// Setup personal desires
-		CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+		CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 		if( pAIUnit )
 		{
 			pAIUnit->CreatePersonalDesires();
@@ -396,7 +396,7 @@ void CEOSAIThoughtDatabase::CreateDesires()
 					m_Desires.AddTail( pDesire );
 				}
 			}
-			CEOSAIUnit2* pUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+			CEOSAIUnit* pUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 			if( pUnit )
 			{
 				if( bPoiObjectIsEnemyOrUnowned || bPoiObjectIsNeutralOrAlly )
@@ -992,7 +992,7 @@ void  CEOSAIThoughtDatabase::FindWarzones()
 					EOSAIEnumForeignRelations eRel = g_pEOSAICommonData->GetForeignRelations( iLocalPlayer,iOwner );
 					if( eRel >= EOSAIEnumForeignRelations::enum_Alliance )
 					{
-						CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+						CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 						if( pAIUnit )
 						{
 							pAIWarzoneLocation->m_fSATUnitPower += fSignificance01 * pAIUnit->GetAIPowerValue();
@@ -1010,7 +1010,7 @@ void  CEOSAIThoughtDatabase::FindWarzones()
 					}
 					if( eRel < EOSAIEnumForeignRelations::enum_Neutral )
 					{
-						CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+						CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 						if( pAIUnit )
 						{
 							pAIWarzoneLocation->m_fNEUnitPower += fSignificance01 * pAIUnit->GetAIPowerValue();
@@ -1184,13 +1184,13 @@ void  CEOSAIThoughtDatabase::SetTacticalProjects2ScoreIndex()
 }
 
 /*
-void  CEOSAIThoughtDatabase::RemoveUnitActionValue( CEOSAIUnit2ActionIdea* pUnitActionValue )
+void  CEOSAIThoughtDatabase::RemoveUnitActionValue( CEOSAIUnitActionIdea* pUnitActionValue )
 {
 	POSITION pos = m_AIUnitActionValues.GetHeadPosition();
 	while( pos )
 	{
 		POSITION prevPos = pos;
-		CEOSAIUnit2ActionIdea* pUnitActionValueInList = m_AIUnitActionValues.GetNext( pos );
+		CEOSAIUnitActionIdea* pUnitActionValueInList = m_AIUnitActionValues.GetNext( pos );
 		if( pUnitActionValueInList == pUnitActionValue )
 		{
 			m_AIUnitActionValues.RemoveAt( prevPos );
@@ -1495,7 +1495,7 @@ void  CEOSAIThoughtDatabase::InvokeMyCityAndTransportPathwayData()
 				//pAICity->GetInitialState()->GetMultiRegion()->InvokeSeaPathways_EverywhereMRX();
 				pAICity->GetInitialState()->GetMultiRegion()->InvokePathwaysToMultiRegion();
 			}
-			CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+			CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 			if( pAIUnit )
 			{
 				if( pAIUnit->IsSeaUnit() && pAIUnit->GetNumberOfGroundUnitsThatICanContain() > 0 )
@@ -1523,7 +1523,7 @@ void  CEOSAIThoughtDatabase::CreateUnitActionIdeas()
 		CEOSAIPoiObject* pAIPoiObject = m_pAIBrain->GetAIPoiObjectList()->GetNext( pos );
 		if( pAIPoiObject->IsMine() )
 		{
-			CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+			CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 			CEOSAICity* pAICity = dynamic_cast< CEOSAICity* >( pAIPoiObject );
 			if( pAIUnit || pAICity ){ iTotalActors++; }
 		}
@@ -1725,9 +1725,9 @@ void CEOSAIThoughtDatabase::InvokeMultiRegionPathwayDataForEachOfMyCitiesAndGrou
 			{
 				pAIPoiObject->GetInitialState()->GetMultiRegion()->InvokePathwaysToMultiRegion( iPlayer );
 			}
-			if( dynamic_cast< CEOSAIUnit2* >( pAIPoiObject ) )
+			if( dynamic_cast< CEOSAIUnit* >( pAIPoiObject ) )
 			{
-				CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+				CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 				if( pAIUnit->IsAirUnit() ) continue;
 				pAIPoiObject->GetInitialState()->GetMultiRegion()->InvokePathwaysToMultiRegion( iPlayer );
 			}
@@ -1751,7 +1751,7 @@ void CEOSAIThoughtDatabase::InvokeCityTransportAndCarrierPathwayData()
 			{
 				pAICity->GetInitialState()->GetMultiRegion()->InvokePathwaysToMultiRegion( iPlayer );
 			}
-			CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+			CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 			if( pAIUnit )
 			{
 				if( pAIUnit->GetNumberOfGroundUnitsThatICanContain() > 0 ||
@@ -1766,23 +1766,23 @@ void CEOSAIThoughtDatabase::InvokeCityTransportAndCarrierPathwayData()
 	/-*
 	// I probably need to know the transport proximities, so calculate it
 	//   Construct pathways for the transports
-	CList< CEOSAIUnit2* > ExistingTransportsAndCarriers;
+	CList< CEOSAIUnit* > ExistingTransportsAndCarriers;
 	POSITION pos = m_MySeaTransports.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2* pTransport = m_MySeaTransports.GetNext( pos );
+		CEOSAIUnit* pTransport = m_MySeaTransports.GetNext( pos );
 		ExistingTransportsAndCarriers.AddTail( pTransport );
 	}
 	pos = m_ExistingAirTransports.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2* pTransport = m_ExistingAirTransports.GetNext( pos );
+		CEOSAIUnit* pTransport = m_ExistingAirTransports.GetNext( pos );
 		ExistingTransportsAndCarriers.AddTail( pTransport );
 	}
 	pos = m_ExistingAircraftCarriers.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2* pCarrier = m_ExistingAircraftCarriers.GetNext( pos );
+		CEOSAIUnit* pCarrier = m_ExistingAircraftCarriers.GetNext( pos );
 		ExistingTransportsAndCarriers.AddTail( pCarrier );
 	}
 	pos = ExistingTransportsAndCarriers.GetHeadPosition();
@@ -1791,7 +1791,7 @@ void CEOSAIThoughtDatabase::InvokeCityTransportAndCarrierPathwayData()
 		// I want to find-out the proximity of all the transports and carriers to the rest
 		//   of the world.  I will use this information to figure out what transports are most
 		//   useful in picking up which units, and in getting to the ActionDefinition target.
-		CEOSAIUnit2* pTransportOrCarrier = ExistingTransportsAndCarriers.GetNext( pos );
+		CEOSAIUnit* pTransportOrCarrier = ExistingTransportsAndCarriers.GetNext( pos );
 		CMultiRegion* pMultiRegion = pTransportOrCarrier->GetInitialState()->GetMultiRegion();
 		ASSERT( pMultiRegion );
 		pMultiRegion->InvokePathwaysToMultiRegion();
@@ -1816,7 +1816,7 @@ void CEOSAIThoughtDatabase::InvokeTransportPathwayData()
 				pAICity->GetInitialState()->GetMultiRegion()->InvokePathwaysToMultiRegion();
 			}
 			*-/
-			CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+			CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 			if( pAIUnit )
 			{
 				if( pAIUnit->GetNumberOfGroundUnitsThatICanContain() > 0 )
@@ -1824,7 +1824,7 @@ void CEOSAIThoughtDatabase::InvokeTransportPathwayData()
 					// Do a transport-to-everywhere calculation
 					// Create a UnitProximity object for each MultiRegion
 
-					//CEOSAIUnit2Proximity
+					//CEOSAIUnitProximity
 
 					//pAIUnit->GetInitialState()->GetMultiRegion()->InvokeSeaPathways_EverywhereMRX();
 					pAIUnit->GetInitialState()->GetMultiRegion()->InvokePathwaysToMultiRegion( iPlayer );
@@ -2169,7 +2169,7 @@ void CEOSAIThoughtDatabase::ScheduleAITacticalProjects()
 		{
 			CEOSAIPoiObject* pActor = m_MyActors.GetNext( pos );
 
-			CEOSAIUnit2ActionIdea* pUnitActionIdea = pActor->GetAllocatedUnitActionIdea();
+			CEOSAIUnitActionIdea* pUnitActionIdea = pActor->GetAllocatedUnitActionIdea();
 			if( pUnitActionIdea )
 			{
 				CAITacticalProject* pTacticalProject = pUnitActionIdea->GetTaskForce()->GetTacticalProject();
@@ -2293,7 +2293,7 @@ void CEOSAIThoughtDatabase::ScheduleAITacticalProjects()
 			POSITION pos2 = pActionDefinition->GetAllMyUnitActionIdeas()->GetHeadPosition();
 			while( pos2 )
 			{
-				CEOSAIUnit2ActionIdea* pAIUnitActionIdea = pActionDefinition->GetAllMyUnitActionIdeas()->GetNext( pos2 );
+				CEOSAIUnitActionIdea* pAIUnitActionIdea = pActionDefinition->GetAllMyUnitActionIdeas()->GetNext( pos2 );
 				if( pAIUnitActionIdea->GetRequiresATransport() == false )
 				{
 					pActionDefinition->ScheduleAction( pAIUnitActionIdea );
@@ -2708,7 +2708,7 @@ bool  CEOSAIThoughtDatabase::DoIHaveAnyCityHuntersOrCitiesOnTheGeo( CEOSAILocati
 
 			if( pAIPoiObject->IsMine() )
 			{
-				CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+				CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 				if( pAIUnit )
 				{
 					if( pAIUnit->IsOfType( EOSAIEnumTypeOfUnit_CityHunter ) )
@@ -2746,7 +2746,7 @@ void CEOSAIThoughtDatabase::CreateAIUnitTemplatesForAllUnitTemplates()
 		CBuildOption* pBuildOption = pBuildOptions->GetNext( pos );
 		if( pBuildOption->IsAUnit() )
 		{
-			CEOSAIUnitTemplate* pAIUnitTemplate = new CEOSAIUnit2Template( pBuildOption->GetUnitTemplate() );
+			CEOSAIUnitTemplate* pAIUnitTemplate = new CEOSAIUnitTemplate( pBuildOption->GetUnitTemplate() );
 			m_AIUnitTemplates.AddTail( pAIUnitTemplate );
 		}
 	}
@@ -2784,7 +2784,7 @@ void CEOSAIThoughtDatabase::CalculateUnitsICanBuildOrHave()
 				ASSERT( pUnitTemplate );
 				//
 				m_AllUnitsInTheGameOrBuildableByMe.AddUnitTemplate( pUnitTemplate );
-				//CEOSAIUnitTemplate* pAIUnitTemplate = new CEOSAIUnit2Template( pBuildOption->GetUnitTemplate() );
+				//CEOSAIUnitTemplate* pAIUnitTemplate = new CEOSAIUnitTemplate( pBuildOption->GetUnitTemplate() );
 				//m_UnitsICanBuild.AddTail( pAIUnitTemplate );
 				//m_UnitsICanBuildOrHave.AddTail( pAIUnitTemplate );
 				m_UnitsICanBuild.AddUnitTemplate_Unsafe( pUnitTemplate );
@@ -2799,7 +2799,7 @@ void CEOSAIThoughtDatabase::CalculateUnitsICanBuildOrHave()
 	while( pos )
 	{
 		CEOSAIPoiObject* pPoi = g_pEOSAICommonData->GetAIPoiObjects()->GetNext( pos );
-		CEOSAIUnit2* pUnit = dynamic_cast< CEOSAIUnit2* >( pPoi );
+		CEOSAIUnit* pUnit = dynamic_cast< CEOSAIUnit* >( pPoi );
 		if( pUnit == NULL ) continue;
 		//if( pUnit->IsDead() ) continue;
 		if( pUnit->IsAlive() == false ) continue;
@@ -2907,7 +2907,7 @@ void CEOSAIThoughtDatabase::CalculatePotentialEnemyUnits()
 	{
 		//CPoi* pPoi = pWorldDescServer->GetPoiList()->GetNext( pos )->GetPtr();
 		CEOSAIPoiObject* pAIPoiObject = g_pEOSAICommonData->GetAIPoiObjects()->GetNext( pos );
-		CEOSAIUnit2* pUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+		CEOSAIUnit* pUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 		if( pUnit && pUnit->GetForeignRelationsTo( iAIPlayer ) <= EOSAIEnumForeignRelations::enum_Alliance )
 		{
 			CEOSAIUnitTemplate* pUnitTemplate = pUnit->GetAIUnitTemplate();
@@ -2949,7 +2949,7 @@ void CEOSAIThoughtDatabase::CalculateCombatAndAttritionValues()
 		long iArraySize = pMyUnit->GetUnitCombatCapability()->GetArray()->m_iSize;
 		for( long i=0; i<iArraySize; i++ )
 		{
-			CEOSAIUnit2VsUnitValue* pVal = pMyUnit->GetUnitCombatCapability()->GetArray()->Value(i);
+			CEOSAIUnitVsUnitValue* pVal = pMyUnit->GetUnitCombatCapability()->GetArray()->Value(i);
 			if( pVal == NULL ) continue;
 			CUnitTemplate* pTargetUnitTemplate = pVal->GetTargetUnitTemplate();
 			float f1 = pVal->GetMeleeAttrition01();
@@ -2997,7 +2997,7 @@ void CEOSAIThoughtDatabase::CompileMyActorsIntoCategories()
 				m_MyActors.AddTail( pAICity );
 				m_MyCities.AddTail( pAICity );
 			}
-			CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+			CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 			if( pAIUnit )
 			{
 				m_MyActors.AddTail( pAIUnit );
@@ -3171,7 +3171,7 @@ void  CEOSAIThoughtDatabase::GetAirbases( long iPlayer, CEOSAIAirbasesSet* pAirb
 				//CUnit* pUnit = dynamic_cast< CUnit* >( pPoiObject );
 				//if( pUnit )
 				{
-					CEOSAIUnit2* pUnit = ( CEOSAIUnit2* ) pPoiObject;
+					CEOSAIUnit* pUnit = ( CEOSAIUnit* ) pPoiObject;
 					if( pUnit->CanContainUnits() && pUnit->CanLaunchAirUnits() )
 					{
 						pAirbasesSet->m_Airbases.AddTail( pPoiObject );
@@ -3225,7 +3225,7 @@ void  CEOSAIThoughtDatabase::GetAirbases( long iPlayer, CEOSAIUnitTemplate* pAir
 				//CUnit* pUnit = dynamic_cast< CUnit* >( pPoiObject );
 				//if( pUnit )
 				{
-					CEOSAIUnit2* pUnit = ( CEOSAIUnit2* ) pPoiObject;
+					CEOSAIUnit* pUnit = ( CEOSAIUnit* ) pPoiObject;
 					if( pUnit->CanContainUnits() && 
 						pUnit->IsLandingPadForAirUnits() &&
 						pUnit->IsLaunchingPadForAirUnits() &&
@@ -3284,7 +3284,7 @@ void  CEOSAIThoughtDatabase::GetAirbases( long iPlayer, CEOSAIUnitTemplate* pAir
 					//CUnit* pUnit = dynamic_cast< CUnit* >( pPoiObject );
 					//if( pUnit )
 					{
-						CEOSAIUnit2* pUnit = ( CEOSAIUnit2* ) pPoiObject;
+						CEOSAIUnit* pUnit = ( CEOSAIUnit* ) pPoiObject;
 						if( pUnit->CanContainUnits() && 
 							pUnit->CanLaunchAirUnits() &&
 							pUnit->CanContain_IgnoreForeignRelations( pAirUnit ) )
@@ -3300,7 +3300,7 @@ void  CEOSAIThoughtDatabase::GetAirbases( long iPlayer, CEOSAIUnitTemplate* pAir
 
 // Upgrade Locations
 //
-void CEOSAIThoughtDatabase::GetClosestUpgradeLocation( CEOSAIUnit2* pAIUnit, CEOSAIPoiObject** pClosestUpgradeLocation, float* pfDistance )
+void CEOSAIThoughtDatabase::GetClosestUpgradeLocation( CEOSAIUnit* pAIUnit, CEOSAIPoiObject** pClosestUpgradeLocation, float* pfDistance )
 {
 	//CUnit* pUnit = pAIUnit->GetServerUnit();
 	ASSERT( pAIUnit );
@@ -3356,7 +3356,7 @@ void CEOSAIThoughtDatabase::GetClosestUpgradeLocation( CEOSAIUnit2* pAIUnit, CEO
 }
 
 void CEOSAIThoughtDatabase::GetClosestRepairLocation( 
-		CEOSAIUnit2* pAIDamagedUnit, CEOSAIPoiObject** pClosestRepairLocation, float* pfDistance )
+		CEOSAIUnit* pAIDamagedUnit, CEOSAIPoiObject** pClosestRepairLocation, float* pfDistance )
 {
 	*pClosestRepairLocation = NULL;
 	*pfDistance = 0.0f;
@@ -3416,7 +3416,7 @@ long CEOSAIThoughtDatabase::GetNumberOfMyUnits()
 	while( pos )
 	{
 		CEOSAIPoiObject* pAIPoiObject = m_MyActors.GetNext( pos );
-		if( dynamic_cast< CEOSAIUnit2* >( pAIPoiObject ) ){ iUnits++; }
+		if( dynamic_cast< CEOSAIUnit* >( pAIPoiObject ) ){ iUnits++; }
 	}
 	return iUnits;
 }
@@ -3453,7 +3453,7 @@ long  CEOSAIThoughtDatabase::GetNumberOfMyIdleUnitsAndCities()
 			if( pAICity->HasPredefinedBuildOrders() == false ){ iCount++; }
 			continue;
 		}
-		CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+		CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 		if( pAIUnit )
 		{
 			if( pAIUnit->HasPredefinedPath() == false ){ iCount++; }
@@ -3491,7 +3491,7 @@ long  CEOSAIThoughtDatabase::GetNumberOfMyIdleUnits()
 		CEOSAIPoiObject* pAIPoiObject = m_MyActors.GetNext( pos );
 		if( pAIPoiObject->GetAllocatedUnitActionIdea() == NULL )
 		{
-			CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+			CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 			if( pAIUnit )
 			{
 				iCount++;
@@ -3519,7 +3519,7 @@ void  CEOSAIThoughtDatabase::GetMyIdleUnitsAndCities( CList< CEOSAIPoiObject* >*
 			if( pAICity->HasPredefinedBuildOrders() == false ){ pIdleUnitsAndCities->AddTail( pAICity ); }
 			continue;
 		}
-		CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+		CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 		if( pAIUnit )
 		{
 			if( pAIUnit->HasPredefinedPath() == false ){ pIdleUnitsAndCities->AddTail( pAIUnit ); }

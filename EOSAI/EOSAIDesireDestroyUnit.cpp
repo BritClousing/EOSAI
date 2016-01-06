@@ -29,7 +29,7 @@ void CAIDesireDestroyUnit::SetTarget( CEOSAIPoiObject* pAITarget )
 
 	m_JobsToDo.m_EnemyUnits.RemoveAll();
 
-	CEOSAIUnit2* pTargetAIUnit = dynamic_cast< CEOSAIUnit2* >( pAITarget );
+	CEOSAIUnit* pTargetAIUnit = dynamic_cast< CEOSAIUnit* >( pAITarget );
 	ASSERT( pTargetAIUnit );
 	if( pTargetAIUnit )
 	{
@@ -42,7 +42,7 @@ CString CAIDesireDestroyUnit::Dump()
 {
 	CString str, str2;
 
-	CEOSAIUnit2* pAIUnitTarget = dynamic_cast< CEOSAIUnit2* >( m_pAITarget );
+	CEOSAIUnit* pAIUnitTarget = dynamic_cast< CEOSAIUnit* >( m_pAITarget );
 	ASSERT( pAIUnitTarget );
 	if( pAIUnitTarget )
 	{
@@ -69,7 +69,7 @@ float CAIDesireDestroyUnit::GetSimpleInterest()
 	ASSERT( m_pAIBrain );
 	long iAIPlayer = m_pAIBrain->GetAIPlayerNumber();
 
-	CEOSAIUnit2* pTargetAIUnit = dynamic_cast< CEOSAIUnit2* >( m_pAITarget );
+	CEOSAIUnit* pTargetAIUnit = dynamic_cast< CEOSAIUnit* >( m_pAITarget );
 
 	float fScore = 0.0f;
 	ASSERT( pTargetAIUnit );
@@ -139,7 +139,7 @@ bool CAIDesireDestroyUnit::CanFulfillDesire( CEOSAIPoiObject* pActor ) // CityHu
 	CEOSAICity* pActorCity = dynamic_cast< CEOSAICity* >( pActor );
 	if( pActorCity ){ return true; }
 
-	CEOSAIUnit2* pActorUnit = dynamic_cast< CEOSAIUnit2* >( pActor );
+	CEOSAIUnit* pActorUnit = dynamic_cast< CEOSAIUnit* >( pActor );
 	if( pActorUnit ){ return CanFulfillDesire( pActorUnit->GetAIUnitTemplate() ); }
 
 	return false;
@@ -183,7 +183,7 @@ float CAIDesireDestroyUnit::GetUnitJobValue01( CEOSAIUnitTemplate* pActor )
 float CAIDesireDestroyUnit::GetCombatAttritionValue( CUnitTemplate* pActor )
 {
 	ASSERT( m_pAITarget );
-	CEOSAIUnit2* pTargetAIUnit = dynamic_cast< CEOSAIUnit2* >( m_pAITarget );
+	CEOSAIUnit* pTargetAIUnit = dynamic_cast< CEOSAIUnit* >( m_pAITarget );
 	ASSERT( pTargetAIUnit );
 	if( pTargetAIUnit )
 	{
@@ -198,7 +198,7 @@ float CAIDesireDestroyUnit::GetCombatAttritionValue( CUnitTemplate* pActor )
 */
 bool  CAIDesireDestroyUnit::TargetIsAnAirUnit()
 {
-	CEOSAIUnit2* pActorAIUnit = dynamic_cast< CEOSAIUnit2* >( m_pAITarget );
+	CEOSAIUnit* pActorAIUnit = dynamic_cast< CEOSAIUnit* >( m_pAITarget );
 	if( pActorAIUnit )
 	{
 		pActorAIUnit->IsAirUnit();
@@ -208,7 +208,7 @@ bool  CAIDesireDestroyUnit::TargetIsAnAirUnit()
 
 bool  CAIDesireDestroyUnit::TargetIsAnGroundUnit()
 {
-	CEOSAIUnit2* pActorAIUnit = dynamic_cast< CEOSAIUnit2* >( m_pAITarget );
+	CEOSAIUnit* pActorAIUnit = dynamic_cast< CEOSAIUnit* >( m_pAITarget );
 	if( pActorAIUnit )
 	{
 		pActorAIUnit->IsGroundUnit();
@@ -218,7 +218,7 @@ bool  CAIDesireDestroyUnit::TargetIsAnGroundUnit()
 
 bool  CAIDesireDestroyUnit::TargetIsAnSeaUnit()
 {
-	CEOSAIUnit2* pActorAIUnit = dynamic_cast< CEOSAIUnit2* >( m_pAITarget );
+	CEOSAIUnit* pActorAIUnit = dynamic_cast< CEOSAIUnit* >( m_pAITarget );
 	if( pActorAIUnit )
 	{
 		pActorAIUnit->IsSeaUnit();

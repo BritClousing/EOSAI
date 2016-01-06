@@ -101,7 +101,7 @@ class DLLIMPEXP CEOSAIUnitTemplate
 		//
 		// Constructor / Destructor
 		//
-			//CEOSAIUnit2Template( CUnitset* pUnitset );
+			//CEOSAIUnitTemplate( CUnitset* pUnitset );
 			CEOSAIUnitTemplate( EOSAI::CGameRules* pAIGameRules );
 			~CEOSAIUnitTemplate();
 
@@ -625,8 +625,8 @@ class DLLIMPEXP CEOSAIUnitTemplate
 			CEOSAIJobCapability*  GetAIJobCapability();
 			void   CalculateAIJobCapability( CEOSAIJobCapability* pAIJobCapability );
 
-			//CEOSAIUnit2CombatCapability* GetAIUnitCombatCapability(){ return &m_AIUnitCombatCapability; } // Cached information
-			CEOSAIUnit2CombatCapability* GetAIUnitCombatCapability();
+			//CEOSAIUnitCombatCapability* GetAIUnitCombatCapability(){ return &m_AIUnitCombatCapability; } // Cached information
+			CEOSAIUnitCombatCapability* GetAIUnitCombatCapability();
 
 			//float  GetStealthAntiShipWarfareCapability();
 			float  GetExplorationCapability();
@@ -660,7 +660,7 @@ class DLLIMPEXP CEOSAIUnitTemplate
 			//
 			float GetHPDefenseValue(){ return GetMaxHP() * GetDefenseValueForNormalTerrain(); }
 			void  GetUnitStrength( CString* pstrUnitType, float* pfValue );
-			float GetExpectedHPDamage( CEOSAIUnit2* pTarget, bool bUseNormalTerrainIfBetterThanCurrentDefense );
+			float GetExpectedHPDamage( CEOSAIUnit* pTarget, bool bUseNormalTerrainIfBetterThanCurrentDefense );
 			float GetExpectedHPDamage( CEOSAIUnitTemplate* pTarget );
 
 			bool  IsACombatUnit(){ return m_bIsACombatUnit; }
@@ -824,7 +824,7 @@ class DLLIMPEXP CEOSAIUnitTemplate
 		//	bool  m_bFreighterRole;
 		//	float m_fCargoCapacity;
 
-			CEOSAIUnit2CombatCapability  m_AIUnitCombatCapability;
+			CEOSAIUnitCombatCapability  m_AIUnitCombatCapability;
 
 			bool                         m_bAIJobCapabilityHasBeenSet;
 			CEOSAIJobCapability          m_AIJobCapability;

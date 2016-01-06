@@ -5,7 +5,7 @@ class CAICommonData;
 class CEOSAICity;
 class CEOSAIAirfield;
 class CAIResource;
-class CEOSAIUnit2;
+class CEOSAIUnit;
 #include "EOSAIGlobalForeignRelations.h"
 //#include "MessageToAI.h"
 //#include "Unitset.h"
@@ -54,7 +54,7 @@ class DLLIMPEXP CEOSAIPlayerManager
 			//void  Add( CEOSAICity* pAICity ){}
 			//void  Add( CEOSAIAirfield* pAIAirfield ){}
 			//void  Add( CEOSAIResource* pAIResource ){}
-			//void  Add( CEOSAIUnit2* pAIUnit ){}
+			//void  Add( CEOSAIUnit* pAIUnit ){}
 			//void  SetMapSize( long iHeight, long iWidth, bool bWrap
 
 			void  AddAIPlayer( EOSAI::AIPlayer* pAIPlayer );

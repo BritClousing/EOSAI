@@ -417,7 +417,7 @@ void  CEOSAIGenericRegion::AddPoiObjectToSummary( CEOSAIPoiObject* pPoiObject )
 	{
 		pSummary->AddToSummary( pPoiObject );
 
-		CEOSAIUnit2* pUnit = dynamic_cast< CEOSAIUnit2* >( pPoiObject );
+		CEOSAIUnit* pUnit = dynamic_cast< CEOSAIUnit* >( pPoiObject );
 		if( pUnit )
 		{
 			ASSERT( GetUnitPower( pPoiObject->GetOwner() ) > 0.0f );
@@ -715,9 +715,9 @@ long CEOSAIGenericRegion::GetCitGroundUnitCount( long iPlayer )
 			{
 				iCount++;
 			}
-			if( dynamic_cast< CEOSAIUnit2* >( pPoiObject ) )
+			if( dynamic_cast< CEOSAIUnit* >( pPoiObject ) )
 			{
-				CEOSAIUnit2* pUnit = dynamic_cast< CEOSAIUnit2* >( pPoiObject );
+				CEOSAIUnit* pUnit = dynamic_cast< CEOSAIUnit* >( pPoiObject );
 				if( pUnit->IsGroundUnit() )
 				{
 					iCount++;

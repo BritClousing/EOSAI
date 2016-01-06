@@ -10,7 +10,7 @@ namespace EOSAI
 }
 class CEOSAIBrain;
 class CAITacticalProject;
-class CEOSAIUnit2ActionIdea;
+class CEOSAIUnitActionIdea;
 
 // High-level description of action:
 //
@@ -23,10 +23,10 @@ class CEOSAIUnit2ActionIdea;
 class CEOSAIAction
 {
 	public:
-		CEOSAIAction( CEOSAIUnit2ActionIdea* pUnitActionIdea );
+		CEOSAIAction( CEOSAIUnitActionIdea* pUnitActionIdea );
 		virtual ~CEOSAIAction();
 
-		CEOSAIUnit2ActionIdea*  GetAIUnitActionIdea(){ return m_pUnitActionIdea; }
+		CEOSAIUnitActionIdea*  GetAIUnitActionIdea(){ return m_pUnitActionIdea; }
 
 		void  UpdateFinalTime( float fTime );
 
@@ -38,7 +38,7 @@ class CEOSAIAction
 
 	protected:
 
-		CEOSAIUnit2ActionIdea*     m_pUnitActionIdea;
+		CEOSAIUnitActionIdea*     m_pUnitActionIdea;
 
 		// The general outline of the action I'm going to pursue
 		//CEOSAIActionOutline*      m_pActionOutline; // owned

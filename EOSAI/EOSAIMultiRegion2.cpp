@@ -727,7 +727,7 @@ void  CMultiRegion::AddAIPoiObject( CEOSAIPoiObject* pAIPoiObject )
 	{
 		pSummary->AddToSummary( pAIPoiObject );
 
-		CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+		CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 		if( pAIUnit )
 		{
 			pSummary->m_Units.m_fGroundTransportCapability += pAIUnit->GetAIGroundTransportCapability();
@@ -827,7 +827,7 @@ void  CMultiRegion::UpdateDistancesBasedOnAIPoiObject( CEOSAIPoiObject* pAIPoiOb
 
 	if( dynamic_cast< CEOSAICity* >( pAIPoiObject ) ||
 		dynamic_cast< CEOSAIResource* >( pAIPoiObject ) ||
-		dynamic_cast< CEOSAIUnit2* >( pAIPoiObject ) )
+		dynamic_cast< CEOSAIUnit* >( pAIPoiObject ) )
 	{
 		if( m_CrowsDistanceFromPlayerCitResUnits[ pAIPoiObject->GetOwner() ] > fDistance )	
 		{
@@ -860,7 +860,7 @@ void  CMultiRegion::UpdateDistancesBasedOnAIPoiObject( CEOSAIPoiObject* pAIPoiOb
 		}
 	}
 	*-/
-	CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+	CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 	if( pAIUnit )
 	{
 		/-*

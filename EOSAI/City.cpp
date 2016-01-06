@@ -261,24 +261,24 @@ float CEOSAICity::GetBuildTimeAndTimeToTarget( CAITacticalProject* pAITacticalPr
 		// Calculate AirUnit pathway (estimates time, doesn't actually calculate airbase-step pathway)
 		fTimeToTarget = 
 			fBuildTime +
-			CEOSAIUnit2ActionIdea::GetAirPathwayTimeToTarget(
+			CEOSAIUnitActionIdea::GetAirPathwayTimeToTarget(
 					this->GetAIPlayer()->GetPlayerNumber(),
 					GetAIBrain(),
 					pUnitTemplate,
 					this->GetServerCity()->GetLocation(),//UnitStart,
 					TargetLocation,
-					CEOSAIUnit2ActionIdea::MovementMotive_RoundTrip ); // ASSUME a round trip
+					CEOSAIUnitActionIdea::MovementMotive_RoundTrip ); // ASSUME a round trip
 	}
 	return fTimeToTarget;
 }
 
-CEOSAIUnit2ActionIdea* CEOSAICity::CreateAIUnitActionIdea( CAITacticalProject* pAITacticalProject, CUnitTemplate* pUnitTemplate )
-//CEOSAIUnit2ActionIdea* CEOSAICityActionIdeaNode::CreateAIUnitActionIdea( CUnitTemplate* pUnitTemplate )
+CEOSAIUnitActionIdea* CEOSAICity::CreateAIUnitActionIdea( CAITacticalProject* pAITacticalProject, CUnitTemplate* pUnitTemplate )
+//CEOSAIUnitActionIdea* CEOSAICityActionIdeaNode::CreateAIUnitActionIdea( CUnitTemplate* pUnitTemplate )
 {
 	CEOSAIUnitTemplateSet* pUnitsICanBuildOrHave = GetAIBrain()->GetAIThoughtDatabase()->GetUnitsICanBuildOrHave();
 
 	// Create a UnitActionIdea and write data into it
-	CEOSAIUnit2ActionIdea* pAIUnitActionIdea = new CEOSAIUnit2ActionIdea( pAITacticalProject, this, pUnitTemplate );
+	CEOSAIUnitActionIdea* pAIUnitActionIdea = new CEOSAIUnitActionIdea( pAITacticalProject, this, pUnitTemplate );
 
 	float fTimeToTarget = 1000000.0f;
 
@@ -363,13 +363,13 @@ CEOSAIUnit2ActionIdea* CEOSAICity::CreateAIUnitActionIdea( CAITacticalProject* p
 	if( pUnitTemplate->IsAirUnit() )
 	{
 		// Calculate AirUnit pathway (estimates time, doesn't actually calculate airbase-step pathway)
-		float fTimeToTarget = CEOSAIUnit2ActionIdea::GetAirPathwayTimeToTarget(
+		float fTimeToTarget = CEOSAIUnitActionIdea::GetAirPathwayTimeToTarget(
 					this->GetAIPlayer()->GetPlayerNumber(),
 					pAITacticalProject->GetAIBrain(),
 					pUnitTemplate,
 					this->GetServerCity()->GetLocation(),//UnitStart,
 					TargetLocation,
-					CEOSAIUnit2ActionIdea::MovementMotive_RoundTrip ); // ASSUME a round trip
+					CEOSAIUnitActionIdea::MovementMotive_RoundTrip ); // ASSUME a round trip
 		pAIUnitActionIdea->SetDirectMoveToTargetTime( fTimeToTarget );
 	}
 	return pAIUnitActionIdea;
@@ -452,24 +452,24 @@ float CEOSAICity::GetBuildTimeAndTimeToTarget( CEOSAITacticalProject2* pAITactic
 		// Calculate AirUnit pathway (estimates time, doesn't actually calculate airbase-step pathway)
 		fTimeToTarget = 
 			fBuildTime +
-			CEOSAIUnit2ActionIdea::GetAirPathwayTimeToTarget(
+			CEOSAIUnitActionIdea::GetAirPathwayTimeToTarget(
 					pAITacticalProject2->GetAIBrain()->GetAIPlayer()->GetPlayerNumber(),
 					pAITacticalProject2->GetAIBrain(),
 					pUnitTemplate,
 					this->GetLocation(),//UnitStart,
 					TargetLocation,
-					CEOSAIUnit2ActionIdea::MovementMotive_RoundTrip ); // ASSUME a round trip
+					CEOSAIUnitActionIdea::MovementMotive_RoundTrip ); // ASSUME a round trip
 	}
 	return fTimeToTarget;
 }
 
-CEOSAIUnit2ActionIdea* CEOSAICity::CreateAIUnitActionIdea( CEOSAITacticalProject2* pAITacticalProject2, CEOSAIUnitTemplate* pAIUnitTemplate )
-//CEOSAIUnit2ActionIdea* CEOSAICityActionIdeaNode::CreateAIUnitActionIdea( CUnitTemplate* pUnitTemplate )
+CEOSAIUnitActionIdea* CEOSAICity::CreateAIUnitActionIdea( CEOSAITacticalProject2* pAITacticalProject2, CEOSAIUnitTemplate* pAIUnitTemplate )
+//CEOSAIUnitActionIdea* CEOSAICityActionIdeaNode::CreateAIUnitActionIdea( CUnitTemplate* pUnitTemplate )
 {
 	CEOSAIUnitTemplateSet* pUnitsICanBuildOrHave = pAITacticalProject2->GetAIBrain()->GetAIThoughtDatabase()->GetUnitsICanBuildOrHave();
 
 	// Create a UnitActionIdea and write data into it
-	CEOSAIUnit2ActionIdea* pAIUnitActionIdea = new CEOSAIUnit2ActionIdea( pAITacticalProject2, this, pAIUnitTemplate );
+	CEOSAIUnitActionIdea* pAIUnitActionIdea = new CEOSAIUnitActionIdea( pAITacticalProject2, this, pAIUnitTemplate );
 
 	float fTimeToTarget = 1000000.0f;
 
@@ -554,13 +554,13 @@ CEOSAIUnit2ActionIdea* CEOSAICity::CreateAIUnitActionIdea( CEOSAITacticalProject
 	if( pAIUnitTemplate->IsAirUnit() )
 	{
 		// Calculate AirUnit pathway (estimates time, doesn't actually calculate airbase-step pathway)
-		float fTimeToTarget = CEOSAIUnit2ActionIdea::GetAirPathwayTimeToTarget(
+		float fTimeToTarget = CEOSAIUnitActionIdea::GetAirPathwayTimeToTarget(
 					pAITacticalProject2->GetAIPlayer()->GetPlayerNumber(),
 					pAITacticalProject2->GetAIBrain(),
 					pAIUnitTemplate,
 					this->GetLocation(),//UnitStart,
 					TargetLocation,
-					CEOSAIUnit2ActionIdea::MovementMotive_RoundTrip ); // ASSUME a round trip
+					CEOSAIUnitActionIdea::MovementMotive_RoundTrip ); // ASSUME a round trip
 		pAIUnitActionIdea->SetDirectMoveToTargetTime( fTimeToTarget );
 	}
 	return pAIUnitActionIdea;
@@ -877,7 +877,7 @@ float CEOSAICity::GetGroundSeaDanger01()
 	while( pos )
 	{
 		CEOSAIPoiObject* pAIPoiObject = g_pEOSAICommonData->GetAIPoiObjects()->GetNext( pos );
-		CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+		CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 		if( pAIUnit && pAIUnit->GetOwner() > 0 &&
 			( pAIUnit->IsSeaUnit() || pAIUnit->IsGroundUnit() ) )
 		{
@@ -1583,14 +1583,14 @@ long CEOSAICity::GetNumberOfGroundUnitsInside()
 	POSITION pos = m_InitialState.GetContaineesList()->GetHeadPosition();
 	while( pos )
 	{
-		//CEOSAIUnit2* pAIUnit = m_UnitsInsideMe.GetNext( pos );
-		//CEOSAIUnit2* pAIUnit = m_InitialState.GetContaineesList()->GetNext( pos );
+		//CEOSAIUnit* pAIUnit = m_UnitsInsideMe.GetNext( pos );
+		//CEOSAIUnit* pAIUnit = m_InitialState.GetContaineesList()->GetNext( pos );
 		EOSAI::PoiMobile* pAIPoiMobile = m_InitialState.GetContaineesList()->GetNext( pos );
 		//if( pAIPoiObject->GetAIPoiObjectType() == EnumPoiObjectType::enum_Unit )
-		CEOSAIUnit2* pAIUnit = dynamic_cast<CEOSAIUnit2*>( pAIPoiMobile );
+		CEOSAIUnit* pAIUnit = dynamic_cast<CEOSAIUnit*>( pAIPoiMobile );
 		if( pAIUnit ) //pAIPoiMobile->GetAIPoiObjectType() == EnumPoiObjectType::enum_Unit )
 		{
-			//CEOSAIUnit2* pAIUnit = (CEOSAIUnit2*) pAIPoiObject;
+			//CEOSAIUnit* pAIUnit = (CEOSAIUnit*) pAIPoiObject;
 			if( pAIUnit->IsGroundUnit() ){ iNumberOfGroundUnitsInCity++; }
 		}
 	}

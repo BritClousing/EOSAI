@@ -18,7 +18,7 @@ class CEOSAIBrain;
 //class CResourceSource;
 class CAIProductionSymbol;
 class CEOSAIBuildOption;
-class CEOSAIUnit2;
+class CEOSAIUnit;
 //class CAISymbolProcessor;
 class CEOSAIUnitTemplate;
 class CAIThoughtTask;
@@ -28,7 +28,7 @@ class CEOSAIAttackVs2;
 #include "EOSAIListUnowned.h"
 #include "PoiObjectState.h"
 #include "EOSAIRegionPathway.h"
-class CEOSAIUnit2ActionIdea;
+class CEOSAIUnitActionIdea;
 #include "EOSAIListSort.h"
 #include "EOSAIEnumForeignRelations.h"
 #include "EOSAIEnumPoiObjectType.h"
@@ -41,7 +41,7 @@ class CEOSAIAction;
 class CEOSAITask;
 class CEOSAIDesireSpatial;
 enum EOSAIEnumAIDesireType;
-//class CEOSAIUnit2ActionIdea2;
+//class CEOSAIUnitActionIdea2;
 #define EOSAI_MAX_NUMBER_OF_PLAYERS 10
 
 enum EOSAIEnumBorderViolation
@@ -155,7 +155,7 @@ class DLLIMPEXP CEOSAIPoiObject //: public CAIObject
 		//
 			virtual long GetMySize(){ return 0; }
 
-			//CList< CEOSAIUnit2* >*  GetUnitsInsideMe(){ return &m_UnitsInsideMe; }
+			//CList< CEOSAIUnit* >*  GetUnitsInsideMe(){ return &m_UnitsInsideMe; }
 			virtual long  GetContainerSizeAlreadyUsed(){ return 0; }
 			CEOSAIPoiObject* GetContainerAIPoiObject(){ return m_InitialState.GetContainer(); }
 
@@ -170,10 +170,10 @@ class DLLIMPEXP CEOSAIPoiObject //: public CAIObject
 
 		// Allocated TacticalProject/UnitActionIdea
 		//
-			void                 SetAllocatedUnitActionIdea( CEOSAIUnit2ActionIdea* pUnitActionIdea );
-			void                 ReleaseAllocatedUnitActionIdea( CEOSAIUnit2ActionIdea* pUnitActionIdea );
+			void                 SetAllocatedUnitActionIdea( CEOSAIUnitActionIdea* pUnitActionIdea );
+			void                 ReleaseAllocatedUnitActionIdea( CEOSAIUnitActionIdea* pUnitActionIdea );
 			void                 ReleaseAllocatedUnitActionIdea();
-			CEOSAIUnit2ActionIdea*   GetAllocatedUnitActionIdea();//{ return m_pAllocatedUnitActionIdea; }
+			CEOSAIUnitActionIdea*   GetAllocatedUnitActionIdea();//{ return m_pAllocatedUnitActionIdea; }
 			bool                 IsAllocated();//{ return m_pAllocatedUnitActionIdea != NULL; }
 
 		// Transports
@@ -274,9 +274,9 @@ class DLLIMPEXP CEOSAIPoiObject //: public CAIObject
 	// AIAction demand level
 	//
 		// Used by AIUnits and AICities (when there is a hypothetical AIUnit)
-		CEOSAIUnit2ActionIdea*  m_pAllocatedUnitActionIdea; // What am I going to do?
+		CEOSAIUnitActionIdea*  m_pAllocatedUnitActionIdea; // What am I going to do?
 
-		//CList< CEOSAIUnit2* >   m_UnitsInsideMe;
+		//CList< CEOSAIUnit* >   m_UnitsInsideMe;
 
 		// AI support functions
 		//   These are desires associated with this Poi (e.g. capture it, destroy it, ...)

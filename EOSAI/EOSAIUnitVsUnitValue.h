@@ -30,10 +30,10 @@ enum EnumMobility
 //		take them out (in this case, one Infantry is assumed to take-out 0.7 Tank).
 //		This might get more complicated with mixes of units.
 
-class CEOSAIUnit2VsUnitValue
+class CEOSAIUnitVsUnitValue
 {
 	public:
-		CEOSAIUnit2VsUnitValue( CEOSAIUnitTemplate* pAttacker, CEOSAIUnitTemplate* pDefender );
+		CEOSAIUnitVsUnitValue( CEOSAIUnitTemplate* pAttacker, CEOSAIUnitTemplate* pDefender );
 
 		CEOSAIUnitTemplate* GetAttackerUnitTemplate(){ return m_pAttackerUnitTemplate; }
 		CEOSAIUnitTemplate* GetTargetUnitTemplate(){ return m_pTargetUnitTemplate; }

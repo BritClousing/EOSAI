@@ -33,8 +33,8 @@ extern CList< long >  g_HighlightAIRegions;
 //
 
 //CEOSAISeaUnitPathwayFinder::CEOSAISeaUnitPathwayFinder( CEOSAIBrain* pAIBrain, long iPlayer, CEOSAIPoiObject* pActor, CUnitTemplate* pUnitTemplate )
-CEOSAISeaUnitPathwayFinder::CEOSAISeaUnitPathwayFinder( CEOSAIUnit2* pAIUnitActor )
-	: CEOSAIUnit2PathwayFinder( pAIUnitActor )
+CEOSAISeaUnitPathwayFinder::CEOSAISeaUnitPathwayFinder( CEOSAIUnit* pAIUnitActor )
+	: CEOSAIUnitPathwayFinder( pAIUnitActor )
 {
 	ASSERT( pAIUnitActor->GetAIUnitTemplate()->IsSeaUnit() );
 	if( pAIUnitActor->GetAIUnitTemplate()->IsSeaUnit() == false ) return;
@@ -54,7 +54,7 @@ CEOSAISeaUnitPathwayFinder::CEOSAISeaUnitPathwayFinder( CEOSAIUnit2* pAIUnitActo
 
 //CEOSAISeaUnitPathwayFinder::CEOSAISeaUnitPathwayFinder( CEOSAIBrain* pAIBrain, long iPlayer, CEOSAIPoiObject* pActor, CUnitTemplate* pUnitTemplate )
 CEOSAISeaUnitPathwayFinder::CEOSAISeaUnitPathwayFinder( CEOSAICity* pAICityActor, CEOSAIUnitTemplate* pAIUnitTemplate, float fBuildTime )
-	: CEOSAIUnit2PathwayFinder( pAICityActor, pAIUnitTemplate, fBuildTime )
+	: CEOSAIUnitPathwayFinder( pAICityActor, pAIUnitTemplate, fBuildTime )
 {
 	ASSERT( pAIUnitTemplate->IsSeaUnit() );
 	if( pAIUnitTemplate->IsSeaUnit() == false ) return;
@@ -104,7 +104,7 @@ CEOSAIRegionPathwayMap* CEOSAISeaUnitPathwayFinder::InvokeDirectAIRegionMapToEve
 */
 /*
 void  CEOSAISeaUnitPathwayFinder::CalculateTransportPath( 
-		CEOSAIUnit2* pTransportee, CEOSAILocation TransporteeStartLocation, CEOSAILocation TransporteeTargetLocation,
+		CEOSAIUnit* pTransportee, CEOSAILocation TransporteeStartLocation, CEOSAILocation TransporteeTargetLocation,
 		EOSAI::UnitPathwayResult* pAIUnitPathwayResult )
 {
 	pAIUnitPathwayResult->Clear();
@@ -297,7 +297,7 @@ void  CEOSAISeaUnitPathwayFinder::CalculateInitialEvaluation()
 	pos = m_PreDefinedPath.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2PathwayPredefinedStep* pPredefinedStep = m_PreDefinedPath.GetNext( pos );
+		CEOSAIUnitPathwayPredefinedStep* pPredefinedStep = m_PreDefinedPath.GetNext( pos );
 
 		//bool bStepIsValid = false;
 		//bool bCalculateThisStep = false;
@@ -408,7 +408,7 @@ void  CEOSAISeaUnitPathwayFinder::RecalculateCurrentPathway()
 	{
 		//CAISeaPathPoint* pPoint = m_PreDefinedPath.GetNext( pos );
 		//CAISeaPathPoint* pPathStep = m_PreDefinedPath.GetNext( pos );
-		CEOSAIUnit2PathwayPredefinedStep* pPathStep = m_PreDefinedPath.GetNext( pos );
+		CEOSAIUnitPathwayPredefinedStep* pPathStep = m_PreDefinedPath.GetNext( pos );
 
 		bool bStepIsValid = false;
 		bool bCalculateThisStep = false;
@@ -494,7 +494,7 @@ void  CEOSAISeaUnitPathwayFinder::RecalculateCurrentPathway()
 //bool CEOSAISeaUnitPathwayFinder::UpdateResultStepWithTransportAssistedPath( EOSAI::UnitPathwayResultStep* pGroundUnitResultStep )
 
 /*
-void CEOSAISeaUnitPathwayFinder::UpdatePickupPredefinedStep( CEOSAIUnit2PathwayPredefinedStep* pGroundUnitPredefinedStep )
+void CEOSAISeaUnitPathwayFinder::UpdatePickupPredefinedStep( CEOSAIUnitPathwayPredefinedStep* pGroundUnitPredefinedStep )
 {
 	ASSERT( GetUnitTemplate()->IsTransport() );
 	ASSERT( pGroundUnitResultStep->m_pPredefinedStep->GetAIUnitPathwayFinder()->GetUnitTemplate()->IsGroundUnit() );
@@ -506,10 +506,10 @@ void CEOSAISeaUnitPathwayFinder::UpdatePickupPredefinedStep( CEOSAIUnit2PathwayP
 // This gets called if you insert a new step before the pickup/dropoff.  If the transport's initial
 //   location changes, then the pickup/dropoff location may need to change as well.
 #ifdef DO_NOT_COMPILE_THIS_WAS_AN_ATTEMPTED_NEW_FUNCTION
-bool CEOSAISeaUnitPathwayFinder::UpdateEndLocation( CEOSAIUnit2PathwayPredefinedStep* pTransportPickupOrDropoff )
+bool CEOSAISeaUnitPathwayFinder::UpdateEndLocation( CEOSAIUnitPathwayPredefinedStep* pTransportPickupOrDropoff )
 {
-	if( pTransportPickupOrDropoff->GetTask() != CEOSAIUnit2PathwayPredefinedStep::enum_PickupTarget &&
-		pTransportPickupOrDropoff->GetTask() != CEOSAIUnit2PathwayPredefinedStep::enum_DropoffTarget )
+	if( pTransportPickupOrDropoff->GetTask() != CEOSAIUnitPathwayPredefinedStep::enum_PickupTarget &&
+		pTransportPickupOrDropoff->GetTask() != CEOSAIUnitPathwayPredefinedStep::enum_DropoffTarget )
 	{
 		return true; // nothing to update
 	}
@@ -517,33 +517,33 @@ bool CEOSAISeaUnitPathwayFinder::UpdateEndLocation( CEOSAIUnit2PathwayPredefined
 	long iAIPlayer = GetAIBrain()->GetAIPlayerNumber();
 	ASSERT( GetUnitTemplate()->IsTransport() );
 
-	CEOSAIUnit2PathwayPredefinedStep* pTransportPickupPredefinedStep = NULL;
-	if( pTransportPickupOrDropoff->GetTask() == CEOSAIUnit2PathwayPredefinedStep::enum_PickupTarget )
+	CEOSAIUnitPathwayPredefinedStep* pTransportPickupPredefinedStep = NULL;
+	if( pTransportPickupOrDropoff->GetTask() == CEOSAIUnitPathwayPredefinedStep::enum_PickupTarget )
 	{
 		pTransportPickupPredefinedStep = pTransportPickupOrDropoff;
 	}
-	CEOSAIUnit2PathwayPredefinedStep* pTransportDropoffPredefinedStep = NULL;
-	if( pTransportPickupOrDropoff->GetTask() == CEOSAIUnit2PathwayPredefinedStep::enum_DropoffTarget )
+	CEOSAIUnitPathwayPredefinedStep* pTransportDropoffPredefinedStep = NULL;
+	if( pTransportPickupOrDropoff->GetTask() == CEOSAIUnitPathwayPredefinedStep::enum_DropoffTarget )
 	{
 		pTransportDropoffPredefinedStep = pTransportPickupOrDropoff;
 	}
 	CEOSAIRegionManager2* pAIRegionManager = GetCommonState()->GetWorldDescServer()->GetAICommonData()->GetAIRegionManager();
 
 	ASSERT( pTransportPickupOrDropoff->GetAIUnitPathwayFinder() == this );
-	CEOSAIUnit2* pTransport = GetAIUnitActor();
+	CEOSAIUnit* pTransport = GetAIUnitActor();
 	/*
 	bool bFound = false;
 	POSITION pos = m_PreDefinedPath.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2PathwayPredefinedStep* pStep = m_PreDefinedPath.GetNext( pos );
+		CEOSAIUnitPathwayPredefinedStep* pStep = m_PreDefinedPath.GetNext( pos );
 		if( pStep == pTransportPickup ){ bFound = true; }
 	}
 	ASSERT( bFound );
 	*/
 
-	CEOSAIUnit2PathwayPredefinedStep* pGroundUnitPredefinedStep = pTransportPickupOrDropoff->GetTransporteeStep();
-	CEOSAIUnit2* pGroundUnit = pGroundUnitPredefinedStep->GetAIUnitPathwayFinder()->GetAIUnitActor();
+	CEOSAIUnitPathwayPredefinedStep* pGroundUnitPredefinedStep = pTransportPickupOrDropoff->GetTransporteeStep();
+	CEOSAIUnit* pGroundUnit = pGroundUnitPredefinedStep->GetAIUnitPathwayFinder()->GetAIUnitActor();
 
 	//
 	// Calculate pTransportPickupStep->StartLocation + this->StartLocation => Next Transport Step End
@@ -562,21 +562,21 @@ bool CEOSAISeaUnitPathwayFinder::UpdateEndLocation( CEOSAIUnit2PathwayPredefined
 		// Find the best AIRegion Pickup using these three maps
 
 		// Transport -> Pickup
-		CEOSAIUnit2PathwayPredefinedStep* pTransportPickupStepPrev = pTransportPickupPredefinedStep->GetPrevStep();
-		CEOSAIUnit2PathwayPredefinedStep* pTransportPickupStepNext = pTransportPickupPredefinedStep->GetNextStep();
+		CEOSAIUnitPathwayPredefinedStep* pTransportPickupStepPrev = pTransportPickupPredefinedStep->GetPrevStep();
+		CEOSAIUnitPathwayPredefinedStep* pTransportPickupStepNext = pTransportPickupPredefinedStep->GetNextStep();
 		CEOSAIRegionPathwayMap* pTransportToPickupMap = NULL;
 		if( pTransportPickupStepPrev ){ pTransportToPickupMap = pTransportPickupStepPrev->InvokeEndLocationToEverywhereDirectMap(); }
 		else{                           pTransportToPickupMap = pTransport->InvokeDirectAIRegionMapToEverywhere(); }
 
 		// GroundUnit -> Pickup
-		CEOSAIUnit2PathwayPredefinedStep* pGroundUnitPickupStepPrev = pGroundUnitPredefinedStep->GetPrevStep();
+		CEOSAIUnitPathwayPredefinedStep* pGroundUnitPickupStepPrev = pGroundUnitPredefinedStep->GetPrevStep();
 		CEOSAIRegionPathwayMap* pGroundUnitToPickupMap = NULL;
 		if( pGroundUnitPickupStepPrev ){ pGroundUnitToPickupMap = pGroundUnitPickupStepPrev->InvokeEndLocationToEverywhereDirectMapPlusCoasts(); }
 		//else{                            pGroundUnitToPickupMap = pGroundUnit->InvokeDirectAIRegionMapToCoasts(); }//>InvokeDirectAIRegionMapToEverywhere(); }
 		else{                            pGroundUnitToPickupMap = pGroundUnit->InvokeDirectAIRegionMapToEverywhere(); }
 
 		// Next Transport Location -> Pickup
-		CEOSAIUnit2PathwayPredefinedStep* pTransporteePickupStepNext = pTransportPickupPredefinedStep->GetNextStep();
+		CEOSAIUnitPathwayPredefinedStep* pTransporteePickupStepNext = pTransportPickupPredefinedStep->GetNextStep();
 		CEOSAIRegionPathwayMap* pTransportNextLocationToEverywhereMap = NULL;
 		if( pTransportPickupStepNext )
 		{
@@ -587,15 +587,15 @@ bool CEOSAISeaUnitPathwayFinder::UpdateEndLocation( CEOSAIUnit2PathwayPredefined
 			// DEBUG
 			pTransportNextLocationToEverywhereMap = pTransportPickupStepNext->InvokeEndLocationToEverywhereDirectMap();
 			/*
-			if( pTransportPickupStepNext->GetTask() == CEOSAIUnit2PathwayPredefinedStep::enum_PickupTarget )
+			if( pTransportPickupStepNext->GetTask() == CEOSAIUnitPathwayPredefinedStep::enum_PickupTarget )
 			{
-				//CEOSAIUnit2PathwayPredefinedStep*  GetTransporteeStep(){ return m_pTransporteeStep; }
-				CEOSAIUnit2PathwayPredefinedStep*  pTransporteeStep = pTransportPickupStepNext->GetTransporteeStep();
+				//CEOSAIUnitPathwayPredefinedStep*  GetTransporteeStep(){ return m_pTransporteeStep; }
+				CEOSAIUnitPathwayPredefinedStep*  pTransporteeStep = pTransportPickupStepNext->GetTransporteeStep();
 				if( pTransporteePickupStepPrev ){ pGroundUnitToPickup = pTransporteePickupStepPrev->InvokeEndLocationToEverywhereDirectMap(); }
 				else{                             pGroundUnitToPickup = pTransport->InvokeDirectAIRegionMapToEverywhere(); }
 				pTransportToNextLocationMap = pTransportPickupStepNext->InvokeEndLocationToEverywhereDirectMap();
 			}
-			else if( pTransportPickupStepNext->GetTask() == CEOSAIUnit2PathwayPredefinedStep::enum_DropoffTarget )
+			else if( pTransportPickupStepNext->GetTask() == CEOSAIUnitPathwayPredefinedStep::enum_DropoffTarget )
 			{
 				EndLocation = pTransportPickupStepNext->GetImaginaryTransportDropoffLocation();
 			}
@@ -604,7 +604,7 @@ bool CEOSAISeaUnitPathwayFinder::UpdateEndLocation( CEOSAIUnit2PathwayPredefined
 				EndLocation = pTransportPickupStepNext->GetEndLocation();
 			}
 
-			if( pTransportPickupStepNext->GetTask() == CEOSAIUnit2PathwayPredefinedStep::enum_PickupTarget )
+			if( pTransportPickupStepNext->GetTask() == CEOSAIUnitPathwayPredefinedStep::enum_PickupTarget )
 			{
 				pTransportToNextLocationMap = pTransportPickupStepNext->InvokeEndLocationToEverywhereDirectMap();
 			}
@@ -819,7 +819,7 @@ bool CEOSAISeaUnitPathwayFinder::UpdateEndLocation( CEOSAIUnit2PathwayPredefined
 		ASSERT( iLandPickupRegion > 0 );
 
 		CEOSAILocation WaterLocation, LandLocation;
-		CEOSAIUnit2PathwayFinder::FindPickupDropoffLocations( 
+		CEOSAIUnitPathwayFinder::FindPickupDropoffLocations( 
 			pTransportPickupPredefinedStep->GetRealTransport_PickupWaterAIRegion(),
 			pTransportPickupPredefinedStep->GetRealTransport_PickupGroundAIRegion(),
 			&WaterLocation, &LandLocation );
@@ -999,7 +999,7 @@ bool CEOSAISeaUnitPathwayFinder::UpdateEndLocation( CEOSAIUnit2PathwayPredefined
 			ASSERT( iLandPickupRegion > 0 );
 
 			CEOSAILocation WaterLocation, LandLocation;
-			CEOSAIUnit2PathwayFinder::FindPickupDropoffLocations( 
+			CEOSAIUnitPathwayFinder::FindPickupDropoffLocations( 
 				pTransportPickupPredefinedStep->GetRealTransport_PickupWaterAIRegion(),
 				pTransportPickupPredefinedStep->GetRealTransport_PickupGroundAIRegion(),
 				&WaterLocation, &LandLocation );
@@ -1038,7 +1038,7 @@ bool CEOSAISeaUnitPathwayFinder::UpdateEndLocation( CEOSAIUnit2PathwayPredefined
 			int h=0;
 		}
 
-		//CEOSAIUnit2PathwayPredefinedStep* pTransportDropoffStepNext = pTransportDropoffStep->GetNextStep();
+		//CEOSAIUnitPathwayPredefinedStep* pTransportDropoffStepNext = pTransportDropoffStep->GetNextStep();
 		/*
 		CEOSAILocation TransportStartLocation = pTransportDropoffStep->GetStartLocation();
 		CEOSAILocation TransporteeEndLocation = pGroundUnitResultStep->m_EndLocation;
@@ -1046,11 +1046,11 @@ bool CEOSAISeaUnitPathwayFinder::UpdateEndLocation( CEOSAIUnit2PathwayPredefined
 
 		if( pTransportDropoffStepNext )
 		{
-			if( pTransportDropoffStepNext->GetTask() == CEOSAIUnit2PathwayPredefinedStep::enum_PickupTarget )
+			if( pTransportDropoffStepNext->GetTask() == CEOSAIUnitPathwayPredefinedStep::enum_PickupTarget )
 			{
 				TransportNextEndLocation = pTransportDropoffStepNext->GetImaginaryTransportPickupLocation();
 			}
-			else if( pTransportDropoffStepNext->GetTask() == CEOSAIUnit2PathwayPredefinedStep::enum_DropoffTarget )
+			else if( pTransportDropoffStepNext->GetTask() == CEOSAIUnitPathwayPredefinedStep::enum_DropoffTarget )
 			{
 				TransportNextEndLocation = pTransportDropoffStepNext->GetImaginaryTransportDropoffLocation();
 			}
@@ -1078,8 +1078,8 @@ bool CEOSAISeaUnitPathwayFinder::UpdateEndLocation( CEOSAIUnit2PathwayPredefined
 		// Find the best AIRegion Pickup using these three maps
 
 		// Transport -> Dropoff
-		CEOSAIUnit2PathwayPredefinedStep* pTransportDropoffStepPrev = pTransportDropoffPredefinedStep->GetPrevStep();
-		//CEOSAIUnit2PathwayPredefinedStep* pTransportDropoffStepNext = pTransportDropoffPredefinedStep->GetNextStep();
+		CEOSAIUnitPathwayPredefinedStep* pTransportDropoffStepPrev = pTransportDropoffPredefinedStep->GetPrevStep();
+		//CEOSAIUnitPathwayPredefinedStep* pTransportDropoffStepNext = pTransportDropoffPredefinedStep->GetNextStep();
 		CEOSAIRegionPathwayMap* pTransportToDropoffMap = NULL;
 		if( pTransportDropoffStepPrev ){ pTransportToDropoffMap = pTransportDropoffStepPrev->InvokeEndLocationToEverywhereDirectMap(); }
 		else{                            pTransportToDropoffMap = pTransport->InvokeDirectAIRegionMapToEverywhere(); }
@@ -1119,7 +1119,7 @@ bool CEOSAISeaUnitPathwayFinder::UpdateEndLocation( CEOSAIUnit2PathwayPredefined
 		// DEBUG
 
 		// Next Transport Location to Everywhere
-		CEOSAIUnit2PathwayPredefinedStep* pTransportDropoffStepNext = pTransportDropoffPredefinedStep->GetNextStep();
+		CEOSAIUnitPathwayPredefinedStep* pTransportDropoffStepNext = pTransportDropoffPredefinedStep->GetNextStep();
 		CEOSAIRegionPathwayMap* pTransportEndToEverywhereMap = NULL;
 		if( pTransportDropoffStepNext )
 		{
@@ -1272,7 +1272,7 @@ bool CEOSAISeaUnitPathwayFinder::UpdateEndLocation( CEOSAIUnit2PathwayPredefined
 		pGroundUnitPredefinedStep->SetRealTransport_DropoffGroundAIRegion( iLandDropoffRegion );
 
 		CEOSAILocation WaterLocation, LandLocation;
-		CEOSAIUnit2PathwayFinder::FindPickupDropoffLocations( 
+		CEOSAIUnitPathwayFinder::FindPickupDropoffLocations( 
 			pTransportDropoffPredefinedStep->GetRealTransport_DropoffWaterAIRegion(),
 			pTransportDropoffPredefinedStep->GetRealTransport_DropoffGroundAIRegion(),
 			&WaterLocation, &LandLocation );
@@ -1338,10 +1338,10 @@ bool CEOSAISeaUnitPathwayFinder::UpdateEndLocation( CEOSAIUnit2PathwayPredefined
 // This gets called if you insert a new step before the pickup/dropoff.  If the transport's initial
 //   location changes, then the pickup/dropoff location may need to change as well.
 //#ifdef DO_NOT_COMPILE_OLD_FUNCTION
-bool CEOSAISeaUnitPathwayFinder::UpdateEndLocation( CEOSAIUnit2PathwayPredefinedStep* pTransportPickupOrDropoff )
+bool CEOSAISeaUnitPathwayFinder::UpdateEndLocation( CEOSAIUnitPathwayPredefinedStep* pTransportPickupOrDropoff )
 {
-	if( pTransportPickupOrDropoff->GetTask() != CEOSAIUnit2PathwayPredefinedStep::enum_PickupTarget &&
-		pTransportPickupOrDropoff->GetTask() != CEOSAIUnit2PathwayPredefinedStep::enum_DropoffTarget )
+	if( pTransportPickupOrDropoff->GetTask() != CEOSAIUnitPathwayPredefinedStep::enum_PickupTarget &&
+		pTransportPickupOrDropoff->GetTask() != CEOSAIUnitPathwayPredefinedStep::enum_DropoffTarget )
 	{
 		return true; // nothing to update
 	}
@@ -1349,33 +1349,33 @@ bool CEOSAISeaUnitPathwayFinder::UpdateEndLocation( CEOSAIUnit2PathwayPredefined
 	long iAIPlayer = m_iUnitOwner; //GetAIBrain()->GetAIPlayerNumber();
 	ASSERT( GetAIUnitTemplate()->IsTransport() );
 
-	CEOSAIUnit2PathwayPredefinedStep* pTransportPickupPredefinedStep = NULL;
-	if( pTransportPickupOrDropoff->GetTask() == CEOSAIUnit2PathwayPredefinedStep::enum_PickupTarget )
+	CEOSAIUnitPathwayPredefinedStep* pTransportPickupPredefinedStep = NULL;
+	if( pTransportPickupOrDropoff->GetTask() == CEOSAIUnitPathwayPredefinedStep::enum_PickupTarget )
 	{
 		pTransportPickupPredefinedStep = pTransportPickupOrDropoff;
 	}
-	CEOSAIUnit2PathwayPredefinedStep* pTransportDropoffPredefinedStep = NULL;
-	if( pTransportPickupOrDropoff->GetTask() == CEOSAIUnit2PathwayPredefinedStep::enum_DropoffTarget )
+	CEOSAIUnitPathwayPredefinedStep* pTransportDropoffPredefinedStep = NULL;
+	if( pTransportPickupOrDropoff->GetTask() == CEOSAIUnitPathwayPredefinedStep::enum_DropoffTarget )
 	{
 		pTransportDropoffPredefinedStep = pTransportPickupOrDropoff;
 	}
 	CEOSAIRegionManager2* pAIRegionManager = g_pEOSAICommonData->GetAIRegionManager();
 
 	ASSERT( pTransportPickupOrDropoff->GetAIUnitPathwayFinder() == this );
-	CEOSAIUnit2* pTransport = GetAIUnitActor();
+	CEOSAIUnit* pTransport = GetAIUnitActor();
 	/*
 	bool bFound = false;
 	POSITION pos = m_PreDefinedPath.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2PathwayPredefinedStep* pStep = m_PreDefinedPath.GetNext( pos );
+		CEOSAIUnitPathwayPredefinedStep* pStep = m_PreDefinedPath.GetNext( pos );
 		if( pStep == pTransportPickup ){ bFound = true; }
 	}
 	ASSERT( bFound );
 	*/
 
-	CEOSAIUnit2PathwayPredefinedStep* pGroundUnitPredefinedStep = pTransportPickupOrDropoff->GetTransporteeStep();
-	CEOSAIUnit2* pGroundUnit = pGroundUnitPredefinedStep->GetAIUnitPathwayFinder()->GetAIUnitActor();
+	CEOSAIUnitPathwayPredefinedStep* pGroundUnitPredefinedStep = pTransportPickupOrDropoff->GetTransporteeStep();
+	CEOSAIUnit* pGroundUnit = pGroundUnitPredefinedStep->GetAIUnitPathwayFinder()->GetAIUnitActor();
 
 	#ifdef _DEBUG
 	if( pTransport->GetObjectId() == 202 )
@@ -1401,21 +1401,21 @@ bool CEOSAISeaUnitPathwayFinder::UpdateEndLocation( CEOSAIUnit2PathwayPredefined
 		// Find the best AIRegion Pickup using these three maps
 
 		// Transport -> Pickup
-		CEOSAIUnit2PathwayPredefinedStep* pTransportPickupStepPrev = pTransportPickupPredefinedStep->GetPrevStep();
-		CEOSAIUnit2PathwayPredefinedStep* pTransportPickupStepNext = pTransportPickupPredefinedStep->GetNextStep();
+		CEOSAIUnitPathwayPredefinedStep* pTransportPickupStepPrev = pTransportPickupPredefinedStep->GetPrevStep();
+		CEOSAIUnitPathwayPredefinedStep* pTransportPickupStepNext = pTransportPickupPredefinedStep->GetNextStep();
 		CEOSAIRegionPathwayMap* pTransportToPickupMap = NULL;
 		if( pTransportPickupStepPrev ){ pTransportToPickupMap = pTransportPickupStepPrev->InvokeEndLocationToEverywhereDirectMap(); }
 		else{                           pTransportToPickupMap = pTransport->InvokeDirectAIRegionMapToEverywhere(); }
 
 		// GroundUnit -> Pickup
-		CEOSAIUnit2PathwayPredefinedStep* pGroundUnitPickupStepPrev = pGroundUnitPredefinedStep->GetPrevStep();
+		CEOSAIUnitPathwayPredefinedStep* pGroundUnitPickupStepPrev = pGroundUnitPredefinedStep->GetPrevStep();
 		CEOSAIRegionPathwayMap* pGroundUnitToPickupMap = NULL;
 		if( pGroundUnitPickupStepPrev ){ pGroundUnitToPickupMap = pGroundUnitPickupStepPrev->InvokeEndLocationToEverywhereDirectMapPlusCoasts(); }
 		else{                            pGroundUnitToPickupMap = pGroundUnit->InvokeDirectAIRegionMapToCoasts(); }//>InvokeDirectAIRegionMapToEverywhere(); }
 		//else{                            pGroundUnitToPickupMap = pGroundUnit->InvokeDirectAIRegionMapToEverywhere(); }
 
 		// Next Transport Location -> Pickup
-		CEOSAIUnit2PathwayPredefinedStep* pTransporteePickupStepNext = pTransportPickupPredefinedStep->GetNextStep();
+		CEOSAIUnitPathwayPredefinedStep* pTransporteePickupStepNext = pTransportPickupPredefinedStep->GetNextStep();
 		CEOSAIRegionPathwayMap* pTransportNextLocationToEverywhereMap = NULL;
 		if( pTransportPickupStepNext )
 		{
@@ -1426,15 +1426,15 @@ bool CEOSAISeaUnitPathwayFinder::UpdateEndLocation( CEOSAIUnit2PathwayPredefined
 			// DEBUG
 			pTransportNextLocationToEverywhereMap = pTransportPickupStepNext->InvokeEndLocationToEverywhereDirectMap();
 			/*
-			if( pTransportPickupStepNext->GetTask() == CEOSAIUnit2PathwayPredefinedStep::enum_PickupTarget )
+			if( pTransportPickupStepNext->GetTask() == CEOSAIUnitPathwayPredefinedStep::enum_PickupTarget )
 			{
-				//CEOSAIUnit2PathwayPredefinedStep*  GetTransporteeStep(){ return m_pTransporteeStep; }
-				CEOSAIUnit2PathwayPredefinedStep*  pTransporteeStep = pTransportPickupStepNext->GetTransporteeStep();
+				//CEOSAIUnitPathwayPredefinedStep*  GetTransporteeStep(){ return m_pTransporteeStep; }
+				CEOSAIUnitPathwayPredefinedStep*  pTransporteeStep = pTransportPickupStepNext->GetTransporteeStep();
 				if( pTransporteePickupStepPrev ){ pGroundUnitToPickup = pTransporteePickupStepPrev->InvokeEndLocationToEverywhereDirectMap(); }
 				else{                             pGroundUnitToPickup = pTransport->InvokeDirectAIRegionMapToEverywhere(); }
 				pTransportToNextLocationMap = pTransportPickupStepNext->InvokeEndLocationToEverywhereDirectMap();
 			}
-			else if( pTransportPickupStepNext->GetTask() == CEOSAIUnit2PathwayPredefinedStep::enum_DropoffTarget )
+			else if( pTransportPickupStepNext->GetTask() == CEOSAIUnitPathwayPredefinedStep::enum_DropoffTarget )
 			{
 				EndLocation = pTransportPickupStepNext->GetImaginaryTransportDropoffLocation();
 			}
@@ -1443,7 +1443,7 @@ bool CEOSAISeaUnitPathwayFinder::UpdateEndLocation( CEOSAIUnit2PathwayPredefined
 				EndLocation = pTransportPickupStepNext->GetEndLocation();
 			}
 
-			if( pTransportPickupStepNext->GetTask() == CEOSAIUnit2PathwayPredefinedStep::enum_PickupTarget )
+			if( pTransportPickupStepNext->GetTask() == CEOSAIUnitPathwayPredefinedStep::enum_PickupTarget )
 			{
 				pTransportToNextLocationMap = pTransportPickupStepNext->InvokeEndLocationToEverywhereDirectMap();
 			}
@@ -1702,7 +1702,7 @@ bool CEOSAISeaUnitPathwayFinder::UpdateEndLocation( CEOSAIUnit2PathwayPredefined
 		ASSERT( iLandPickupRegion > 0 );
 
 		CEOSAILocation WaterLocation, LandLocation;
-		CEOSAIUnit2PathwayFinder::FindPickupDropoffLocations( 
+		CEOSAIUnitPathwayFinder::FindPickupDropoffLocations( 
 			pTransportPickupPredefinedStep->GetRealTransport_PickupWaterAIRegion(),
 			pTransportPickupPredefinedStep->GetRealTransport_PickupGroundAIRegion(),
 			&WaterLocation, &LandLocation );
@@ -1744,7 +1744,7 @@ bool CEOSAISeaUnitPathwayFinder::UpdateEndLocation( CEOSAIUnit2PathwayPredefined
 		}
 		*/
 
-		//CEOSAIUnit2PathwayPredefinedStep* pTransportDropoffStepNext = pTransportDropoffStep->GetNextStep();
+		//CEOSAIUnitPathwayPredefinedStep* pTransportDropoffStepNext = pTransportDropoffStep->GetNextStep();
 		/*
 		CEOSAILocation TransportStartLocation = pTransportDropoffStep->GetStartLocation();
 		CEOSAILocation TransporteeEndLocation = pGroundUnitResultStep->m_EndLocation;
@@ -1752,11 +1752,11 @@ bool CEOSAISeaUnitPathwayFinder::UpdateEndLocation( CEOSAIUnit2PathwayPredefined
 
 		if( pTransportDropoffStepNext )
 		{
-			if( pTransportDropoffStepNext->GetTask() == CEOSAIUnit2PathwayPredefinedStep::enum_PickupTarget )
+			if( pTransportDropoffStepNext->GetTask() == CEOSAIUnitPathwayPredefinedStep::enum_PickupTarget )
 			{
 				TransportNextEndLocation = pTransportDropoffStepNext->GetImaginaryTransportPickupLocation();
 			}
-			else if( pTransportDropoffStepNext->GetTask() == CEOSAIUnit2PathwayPredefinedStep::enum_DropoffTarget )
+			else if( pTransportDropoffStepNext->GetTask() == CEOSAIUnitPathwayPredefinedStep::enum_DropoffTarget )
 			{
 				TransportNextEndLocation = pTransportDropoffStepNext->GetImaginaryTransportDropoffLocation();
 			}
@@ -1784,8 +1784,8 @@ bool CEOSAISeaUnitPathwayFinder::UpdateEndLocation( CEOSAIUnit2PathwayPredefined
 		// Find the best AIRegion Pickup using these three maps
 
 		// Transport -> Dropoff
-		CEOSAIUnit2PathwayPredefinedStep* pTransportDropoffStepPrev = pTransportDropoffPredefinedStep->GetPrevStep();
-		//CEOSAIUnit2PathwayPredefinedStep* pTransportDropoffStepNext = pTransportDropoffPredefinedStep->GetNextStep();
+		CEOSAIUnitPathwayPredefinedStep* pTransportDropoffStepPrev = pTransportDropoffPredefinedStep->GetPrevStep();
+		//CEOSAIUnitPathwayPredefinedStep* pTransportDropoffStepNext = pTransportDropoffPredefinedStep->GetNextStep();
 		CEOSAIRegionPathwayMap* pTransportToDropoffMap = NULL;
 		if( pTransportDropoffStepPrev ){ pTransportToDropoffMap = pTransportDropoffStepPrev->InvokeEndLocationToEverywhereDirectMap(); }
 		else{                            pTransportToDropoffMap = pTransport->InvokeDirectAIRegionMapToEverywhere(); }
@@ -1825,7 +1825,7 @@ bool CEOSAISeaUnitPathwayFinder::UpdateEndLocation( CEOSAIUnit2PathwayPredefined
 		// DEBUG
 
 		// Next Transport Location to Everywhere
-		CEOSAIUnit2PathwayPredefinedStep* pTransportDropoffStepNext = pTransportDropoffPredefinedStep->GetNextStep();
+		CEOSAIUnitPathwayPredefinedStep* pTransportDropoffStepNext = pTransportDropoffPredefinedStep->GetNextStep();
 		CEOSAIRegionPathwayMap* pTransportEndToEverywhereMap = NULL;
 		if( pTransportDropoffStepNext )
 		{
@@ -2003,7 +2003,7 @@ bool CEOSAISeaUnitPathwayFinder::UpdateEndLocation( CEOSAIUnit2PathwayPredefined
 		//pGroundUnitPredefinedStep->SetRealTransport_DropoffTime( fBestTime );
 
 		CEOSAILocation WaterLocation, LandLocation;
-		CEOSAIUnit2PathwayFinder::FindPickupDropoffLocations( 
+		CEOSAIUnitPathwayFinder::FindPickupDropoffLocations( 
 			pTransportDropoffPredefinedStep->GetRealTransport_DropoffWaterAIRegion(),
 			pTransportDropoffPredefinedStep->GetRealTransport_DropoffGroundAIRegion(),
 			&WaterLocation, &LandLocation );
@@ -2079,20 +2079,20 @@ bool CEOSAISeaUnitPathwayFinder::UpdateResultStepWithTransportAssistedPath( EOSA
 {
 	ASSERT( pGroundUnitResultStep->m_pPredefinedStep->GetAIUnitPathwayFinder()->GetUnitTemplate()->IsGroundUnit() );
 
-	CEOSAIUnit2* pTransport = this->GetAIUnitActor();
+	CEOSAIUnit* pTransport = this->GetAIUnitActor();
 	ASSERT( pTransport->IsTransport() );
 
 	float fGroundUnitMovementTime = 0.0f;
-	CEOSAIUnit2PathwayPredefinedStep* pGroundUnitPredefinedStep = pGroundUnitResultStep->m_pPredefinedStep;
-	CEOSAIUnit2* pGroundUnit = pGroundUnitResultStep->m_pPredefinedStep->GetAIUnitPathwayFinder()->GetAIUnitActor();
+	CEOSAIUnitPathwayPredefinedStep* pGroundUnitPredefinedStep = pGroundUnitResultStep->m_pPredefinedStep;
+	CEOSAIUnit* pGroundUnit = pGroundUnitResultStep->m_pPredefinedStep->GetAIUnitPathwayFinder()->GetAIUnitActor();
 	CUnitTemplate* pGroundUnitTemplate = pGroundUnitResultStep->m_pPredefinedStep->GetAIUnitPathwayFinder()->GetUnitTemplate();
 
 //	pGroundUnitResultStep->m_AIRegionMovementPath.RemoveAll();
 
 	// Update the path
 	// Lookup the Transport's pickup/dropoff steps
-	CEOSAIUnit2PathwayPredefinedStep* pPredefinedTransportPickupStep = GetTransportPickupStep( pGroundUnitPredefinedStep );
-	CEOSAIUnit2PathwayPredefinedStep* pPredefinedTransportDropoffStep = GetTransportDropoffStep( pGroundUnitPredefinedStep );
+	CEOSAIUnitPathwayPredefinedStep* pPredefinedTransportPickupStep = GetTransportPickupStep( pGroundUnitPredefinedStep );
+	CEOSAIUnitPathwayPredefinedStep* pPredefinedTransportDropoffStep = GetTransportDropoffStep( pGroundUnitPredefinedStep );
 
 	// Calculate pTransportPickupStep->StartLocation + this->StartLocation => Next Transport Step End
 	if( pPredefinedTransportPickupStep )
@@ -2109,20 +2109,20 @@ bool CEOSAISeaUnitPathwayFinder::UpdateResultStepWithTransportAssistedPath( EOSA
 		// Find the best AIRegion Pickup using these three maps
 
 		// Transport -> Pickup
-		CEOSAIUnit2PathwayPredefinedStep* pTransportPickupStepPrev = pPredefinedTransportPickupStep->GetPrevStep();
-		CEOSAIUnit2PathwayPredefinedStep* pTransportPickupStepNext = pPredefinedTransportPickupStep->GetNextStep();
+		CEOSAIUnitPathwayPredefinedStep* pTransportPickupStepPrev = pPredefinedTransportPickupStep->GetPrevStep();
+		CEOSAIUnitPathwayPredefinedStep* pTransportPickupStepNext = pPredefinedTransportPickupStep->GetNextStep();
 		CEOSAIRegionPathwayMap* pTransportToPickupMap = NULL;
 		if( pTransportPickupStepPrev ){ pTransportToPickupMap = pTransportPickupStepPrev->InvokeEndLocationToEverywhereDirectMap(); }
 		else{                           pTransportToPickupMap = pTransport->InvokeDirectAIRegionMapToEverywhere(); }
 
 		// GroundUnit -> Pickup
-		CEOSAIUnit2PathwayPredefinedStep* pGroundUnitPickupStepPrev = pGroundUnitPredefinedStep->GetPrevStep();
+		CEOSAIUnitPathwayPredefinedStep* pGroundUnitPickupStepPrev = pGroundUnitPredefinedStep->GetPrevStep();
 		CEOSAIRegionPathwayMap* pGroundUnitToPickupMap = NULL;
 		if( pGroundUnitPickupStepPrev ){ pGroundUnitToPickupMap = pGroundUnitPickupStepPrev->InvokeEndLocationToEverywhereDirectMapPlusCoasts(); }
 		else{                            pGroundUnitToPickupMap = pGroundUnit->InvokeDirectAIRegionMapToCoasts(); }//>InvokeDirectAIRegionMapToEverywhere(); }
 
 		// Next Transport Location -> Pickup
-		CEOSAIUnit2PathwayPredefinedStep* pTransporteePickupStepNext = pPredefinedTransportPickupStep->GetNextStep();
+		CEOSAIUnitPathwayPredefinedStep* pTransporteePickupStepNext = pPredefinedTransportPickupStep->GetNextStep();
 		CEOSAIRegionPathwayMap* pTransportNextLocationToEverywhereMap = NULL;
 		if( pTransportPickupStepNext )
 		{
@@ -2133,15 +2133,15 @@ bool CEOSAISeaUnitPathwayFinder::UpdateResultStepWithTransportAssistedPath( EOSA
 			// DEBUG
 			pTransportNextLocationToEverywhereMap = pTransportPickupStepNext->InvokeEndLocationToEverywhereDirectMap();
 			/-*
-			if( pTransportPickupStepNext->GetTask() == CEOSAIUnit2PathwayPredefinedStep::enum_PickupTarget )
+			if( pTransportPickupStepNext->GetTask() == CEOSAIUnitPathwayPredefinedStep::enum_PickupTarget )
 			{
-				//CEOSAIUnit2PathwayPredefinedStep*  GetTransporteeStep(){ return m_pTransporteeStep; }
-				CEOSAIUnit2PathwayPredefinedStep*  pTransporteeStep = pTransportPickupStepNext->GetTransporteeStep();
+				//CEOSAIUnitPathwayPredefinedStep*  GetTransporteeStep(){ return m_pTransporteeStep; }
+				CEOSAIUnitPathwayPredefinedStep*  pTransporteeStep = pTransportPickupStepNext->GetTransporteeStep();
 				if( pTransporteePickupStepPrev ){ pGroundUnitToPickup = pTransporteePickupStepPrev->InvokeEndLocationToEverywhereDirectMap(); }
 				else{                             pGroundUnitToPickup = pTransport->InvokeDirectAIRegionMapToEverywhere(); }
 				pTransportToNextLocationMap = pTransportPickupStepNext->InvokeEndLocationToEverywhereDirectMap();
 			}
-			else if( pTransportPickupStepNext->GetTask() == CEOSAIUnit2PathwayPredefinedStep::enum_DropoffTarget )
+			else if( pTransportPickupStepNext->GetTask() == CEOSAIUnitPathwayPredefinedStep::enum_DropoffTarget )
 			{
 				EndLocation = pTransportPickupStepNext->GetImaginaryTransportDropoffLocation();
 			}
@@ -2150,7 +2150,7 @@ bool CEOSAISeaUnitPathwayFinder::UpdateResultStepWithTransportAssistedPath( EOSA
 				EndLocation = pTransportPickupStepNext->GetEndLocation();
 			}
 
-			if( pTransportPickupStepNext->GetTask() == CEOSAIUnit2PathwayPredefinedStep::enum_PickupTarget )
+			if( pTransportPickupStepNext->GetTask() == CEOSAIUnitPathwayPredefinedStep::enum_PickupTarget )
 			{
 				pTransportToNextLocationMap = pTransportPickupStepNext->InvokeEndLocationToEverywhereDirectMap();
 			}
@@ -2254,7 +2254,7 @@ bool CEOSAISeaUnitPathwayFinder::UpdateResultStepWithTransportAssistedPath( EOSA
 		ASSERT( iLandPickupRegion > 0 );
 
 		CEOSAILocation WaterLocation, LandLocation;
-		CEOSAIUnit2PathwayFinder::FindPickupDropoffLocations( 
+		CEOSAIUnitPathwayFinder::FindPickupDropoffLocations( 
 			pPredefinedTransportPickupStep->GetRealTransport_PickupWaterAIRegion(),
 			pPredefinedTransportPickupStep->GetRealTransport_PickupGroundAIRegion(),
 			&WaterLocation, &LandLocation );
@@ -2276,11 +2276,11 @@ bool CEOSAISeaUnitPathwayFinder::UpdateResultStepWithTransportAssistedPath( EOSA
 		CEOSAILocation EndLocation; // Either the Transport's Next End Location, or Transportee's Target Location
 		if( pTransportPickupStepNext )
 		{
-			if( pTransportPickupStepNext->GetTask() == CEOSAIUnit2PathwayPredefinedStep::enum_PickupTarget )
+			if( pTransportPickupStepNext->GetTask() == CEOSAIUnitPathwayPredefinedStep::enum_PickupTarget )
 			{
 				EndLocation = pTransportPickupStepNext->GetImaginaryTransportPickupLocation();
 			}
-			else if( pTransportPickupStepNext->GetTask() == CEOSAIUnit2PathwayPredefinedStep::enum_DropoffTarget )
+			else if( pTransportPickupStepNext->GetTask() == CEOSAIUnitPathwayPredefinedStep::enum_DropoffTarget )
 			{
 				EndLocation = pTransportPickupStepNext->GetImaginaryTransportDropoffLocation();
 			}
@@ -2301,7 +2301,7 @@ bool CEOSAISeaUnitPathwayFinder::UpdateResultStepWithTransportAssistedPath( EOSA
 	// Calculate pTransportDropoffStep->StartLocation => this->EndLocation + Next Transport Step Start
 	if( pPredefinedTransportDropoffStep )
 	{
-		//CEOSAIUnit2PathwayPredefinedStep* pTransportDropoffStepNext = pTransportDropoffStep->GetNextStep();
+		//CEOSAIUnitPathwayPredefinedStep* pTransportDropoffStepNext = pTransportDropoffStep->GetNextStep();
 		/-*
 		CEOSAILocation TransportStartLocation = pTransportDropoffStep->GetStartLocation();
 		CEOSAILocation TransporteeEndLocation = pGroundUnitResultStep->m_EndLocation;
@@ -2309,11 +2309,11 @@ bool CEOSAISeaUnitPathwayFinder::UpdateResultStepWithTransportAssistedPath( EOSA
 
 		if( pTransportDropoffStepNext )
 		{
-			if( pTransportDropoffStepNext->GetTask() == CEOSAIUnit2PathwayPredefinedStep::enum_PickupTarget )
+			if( pTransportDropoffStepNext->GetTask() == CEOSAIUnitPathwayPredefinedStep::enum_PickupTarget )
 			{
 				TransportNextEndLocation = pTransportDropoffStepNext->GetImaginaryTransportPickupLocation();
 			}
-			else if( pTransportDropoffStepNext->GetTask() == CEOSAIUnit2PathwayPredefinedStep::enum_DropoffTarget )
+			else if( pTransportDropoffStepNext->GetTask() == CEOSAIUnitPathwayPredefinedStep::enum_DropoffTarget )
 			{
 				TransportNextEndLocation = pTransportDropoffStepNext->GetImaginaryTransportDropoffLocation();
 			}
@@ -2341,8 +2341,8 @@ bool CEOSAISeaUnitPathwayFinder::UpdateResultStepWithTransportAssistedPath( EOSA
 		// Find the best AIRegion Pickup using these three maps
 
 		// Transport -> Dropoff
-		CEOSAIUnit2PathwayPredefinedStep* pTransportDropoffStepPrev = pPredefinedTransportDropoffStep->GetPrevStep();
-		//CEOSAIUnit2PathwayPredefinedStep* pTransportDropoffStepNext = pPredefinedTransportDropoffStep->GetNextStep();
+		CEOSAIUnitPathwayPredefinedStep* pTransportDropoffStepPrev = pPredefinedTransportDropoffStep->GetPrevStep();
+		//CEOSAIUnitPathwayPredefinedStep* pTransportDropoffStepNext = pPredefinedTransportDropoffStep->GetNextStep();
 		CEOSAIRegionPathwayMap* pTransportToDropoffMap = NULL;
 		if( pTransportDropoffStepPrev ){ pTransportToDropoffMap = pTransportDropoffStepPrev->InvokeEndLocationToEverywhereDirectMap(); }
 		else{                            pTransportToDropoffMap = pTransport->InvokeDirectAIRegionMapToEverywhere(); }
@@ -2379,7 +2379,7 @@ bool CEOSAISeaUnitPathwayFinder::UpdateResultStepWithTransportAssistedPath( EOSA
 		// DEBUG
 
 		// Next Transport Location to Everywhere
-		CEOSAIUnit2PathwayPredefinedStep* pTransportDropoffStepNext = pPredefinedTransportDropoffStep->GetNextStep();
+		CEOSAIUnitPathwayPredefinedStep* pTransportDropoffStepNext = pPredefinedTransportDropoffStep->GetNextStep();
 		CEOSAIRegionPathwayMap* pTransportEndToEverywhereMap = NULL;
 		if( pTransportDropoffStepNext )
 		{
@@ -2477,7 +2477,7 @@ bool CEOSAISeaUnitPathwayFinder::UpdateResultStepWithTransportAssistedPath( EOSA
 		pPredefinedTransportDropoffStep->SetRealTransport_DropoffGroundAIRegion( iLandDropoffRegion );
 
 		CEOSAILocation WaterLocation, LandLocation;
-		CEOSAIUnit2PathwayFinder::FindPickupDropoffLocations( 
+		CEOSAIUnitPathwayFinder::FindPickupDropoffLocations( 
 			pPredefinedTransportDropoffStep->GetRealTransport_DropoffWaterAIRegion(),
 			pPredefinedTransportDropoffStep->GetRealTransport_DropoffGroundAIRegion(),
 			&WaterLocation, &LandLocation );
@@ -2523,7 +2523,7 @@ void  CEOSAISeaUnitPathwayFinder::PreprocessPath()
 	POSITION pos = m_PreDefinedPath.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2PathwayPredefinedStep* pPredefinedStep = m_PreDefinedPath.GetNext( pos );
+		CEOSAIUnitPathwayPredefinedStep* pPredefinedStep = m_PreDefinedPath.GetNext( pos );
 
 		pPredefinedStep->SetStartLocation( CurrentLocation );
 		CEOSAIRegionPathwayMap* pEndLocationToEverywhereDirectMap = pPredefinedStep->InvokeEndLocationToEverywhereDirectMap();
@@ -2553,7 +2553,7 @@ void  CEOSAISeaUnitPathwayFinder::CalculateAIRegionPathFromPredefinedSteps()
 	POSITION pos = m_PreDefinedPath.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2PathwayPredefinedStep* pPredefinedStep = m_PreDefinedPath.GetNext( pos );
+		CEOSAIUnitPathwayPredefinedStep* pPredefinedStep = m_PreDefinedPath.GetNext( pos );
 		//pPredefinedStep->GetDirectMovementPath()->RemoveAll();
 		pPredefinedStep->ClearDirectMovementPath();
 		pPredefinedStep->GetAIRegionAllowedMovementPath()->RemoveAll();
@@ -2610,20 +2610,20 @@ void  CEOSAISeaUnitPathwayFinder::CalculateAIRegionPathTiming()
 	POSITION pos = m_PreDefinedPath.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2PathwayPredefinedStep* pPredefinedStep = m_PreDefinedPath.GetNext( pos );
+		CEOSAIUnitPathwayPredefinedStep* pPredefinedStep = m_PreDefinedPath.GetNext( pos );
 		pPredefinedStep->UpdatePathTimingIfNecessary();
 	}
 }
 */
 /*
-float CEOSAISeaUnitPathwayFinder::GetTransportArrivalTimeAtDropoffLocation( CEOSAIUnit2PathwayPredefinedStep* pGroundUnitStep )
+float CEOSAISeaUnitPathwayFinder::GetTransportArrivalTimeAtDropoffLocation( CEOSAIUnitPathwayPredefinedStep* pGroundUnitStep )
 {
 	ASSERT( pGroundUnitStep->GetAIUnitPathwayFinder()->GetUnitTemplate()->IsGroundUnit() );
 	ASSERT( this->GetUnitTemplate()->IsTransport() );
 	POSITION pos = m_PreDefinedPath.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2PathwayPredefinedStep* pPredefinedStep = m_PreDefinedPath.GetNext( pos );
+		CEOSAIUnitPathwayPredefinedStep* pPredefinedStep = m_PreDefinedPath.GetNext( pos );
 		if( pPredefinedStep->IsADropoff() &&
 			pPredefinedStep->GetTransporteeStep() == pGroundUnitStep )
 		{
@@ -2635,7 +2635,7 @@ float CEOSAISeaUnitPathwayFinder::GetTransportArrivalTimeAtDropoffLocation( CEOS
 }
 */
 /*
-float CEOSAISeaUnitPathwayFinder::GetTransporteeArrivalTimeAtPickupLocation( CEOSAIUnit2PathwayPredefinedStep* pGroundUnitsStep )
+float CEOSAISeaUnitPathwayFinder::GetTransporteeArrivalTimeAtPickupLocation( CEOSAIUnitPathwayPredefinedStep* pGroundUnitsStep )
 {
 	ASSERT( false );
 	//ASSERT( this->GetUnitTemplate()->IsGroundUnit() );
@@ -2645,13 +2645,13 @@ float CEOSAISeaUnitPathwayFinder::GetTransporteeArrivalTimeAtPickupLocation( CEO
 }
 */
 /*
-void CEOSAISeaUnitPathwayFinder::CalculateAIRegionPathTiming_UptoDropoffTask( CEOSAIUnit2PathwayPredefinedStep* pGroundUnitsStep )
+void CEOSAISeaUnitPathwayFinder::CalculateAIRegionPathTiming_UptoDropoffTask( CEOSAIUnitPathwayPredefinedStep* pGroundUnitsStep )
 {
 	CEOSAIPathfinderPoint* pLastPathfinderPoint = NULL;
 	POSITION pos = m_PreDefinedPath.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2PathwayPredefinedStep* pPredefinedStep = m_PreDefinedPath.GetNext( pos );
+		CEOSAIUnitPathwayPredefinedStep* pPredefinedStep = m_PreDefinedPath.GetNext( pos );
 		pPredefinedStep->UpdatePathTimingIfNecessary();
 
 		if( pPredefinedStep->IsADropoff() && 
@@ -2665,7 +2665,7 @@ void CEOSAISeaUnitPathwayFinder::CalculateAIRegionPathTiming_UptoDropoffTask( CE
 void CEOSAISeaUnitPathwayFinder::CalculateResultPath()
 {
 	// DEBUG
-	CEOSAIUnit2* pAIUnit = GetAIUnitActor();
+	CEOSAIUnit* pAIUnit = GetAIUnitActor();
 	if( pAIUnit->IsTransport() )
 	{
 		int g=0;
@@ -2688,7 +2688,7 @@ void CEOSAISeaUnitPathwayFinder::CalculateResultPath()
 	POSITION pos = m_PreDefinedPath.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2PathwayPredefinedStep* pPredefinedStep = m_PreDefinedPath.GetNext( pos );
+		CEOSAIUnitPathwayPredefinedStep* pPredefinedStep = m_PreDefinedPath.GetNext( pos );
 		CEOSAIRegionPathwayMap* pEndLocationToEverywhere = pPredefinedStep->InvokeEndLocationToEverywhereDirectMap();
 
 		//bool bStepIsValid = false;
@@ -2715,8 +2715,8 @@ void CEOSAISeaUnitPathwayFinder::CalculateResultPath()
 		RegionPathfinder.ApplyStrategy( m_eNeutralsPathwayStategy, m_eEnemiesPathwayStategy, 1.0f );
 
 /-*
-		//bool bIgnoreEnemies     = ( m_ePathwayType & CEOSAIUnit2Pathway::IgnoreEnemies ) > 0;
-		//bool bAvoidEnemyContact = ( m_ePathwayType & CEOSAIUnit2Pathway::AvoidEnemyContact ) > 0;
+		//bool bIgnoreEnemies     = ( m_ePathwayType & CEOSAIUnitPathway::IgnoreEnemies ) > 0;
+		//bool bAvoidEnemyContact = ( m_ePathwayType & CEOSAIUnitPathway::AvoidEnemyContact ) > 0;
 		//long iCount = 0;
 		//if( bIgnoreEnemies ) iCount++;
 		//if( bAvoidEnemyContact ) iCount++;
@@ -2779,9 +2779,9 @@ void CEOSAISeaUnitPathwayFinder::CalculateResultPath()
 	//	pResultStep->m_EndLocation = pPredefinedStep->GetEndLocation();//>m_Location;
 
 		// DEBUG
-		CEOSAIUnit2PathwayPredefinedStep* pPrevPredefinedStep = pPredefinedStep->GetPrevStep();
+		CEOSAIUnitPathwayPredefinedStep* pPrevPredefinedStep = pPredefinedStep->GetPrevStep();
 		EOSAI::UnitPathwayResultStep*     pPrevResultStep = NULL; if( pPrevPredefinedStep ){ pPrevResultStep = pPrevPredefinedStep->GetResultStep(); }
-		CEOSAIUnit2PathwayPredefinedStep* pNextPredefinedStep = pPredefinedStep->GetNextStep();
+		CEOSAIUnitPathwayPredefinedStep* pNextPredefinedStep = pPredefinedStep->GetNextStep();
 		EOSAI::UnitPathwayResultStep*     pNextResultStep = NULL;  if( pNextPredefinedStep ){ pNextResultStep = pNextPredefinedStep->GetResultStep(); }
 		// DEBUG
 

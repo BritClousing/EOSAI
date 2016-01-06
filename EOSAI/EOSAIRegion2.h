@@ -19,7 +19,7 @@ class CAISpatialMap;
 class CEOSAIBrain;
 class CEOSAIRegion2;
 class CEOSAIPoiObject;
-class CEOSAIUnit2;
+class CEOSAIUnit;
 class CEOSAICity;
 class CEOSAIForeignRelationsState;
 //class CWorldDescServer;

@@ -182,7 +182,7 @@ class DLLIMPEXP CCommonData
 			void              AddAIPoiObject( CEOSAIPoiObject* pAIPoiObject );
 			void              AddHypotheticalAIPoiObject( CEOSAIPoiObject* pAIPoiObject ); // Used by AIBrains
 			CEOSAIPoiObject*  GetAIPoiObject( long iObjectId );
-			CEOSAIUnit2*      GetAIUnit( long iObjectId );
+			CEOSAIUnit*      GetAIUnit( long iObjectId );
 			long   GetLastAIUnitCombatCapabilitiesCalculatedTurn() { return m_iUnitCombatCapabilities_LastTurnCalculated; }
 
 			int   GetNumberOfPoi();

@@ -790,7 +790,7 @@ void CActionScheduler::AllocateTacticalProjects2()
 	// If I have tactical bombers around, I should check about adding them to invasion forces
 	//
 		watch8.Start();
-		CList< CEOSAIUnit2* >* pAirUnits = m_pAIBrain->GetAIThoughtDatabase()->GetMyAirUnits();
+		CList< CEOSAIUnit* >* pAirUnits = m_pAIBrain->GetAIThoughtDatabase()->GetMyAirUnits();
 		if( pAirUnits->GetCount() > 0 )
 		{
 			CEOSAIAirbasesSet  Airbases;
@@ -808,7 +808,7 @@ void CActionScheduler::AllocateTacticalProjects2()
 						CList< CEOSAIDesireSpatial* >  EnemyUnits;
 						pStrategy->GetTacticalProject2()->GetUnitTargets( &EnemyUnits );
 
-						CList< CEOSAIUnit2* >  AirUnitsWithinAttackRange;
+						CList< CEOSAIUnit* >  AirUnitsWithinAttackRange;
 						float fEnemyDistanceFromAirbases = 1000000.0f;
 						POSITION posX = EnemyUnits.GetHeadPosition();
 						while( posX )
@@ -820,7 +820,7 @@ void CActionScheduler::AllocateTacticalProjects2()
 						POSITION posY = pAirUnits->GetHeadPosition();
 						while( posY )
 						{
-							CEOSAIUnit2* pAIAirUnit = pAirUnits->GetNext( posY );
+							CEOSAIUnit* pAIAirUnit = pAirUnits->GetNext( posY );
 							// Don't use damaged aircraft
 							if( pAIAirUnit->GetNeedForRepair01() > 0.0f ) continue;
 							float fAttackRange = pAIAirUnit->GetAIUnitTemplate()->GetMovementRangeForAttack();
@@ -836,8 +836,8 @@ void CActionScheduler::AllocateTacticalProjects2()
 						posX = AirUnitsWithinAttackRange.GetHeadPosition();
 						while( posX )
 						{
-							CEOSAIUnit2* pAIAirUnit = AirUnitsWithinAttackRange.GetNext( posX );
-							CEOSAIUnit2PathwayFinder* pPathway = pAIAirUnit->GetAIUnitPathwayFinder();
+							CEOSAIUnit* pAIAirUnit = AirUnitsWithinAttackRange.GetNext( posX );
+							CEOSAIUnitPathwayFinder* pPathway = pAIAirUnit->GetAIUnitPathwayFinder();
 
 							if( pPathway->GetPreDefinedPath()->IsEmpty() == FALSE ) continue;
 
@@ -854,15 +854,15 @@ void CActionScheduler::AllocateTacticalProjects2()
 									CEOSAIPoiObject* pAIEnemyPoiObject = pEnemyUnitDesire->GetAIPoiObjectTarget();
 									if( pAIEnemyPoiObject->GetAIPoiObjectType() == EnumAIPoiObjectType::enum_Unit )
 									{
-										CEOSAIUnit2* pAIEnemyUnit = (CEOSAIUnit2*) pAIEnemyPoiObject;
-										CEOSAIUnit2VsUnitValue* pUUValue = pAIAirUnit->GetAIUnitCombatCapability()->InvokeCombatValue( pAIEnemyUnit->GetAIUnitTemplate() );
+										CEOSAIUnit* pAIEnemyUnit = (CEOSAIUnit*) pAIEnemyPoiObject;
+										CEOSAIUnitVsUnitValue* pUUValue = pAIAirUnit->GetAIUnitCombatCapability()->InvokeCombatValue( pAIEnemyUnit->GetAIUnitTemplate() );
 										if( pUUValue->IsUsefulInCombat() )
 										{
 											pAIAirUnit->AddPotentialTarget( pAIEnemyUnit );
 										}
 										/*
 										CUnit* pEnemyUnit = (CUnit*) pAIEnemyPoiObject->GetServerPoiObject();
-										CEOSAIUnit2VsUnitValue* pUUValue = pAIAirUnit->GetUnitTemplate()->GetAIUnitCombatCapability()->InvokeCombatValue( pEnemyUnit->GetUnitTemplate() );
+										CEOSAIUnitVsUnitValue* pUUValue = pAIAirUnit->GetUnitTemplate()->GetAIUnitCombatCapability()->InvokeCombatValue( pEnemyUnit->GetUnitTemplate() );
 										if( pUUValue->IsUsefulInCombat() )
 										{
 											pAIAirUnit->AddPotentialTarget( pAIEnemyUnit );
@@ -1032,7 +1032,7 @@ void CActionScheduler::AllocateTacticalProjects2()
 		while( pos )
 		{
 			CEOSAIPoiObject* pAIPoiObject = pAIThoughtDatabase->GetMyActors()->GetNext( pos );
-			CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+			CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 			if( pAIUnit )
 			{
 				pAIUnit->CalculateAIRegionPathFromPredefinedSteps();
@@ -1042,7 +1042,7 @@ void CActionScheduler::AllocateTacticalProjects2()
 		while( pos )
 		{
 			CEOSAIPoiObject* pAIPoiObject = pAIThoughtDatabase->GetMyActors()->GetNext( pos );
-			CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+			CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 			if( pAIUnit )
 			{
 				pAIUnit->UpdateRedPath();
@@ -1052,7 +1052,7 @@ void CActionScheduler::AllocateTacticalProjects2()
 		while( pos )
 		{
 			CEOSAIPoiObject* pAIPoiObject = pAIThoughtDatabase->GetMyActors()->GetNext( pos );
-			CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+			CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 			if( pAIUnit )
 			{
 				pAIUnit->ConstructFullRedPath();
@@ -1090,20 +1090,20 @@ void CActionScheduler::AllocateTacticalProjects2()
 	// Iterate over AirUnits, if the unit has no orders, then look through PotentialTargets to attack
 	//
 		watch11.Start();
-		//CList< CEOSAIUnit2* >* pAirUnits = m_pAIBrain->GetAIThoughtDatabase()->GetMyAirUnits();
+		//CList< CEOSAIUnit* >* pAirUnits = m_pAIBrain->GetAIThoughtDatabase()->GetMyAirUnits();
 		pos = pAirUnits->GetHeadPosition();
 		while( pos )
 		{
-			CEOSAIUnit2* pAIAirUnit = pAirUnits->GetNext( pos );
-			CEOSAIUnit2PathwayFinder* pPathway = pAIAirUnit->GetAIUnitPathwayFinder();
+			CEOSAIUnit* pAIAirUnit = pAirUnits->GetNext( pos );
+			CEOSAIUnitPathwayFinder* pPathway = pAIAirUnit->GetAIUnitPathwayFinder();
 			if( pAIAirUnit->HasPotentialTargets() &&
 				pPathway->GetPreDefinedPath()->IsEmpty() )
 			{
 				ASSERT( pPathway->GetPreDefinedPath()->IsEmpty() );
 
-				CEOSAIUnit2* pAIEnemyUnit = pAIAirUnit->GetRandomPotentialTarget();
+				CEOSAIUnit* pAIEnemyUnit = pAIAirUnit->GetRandomPotentialTarget();
 				ASSERT( pAIEnemyUnit );
-				CEOSAIUnit2PathwayPredefinedStep* pStep = pPathway->CreateAttackUnit( pAIEnemyUnit );
+				CEOSAIUnitPathwayPredefinedStep* pStep = pPathway->CreateAttackUnit( pAIEnemyUnit );
 				pPathway->AppendStep( pStep );
 				ASSERT( pPathway->GetPreDefinedPath()->GetCount() == 1 );
 			}
@@ -1120,7 +1120,7 @@ void CActionScheduler::AllocateTacticalProjects2()
 		while( pos )
 		{
 			CEOSAIPoiObject* pAIPoiObject = GetAIThoughtDatabase()->GetMyActors()->GetNext( pos );
-			CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+			CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 			if( pAIUnit && pAIUnit->IsAirUnit() == false )
 			{
 				// Situations:
@@ -1144,7 +1144,7 @@ void CActionScheduler::AllocateTacticalProjects2()
 	//GetAIThoughtDatabase()->CreatePredefinedStepsToSendIdleUnitsToWarzones();
 
 	//CEOSAIPoiObject* pAIPoiObject117 = m_pAIBrain->GetAIPoiObject( 117 );
-	//CEOSAIUnit2* pAIUnit117 = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject117 );
+	//CEOSAIUnit* pAIUnit117 = dynamic_cast< CEOSAIUnit* >( pAIPoiObject117 );
 	//int h=0;
 	/*
 	pos = GetAIThoughtDatabase()->GetMyActors()->GetHeadPosition();
@@ -1166,7 +1166,7 @@ void CActionScheduler::AllocateTacticalProjects2()
 		while( pos )
 		{
 			CEOSAIPoiObject* pAIPoiObject = GetAIThoughtDatabase()->GetMyActors()->GetNext( pos );
-			CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+			CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 			if( pAIUnit && pAIUnit->IsTransport() == false )
 			{
 				// Units using Transports will force the transport-assisted path to be calculated
@@ -1178,7 +1178,7 @@ void CActionScheduler::AllocateTacticalProjects2()
 		while( pos )
 		{
 			CEOSAIPoiObject* pAIPoiObject = GetAIThoughtDatabase()->GetMyActors()->GetNext( pos );
-			CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+			CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 			if( pAIUnit && pAIUnit->IsTransport() == true )
 			{
 				pAIPoiObject->TurnPredefinedPathIntoResultPath();
@@ -1228,7 +1228,7 @@ void CActionScheduler::AllocateTacticalProjects2()
 //		while( pos )
 //		{
 //			CEOSAIPoiObject* pAIPoiObject = GetAIThoughtDatabase()->GetMyActors()->GetNext( pos );
-//			CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+//			CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 //			if( pAIUnit &&
 //				pAIUnit->GetServerPoiMobile()->HasOrdersToAttack() == false )
 //			{
@@ -1271,7 +1271,7 @@ void CActionScheduler::AllocateTacticalProjects2()
 	while( pos )
 	{
 		CEOSAIPoiObject* pAIPoiObject = IdleUnitsAndCities.GetNext( pos );
-		CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+		CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 		if( pAIUnit )
 		{
 			CString str = pAIUnit->GetAIUnitTemplate()->GetInternalName();
@@ -1307,12 +1307,12 @@ void  CActionScheduler::CreateRepairNearbyTaskOrWarzoneForIdleUnits()
 	CList< CEOSAIPoiObject* >*  pMyActors = pAIThoughtDatabase->GetMyActors();
 
 	// Compile a list of idle units
-	CList< CEOSAIUnit2* >  MyIdleUnits;
+	CList< CEOSAIUnit* >  MyIdleUnits;
 	POSITION pos = pMyActors->GetHeadPosition();
 	while( pos )
 	{
 		CEOSAIPoiObject* pAIPoiObject = pMyActors->GetNext( pos );
-		CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+		CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 
 		if( pAIUnit &&
 			pAIUnit->IsHypotheticalPoiObject() == false &&
@@ -1329,7 +1329,7 @@ void  CActionScheduler::CreateRepairNearbyTaskOrWarzoneForIdleUnits()
 	pos = MyIdleUnits.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2* pAIUnit = MyIdleUnits.GetNext( pos );
+		CEOSAIUnit* pAIUnit = MyIdleUnits.GetNext( pos );
 		int g=0;
 		pAIUnit->AllocateRepairNearbyTaskOrWarzoneToThisIdleUnit();
 	}
@@ -1342,7 +1342,7 @@ void  CActionScheduler::AddUpgradePredefinedStepToAllUnitsWhoNeedAnUpgradeAndWit
 	while( pos )
 	{
 		CEOSAIPoiObject* pAIPoiObject = pAIThoughtDatabase->GetMyActors()->GetNext( pos );
-		CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+		CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 		if( pAIUnit )
 		{
 			//if( pAIUnit->GetServerUnit() && 
@@ -1360,9 +1360,9 @@ void  CActionScheduler::AddUpgradePredefinedStepToAllUnitsWhoNeedAnUpgradeAndWit
 
 					if( pClosestUpgradeAIPoiObject && fClosestUpgradeDistance < 100.0f )
 					{
-						CEOSAIUnit2PathwayFinder* pPathwayFinder = pAIUnit->GetAIUnitPathwayFinder();
+						CEOSAIUnitPathwayFinder* pPathwayFinder = pAIUnit->GetAIUnitPathwayFinder();
 
-						CEOSAIUnit2PathwayPredefinedStep* pPredefinedStep = new CEOSAIUnit2PathwayPredefinedStep( pPathwayFinder );
+						CEOSAIUnitPathwayPredefinedStep* pPredefinedStep = new CEOSAIUnitPathwayPredefinedStep( pPathwayFinder );
 						pPredefinedStep->SetAIUnitActionIdea( NULL );
 						pPredefinedStep->UpgradeAt( pClosestUpgradeAIPoiObject );
 						pPathwayFinder->AppendStep( pPredefinedStep );
@@ -1379,10 +1379,10 @@ void  CActionScheduler::AllocateTaskForceUnits( CEOSAITaskForce3* pTaskForce )
 	POSITION pos = pTaskForce->GetUnitActionStack()->m_Items.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2ActionStackItem* pStackItem = pTaskForce->GetUnitActionStack()->m_Items.GetNext( pos );
+		CEOSAIUnitActionStackItem* pStackItem = pTaskForce->GetUnitActionStack()->m_Items.GetNext( pos );
 		if( pStackItem->IsAllocated() )
 		{
-			CEOSAIUnit2ActionIdea* pIdea = pStackItem->m_pUnitActionIdea;
+			CEOSAIUnitActionIdea* pIdea = pStackItem->m_pUnitActionIdea;
 			pIdea->AllocateActorToTacticalProject();
 		}
 	}
@@ -1395,15 +1395,15 @@ void  CActionScheduler::ScheduleTaskForce( CEOSAITaskForce3* pTaskForce )
 	POSITION pos = pTaskForce->GetUnitActionStack()->m_Items.GetHeadPosition();
 	while( pos )
 	{
-		//CEOSAIUnit2ActionIdea* pUnitActionIdea = pTaskForce->GetUnitActionIdeas()->GetNext( pos );
-		//CEOSAIUnit2* pAIUnit = pUnitActionIdea->GetAIUnitActor();
+		//CEOSAIUnitActionIdea* pUnitActionIdea = pTaskForce->GetUnitActionIdeas()->GetNext( pos );
+		//CEOSAIUnit* pAIUnit = pUnitActionIdea->GetAIUnitActor();
 		//pAIUnit->AllocateForActionDefinition( this );
-		CEOSAIUnit2ActionStackItem* pStackItem = pTaskForce->GetUnitActionStack()->m_Items.GetNext( pos );
+		CEOSAIUnitActionStackItem* pStackItem = pTaskForce->GetUnitActionStack()->m_Items.GetNext( pos );
 		//if( pStackItem->IsReallyAllocated() )
 		//if( pStackItem->ActionIdeaIsAllocated() )
 		if( pStackItem->ActorIsAllocatedByThisTaskForce() )
 		{
-			CEOSAIUnit2ActionIdea* pUnitActionIdea = pStackItem->m_pUnitActionIdea;
+			CEOSAIUnitActionIdea* pUnitActionIdea = pStackItem->m_pUnitActionIdea;
 			ASSERT( pUnitActionIdea->IsScheduled() == false );
 
 			if( pUnitActionIdea->GetAIUnitActor()->IsHypotheticalPoiObject() )
@@ -1414,8 +1414,8 @@ void  CActionScheduler::ScheduleTaskForce( CEOSAITaskForce3* pTaskForce )
 			}
 			else
 			{
-				CEOSAIUnit2* pAIUnit = pUnitActionIdea->GetAIUnitActor();
-				CEOSAIUnit2Action* pAIUnitAction = pUnitActionIdea->ActionScheduler_CreateAction();
+				CEOSAIUnit* pAIUnit = pUnitActionIdea->GetAIUnitActor();
+				CEOSAIUnitAction* pAIUnitAction = pUnitActionIdea->ActionScheduler_CreateAction();
 				pAIUnitAction->ActionScheduler_TurnActionsIntoTasks();
 				pAIUnit->ActionScheduler_TurnTasksIntoOrders();
 			}

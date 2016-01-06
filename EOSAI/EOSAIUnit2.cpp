@@ -48,7 +48,7 @@ static char THIS_FILE[]=__FILE__;
 #define new DEBUG_NEW
 #endif
 
-void  CEOSAITransportSpaceAllocation::SetAIUnit( CEOSAIUnit2* pAIUnit )
+void  CEOSAITransportSpaceAllocation::SetAIUnit( CEOSAIUnit* pAIUnit )
 {
 	m_pAIUnit = pAIUnit;
 	CalculatePreAllocatedSpace();
@@ -78,7 +78,7 @@ void  CEOSAITransportSpaceAllocation::CalculatePreAllocatedSpace()
 	}
 }
 
-bool  CEOSAITransportSpaceAllocation::CanInsert( CEOSAIUnit2ActionIdea* pUnitActionIdea )
+bool  CEOSAITransportSpaceAllocation::CanInsert( CEOSAIUnitActionIdea* pUnitActionIdea )
 {
 	//CalculatePreAllocatedSpace();
 	//
@@ -107,18 +107,18 @@ bool  CEOSAITransportSpaceAllocation::CanInsert( CEOSAIUnit2ActionIdea* pUnitAct
 	return false;
 }
 
-bool  CEOSAITransportSpaceAllocation::HasAllocatedSpace( CEOSAIUnit2ActionIdea* pUnitActionIdea )
+bool  CEOSAITransportSpaceAllocation::HasAllocatedSpace( CEOSAIUnitActionIdea* pUnitActionIdea )
 {
 	POSITION pos = m_AllocatedUnitActionIdeaSpace.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2ActionIdea* pUnitActionIdeaInList = m_AllocatedUnitActionIdeaSpace.GetNext( pos );
+		CEOSAIUnitActionIdea* pUnitActionIdeaInList = m_AllocatedUnitActionIdeaSpace.GetNext( pos );
 		if( pUnitActionIdea == pUnitActionIdeaInList ) return true;
 	}
 	return false;
 }
 
-void  CEOSAITransportSpaceAllocation::AllocateTransportSpace( CEOSAIUnit2ActionIdea* pUnitActionIdea )
+void  CEOSAITransportSpaceAllocation::AllocateTransportSpace( CEOSAIUnitActionIdea* pUnitActionIdea )
 {
 	//CalculatePreAllocatedSpace();
 	//
@@ -146,7 +146,7 @@ void  CEOSAITransportSpaceAllocation::AllocateTransportSpace( CEOSAIUnit2ActionI
 	ASSERT( m_iPreAllocatedSpace + m_iAllocatedSpace >= 0 );
 }
 
-void  CEOSAITransportSpaceAllocation::DeAllocateTransportSpace( CEOSAIUnit2ActionIdea* pUnitActionIdea )
+void  CEOSAITransportSpaceAllocation::DeAllocateTransportSpace( CEOSAIUnitActionIdea* pUnitActionIdea )
 {
 	//CalculatePreAllocatedSpace();
 	//
@@ -158,7 +158,7 @@ void  CEOSAITransportSpaceAllocation::DeAllocateTransportSpace( CEOSAIUnit2Actio
 		while( pos )
 		{
 			POSITION PrevPos = pos;
-			CEOSAIUnit2ActionIdea* pUnitActionIdeaInList = m_AllocatedUnitActionIdeaSpace.GetNext( pos );
+			CEOSAIUnitActionIdea* pUnitActionIdeaInList = m_AllocatedUnitActionIdeaSpace.GetNext( pos );
 			if( pUnitActionIdea == pUnitActionIdeaInList )
 			{
 				m_AllocatedUnitActionIdeaSpace.RemoveAt( PrevPos );
@@ -184,7 +184,7 @@ void  CEOSAITransportSpaceAllocation::DeAllocateTransportSpace( CEOSAIUnit2Actio
 
 ///
 
-CEOSAIUnit2::CEOSAIUnit2() : EOSAI::PoiMobile()
+CEOSAIUnit::CEOSAIUnit() : EOSAI::PoiMobile()
 {
 	m_pBuiltByCity = NULL;
 	//m_pServerUnit = NULL;
@@ -212,7 +212,7 @@ CEOSAIUnit2::CEOSAIUnit2() : EOSAI::PoiMobile()
 	m_fInitialWaitTime = 0.0f;
 }
 
-CEOSAIUnit2::~CEOSAIUnit2()
+CEOSAIUnit::~CEOSAIUnit()
 {
 	while( m_BestCase_TransportSpaceAllocations.IsEmpty() == FALSE )
 	{
@@ -221,13 +221,13 @@ CEOSAIUnit2::~CEOSAIUnit2()
 	delete m_pAIUnitPathway; m_pAIUnitPathway = NULL;
 }
 
-void CEOSAIUnit2::ResetAIPlayerData()
+void CEOSAIUnit::ResetAIPlayerData()
 {
 	CEOSAIPoiObject::ResetAIPlayerData();
 	ResetAIPlayerData_AIUnit();
 }
 
-void CEOSAIUnit2::ResetAIPlayerData_AIUnit()
+void CEOSAIUnit::ResetAIPlayerData_AIUnit()
 {
 	// We shouldn't be reseting hypothetical units, they should be deleted
 	ASSERT(this->IsHypotheticalPoiObject() == false);
@@ -251,8 +251,8 @@ void CEOSAIUnit2::ResetAIPlayerData_AIUnit()
 
 /*
 // have to create m_pAIUnitPathway
-void  CEOSAIUnit2::SetServerPoiObject( CPoiObject* pPoiObject )
-//void  CEOSAIUnit2::SetStateCalculatePathways()
+void  CEOSAIUnit::SetServerPoiObject( CPoiObject* pPoiObject )
+//void  CEOSAIUnit::SetStateCalculatePathways()
 {
 	ASSERT( m_pServerUnit == NULL && m_bHypotheticalPoiObject == false );
 	ASSERT( pPoiObject->IsDead() == false );
@@ -281,10 +281,10 @@ void  CEOSAIUnit2::SetServerPoiObject( CPoiObject* pPoiObject )
 
 	//SetPoiMobile( m_pUnit );
 	m_Real_TransportSpaceAllocations.SetAIUnit( this );
-	m_pAIUnitPathway = CEOSAIUnit2PathwayFinder::CreatePathwayFinder( this );
+	m_pAIUnitPathway = CEOSAIUnitPathwayFinder::CreatePathwayFinder( this );
 }
 */
-void CEOSAIUnit2::CreateHypotheticalUnit( CEOSAIUnitTemplate* pAIUnitTemplate, long iOwner, CEOSAILocation Location, float fTime )
+void CEOSAIUnit::CreateHypotheticalUnit( CEOSAIUnitTemplate* pAIUnitTemplate, long iOwner, CEOSAILocation Location, float fTime )
 {
 	//ASSERT( m_pServerUnit == NULL && m_bHypotheticalPoiObject == false );
 	ASSERT( false ); // hypothetical units exist only in the minds of the AI - I need an AIBrain pointer
@@ -304,10 +304,10 @@ void CEOSAIUnit2::CreateHypotheticalUnit( CEOSAIUnitTemplate* pAIUnitTemplate, l
 	//CAIObject::m_InitialState.SetLocationAndGeo( Location );
 	//CAIObject::m_InitialState.SetTime( fTime );
 	//CAIObject::m_InitialState.SetContainer( NULL );
-	m_pAIUnitPathway = CEOSAIUnit2PathwayFinder::CreatePathwayFinder( this );
+	m_pAIUnitPathway = CEOSAIUnitPathwayFinder::CreatePathwayFinder( this );
 }
 
-void CEOSAIUnit2::CreateHypotheticalUnit( CEOSAICity* pBuiltByCity, CEOSAIUnitTemplate* pAIUnitTemplate, float fTimeToBuild )
+void CEOSAIUnit::CreateHypotheticalUnit( CEOSAICity* pBuiltByCity, CEOSAIUnitTemplate* pAIUnitTemplate, float fTimeToBuild )
 {
 	ASSERT( false ); // hypothetical units exist only in the minds of the AI - I need an AIBrain pointer
 	ASSERT( m_bHypotheticalPoiObject == false );
@@ -323,18 +323,18 @@ void CEOSAIUnit2::CreateHypotheticalUnit( CEOSAICity* pBuiltByCity, CEOSAIUnitTe
 	m_InitialState.SetTime( fTimeToBuild );
 	m_InitialState.SetContainer( NULL );
 	m_InitialState.SetHP( (float)pAIUnitTemplate->GetMaxHP() );
-	m_pAIUnitPathway = CEOSAIUnit2PathwayFinder::CreatePathwayFinder( this );
+	m_pAIUnitPathway = CEOSAIUnitPathwayFinder::CreatePathwayFinder( this );
 }
 
 //
 
-CString  CEOSAIUnit2::GetCombatUnitTypeString()
+CString  CEOSAIUnit::GetCombatUnitTypeString()
 {
 	return m_pAIUnitTemplate->GetCombatUnitTypeString();
 }
 
 //
-void CEOSAIUnit2::CreatePersonalDesires()
+void CEOSAIUnit::CreatePersonalDesires()
 {
 	// Calculate Desire for Repair
 	//   This requires that all CAIPoiObjects are already created
@@ -427,7 +427,7 @@ void CEOSAIUnit2::CreatePersonalDesires()
 	}
 }
 
-bool CEOSAIUnit2::CanBeRepairedHere()
+bool CEOSAIUnit::CanBeRepairedHere()
 {
 	CEOSAIPoiObject* pCurrentContainer = GetContainer();
 	while( pCurrentContainer )
@@ -443,7 +443,7 @@ bool CEOSAIUnit2::CanBeRepairedHere()
 	return false;
 }
 
-bool CEOSAIUnit2::CanBeRepairedHere( CEOSAIPoiObject* pContainer )
+bool CEOSAIUnit::CanBeRepairedHere( CEOSAIPoiObject* pContainer )
 {
 	CEOSAIPoiObject* pCurrentContainer = pContainer;
 	while( pCurrentContainer )
@@ -459,7 +459,7 @@ bool CEOSAIUnit2::CanBeRepairedHere( CEOSAIPoiObject* pContainer )
 	return false;
 }
 
-bool CEOSAIUnit2::GetNeedsToBeUpgraded()
+bool CEOSAIUnit::GetNeedsToBeUpgraded()
 {
 	EOSAI::CGamePlayer* pGamePlayer = g_pEOSAIInterface->GetGamePlayer( this->GetOwner() );
 	if( pGamePlayer == NULL ) return false; // can happen if the owner is 0
@@ -498,23 +498,23 @@ bool CEOSAIUnit2::GetNeedsToBeUpgraded()
 
 // Potential Targets (used by the AI to assign targets to aircraft; tactical bombers)
 //
-void  CEOSAIUnit2::ClearPotentialTargets()
+void  CEOSAIUnit::ClearPotentialTargets()
 {
 	m_PotentialTargets.RemoveAll();
 }
 
-void  CEOSAIUnit2::AddPotentialTarget( CEOSAIUnit2* pAIUnit )
+void  CEOSAIUnit::AddPotentialTarget( CEOSAIUnit* pAIUnit )
 {
 	m_PotentialTargets.AddTail( pAIUnit );
 }
 
-bool  CEOSAIUnit2::HasPotentialTargets()
+bool  CEOSAIUnit::HasPotentialTargets()
 {
 	if( m_PotentialTargets.IsEmpty() ) return false;
 	return true;
 }
 
-CEOSAIUnit2* CEOSAIUnit2::GetRandomPotentialTarget()
+CEOSAIUnit* CEOSAIUnit::GetRandomPotentialTarget()
 {
 	// Give preference to nearby targets
 	//CWorldBuildDesc* pWorldBuildDesc = m_pAIBrain->GetWorldDescServer()->GetWorldBuildDesc();
@@ -523,11 +523,11 @@ CEOSAIUnit2* CEOSAIUnit2::GetRandomPotentialTarget()
 
 	for( long iSearchLimit=1; iSearchLimit<=4; iSearchLimit++ )
 	{
-		CList< CEOSAIUnit2* >  LimitedTargets;
+		CList< CEOSAIUnit* >  LimitedTargets;
 		POSITION pos = m_PotentialTargets.GetHeadPosition();
 		while( pos )
 		{
-			CEOSAIUnit2* pAIEnemyUnit = m_PotentialTargets.GetNext( pos );
+			CEOSAIUnit* pAIEnemyUnit = m_PotentialTargets.GetNext( pos );
 			float fDistance = g_pWorldDistanceTool->GetDistance( MyLocation, pAIEnemyUnit->GetInitialState()->GetLocation() );
 			if( fDistance < iSearchLimit*fAttackRange )
 			{
@@ -544,31 +544,31 @@ CEOSAIUnit2* CEOSAIUnit2::GetRandomPotentialTarget()
 	return NULL;
 }
 
-float CEOSAIUnit2::GetCurrentHP01()
+float CEOSAIUnit::GetCurrentHP01()
 {
 	return (float)GetCurrentHP() / (float)m_pAIUnitTemplate->GetMaxHP();
 	//return (float)m_iCurrentHP / (float)m_pAIUnitTemplate->GetMaxHP();
 }
 
 // Ground Units
-bool  CEOSAIUnit2::IsGroundUnit(){ return m_pAIUnitTemplate->IsGroundUnit(); }
-//bool  CEOSAIUnit2::IsSoftGroundUnit(){ return m_pAIUnitTemplate->GetUnitTemplate()->IsSoftGroundUnit(); }
-//bool  CEOSAIUnit2::IsArmor(){ return m_pAIUnitTemplate->GetUnitTemplate()->IsArmor(); }
-bool  CEOSAIUnit2::IsCityHunter(){ return m_pAIUnitTemplate->IsCityHunter(); }
+bool  CEOSAIUnit::IsGroundUnit(){ return m_pAIUnitTemplate->IsGroundUnit(); }
+//bool  CEOSAIUnit::IsSoftGroundUnit(){ return m_pAIUnitTemplate->GetUnitTemplate()->IsSoftGroundUnit(); }
+//bool  CEOSAIUnit::IsArmor(){ return m_pAIUnitTemplate->GetUnitTemplate()->IsArmor(); }
+bool  CEOSAIUnit::IsCityHunter(){ return m_pAIUnitTemplate->IsCityHunter(); }
 // Air Units
-bool  CEOSAIUnit2::IsAirUnit(){ return m_pAIUnitTemplate->IsAirUnit(); }
-//bool  CEOSAIUnit2::IsAircraft(){ return m_pAIUnitTemplate->GetUnitTemplate()->IsAircraft(); }
-//bool  CEOSAIUnit2::IsMissile(){ return m_pAIUnitTemplate->GetUnitTemplate()->IsMissile(); }
+bool  CEOSAIUnit::IsAirUnit(){ return m_pAIUnitTemplate->IsAirUnit(); }
+//bool  CEOSAIUnit::IsAircraft(){ return m_pAIUnitTemplate->GetUnitTemplate()->IsAircraft(); }
+//bool  CEOSAIUnit::IsMissile(){ return m_pAIUnitTemplate->GetUnitTemplate()->IsMissile(); }
 // Sea Units
-bool  CEOSAIUnit2::IsSeaUnit(){ return m_pAIUnitTemplate->IsSeaUnit(); }
-bool  CEOSAIUnit2::IsSubmarine(){ return m_pAIUnitTemplate->IsSubmarine(); }
-//bool  CEOSAIUnit2::IsShip(){ return m_pAIUnitTemplate->GetUnitTemplate()->IsShip(); }
-bool  CEOSAIUnit2::IsSeaResHunter(){ return m_pAIUnitTemplate->IsSeaResHunter(); }
-bool  CEOSAIUnit2::IsTransport(){ return m_pAIUnitTemplate->IsTransport(); }
-bool  CEOSAIUnit2::IsAirUnitCarrier(){ return m_pAIUnitTemplate->IsAirUnitCarrier(); }
-//bool  CEOSAIUnit2::IsSubmarine(){ return m_pAIUnitTemplate->GetUnitTemplate()->IsSubmarine(); }
+bool  CEOSAIUnit::IsSeaUnit(){ return m_pAIUnitTemplate->IsSeaUnit(); }
+bool  CEOSAIUnit::IsSubmarine(){ return m_pAIUnitTemplate->IsSubmarine(); }
+//bool  CEOSAIUnit::IsShip(){ return m_pAIUnitTemplate->GetUnitTemplate()->IsShip(); }
+bool  CEOSAIUnit::IsSeaResHunter(){ return m_pAIUnitTemplate->IsSeaResHunter(); }
+bool  CEOSAIUnit::IsTransport(){ return m_pAIUnitTemplate->IsTransport(); }
+bool  CEOSAIUnit::IsAirUnitCarrier(){ return m_pAIUnitTemplate->IsAirUnitCarrier(); }
+//bool  CEOSAIUnit::IsSubmarine(){ return m_pAIUnitTemplate->GetUnitTemplate()->IsSubmarine(); }
 
-void  CEOSAIUnit2::SetAIUnitTemplateByInternalName( CString strInternalName )
+void  CEOSAIUnit::SetAIUnitTemplateByInternalName( CString strInternalName )
 {
 	CEOSAIUnitTemplate* pEOSAIUnitTemplate = g_pEOSAIInterface->GetAIGameRules()->GetAIUnitTemplate( strInternalName );
 	ASSERT( pEOSAIUnitTemplate );
@@ -576,13 +576,13 @@ void  CEOSAIUnit2::SetAIUnitTemplateByInternalName( CString strInternalName )
 }
 
 /*
-CUnit* CEOSAIUnit2::GetPlayerUnit()
+CUnit* CEOSAIUnit::GetPlayerUnit()
 {
 	return dynamic_cast< CUnit* >( m_pPlayerPoiObject );
 }
 */
 /*
-CPoiObject* CEOSAIUnit2::GetServerPoiObject()
+CPoiObject* CEOSAIUnit::GetServerPoiObject()
 {
 	if( m_pServerUnit )
 	{
@@ -596,7 +596,7 @@ CPoiObject* CEOSAIUnit2::GetServerPoiObject()
 	return NULL;
 }
 
-long  CEOSAIUnit2::GetObjectId()
+long  CEOSAIUnit::GetObjectId()
 {
 	ASSERT( m_pServerUnit );
 	if( m_pServerUnit )
@@ -607,13 +607,13 @@ long  CEOSAIUnit2::GetObjectId()
 }
 */
 /*
-CUnitTemplate* CEOSAIUnit2::GetUnitTemplate()
+CUnitTemplate* CEOSAIUnit::GetUnitTemplate()
 {
 	return m_pAIUnitTemplate->GetUnitTemplate();
 }
 */
 /*
-void CEOSAIUnit2::SetContainer( CAIPlan* pAIPlan, long iContainer )
+void CEOSAIUnit::SetContainer( CAIPlan* pAIPlan, long iContainer )
 {
 	CAIObject* pAIObject = pAIPlan->GetAIObject( iContainer );
 	if( pAIObject )
@@ -628,7 +628,7 @@ void CEOSAIUnit2::SetContainer( CAIPlan* pAIPlan, long iContainer )
 }
 */
 /*
-void CEOSAIUnit2::CreateTypeInformation()
+void CEOSAIUnit::CreateTypeInformation()
 {
 	// Create AILogicObject types
 	ASSERT( m_pUnitTemplate );
@@ -658,7 +658,7 @@ void CEOSAIUnit2::CreateTypeInformation()
 */
 // Information
 /*
-bool CEOSAIUnit2::IAmOfType( CString strLogicObjectName )
+bool CEOSAIUnit::IAmOfType( CString strLogicObjectName )
 {
 	POSITION pos = m_IAmOfType.GetHeadPosition();
 	while( pos )
@@ -673,32 +673,32 @@ bool CEOSAIUnit2::IAmOfType( CString strLogicObjectName )
 }
 */
 
-long CEOSAIUnit2::GetNumberOfGroundUnitsThatICanContain()
+long CEOSAIUnit::GetNumberOfGroundUnitsThatICanContain()
 {
 	return m_pAIUnitTemplate->GetNumberOfGroundUnitsThatICanContain();
 }
 /*
-long CEOSAIUnit2::GetAvailableGroundUnitContainerSpace()
+long CEOSAIUnit::GetAvailableGroundUnitContainerSpace()
 {
 	fdssd
 }
 */
-long CEOSAIUnit2::GetNumberOfAirUnitsThatICanContain()
+long CEOSAIUnit::GetNumberOfAirUnitsThatICanContain()
 {
 	return m_pAIUnitTemplate->GetNumberOfAirUnitsThatICanContain();
 }
 
-long CEOSAIUnit2::GetMySize()
+long CEOSAIUnit::GetMySize()
 {
 	return m_pAIUnitTemplate->GetMySizeInContainer();
 }
 
-long CEOSAIUnit2::GetContainerSize()
+long CEOSAIUnit::GetContainerSize()
 {
 	return m_pAIUnitTemplate->GetNumberOfUnitsThatICanContain();
 }
 
-void CEOSAIUnit2::DeleteTransportSpaceAllocations()
+void CEOSAIUnit::DeleteTransportSpaceAllocations()
 {
 	while( m_BestCase_TransportSpaceAllocations.IsEmpty() == FALSE )
 	{
@@ -707,7 +707,7 @@ void CEOSAIUnit2::DeleteTransportSpaceAllocations()
 	m_Real_TransportSpaceAllocations.Clear();
 }
 
-CEOSAITransportSpaceAllocation*  CEOSAIUnit2::GetTransportSpaceAllocationObj( CEOSAITaskForce3* pAITaskForce )
+CEOSAITransportSpaceAllocation*  CEOSAIUnit::GetTransportSpaceAllocationObj( CEOSAITaskForce3* pAITaskForce )
 {
 	if( pAITaskForce->GetBestCaseOrRealTaskForce() == CEOSAITaskForce3::BestCaseTaskForce )
 	{
@@ -729,8 +729,8 @@ CEOSAITransportSpaceAllocation*  CEOSAIUnit2::GetTransportSpaceAllocationObj( CE
 	return NULL;
 }
 
-//CList< CEOSAIUnit2ActionIdea* >*  CEOSAIUnit2::InvokeTransportSpaceAllocationList( CEOSAITaskForce3* pAITaskForce )
-CEOSAITransportSpaceAllocation*  CEOSAIUnit2::InvokeTransportSpaceAllocationObj( CEOSAITaskForce3* pAITaskForce )
+//CList< CEOSAIUnitActionIdea* >*  CEOSAIUnit::InvokeTransportSpaceAllocationList( CEOSAITaskForce3* pAITaskForce )
+CEOSAITransportSpaceAllocation*  CEOSAIUnit::InvokeTransportSpaceAllocationObj( CEOSAITaskForce3* pAITaskForce )
 {
 	CEOSAITransportSpaceAllocation* pAllocationObj = GetTransportSpaceAllocationObj( pAITaskForce );
 	if( pAllocationObj == NULL )
@@ -742,7 +742,7 @@ CEOSAITransportSpaceAllocation*  CEOSAIUnit2::InvokeTransportSpaceAllocationObj(
 	return pAllocationObj;
 }
 
-bool CEOSAIUnit2::HasAllocatedSpace( CEOSAITaskForce3* pAITaskForce, CEOSAIUnit2ActionIdea* pUnitActionIdea )
+bool CEOSAIUnit::HasAllocatedSpace( CEOSAITaskForce3* pAITaskForce, CEOSAIUnitActionIdea* pUnitActionIdea )
 {
 	CEOSAITransportSpaceAllocation* pAllocationObj = GetTransportSpaceAllocationObj( pAITaskForce );
 	if( pAllocationObj )
@@ -752,7 +752,7 @@ bool CEOSAIUnit2::HasAllocatedSpace( CEOSAITaskForce3* pAITaskForce, CEOSAIUnit2
 	return false;
 }
 
-void CEOSAIUnit2::AllocateTransportSpace( CEOSAITaskForce3* pAITaskForce, CEOSAIUnit2ActionIdea* pIdea )
+void CEOSAIUnit::AllocateTransportSpace( CEOSAITaskForce3* pAITaskForce, CEOSAIUnitActionIdea* pIdea )
 {
 	CEOSAITransportSpaceAllocation* pAllocationObj = InvokeTransportSpaceAllocationObj( pAITaskForce );
 	ASSERT( pAllocationObj );
@@ -774,7 +774,7 @@ void CEOSAIUnit2::AllocateTransportSpace( CEOSAITaskForce3* pAITaskForce, CEOSAI
 	}
 }
 
-void CEOSAIUnit2::DeAllocateTransportSpace( CEOSAITaskForce3* pAITaskForce, CEOSAIUnit2ActionIdea* pIdea )
+void CEOSAIUnit::DeAllocateTransportSpace( CEOSAITaskForce3* pAITaskForce, CEOSAIUnitActionIdea* pIdea )
 {
 	CEOSAITransportSpaceAllocation* pAllocationObj = GetTransportSpaceAllocationObj( pAITaskForce );
 	ASSERT( pAllocationObj );
@@ -791,14 +791,14 @@ void CEOSAIUnit2::DeAllocateTransportSpace( CEOSAITaskForce3* pAITaskForce, CEOS
 	}
 }
 
-bool  CEOSAIUnit2::CanInsertTransportIdea( CEOSAITaskForce3* pAITaskForce, CEOSAIUnit2ActionIdea* pUnitActionIdea )
+bool  CEOSAIUnit::CanInsertTransportIdea( CEOSAITaskForce3* pAITaskForce, CEOSAIUnitActionIdea* pUnitActionIdea )
 {
 	CEOSAITransportSpaceAllocation* pAllocationObj = InvokeTransportSpaceAllocationObj( pAITaskForce );
 	return pAllocationObj->CanInsert( pUnitActionIdea );
 }
 
 /*
-long  CEOSAIUnit2::GetAllocatedContainerSpace( CEOSAITaskForce3* pAITaskForce )
+long  CEOSAIUnit::GetAllocatedContainerSpace( CEOSAITaskForce3* pAITaskForce )
 {
 	CEOSAITransportSpaceAllocation* pAllocationObj = GetTransportSpaceAllocationObj( pAITaskForce );
 	if( pAllocationObj )
@@ -811,32 +811,32 @@ long  CEOSAIUnit2::GetAllocatedContainerSpace( CEOSAITaskForce3* pAITaskForce )
 }
 */
 
-bool CEOSAIUnit2::CanCaptureCities(){ return m_pAIUnitTemplate->CanCaptureCities(); }
+bool CEOSAIUnit::CanCaptureCities(){ return m_pAIUnitTemplate->CanCaptureCities(); }
 
-bool CEOSAIUnit2::CanCaptureResources(){ return m_pAIUnitTemplate->CanCaptureResources(); }
+bool CEOSAIUnit::CanCaptureResources(){ return m_pAIUnitTemplate->CanCaptureResources(); }
 
 //
-float  CEOSAIUnit2::GetMovementRate()
+float  CEOSAIUnit::GetMovementRate()
 {
 	return m_pAIUnitTemplate->GetMovementRate();
 }
 
-float  CEOSAIUnit2::GetMovementLimit()
+float  CEOSAIUnit::GetMovementLimit()
 {
 	return m_pAIUnitTemplate->GetMovementLimit();
 }
 
-float  CEOSAIUnit2::GetMovementRangeForAttack()
+float  CEOSAIUnit::GetMovementRangeForAttack()
 {
 	return m_pAIUnitTemplate->GetMovementRangeForAttack();
 }
 
-EOSAIEnumMovementType3 CEOSAIUnit2::GetMovementType()
+EOSAIEnumMovementType3 CEOSAIUnit::GetMovementType()
 {
 	return m_pAIUnitTemplate->GetMovementType();
 }
 /*
-float CEOSAIUnit2::GetMovementConsumed()
+float CEOSAIUnit::GetMovementConsumed()
 {
 	/-*
 	if( m_pServerUnit )
@@ -847,13 +847,13 @@ float CEOSAIUnit2::GetMovementConsumed()
 	return m_fMovementConsumed;
 }
 */
-bool CEOSAIUnit2::HasARange()
+bool CEOSAIUnit::HasARange()
 {
 	return m_pAIUnitTemplate->HasARange();
 }
 
 
-float CEOSAIUnit2::GetMaxAttackRange()
+float CEOSAIUnit::GetMaxAttackRange()
 {
 	float fMaxRange = 0.0f; // count the largest value twice (specialized units can sometimes be extra-dangerous)
 	POSITION pos = g_pEOSAIInterface->GetAIGameRules()->GetCombatUnitTypes()->GetHeadPosition();
@@ -873,11 +873,11 @@ float CEOSAIUnit2::GetMaxAttackRange()
 }
 
 
-float CEOSAIUnit2::GetAttackRange( CEOSAIPoiObject* pTarget, bool bIsLandedOrDocked )
+float CEOSAIUnit::GetAttackRange( CEOSAIPoiObject* pTarget, bool bIsLandedOrDocked )
 {
-	if( dynamic_cast< CEOSAIUnit2* >( pTarget ) )
+	if( dynamic_cast< CEOSAIUnit* >( pTarget ) )
 	{
-		CEOSAIUnit2* pUnit = dynamic_cast< CEOSAIUnit2* >( pTarget );
+		CEOSAIUnit* pUnit = dynamic_cast< CEOSAIUnit* >( pTarget );
 		long iTargetCombatUnitType = pUnit->GetCombatUnitTypeLong();
 		if( bIsLandedOrDocked )
 		{
@@ -892,7 +892,7 @@ float CEOSAIUnit2::GetAttackRange( CEOSAIPoiObject* pTarget, bool bIsLandedOrDoc
 		return 0.0f;
 	}
 	/*
-	if( dynamic_cast< CEOSAIUnit2Group* >( pTarget ) )
+	if( dynamic_cast< CEOSAIUnitGroup* >( pTarget ) )
 	{
 		float fMaxAttackRange = 0.0f;
 		POSITION pos = pTarget->GetUnitsInsideMe()->GetHeadPosition();
@@ -910,7 +910,7 @@ float CEOSAIUnit2::GetAttackRange( CEOSAIPoiObject* pTarget, bool bIsLandedOrDoc
 
 //
 
-long CEOSAIUnit2::GetNumberOfAvailableUpgrades()
+long CEOSAIUnit::GetNumberOfAvailableUpgrades()
 {
 	EOSAI::CGamePlayer* pGamePlayer = g_pEOSAIInterface->GetGamePlayer( this->GetOwner() );
 	//CPlayer* pPlayer = GetCommonState()->GetPlayer( this->GetOwner() );
@@ -950,7 +950,7 @@ long CEOSAIUnit2::GetNumberOfAvailableUpgrades()
 
 // Resources
 //
-void CEOSAIUnit2::GetResourcesProducedPerTurn(std::map<CString, float>& ResourcesProducedAssumingNoOrders, std::map<CString, float>& ResourcesProducedByCurrentOrders)
+void CEOSAIUnit::GetResourcesProducedPerTurn(std::map<CString, float>& ResourcesProducedAssumingNoOrders, std::map<CString, float>& ResourcesProducedByCurrentOrders)
 {
 	// TODO: This is very game specific. It needs to be changed.
 	POSITION pos = this->GetAIUnitTemplate()->GetProductionAndConsumptionPerTurnList()->GetHeadPosition();
@@ -974,7 +974,7 @@ void CEOSAIUnit2::GetResourcesProducedPerTurn(std::map<CString, float>& Resource
 	}
 }
 
-void CEOSAIUnit2::GetResourcesConsumedPerTurn(std::map<CString, float>& ResourcesConsumedAssumingNoOrders, std::map<CString, float>& ResourcesConsumedByCurrentOrders)
+void CEOSAIUnit::GetResourcesConsumedPerTurn(std::map<CString, float>& ResourcesConsumedAssumingNoOrders, std::map<CString, float>& ResourcesConsumedByCurrentOrders)
 {
 	// TODO: This is very game specific. It needs to be changed.
 
@@ -1001,11 +1001,11 @@ void CEOSAIUnit2::GetResourcesConsumedPerTurn(std::map<CString, float>& Resource
 }
 
 //
-CEOSAIUnit2* CEOSAIUnit2::GetCurrentAIUnitContainer()
+CEOSAIUnit* CEOSAIUnit::GetCurrentAIUnitContainer()
 {
 	//if( m_pServerUnit )
 	{
-		CEOSAIUnit2* pContainer = dynamic_cast< CEOSAIUnit2* >( this->GetContainerAIPoiObject() );
+		CEOSAIUnit* pContainer = dynamic_cast< CEOSAIUnit* >( this->GetContainerAIPoiObject() );
 		if( pContainer )
 		{
 			return g_pEOSAICommonData->GetAIUnit( pContainer->GetObjectId() );
@@ -1015,7 +1015,7 @@ CEOSAIUnit2* CEOSAIUnit2::GetCurrentAIUnitContainer()
 	return NULL;
 }
 
-bool CEOSAIUnit2::IsInsideTransport()
+bool CEOSAIUnit::IsInsideTransport()
 {
 	ASSERT( IsGroundUnit() );
 	if( this->IsGroundUnit() == false ) return false;
@@ -1035,7 +1035,7 @@ bool CEOSAIUnit2::IsInsideTransport()
 	return NULL;
 }
 
-CEOSAIUnit2* CEOSAIUnit2::GetCurrentAITransport()
+CEOSAIUnit* CEOSAIUnit::GetCurrentAITransport()
 {
 	ASSERT( IsGroundUnit() );
 	if( IsGroundUnit() == false ) return NULL;
@@ -1055,12 +1055,12 @@ CEOSAIUnit2* CEOSAIUnit2::GetCurrentAITransport()
 	return NULL;
 }
 
-bool CEOSAIUnit2::CanContainUnits()
+bool CEOSAIUnit::CanContainUnits()
 {
 	return m_pAIUnitTemplate->CanContainUnits();
 }
 
-float CEOSAIUnit2::GetAIGroundTransportCapability()
+float CEOSAIUnit::GetAIGroundTransportCapability()
 {
 	//if( m_pServerUnit )
 	//{
@@ -1076,7 +1076,7 @@ float CEOSAIUnit2::GetAIGroundTransportCapability()
 // Combat
 //
 
-float CEOSAIUnit2::GetHPDefenseValue()
+float CEOSAIUnit::GetHPDefenseValue()
 {
 	//if( m_pServerUnit )
 	{
@@ -1085,7 +1085,7 @@ float CEOSAIUnit2::GetHPDefenseValue()
 	//return m_pAIUnitTemplate->GetMaxHP() * m_pAIUnitTemplate->GetDefenseValueForNormalTerrain();
 }
 
-EOSAI::StringAndFloatSet  CEOSAIUnit2::GetCombatPowerVsUnitTypes()
+EOSAI::StringAndFloatSet  CEOSAIUnit::GetCombatPowerVsUnitTypes()
 {
 	/*
 	if( m_pServerUnit )
@@ -1096,13 +1096,13 @@ EOSAI::StringAndFloatSet  CEOSAIUnit2::GetCombatPowerVsUnitTypes()
 	return m_pAIUnitTemplate->GetCombatPowerVsUnitTypes();
 }
 
-void  CEOSAIUnit2::AddToCombatGroup( CList< CEOSAIPoiObject* >* pCombatGroupList )
+void  CEOSAIUnit::AddToCombatGroup( CList< CEOSAIPoiObject* >* pCombatGroupList )
 {
 	pCombatGroupList->AddTail( this );
 }
 
 /*
-float CEOSAIUnit2::GetAICombatVsCity() // How well can this unit attack my Soft units?
+float CEOSAIUnit::GetAICombatVsCity() // How well can this unit attack my Soft units?
 {
 	/-*
 	if( m_pUnit )
@@ -1118,7 +1118,7 @@ float CEOSAIUnit2::GetAICombatVsCity() // How well can this unit attack my Soft 
 	return 1.0f;
 }
 */
-void CEOSAIUnit2::InvokeMultiRegionPathwaysToEverywhere()
+void CEOSAIUnit::InvokeMultiRegionPathwaysToEverywhere()
 {
 	InvokeDirectAIRegionMapToEverywhere(); // 4000x3200 = 320K
 	//if( m_pUnitTemplate->IsGroundUnit() )
@@ -1137,7 +1137,7 @@ void CEOSAIUnit2::InvokeMultiRegionPathwaysToEverywhere()
 }
 
 // Cache the data into an AIRegionMapToEverywhere structure
-CEOSAIRegionPathwayMap* CEOSAIUnit2::InvokeDirectAIRegionMapToEverywhere()
+CEOSAIRegionPathwayMap* CEOSAIUnit::InvokeDirectAIRegionMapToEverywhere()
 {
 	//return m_pAIBrain->GetAIRegionMapToEverywhere()->InvokeDirectAIRegionMapToEverywhere( 
 	return g_pEOSAICommonData->GetAIRegionMapToEverywhere()->InvokeDirectAIRegionMapToEverywhere( 
@@ -1169,7 +1169,7 @@ CEOSAIRegionPathwayMap* CEOSAIUnit2::InvokeDirectAIRegionMapToEverywhere()
 	*/
 }
 
-CEOSAIRegionPathwayMap* CEOSAIUnit2::InvokeDirectAIRegionMapToCoasts()
+CEOSAIRegionPathwayMap* CEOSAIUnit::InvokeDirectAIRegionMapToCoasts()
 {
 	//return m_pAIBrain->GetAIRegionMapToEverywhere()->InvokeDirectAIRegionMapToCoasts( 
 	return g_pEOSAICommonData->GetAIRegionMapToEverywhere()->InvokeDirectAIRegionMapToCoasts( 
@@ -1191,7 +1191,7 @@ CEOSAIRegionPathwayMap* CEOSAIUnit2::InvokeDirectAIRegionMapToCoasts()
 }
 
 /*
-CEOSAIRegionPathwayMap* CEOSAIUnit2::InvokeLandAndImaginarySeaTransportAIRegionMapToEverywhere()
+CEOSAIRegionPathwayMap* CEOSAIUnit::InvokeLandAndImaginarySeaTransportAIRegionMapToEverywhere()
 {
 	ASSERT( m_pUnitTemplate->IsGroundUnit() );
 	if( m_pUnitTemplate->IsGroundUnit() == false ){ return NULL; }
@@ -1225,7 +1225,7 @@ CEOSAIRegionPathwayMap* CEOSAIUnit2::InvokeLandAndImaginarySeaTransportAIRegionM
 	return &m_LandAndImaginarySeaTransportAIRegionMapToEverywhere;
 }
 */
-CEOSAIRegionPathwayMap* CEOSAIUnit2::InvokeDirectMultiRegionMapToEverywhere()
+CEOSAIRegionPathwayMap* CEOSAIUnit::InvokeDirectMultiRegionMapToEverywhere()
 {
 	if( m_MultiRegionMapDirectToEverywhere.GetArraySize() == 0 )
 	{
@@ -1253,7 +1253,7 @@ CEOSAIRegionPathwayMap* CEOSAIUnit2::InvokeDirectMultiRegionMapToEverywhere()
 	return &m_MultiRegionMapDirectToEverywhere;
 }
 
-CEOSAIRegionPathwayMap* CEOSAIUnit2::InvokeDirectMultiRegionMapToCoasts()
+CEOSAIRegionPathwayMap* CEOSAIUnit::InvokeDirectMultiRegionMapToCoasts()
 {
 	ASSERT( m_pAIUnitTemplate->IsGroundUnit() );
 	if( m_pAIUnitTemplate->IsGroundUnit() == false ){ return NULL; }
@@ -1267,7 +1267,7 @@ CEOSAIRegionPathwayMap* CEOSAIUnit2::InvokeDirectMultiRegionMapToCoasts()
 	return &m_MultiRegionMapDirectToCoasts;
 }
 
-CEOSAIRegionPathwayMap* CEOSAIUnit2::InvokeLandAndImaginarySeaTransportMultiRegionMapToEverywhere()
+CEOSAIRegionPathwayMap* CEOSAIUnit::InvokeLandAndImaginarySeaTransportMultiRegionMapToEverywhere()
 {
 	ASSERT( m_pAIUnitTemplate->IsGroundUnit() );
 	if( m_pAIUnitTemplate->IsGroundUnit() == false ){ return NULL; }
@@ -1302,7 +1302,7 @@ CEOSAIRegionPathwayMap* CEOSAIUnit2::InvokeLandAndImaginarySeaTransportMultiRegi
 }
 
 // return Time-To-Target
-float CEOSAIUnit2::GetTransportCombinedAssistedMovementTime( CEOSAILocation TargetLocation )
+float CEOSAIUnit::GetTransportCombinedAssistedMovementTime( CEOSAILocation TargetLocation )
 {
 	float fBestTime = 1000000.0f;
 	//CList< CEOSAITransportCombinedMap* >* pMaps = g_pEOSAICommonData->GetAIThoughtDatabase( GetOwner() )->GetTransportCombinedMultiRegionMaps();
@@ -1322,11 +1322,11 @@ float CEOSAIUnit2::GetTransportCombinedAssistedMovementTime( CEOSAILocation Targ
 	return fBestTime;
 }
 
-float CEOSAIUnit2::GetTransportAssistedAIRegionMovementPath( CEOSAIUnit2ActionIdea* pAITransportActionIdea, CEOSAILocation TargetLocation, CEOSAITransportAssistedPath* pPathResults )
+float CEOSAIUnit::GetTransportAssistedAIRegionMovementPath( CEOSAIUnitActionIdea* pAITransportActionIdea, CEOSAILocation TargetLocation, CEOSAITransportAssistedPath* pPathResults )
 {
 	if( pAITransportActionIdea->GetAIUnitActor() )
 	{
-		CEOSAIUnit2* pAITransport = pAITransportActionIdea->GetAIUnitActor();
+		CEOSAIUnit* pAITransport = pAITransportActionIdea->GetAIUnitActor();
 		//pAITransport->InvokeMultiRegionPathwaysToEverywhere();
 		//CEOSAIRegionPathwayMap* pTransportMovementMap = pTransport->InvokeDirectAIRegionMapToEverywhere();
 		return GetTransportAssistedAIRegionMovementPath( pAITransport, TargetLocation, pPathResults );
@@ -1342,19 +1342,19 @@ float CEOSAIUnit2::GetTransportAssistedAIRegionMovementPath( CEOSAIUnit2ActionId
 	return 0.0f;
 }
 
-float CEOSAIUnit2::GetTransportAssistedAIRegionMovementPath( CEOSAIUnit2* pTransport, CEOSAILocation TargetLocation, CEOSAITransportAssistedPath* pPathResults )
+float CEOSAIUnit::GetTransportAssistedAIRegionMovementPath( CEOSAIUnit* pTransport, CEOSAILocation TargetLocation, CEOSAITransportAssistedPath* pPathResults )
 {
 	CEOSAIRegionPathwayMap* pTransportMovementMap = pTransport->InvokeDirectAIRegionMapToEverywhere();
 	return GetTransportAssistedAIRegionMovementPath( pTransportMovementMap, pTransport->GetAIUnitTemplate(), pTransport->GetInitialState()->GetTime(), TargetLocation, pPathResults );
 }
 
-float CEOSAIUnit2::GetTransportAssistedAIRegionMovementPath( CEOSAICity* pCity, CEOSAIUnitTemplate* pTransportUnitTemplate, float fTransportBuildTime, CEOSAILocation TargetLocation, CEOSAITransportAssistedPath* pPathResults )
+float CEOSAIUnit::GetTransportAssistedAIRegionMovementPath( CEOSAICity* pCity, CEOSAIUnitTemplate* pTransportUnitTemplate, float fTransportBuildTime, CEOSAILocation TargetLocation, CEOSAITransportAssistedPath* pPathResults )
 {
 	CEOSAIRegionPathwayMap* pTransportMovementMap = pCity->InvokeWaterAIRegionMapToEverywhere();
 	return GetTransportAssistedAIRegionMovementPath( pTransportMovementMap, pTransportUnitTemplate, fTransportBuildTime, TargetLocation, pPathResults );
 }
 
-float CEOSAIUnit2::GetTransportAssistedAIRegionMovementPath( CEOSAIRegionPathwayMap* pTransportMovementAIRegionMap, CEOSAIUnitTemplate* pTransportUnitTemplate, float fTransportDelayTime, CEOSAILocation TargetLocation, CEOSAITransportAssistedPath* pPathResults )
+float CEOSAIUnit::GetTransportAssistedAIRegionMovementPath( CEOSAIRegionPathwayMap* pTransportMovementAIRegionMap, CEOSAIUnitTemplate* pTransportUnitTemplate, float fTransportDelayTime, CEOSAILocation TargetLocation, CEOSAITransportAssistedPath* pPathResults )
 {
 	ASSERT( false );
 	ASSERT( pTransportMovementAIRegionMap->GetRegionManager() == g_pEOSAICommonData->GetAIRegionManager() );
@@ -1621,11 +1621,11 @@ float CEOSAIUnit2::GetTransportAssistedAIRegionMovementPath( CEOSAIRegionPathway
 }
 
 
-float CEOSAIUnit2::GetTransportAssistedMultiRegionMovementPath( CEOSAIUnit2ActionIdea* pAITransportActionIdea, CEOSAILocation TargetLocation, CEOSAITransportAssistedPath* pPathResults )
+float CEOSAIUnit::GetTransportAssistedMultiRegionMovementPath( CEOSAIUnitActionIdea* pAITransportActionIdea, CEOSAILocation TargetLocation, CEOSAITransportAssistedPath* pPathResults )
 {
 	if( pAITransportActionIdea->GetAIUnitActor() )
 	{
-		CEOSAIUnit2* pAITransport = pAITransportActionIdea->GetAIUnitActor();
+		CEOSAIUnit* pAITransport = pAITransportActionIdea->GetAIUnitActor();
 		//pAITransport->InvokeMultiRegionPathwaysToEverywhere();
 		//CEOSAIRegionPathwayMap* pTransportMovementMap = pTransport->InvokeDirectAIRegionMapToEverywhere();
 		return GetTransportAssistedMultiRegionMovementPath( pAITransport, TargetLocation, pPathResults );
@@ -1641,19 +1641,19 @@ float CEOSAIUnit2::GetTransportAssistedMultiRegionMovementPath( CEOSAIUnit2Actio
 	return 0.0f;
 }
 
-float CEOSAIUnit2::GetTransportAssistedMultiRegionMovementPath( CEOSAIUnit2* pTransport, CEOSAILocation TargetLocation, CEOSAITransportAssistedPath* pPathResults )
+float CEOSAIUnit::GetTransportAssistedMultiRegionMovementPath( CEOSAIUnit* pTransport, CEOSAILocation TargetLocation, CEOSAITransportAssistedPath* pPathResults )
 {
 	CEOSAIRegionPathwayMap* pTransportMovementMap = pTransport->InvokeDirectMultiRegionMapToEverywhere();
 	return GetTransportAssistedMultiRegionMovementPath( pTransportMovementMap, pTransport->GetAIUnitTemplate(), pTransport->GetInitialState()->GetTime(), TargetLocation, pPathResults );
 }
 
-float CEOSAIUnit2::GetTransportAssistedMultiRegionMovementPath( CEOSAICity* pCity, CEOSAIUnitTemplate* pTransportUnitTemplate, float fTransportBuildTime, CEOSAILocation TargetLocation, CEOSAITransportAssistedPath* pPathResults )
+float CEOSAIUnit::GetTransportAssistedMultiRegionMovementPath( CEOSAICity* pCity, CEOSAIUnitTemplate* pTransportUnitTemplate, float fTransportBuildTime, CEOSAILocation TargetLocation, CEOSAITransportAssistedPath* pPathResults )
 {
 	CEOSAIRegionPathwayMap* pTransportMovementMap = pCity->InvokeWaterMultiRegionMapToEverywhere();
 	return GetTransportAssistedMultiRegionMovementPath( pTransportMovementMap, pTransportUnitTemplate, fTransportBuildTime, TargetLocation, pPathResults );
 }
 
-float CEOSAIUnit2::GetTransportAssistedMultiRegionMovementPath( CEOSAIRegionPathwayMap* pTransportMovementMultiRegionMap, CEOSAIUnitTemplate* pTransportUnitTemplate, float fTransportDelayTime, CEOSAILocation TargetLocation, CEOSAITransportAssistedPath* pPathResults )
+float CEOSAIUnit::GetTransportAssistedMultiRegionMovementPath( CEOSAIRegionPathwayMap* pTransportMovementMultiRegionMap, CEOSAIUnitTemplate* pTransportUnitTemplate, float fTransportDelayTime, CEOSAILocation TargetLocation, CEOSAITransportAssistedPath* pPathResults )
 {
 	ASSERT( pTransportMovementMultiRegionMap->GetRegionManager() == g_pEOSAICommonData->GetMultiRegionManager() );
 
@@ -1939,7 +1939,7 @@ float CEOSAIUnit2::GetTransportAssistedMultiRegionMovementPath( CEOSAIRegionPath
 	return fBestTotalTime;
 }
 
-bool  CEOSAIUnit2::HasPredefinedPath()
+bool  CEOSAIUnit::HasPredefinedPath()
 {
 	if( GetAIUnitPathwayFinder()->GetPreDefinedPath()->IsEmpty() )
 	{
@@ -1948,51 +1948,51 @@ bool  CEOSAIUnit2::HasPredefinedPath()
 	return false;
 }
 
-void  CEOSAIUnit2::CalculateAIRegionPathFromPredefinedSteps()
+void  CEOSAIUnit::CalculateAIRegionPathFromPredefinedSteps()
 {
-	CEOSAIUnit2PathwayFinder* pPathwayFinder = GetAIUnitPathwayFinder();
+	CEOSAIUnitPathwayFinder* pPathwayFinder = GetAIUnitPathwayFinder();
 	ASSERT( pPathwayFinder );
 	//GetAIUnitPathwayFinder();
 	//GetAIUnitPathwayFinder()->CalculateAIRegionPathFromPredefinedSteps();
 	pPathwayFinder->CalculateAIRegionPathFromPredefinedSteps();
 }
 
-void  CEOSAIUnit2::UpdateRedPath()
+void  CEOSAIUnit::UpdateRedPath()
 {
 	GetAIUnitPathwayFinder()->UpdateRedPath();
 }
 
-void  CEOSAIUnit2::ConstructFullRedPath()
+void  CEOSAIUnit::ConstructFullRedPath()
 {
 	GetAIUnitPathwayFinder()->ConstructFullRedPath();
 }
 
-float CEOSAIUnit2::CalculateRedPathArrivalTimeAtGeo( long iTargetGeo )
+float CEOSAIUnit::CalculateRedPathArrivalTimeAtGeo( long iTargetGeo )
 {
 	return GetAIUnitPathwayFinder()->CalculateRedPathArrivalTimeAtGeo( iTargetGeo );
 }
 
-float CEOSAIUnit2::GetAttackTimeOfTacticalProject( CEOSAITacticalProject2* pTacticalProject2 )
+float CEOSAIUnit::GetAttackTimeOfTacticalProject( CEOSAITacticalProject2* pTacticalProject2 )
 {
 	POSITION pos = GetAIUnitPathwayFinder()->GetPreDefinedPath()->GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2PathwayPredefinedStep* pStep = GetAIUnitPathwayFinder()->GetPreDefinedPath()->GetNext( pos );
+		CEOSAIUnitPathwayPredefinedStep* pStep = GetAIUnitPathwayFinder()->GetPreDefinedPath()->GetNext( pos );
 		if( pStep->IsAnAttack() &&
 			pStep->GetAIUnitActionIdea()->GetTacticalProject2() == pTacticalProject2 )
 		{
-			return pStep->GetRedPathEndTime( CEOSAIUnit2PathwayPredefinedStep::enum_EndOfStep );
+			return pStep->GetRedPathEndTime( CEOSAIUnitPathwayPredefinedStep::enum_EndOfStep );
 		}
 	}
 	return 0.0f;
 }
 
-CEOSAIUnit2* CEOSAIUnit2::GetTransportUsedInTacticalProject( CEOSAITacticalProject2* pTacticalProject2 )
+CEOSAIUnit* CEOSAIUnit::GetTransportUsedInTacticalProject( CEOSAITacticalProject2* pTacticalProject2 )
 {
 	POSITION pos = GetAIUnitPathwayFinder()->GetPreDefinedPath()->GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2PathwayPredefinedStep* pStep = GetAIUnitPathwayFinder()->GetPreDefinedPath()->GetNext( pos );
+		CEOSAIUnitPathwayPredefinedStep* pStep = GetAIUnitPathwayFinder()->GetPreDefinedPath()->GetNext( pos );
 		if( pStep->GetAIUnitActionIdea() &&
 			pStep->GetAIUnitActionIdea()->GetTacticalProject2() == pTacticalProject2 )
 		{
@@ -2003,13 +2003,13 @@ CEOSAIUnit2* CEOSAIUnit2::GetTransportUsedInTacticalProject( CEOSAITacticalProje
 }
 
 /*
-CEOSAIUnit2PathwayPredefinedStep* CEOSAIUnit2::GetPickupStep( CEOSAIUnit2PathwayPredefinedStep* pGroundUnitStep )
+CEOSAIUnitPathwayPredefinedStep* CEOSAIUnit::GetPickupStep( CEOSAIUnitPathwayPredefinedStep* pGroundUnitStep )
 {
 	ASSERT( pGroundUnitStep->GetAIUnitPathwayFinder()->GetUnitTemplate()->IsGroundUnit() );
 	POSITION pos = GetAIUnitPathwayFinder()->GetPreDefinedPath()->GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2PathwayPredefinedStep* pStep = GetAIUnitPathwayFinder()->GetPreDefinedPath()->GetNext( pos );
+		CEOSAIUnitPathwayPredefinedStep* pStep = GetAIUnitPathwayFinder()->GetPreDefinedPath()->GetNext( pos );
 		if( pStep->IsAPickup() && 
 			pStep->GetTransporteeStep() == pGroundUnitStep )
 		{
@@ -2019,13 +2019,13 @@ CEOSAIUnit2PathwayPredefinedStep* CEOSAIUnit2::GetPickupStep( CEOSAIUnit2Pathway
 	return NULL;
 }
 
-CEOSAIUnit2PathwayPredefinedStep* CEOSAIUnit2::GetDropoffStep( CEOSAIUnit2PathwayPredefinedStep* pGroundUnitStep )
+CEOSAIUnitPathwayPredefinedStep* CEOSAIUnit::GetDropoffStep( CEOSAIUnitPathwayPredefinedStep* pGroundUnitStep )
 {
 	ASSERT( pGroundUnitStep->GetAIUnitPathwayFinder()->GetUnitTemplate()->IsGroundUnit() );
 	POSITION pos = GetAIUnitPathwayFinder()->GetPreDefinedPath()->GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2PathwayPredefinedStep* pStep = GetAIUnitPathwayFinder()->GetPreDefinedPath()->GetNext( pos );
+		CEOSAIUnitPathwayPredefinedStep* pStep = GetAIUnitPathwayFinder()->GetPreDefinedPath()->GetNext( pos );
 		if( pStep->IsADropoff() && 
 			pStep->GetTransporteeStep() == pGroundUnitStep )
 		{
@@ -2035,7 +2035,7 @@ CEOSAIUnit2PathwayPredefinedStep* CEOSAIUnit2::GetDropoffStep( CEOSAIUnit2Pathwa
 	return NULL;
 }
 */
-long CEOSAIUnit2::GetContainerSizeAlreadyUsed()
+long CEOSAIUnit::GetContainerSizeAlreadyUsed()
 {
 	long iUsed = 0;
 	POSITION pos = m_InitialState.GetContaineesList()->GetHeadPosition();
@@ -2049,7 +2049,7 @@ long CEOSAIUnit2::GetContainerSizeAlreadyUsed()
 	return iUsed;
 }
 
-bool  CEOSAIUnit2::IsInsideAUnitContainer()
+bool  CEOSAIUnit::IsInsideAUnitContainer()
 {
 	CEOSAIPoiObject* pContainer = GetContainer();
 	while( pContainer )
@@ -2062,13 +2062,13 @@ bool  CEOSAIUnit2::IsInsideAUnitContainer()
 	return false;
 }
 
-//bool CEOSAIUnit2::CanContain_IgnoreForeignRelations( CEOSAIPoiObject* pAIPoiObject );
-bool CEOSAIUnit2::CanContain_IgnoreForeignRelations( CEOSAIUnitTemplate* pUnitTemplate )
+//bool CEOSAIUnit::CanContain_IgnoreForeignRelations( CEOSAIPoiObject* pAIPoiObject );
+bool CEOSAIUnit::CanContain_IgnoreForeignRelations( CEOSAIUnitTemplate* pUnitTemplate )
 {
 	return m_pAIUnitTemplate->CanContain( pUnitTemplate );
 }
 
-void CEOSAIUnit2::CalculateUnitPathway()
+void CEOSAIUnit::CalculateUnitPathway()
 {
 	if (m_pAIUnitPathway)
 	{
@@ -2076,25 +2076,25 @@ void CEOSAIUnit2::CalculateUnitPathway()
 		m_pAIUnitPathway = NULL;
 	}
 	GetRealTransportSpaceAllocations()->SetAIUnit(this);
-	m_pAIUnitPathway = CEOSAIUnit2PathwayFinder::CreatePathwayFinder(this);
+	m_pAIUnitPathway = CEOSAIUnitPathwayFinder::CreatePathwayFinder(this);
 }
 
-CEOSAIAirUnitPathwayFinder*  CEOSAIUnit2::GetAIAirUnitPathwayFinder()
+CEOSAIAirUnitPathwayFinder*  CEOSAIUnit::GetAIAirUnitPathwayFinder()
 {
 	return dynamic_cast< CEOSAIAirUnitPathwayFinder*>( m_pAIUnitPathway );
 }
 
-CEOSAISeaUnitPathwayFinder*  CEOSAIUnit2::GetAISeaUnitPathwayFinder()
+CEOSAISeaUnitPathwayFinder*  CEOSAIUnit::GetAISeaUnitPathwayFinder()
 {
 	return dynamic_cast< CEOSAISeaUnitPathwayFinder*>( m_pAIUnitPathway );
 }
 
-CAIGroundUnitPathwayFinder*  CEOSAIUnit2::GetAIGroundUnitPathwayFinder()
+CAIGroundUnitPathwayFinder*  CEOSAIUnit::GetAIGroundUnitPathwayFinder()
 {
 	return dynamic_cast< CAIGroundUnitPathwayFinder*>( m_pAIUnitPathway );
 }
 
-void  CEOSAIUnit2::AddOnTheWayAndWaitTasksAsPredefinedSteps() // over-ridden from AIPoiObject
+void  CEOSAIUnit::AddOnTheWayAndWaitTasksAsPredefinedSteps() // over-ridden from AIPoiObject
 {
 	//CWorldBuildDesc* pWorldBuildDesc = GetCommonState()->GetWorldBuildDesc();
 	if( IsAirUnit() ) return; // skip this step for air units (they can only do one bombing)
@@ -2131,7 +2131,7 @@ void  CEOSAIUnit2::AddOnTheWayAndWaitTasksAsPredefinedSteps() // over-ridden fro
 	CEOSAIPoiObject* pFirstAIPoiObjectTarget = NULL;
 	if( m_pAIUnitPathway->GetPreDefinedPath()->IsEmpty() == FALSE )
 	{
-		CEOSAIUnit2PathwayPredefinedStep* pStep = m_pAIUnitPathway->GetPreDefinedPath()->GetHead();
+		CEOSAIUnitPathwayPredefinedStep* pStep = m_pAIUnitPathway->GetPreDefinedPath()->GetHead();
 		pFirstAIPoiObjectTarget = pStep->GetAITarget();
 		NextLocation = pStep->GetEndLocation();
 		bHasAPredefinedPath = true;
@@ -2155,8 +2155,8 @@ void  CEOSAIUnit2::AddOnTheWayAndWaitTasksAsPredefinedSteps() // over-ridden fro
 			if( pDesire->GetType() == EnumCaptureResource || pDesire->GetType() == EnumCaptureCity )
 			{
 				// Not really out of my way - do it
-				CEOSAIUnit2PathwayFinder* pPathwayFinder = GetAIUnitPathwayFinder();
-				CEOSAIUnit2PathwayPredefinedStep* pNewPredefinedStep = new CEOSAIUnit2PathwayPredefinedStep( pPathwayFinder );
+				CEOSAIUnitPathwayFinder* pPathwayFinder = GetAIUnitPathwayFinder();
+				CEOSAIUnitPathwayPredefinedStep* pNewPredefinedStep = new CEOSAIUnitPathwayPredefinedStep( pPathwayFinder );
 				pNewPredefinedStep->SetAIUnitActionIdea( NULL );
 
 				CEOSAIPoiObject* pTargetAIPoiObject = pDesire->GetAIPoiObjectTarget();
@@ -2173,8 +2173,8 @@ void  CEOSAIUnit2::AddOnTheWayAndWaitTasksAsPredefinedSteps() // over-ridden fro
 }
 /*
 // If [this] is a Transport
-//void CEOSAIUnit2::AddTransportAction( EOSAI::UnitPathwayResultStep* pTransporteeStep ) // Support this step with a transport action
-void CEOSAIUnit2::AddTransportAction( CEOSAIUnit2PathwayPredefinedStep* pTransporteeStep ) // Support this step with a transport action
+//void CEOSAIUnit::AddTransportAction( EOSAI::UnitPathwayResultStep* pTransporteeStep ) // Support this step with a transport action
+void CEOSAIUnit::AddTransportAction( CEOSAIUnitPathwayPredefinedStep* pTransporteeStep ) // Support this step with a transport action
 {
 	// Step into the AIUnitPathwayFinder, add the TransportAction to the Predefined Steps
 	//   Note: I could create a new ResultPathway, test it's value, and then roll-back the result if I wanted
@@ -2182,14 +2182,14 @@ void CEOSAIUnit2::AddTransportAction( CEOSAIUnit2PathwayPredefinedStep* pTranspo
 	// Re-write the entire Movement Results section
 	//m_pAIUnitPathway->AddTransportAction( pTransporteeStep );
 	m_pAIUnitPathway->InsertTransportSteps( pTransporteeStep );
-	//CEOSAIUnit2PathwayPredefinedStep* pStep = m_pAIUnitPathway->CreateTransportAction( pTransporteeStep );
+	//CEOSAIUnitPathwayPredefinedStep* pStep = m_pAIUnitPathway->CreateTransportAction( pTransporteeStep );
 	//m_pAIUnitPathway->InsertStep( pStep );
 	m_pAIUnitPathway->CalculateResultPath();
 	//pTransporteeStep->
 }
 */
 
-void CEOSAIUnit2::AllocateRepairNearbyTaskOrWarzoneToThisIdleUnit()
+void CEOSAIUnit::AllocateRepairNearbyTaskOrWarzoneToThisIdleUnit()
 {
 	ASSERT( GetAIUnitPathwayFinder()->GetPreDefinedPath()->IsEmpty() );
 	if( GetAIUnitPathwayFinder()->GetPreDefinedPath()->IsEmpty() == FALSE ) return;
@@ -2245,7 +2245,7 @@ void CEOSAIUnit2::AllocateRepairNearbyTaskOrWarzoneToThisIdleUnit()
 				  ( bThisIsACombatUnit == false && pPathItem->m_fDanger == 0.0f ) )
 				{
 					/*
-					CEOSAIUnit2ActionIdea* pAIUnitActionIdea = new CEOSAIUnit2ActionIdea( NULL, pAIUnit );
+					CEOSAIUnitActionIdea* pAIUnitActionIdea = new CEOSAIUnitActionIdea( NULL, pAIUnit );
 					pAIUnitActionIdea->AddDesireAllocation( pDesireSpatial );
 					pAIUnitActionIdea->CreatePredefinedStep();
 					*/
@@ -2360,7 +2360,7 @@ void CEOSAIUnit2::AllocateRepairNearbyTaskOrWarzoneToThisIdleUnit()
 		ASSERT( pBestTargetAIResource );
 		if( pBestTargetAIResource )
 		{
-			CEOSAIUnit2PathwayPredefinedStep* pStep =
+			CEOSAIUnitPathwayPredefinedStep* pStep =
 				GetAIUnitPathwayFinder()->CreateCaptureTarget( pBestTargetAIResource );
 			GetAIUnitPathwayFinder()->AppendStep( pStep );
 			//GetAIUnitPathwayFinder()->CalculateResultPath();
@@ -2395,7 +2395,7 @@ void CEOSAIUnit2::AllocateRepairNearbyTaskOrWarzoneToThisIdleUnit()
 		ASSERT( pBestDesireSpatial );
 		if( pBestDesireSpatial )
 		{
-			CEOSAIUnit2ActionIdea* pAIUnitActionIdea = new CEOSAIUnit2ActionIdea();
+			CEOSAIUnitActionIdea* pAIUnitActionIdea = new CEOSAIUnitActionIdea();
 			pAIUnitActionIdea->SetActor( this );
 			pAIUnitActionIdea->AddDesireAllocation( pBestDesireSpatial );
 			pAIUnitActionIdea->CreatePredefinedStep();
@@ -2424,24 +2424,24 @@ void CEOSAIUnit2::AllocateRepairNearbyTaskOrWarzoneToThisIdleUnit()
 	}
 }
 
-float CEOSAIUnit2::GetProductionAndConsumptionPerTurnAndMove( CString strResource )
+float CEOSAIUnit::GetProductionAndConsumptionPerTurnAndMove( CString strResource )
 {
 	return
 		GetProductionAndConsumptionPerTurn( strResource ) +
 		GetProductionAndConsumptionPerMove( strResource );
 }
 
-float CEOSAIUnit2::GetProductionAndConsumptionPerTurn( CString strResource )
+float CEOSAIUnit::GetProductionAndConsumptionPerTurn( CString strResource )
 {
 	return m_pAIUnitTemplate->GetProductionAndConsumptionPerTurn( strResource );
 }
 
-float CEOSAIUnit2::GetProductionAndConsumptionPerMove( CString strResource )
+float CEOSAIUnit::GetProductionAndConsumptionPerMove( CString strResource )
 {
 	return m_pAIUnitTemplate->GetProductionAndConsumptionPerMove( strResource );
 }
 
-float CEOSAIUnit2::GetCurrentDefense()
+float CEOSAIUnit::GetCurrentDefense()
 {
 	if( IsGroundUnit() )
 	{
@@ -2468,12 +2468,12 @@ float CEOSAIUnit2::GetCurrentDefense()
 	}
 }
 
-float CEOSAIUnit2::GetDefenseValueForNormalTerrain()
+float CEOSAIUnit::GetDefenseValueForNormalTerrain()
 {
 	return m_pAIUnitTemplate->GetDefenseValueForNormalTerrain();
 }
 
-bool CEOSAIUnit2::IsLandedOrDocked()
+bool CEOSAIUnit::IsLandedOrDocked()
 {
 	//CPoi* pParent = this->GetContainer();
 	CEOSAIPoiObject* pParent = m_InitialState.GetContainer();

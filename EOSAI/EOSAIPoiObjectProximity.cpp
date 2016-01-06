@@ -91,7 +91,7 @@ CEOSAIPoiObjectProximity_Airbase::CEOSAIPoiObjectProximity_Airbase(
 	m_pAIAirbase = pAIAirbase;
 	//m_fCrowsFlightDistanceToLocation = fCrowsFlightDistanceToLocation;
 	m_bAirbaseIsMobile = false;
-	if( dynamic_cast< CEOSAIUnit2* >( m_pAIAirbase ) )
+	if( dynamic_cast< CEOSAIUnit* >( m_pAIAirbase ) )
 	{
 		m_bAirbaseIsMobile = true;
 	}
@@ -163,7 +163,7 @@ CEOSAIPoiObjectProximity_Airbase::CEOSAIPoiObjectProximity_Airbase(
 /*
 CEOSAIPoiObjectProximity_Unit::CEOSAIPoiObjectProximity_Unit(
 	CAIPoiObjectsOrderedByFutureProximityToLocation* pOrderedByProximity,
-	CEOSAIUnit2*  pAIUnit )
+	CEOSAIUnit*  pAIUnit )
 {
 	m_pOrderedByProximity = pOrderedByProximity;
 	m_pAIUnit = pAIUnit;
@@ -182,7 +182,7 @@ CEOSAIPoiObjectProximity_Unit::CEOSAIPoiObjectProximity_Unit(
 CEOSAIPoiObjectProximity_Unit::CEOSAIPoiObjectProximity_Unit(
 	//CAIPoiObjectsOrderedByFutureProximityToLocation* pOrderedByProximity,
 	C9MovementPathwaysFromEverywhereToMRX* pParent_PathwaysFromEverywhereToMRX,
-	CEOSAIUnit2*  pAIUnit )
+	CEOSAIUnit*  pAIUnit )
 {
 	CWorldDesc* pWorldDesc = pAIUnit->GetAIBrain()->GetWorldDescServer();
 
@@ -208,7 +208,7 @@ CEOSAIPoiObjectProximity_Unit::CEOSAIPoiObjectProximity_Unit(
 /*
 CEOSAIPoiObjectProximity_GroundUnit::CEOSAIPoiObjectProximity_GroundUnit(
 	CAIPoiObjectsOrderedByFutureProximityToLocation* pOrderedByProximity,
-	CEOSAIUnit2* pAIUnit ) : 
+	CEOSAIUnit* pAIUnit ) : 
 	CEOSAIPoiObjectProximity_Unit( pOrderedByProximity, pAIUnit )
 {
 	

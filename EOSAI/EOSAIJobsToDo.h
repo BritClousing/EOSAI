@@ -5,7 +5,7 @@ class CEOSAIThoughtDatabase;
 class CEOSAIUnitTemplateSet;
 class CEOSAIJobCapability;
 class CEOSAIPoiObject;
-class CEOSAIUnit2;
+class CEOSAIUnit;
 class CEOSAIUnitTemplate;
 #include "EOSAIUnitTemplatesAndFloat.h"
 
@@ -20,7 +20,7 @@ class CEOSAIJobsToDo
 		void  Set( CEOSAIJobsToDo* pAIJobsToDo );
 		void  operator+=( CEOSAIJobsToDo* pAIJobsToDo ){ Add( pAIJobsToDo ); }
 		void  Add( CEOSAIJobsToDo* pAIJobsToDo );
-		void  AddEnemyUnit( CEOSAIUnit2* pAIUnit );
+		void  AddEnemyUnit( CEOSAIUnit* pAIUnit );
 		//void  Subtract( CEOSAIJobCapability* pAIJobCapability );
 
 		//
@@ -99,6 +99,6 @@ class CEOSAIJobsToDo
 
 		// Specific Units to attack
 		//
-			CEOSAIUnit2TemplatesAndFloat  m_UnitTemplatesAndFloat;
-			CList< CEOSAIUnit2* >  m_EnemyUnits;
+			CEOSAIUnitTemplatesAndFloat  m_UnitTemplatesAndFloat;
+			CList< CEOSAIUnit* >  m_EnemyUnits;
 };

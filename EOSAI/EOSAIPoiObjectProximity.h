@@ -2,13 +2,13 @@
 #pragma once
 
 class CEOSAIAirfield;
-class CEOSAIUnit2;
+class CEOSAIUnit;
 class CEOSAICity;
 class CEOSAIRegion2;
 class CEOSAIPoiObject;
 //class CEOSAIMultiRegion2;
 class CEOSAITaskPrerequisite;
-class CEOSAIUnit2TemplateAndProximity;
+class CEOSAIUnitTemplateAndProximity;
 class CEOSAIPoiObjectProximityDescription_TransportRoute;
 class CAIPoiObjectsOrderedByFutureProximityToLocation;
 class CAIThought_WhatUnitsCanIGetToMultiRegion;
@@ -117,9 +117,9 @@ class CEOSAIPoiObjectProximity_Unit
 	public:
 		CEOSAIPoiObjectProximity_Unit(
 			C9MovementPathwaysFromEverywhereToMRX* pParent_PathwaysFromEverywhereToMRX,
-			CEOSAIUnit2*  pAIUnit );
+			CEOSAIUnit*  pAIUnit );
 
-		CEOSAIUnit2* m_pAIUnit;
+		CEOSAIUnit* m_pAIUnit;
 
 		// MovementPathways are important for land/sea distances, but they
 		//   are also important for air units danger information.
@@ -134,7 +134,7 @@ class CEOSAIPoiObjectProximity_GroundUnit : public CEOSAIPoiObjectProximity_Unit
 	public:
 		CEOSAIPoiObjectProximity_GroundUnit(
 			C9MovementPathwaysFromEverywhereToMRX* pParent_PathwaysFromEverywhereToMRX,
-			CEOSAIUnit2*  pAIUnit ) : CEOSAIPoiObjectProximity_Unit( pParent_PathwaysFromEverywhereToMRX, pAIUnit )
+			CEOSAIUnit*  pAIUnit ) : CEOSAIPoiObjectProximity_Unit( pParent_PathwaysFromEverywhereToMRX, pAIUnit )
 		{
 			//m_bLandRouteExists = false;
 			//m_fLandRouteDistanceToLocation = 0.0f;
@@ -155,9 +155,9 @@ class CEOSAIPoiObjectProximity_AirUnit : public CEOSAIPoiObjectProximity_Unit
 	public:
 		CEOSAIPoiObjectProximity_AirUnit(
 			C9MovementPathwaysFromEverywhereToMRX* pParent_PathwaysFromEverywhereToMRX,
-			CEOSAIUnit2*  pAIUnit ) : CEOSAIPoiObjectProximity_Unit( pParent_PathwaysFromEverywhereToMRX, pAIUnit ){}
+			CEOSAIUnit*  pAIUnit ) : CEOSAIPoiObjectProximity_Unit( pParent_PathwaysFromEverywhereToMRX, pAIUnit ){}
 			//CAIPoiObjectsOrderedByFutureProximityToLocation* pOrderedByProximity,
-			//CEOSAIUnit2*  pAIUnit ) : CEOSAIPoiObjectProximity_Unit( pOrderedByProximity, pAIUnit ){}
+			//CEOSAIUnit*  pAIUnit ) : CEOSAIPoiObjectProximity_Unit( pOrderedByProximity, pAIUnit ){}
 };
 */
 /*
@@ -166,9 +166,9 @@ class CEOSAIPoiObjectProximity_SeaUnit : public CEOSAIPoiObjectProximity_Unit
 	public:
 		CEOSAIPoiObjectProximity_SeaUnit(
 			C9MovementPathwaysFromEverywhereToMRX* pParent_PathwaysFromEverywhereToMRX,
-			CEOSAIUnit2*  pAIUnit ) : CEOSAIPoiObjectProximity_Unit( pParent_PathwaysFromEverywhereToMRX, pAIUnit )
+			CEOSAIUnit*  pAIUnit ) : CEOSAIPoiObjectProximity_Unit( pParent_PathwaysFromEverywhereToMRX, pAIUnit )
 			//CAIPoiObjectsOrderedByFutureProximityToLocation* pOrderedByProximity,
-			//CEOSAIUnit2*  pAIUnit ) : CEOSAIPoiObjectProximity_Unit( pOrderedByProximity, pAIUnit )
+			//CEOSAIUnit*  pAIUnit ) : CEOSAIPoiObjectProximity_Unit( pOrderedByProximity, pAIUnit )
 		{
 			//m_bSeaRouteExists = false;
 			//m_fSeaRouteDistanceToLocation = 0.0f;
@@ -200,7 +200,7 @@ class CEOSAIPoiObjectProximity_SeaTransportRoute
 		long   m_iWaterGeo;
 		long   m_iGroundGeo2; // dropoff
 
-		CList< CEOSAIUnit2* >  m_PotentialTransportsList;
+		CList< CEOSAIUnit* >  m_PotentialTransportsList;
 };
 
 class CEOSAIPoiObjectProximity_AirTransportRoute
@@ -215,7 +215,7 @@ class CEOSAIPoiObjectProximity_AirTransportRoute
 		long   m_iGroundGeo1; // pickup
 		long   m_iGroundGeo2; // dropoff
 
-		CList< CEOSAIUnit2* >  m_PotentialTransportsList;
+		CList< CEOSAIUnit* >  m_PotentialTransportsList;
 };
 */
 // Describes an AIPoiObject's proximity to something
@@ -310,7 +310,7 @@ class CEOSAIPoiObjectProximityDescription
 		bool   m_bGroundRouteExists;
 		bool   m_bSeaRouteExists;
 		// UnitTemplates + time to build, time to reach Location
-		CList< CEOSAIUnit2TemplateAndProximity* >  m_UnitsThatCanBeBuilt;
+		CList< CEOSAIUnitTemplateAndProximity* >  m_UnitsThatCanBeBuilt;
 
 		// Airfield Proximity
 		float  m_fAirDistanceFromThisAirfield;

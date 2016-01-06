@@ -15,13 +15,13 @@ CEOSAIMovementUnitType::CEOSAIMovementUnitType()
 	m_MaintenenceCostMultiplier.SetAllValuesToOne();
 }
 /*
-void CEOSAIUnit2MovementType::Initialize()
+void CEOSAIUnitMovementType::Initialize()
 {
 	g_MovementUnitTypeForRoadBuilding.SetToGenericGroundUnit();
 }
 */
 /*
-void CEOSAIUnit2MovementType::Serialize( CEOSAISerial* pSerial )
+void CEOSAIUnitMovementType::Serialize( CEOSAISerial* pSerial )
 {
 	/-*
 	char cVersion = 3;
@@ -71,7 +71,7 @@ void CEOSAIUnit2MovementType::Serialize( CEOSAISerial* pSerial )
 	m_MaintenenceCostMultiplier.Serialize( pSerial );
 }
 
-void CEOSAIUnit2MovementType::Deserialize( CEOSAISerial* pSerial )
+void CEOSAIUnitMovementType::Deserialize( CEOSAISerial* pSerial )
 {
 	/-*
 	char cVersion = 1;
@@ -130,7 +130,7 @@ void CEOSAIUnit2MovementType::Deserialize( CEOSAISerial* pSerial )
 	m_MaintenenceCostMultiplier.Deserialize( pSerial );
 }
 
-void  CEOSAIUnit2MovementType::AppendDataToXMLString( CStringANSI8& strData )
+void  CEOSAIUnitMovementType::AppendDataToXMLString( CStringANSI8& strData )
 {
 	ASSERT( false ); // depreciate?
 
@@ -155,7 +155,7 @@ void  CEOSAIUnit2MovementType::AppendDataToXMLString( CStringANSI8& strData )
 	strData += ANSI8("</MovementUnitType>");
 }
 
-void  CEOSAIUnit2MovementType::ReadXMLData( CBCXMLItem* pXMLItem )
+void  CEOSAIUnitMovementType::ReadXMLData( CBCXMLItem* pXMLItem )
 {
 	m_strExternalName = pXMLItem->GetValue( ANSI8("Name") );
 	CString strMovementType; strMovementType = pXMLItem->GetValue( ANSI8("MovementType") );

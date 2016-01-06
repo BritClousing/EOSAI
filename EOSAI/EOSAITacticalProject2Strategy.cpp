@@ -193,9 +193,9 @@ void  CEOSAITacticalProject2Strategy::Dump( CString& strData )
 				strTemp.Format( _T("%s Prod:%d"), pAIRes->GetResource()->GetResourceType(), pAIRes->GetResource()->GetResourcePerTurn() );
 				strData += strTemp;
 			}
-			if( dynamic_cast< CEOSAIUnit2* >( pDesire->GetAIPoiObjectTarget() ) )
+			if( dynamic_cast< CEOSAIUnit* >( pDesire->GetAIPoiObjectTarget() ) )
 			{
-				CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pDesire->GetAIPoiObjectTarget() );
+				CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pDesire->GetAIPoiObjectTarget() );
 				CString strTemp;
 				strTemp.Format( _T("%s "), pAIUnit->GetUnitTemplate()->GetInternalName() );
 				strData += strTemp;
@@ -214,7 +214,7 @@ void  CEOSAITacticalProject2Strategy::Dump( CString& strData )
 	POSITION pos = GetBestCaseTaskForce()->GetUnitActionStack()->m_ItemsSortedByArrivalTime.GetHeadPosition();
 	while( pos )
 	{
-		CEOSAIUnit2ActionStackItem* pStackItem = GetBestCaseTaskForce()->GetUnitActionStack()->m_ItemsSortedByArrivalTime.GetNext( pos );
+		CEOSAIUnitActionStackItem* pStackItem = GetBestCaseTaskForce()->GetUnitActionStack()->m_ItemsSortedByArrivalTime.GetNext( pos );
 		if( pStackItem->ActorIsAllocatedByThisTaskForce() )
 		{
 			if( pStackItem->m_pUnitActionIdea->GetAIUnitActor() &&
@@ -505,7 +505,7 @@ void CAITacticalProjectStrategy::ConstructTaskForce( CEOSAITaskForce3* pTaskForc
 	while( pos )
 	{
 		CAIPoiObjectDistance* pAIPoiObjectDistance = m_pTacticalProject->GetAIUnitDistances()->GetNext( pos );
-		CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObjectDistance->m_pAIPoiObject );
+		CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObjectDistance->m_pAIPoiObject );
 		ASSERT( pAIUnit );
 		bUseUnit = false;
 		if( ( pAIUnit->IsGroundUnit() || pAIUnit->IsSeaUnit() ) && m_bMainTasks_GroundAndSeaUnitsAreAllowed )

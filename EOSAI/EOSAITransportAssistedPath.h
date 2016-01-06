@@ -37,8 +37,8 @@ class CEOSAITransportAssistedPath
 			m_iWaterDropoffAIRegion = 0;
 		}
 
-		//void  SetTransport( CEOSAIUnit2* pTransport );
-		//void  AddTransportee( CEOSAIUnit2* pTransportee, CEOSAILocation StartLocation, CEOSAILocation EndLocation );
+		//void  SetTransport( CEOSAIUnit* pTransport );
+		//void  AddTransportee( CEOSAIUnit* pTransportee, CEOSAILocation StartLocation, CEOSAILocation EndLocation );
 
 		//
 		// Results

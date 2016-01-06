@@ -2,10 +2,10 @@
 #pragma once
 #include "EOSAIUnitTemplateAndFloat.h"
 
-class CEOSAIUnit2TemplatesAndFloat
+class CEOSAIUnitTemplatesAndFloat
 {
 	public:
-		~CEOSAIUnit2TemplatesAndFloat();
+		~CEOSAIUnitTemplatesAndFloat();
 
 		void  Clear(); // deletes all m_List objects
 		void  SetAllValuesToZero(); // sets all m_List objects to 0
@@ -16,7 +16,7 @@ class CEOSAIUnit2TemplatesAndFloat
 
 		// This can't tell you if [MyUnits] can defeat [EnemyUnits]
 		//   It can tell you if there is an imbalance in my combat capability against particular EnemyUnits 
-		//void  CalculatePowerLevelsAgainst( CEOSAIUnit2TemplatesAndFloat& MyUnits, CEOSAIUnit2TemplatesAndFloat& EnemyUnits );
+		//void  CalculatePowerLevelsAgainst( CEOSAIUnitTemplatesAndFloat& MyUnits, CEOSAIUnitTemplatesAndFloat& EnemyUnits );
 
-		CList< CEOSAIUnit2TemplateAndFloat* >  m_List;
+		CList< CEOSAIUnitTemplateAndFloat* >  m_List;
 };

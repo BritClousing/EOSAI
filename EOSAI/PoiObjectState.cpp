@@ -121,7 +121,7 @@ bool EOSAI::PoiObjectState::IsInsideATransport()
 	{
 		// If it's inside a AIPoiObject, it might be an airfield or city
 		// If it's inside a AIPoiMobile, it might be a UnitGroup
-		if( dynamic_cast< CEOSAIUnit2* >( pCurrObject ) )
+		if( dynamic_cast< CEOSAIUnit* >( pCurrObject ) )
 		{
 			return true;
 		}
@@ -180,30 +180,30 @@ EOSAI::PoiMobile* CAIPoiObjectState::GetHighestPoiMobileContainer()
 }
 */
 /*
-CEOSAIUnit2*  CAIPoiObjectState::GetHighestUnitContainer()
+CEOSAIUnit*  CAIPoiObjectState::GetHighestUnitContainer()
 {
-	CEOSAIUnit2* pHighestPoiMobile = NULL;
+	CEOSAIUnit* pHighestPoiMobile = NULL;
 	CEOSAIPoiObject* pCurrObject = GetContainer();
 	while( pCurrObject )
 	{
-		if( dynamic_cast< CEOSAIUnit2* >( pCurrObject ) )
+		if( dynamic_cast< CEOSAIUnit* >( pCurrObject ) )
 		{
-			pHighestPoiMobile = dynamic_cast< CEOSAIUnit2* >( pCurrObject );
+			pHighestPoiMobile = dynamic_cast< CEOSAIUnit* >( pCurrObject );
 		}
 		pCurrObject = pCurrObject->GetContainer();
 	}
 	return pHighestPoiMobile;
 }
 */
-CEOSAIUnit2*  EOSAI::PoiObjectState::GetAIUnitContainer()
+CEOSAIUnit*  EOSAI::PoiObjectState::GetAIUnitContainer()
 {
-	CEOSAIUnit2* pHighestPoiMobile = NULL;
+	CEOSAIUnit* pHighestPoiMobile = NULL;
 	CEOSAIPoiObject* pCurrObject = GetContainer();
 	if( pCurrObject )
 	{
-		if( dynamic_cast< CEOSAIUnit2* >( pCurrObject ) )
+		if( dynamic_cast< CEOSAIUnit* >( pCurrObject ) )
 		{
-			pHighestPoiMobile = dynamic_cast< CEOSAIUnit2* >( pCurrObject );
+			pHighestPoiMobile = dynamic_cast< CEOSAIUnit* >( pCurrObject );
 		}
 		//pCurrObject = pCurrObject->GetContainer();
 	}

@@ -931,7 +931,7 @@ void CEOSAIRegionPathfinder::AddToStartRegions( long iPlayer, long iRegionDefine
 								break;
 							}
 						}
-						CEOSAIUnit2* pAIUnit = dynamic_cast< CEOSAIUnit2* >( pAIPoiObject );
+						CEOSAIUnit* pAIUnit = dynamic_cast< CEOSAIUnit* >( pAIPoiObject );
 						if( pAIUnit )
 						{
 							// Ships

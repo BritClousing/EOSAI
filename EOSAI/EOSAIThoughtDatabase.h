@@ -24,7 +24,7 @@ class CEOSAIMovementDescription;
 class CAIThought_ShouldSendUnitsHere;
 class CAITacticalProject;
 class CEOSAITacticalProject2;
-class CEOSAIUnit2ActionIdea;
+class CEOSAIUnitActionIdea;
 class CEOSAIPoiObject;
 class CEOSAICity;
 class CEOSAIDesire2;
@@ -96,7 +96,7 @@ class CEOSAIThoughtDatabase
 			void  ClearWarzoneCalculations();
 			void  FindWarzones();
 			CList< CEOSAIWarzoneLocation* >* GetWarzoneLocations(){ return &m_WarzoneLocations; }
-			//void  AddToWarzoneIdleUnitsList( CEOSAIUnit2* pAIUnit );
+			//void  AddToWarzoneIdleUnitsList( CEOSAIUnit* pAIUnit );
 			// Warzones, Nearby tasks, etc
 			//void  CalculateTasksIdleUnits();
 			//void  CalculatePreferedWarzoneForIdleUnits();
@@ -159,11 +159,11 @@ class CEOSAIThoughtDatabase
 
 		// Upgrade Locations
 		//
-			void GetClosestUpgradeLocation( CEOSAIUnit2* pAIUnit, CEOSAIPoiObject** pClosestUpgradeLocation, float* pfDistance );
+			void GetClosestUpgradeLocation( CEOSAIUnit* pAIUnit, CEOSAIPoiObject** pClosestUpgradeLocation, float* pfDistance );
 
 		// Repair Locations
 		//
-			void GetClosestRepairLocation( CEOSAIUnit2* pAIDamagedUnit, CEOSAIPoiObject** pClosestRepairLocation, float* pfDistance );
+			void GetClosestRepairLocation( CEOSAIUnit* pAIDamagedUnit, CEOSAIPoiObject** pClosestRepairLocation, float* pfDistance );
 
 		// Existing Units by category
 		//
@@ -171,10 +171,10 @@ class CEOSAIThoughtDatabase
 			long                     GetNumberOfMyCities();
 			CList< CEOSAIPoiObject* >*  GetMyActors(){ return &m_MyActors; } // My units, cities
 			CList< CEOSAICity* >*       GetMyCities(){ return &m_MyCities; } // My cities
-			CList< CEOSAIUnit2* >*  GetMySeaTransports(){ return &m_MySeaTransports; }
-			CList< CEOSAIUnit2* >*  GetMyAirTransports(){ return &m_MyAirTransports; }
-			CList< CEOSAIUnit2* >*  GetMyAirUnits(){ return &m_MyAirUnits; }
-			CList< CEOSAIUnit2* >*  GetMyAircraftCarriers(){ return &m_MyAircraftCarriers; }
+			CList< CEOSAIUnit* >*  GetMySeaTransports(){ return &m_MySeaTransports; }
+			CList< CEOSAIUnit* >*  GetMyAirTransports(){ return &m_MyAirTransports; }
+			CList< CEOSAIUnit* >*  GetMyAirUnits(){ return &m_MyAirUnits; }
+			CList< CEOSAIUnit* >*  GetMyAircraftCarriers(){ return &m_MyAircraftCarriers; }
 
 		// Idle Units
 		//
@@ -250,11 +250,11 @@ class CEOSAIThoughtDatabase
 			CList< CEOSAIPoiObject* >  m_MyActors; // My units, cities (not-owned)
 			CList< CEOSAICity* >       m_MyCities; // My units, cities (not-owned)
 
-			CList< CEOSAIUnit2* >   m_MySeaTransports; // (not-owned)
-			CList< CEOSAIUnit2* >   m_MyAirTransports; // (not-owned)
-			CList< CEOSAIUnit2* >   m_MyAirUnits;
-			CList< CEOSAIUnit2* >   m_MyTacticalBombers;
-			CList< CEOSAIUnit2* >   m_MyAircraftCarriers; // (not-owned)
+			CList< CEOSAIUnit* >   m_MySeaTransports; // (not-owned)
+			CList< CEOSAIUnit* >   m_MyAirTransports; // (not-owned)
+			CList< CEOSAIUnit* >   m_MyAirUnits;
+			CList< CEOSAIUnit* >   m_MyTacticalBombers;
+			CList< CEOSAIUnit* >   m_MyAircraftCarriers; // (not-owned)
 		//
 		// Build Ideas
 		//
@@ -287,7 +287,7 @@ class CEOSAIThoughtDatabase
 		//
 		// Each of my buildable/present units get rated in it's ability
 		//   If his units are better than mine, I will know which units to use (even though all are bad)
-		//CList< CEOSAIUnit2TemplateCombatAndAttritionValues* >  m_CombatAndAttritionValues; // owned
+		//CList< CEOSAIUnitTemplateCombatAndAttritionValues* >  m_CombatAndAttritionValues; // owned
 
 		//CAITacticalProjectUnitCapability  m_NationalCapabilities;
 
