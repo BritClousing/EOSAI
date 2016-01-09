@@ -97,7 +97,7 @@ float CEOSAIUnitCombatCapability::GetAverageVisibleRange()
 
 float CEOSAIUnitCombatCapability::GetCombatSignificance()
 {
-	I Need to calculate this.
+	I Need to calculate this. I might need to get the combat calculator working.
 	ASSERT( m_fCombatAttritionSignificance01 >= 0.0f );
 	return m_pMyAIUnitTemplate->GetProductionAndIronCost1() * m_fCombatAttritionSignificance01;
 }
