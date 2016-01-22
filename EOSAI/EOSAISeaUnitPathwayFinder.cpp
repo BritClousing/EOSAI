@@ -1378,7 +1378,7 @@ bool CEOSAISeaUnitPathwayFinder::UpdateEndLocation( CEOSAIUnitPathwayPredefinedS
 	CEOSAIUnit* pGroundUnit = pGroundUnitPredefinedStep->GetAIUnitPathwayFinder()->GetAIUnitActor();
 
 	#ifdef _DEBUG
-	if( pTransport->GetObjectId() == 202 )
+	if (pTransport->GetObjectId() == 139)
 	{
 		int h=0;
 	}
@@ -1486,7 +1486,7 @@ bool CEOSAISeaUnitPathwayFinder::UpdateEndLocation( CEOSAIUnitPathwayPredefinedS
 		}
 		if( EOSAISettings::m_bAssertWhenAIPathwayFails )
 		{
-			ASSERT( iValidGroundToPickupRegions > 0 );
+			//ASSERT( iValidGroundToPickupRegions > 0 );
 			ASSERT( iValidTransportToPickupRegions > 0 );
 			ASSERT( iValidTargetToPickupRegions > 0 );
 		}
@@ -1498,6 +1498,11 @@ bool CEOSAISeaUnitPathwayFinder::UpdateEndLocation( CEOSAIUnitPathwayPredefinedS
 			pTransport->InvokeDirectAIRegionMapToEverywhere();
 		}
 		// DEBUG
+
+		if (pTransport->GetObjectId() == 139)
+		{
+			int h = 0;
+		}
 
 		//
 		long iGroundUnitToPickupRegionCount = 0;
@@ -1557,6 +1562,11 @@ bool CEOSAISeaUnitPathwayFinder::UpdateEndLocation( CEOSAIUnitPathwayPredefinedS
 			{
 				fBestTime = fTotalTime;
 				iBestPickupWaterRegion = iRegion;
+
+				if (pTransport->GetObjectId() == 139)
+				{
+					int h = 0;
+				}
 			}
 			int g=0;
 		}

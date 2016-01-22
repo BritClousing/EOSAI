@@ -25,16 +25,17 @@ namespace EOSAI
 #define DLLIMPEXP __declspec(dllimport)
 #endif
 
-class DLLIMPEXP CEOSAIPlayerManager
+//class DLLIMPEXP CEOSAIPlayerManager
+class CEOSAIPlayerManager
 {
 	public:
 		CEOSAIPlayerManager();
 		~CEOSAIPlayerManager();
 
-		void SetEOSAIInterface( EOSAI::CInterface* pInterface );
+		//void SetEOSAIInterface( EOSAI::CInterface* pInterface );
 
-		void InitializeInterprocessCommunication();
-		void ShutdownInterprocessCommunication();
+		//void InitializeInterprocessCommunication();
+		//void ShutdownInterprocessCommunication();
 		//void ShowUI(bool b);
 
 		// Serialize/Deserialize
@@ -76,14 +77,14 @@ class DLLIMPEXP CEOSAIPlayerManager
 
 			// Current Processing State
 			long  GetNumberOfAIPlayersWhoAreReadyToSendTurn();
-			bool  AllAIPlayersAreReadyToSendTurn();
-			bool  AllAIPlayersAreReadyToSendTurnOrHaveSentTurn();
+			bool  GetAllAIPlayersAreReadyToSendTurn();
+			bool  GetAllAIPlayersAreReadyToSendTurnOrHaveSentTurn();
 			void  CurrentlyProcessingAIPlayer( long i ){ m_iCurrentlyProcessingAIPlayer = i; }
 			long  CurrentlyProcessingAIPlayer(){ return m_iCurrentlyProcessingAIPlayer; }
 
 			// If the game is being saved, the AI needs to go into a idle state.  Call "WaitForAutosave" to put the AI into idle.
-			void  WaitForAutosave( bool bWait ){ m_bWaitForAutosave = bWait; }
-			bool  WaitForAutosave(){ return m_bWaitForAutosave; }
+			//void  WaitForAutosave( bool bWait ){ m_bWaitForAutosave = bWait; }
+			//bool  WaitForAutosave(){ return m_bWaitForAutosave; }
 
 			void  SetDebugPause( bool b ){ m_bDebugPause = b; }
 			bool  GetDebugPause();
@@ -101,9 +102,10 @@ class DLLIMPEXP CEOSAIPlayerManager
 		// Thread
 		//
 			bool  ThreadIsRunning(){ return m_bThreadIsRunning; }
-			bool  ThreadShouldBePaused(){ return m_bThreadShouldBePaused || m_bThreadShouldBePaused_ForSaveGame; }
-			void  ThreadShouldBePaused( bool b ){ m_bThreadShouldBePaused = b; }
-			void  ThreadShouldBePaused_ForSaveGame( bool b ){ m_bThreadShouldBePaused_ForSaveGame = b; }
+			bool  GetThreadShouldBePaused(){ return m_bThreadShouldBePaused || m_bThreadShouldBePaused_ForSaveGame; }
+			void  SetThreadShouldBePaused( bool b ){ m_bThreadShouldBePaused = b; }
+			void  SetThreadShouldBePaused_ForSaveGame( bool b ){ m_bThreadShouldBePaused_ForSaveGame = b; }
+			//bool  GetThreadShouldBePaused_ForSaveGame(){ return m_bThreadShouldBePaused_ForSaveGame; }
 			bool  ThreadIsPaused(){ return m_bThreadIsPaused; }
 			//bool  ThreadShouldBePaused(){ return m_bThreadShouldBePaused; }
 			void  InstanciateThreadAndPauseIt();
@@ -120,11 +122,11 @@ class DLLIMPEXP CEOSAIPlayerManager
 			//CAICommonData*  m_pAICommonData;  
 
 		//
-			EOSAI::CInterface* m_pEOSAIInterface;
+			//EOSAI::CInterface* m_pEOSAIInterface;
 
 		// Process
 		//
-			bool  m_bWaitForAutosave;
+			//bool  m_bWaitForAutosave;
 			bool  m_bDebugPause; // Used to put the AI into an idle state for debugging purposes
 
 		// AIPlayers

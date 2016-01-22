@@ -28,6 +28,7 @@
 #include "EOSAITransportAssistedPath.h"
 #include "EOSAIUnitPathwayFinder.h"
 #include "EOSAICommonData.h"
+#include "EOSAIMain.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE
@@ -195,15 +196,15 @@ void CEOSAIPoiObject::SetInitialContainer( CAIPlan* pAIPlan, long iContainer )
 
 long CEOSAIPoiObject::GetGeoId()
 {
-	//return g_pEOSAIInterface->GetAICommonData()->GetAIGeo( m_Location )->GetId();
-	return g_pEOSAIInterface->GetAICommonData()->GetAIGeo( GetLocation() )->GetId();
+	//return g_pEOSAIMain->GetAICommonData()->GetAIGeo( m_Location )->GetId();
+	return g_pEOSAIMain->GetAICommonData()->GetAIGeo( GetLocation() )->GetId();
 }
 
 EOSAIEnumForeignRelations  CEOSAIPoiObject::GetForeignRelationsTo( long iOtherPlayer )
 {
 	//{ ASSERT( false ); return EOSAIEnumForeignRelations::enum_Undefined; }
 	//long iOwner = this->GetOwner();
-	return g_pEOSAIInterface->GetAICommonData()->GetForeignRelations( this->GetOwner(), iOtherPlayer );
+	return g_pEOSAIMain->GetAICommonData()->GetForeignRelations( this->GetOwner(), iOtherPlayer );
 }
 
 void CEOSAIPoiObject::SetInitialContainer( CEOSAIPoiObject* pContainer )

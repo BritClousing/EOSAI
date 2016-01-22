@@ -10,6 +10,7 @@
 //#include "TWDx.h"
 #include "MessageFromAI_DeclareWar.h"
 #include "EOSAIInterface.h"
+#include "EOSAIMain.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE
@@ -34,7 +35,7 @@ void CEOSAIStrategicAIOrder_DeclareWar::Execute( long iCurrentTurn )
 
 	// Should change the foreign relations immediately, so that the AI can target the enemy
 	//int h = 0;
-	CEOSAIBCDumbArray2D< EOSAIEnumForeignRelations >* pForeignRelations = g_pEOSAIInterface->GetAICommonData()->GetGlobalForeignRelations()->GetForeignRelations();
+	CEOSAIBCDumbArray2D< EOSAIEnumForeignRelations >* pForeignRelations = g_pEOSAIMain->GetAICommonData()->GetGlobalForeignRelations()->GetForeignRelations();
 	pForeignRelations->Value(m_iTargetPlayer, iAIPlayer) = EOSAIEnumForeignRelations::enum_War;
 	pForeignRelations->Value(iAIPlayer, m_iTargetPlayer) = EOSAIEnumForeignRelations::enum_War;
 

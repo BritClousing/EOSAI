@@ -16,49 +16,13 @@ ApplicationWindow {
     minimumWidth: mainLayout.Layout.minimumWidth + 2 * margin
     minimumHeight: mainLayout.Layout.minimumHeight + 2 * margin
 
-    //margin: 30
-    //anchors.bottomMargin: 50
-    //anchors.bottom: parent.bottom
-
 	property int iRowHeight: 23
 
     //signal playerComboBoxChanged(int iPlayer);
     signal playerComboBoxChanged(int iPlayer);
-/*
-    ListModel {
-        id: testModel
-        ListElement { name: "Error: No Poi Found"; icon: "E" }
-        ListElement { name: "Warning: No Technologies"; icon: "W" }
-        ListElement { name: "Loaded 30 Poi";   icon: "" }
-        ListElement { name: "2Bill Smith"; icon: "E" }
-        ListElement { name: "2John Brown"; icon: "W" }
-        ListElement { name: "2Sam Wise";   icon: "" }
-        ListElement { name: "3Bill Smith"; icon: "E" }
-        ListElement { name: "3John Brown"; icon: "W" }
-        ListElement { name: "3Sam Wise"  ; icon: "" }
-        ListElement { name: "4Bill Smith"; icon: "E" }
-        ListElement { name: "4John Brown"; icon: "W" }
-        ListElement { name: "4Sam Wise"  ; icon: "" }
-        ListElement { name: "5Bill Smith"; icon: "E" }
-        ListElement { name: "5John Brown"; icon: "W" }
-        ListElement { name: "5Sam Wise"  ; icon: "" }
-        ListElement { name: "B1Bill Smith"; icon: "E" }
-        ListElement { name: "B1John Brown"; icon: "W" }
-        ListElement { name: "B1Sam Wise"  ; icon: "" }
-        ListElement { name: "B2Bill Smith"; icon: "E" }
-        ListElement { name: "B2John Brown"; icon: "W" }
-        ListElement { name: "B2Sam Wise"  ; icon: "" }
-        ListElement { name: "B3Bill Smith"; icon: "E" }
-        ListElement { name: "B3John Brown"; icon: "W" }
-        ListElement { name: "B3Sam Wise"  ; icon: "" }
-        ListElement { name: "B4Bill Smith"; icon: "E" }
-        ListElement { name: "B4John Brown"; icon: "W" }
-        ListElement { name: "B4Sam Wise"  ; icon: "" }
-        ListElement { name: "B5Bill Smith"; icon: "E" }
-        ListElement { name: "B5John Brown"; icon: "W" }
-        ListElement { name: "B5Sam Wise"  ; icon: "" }
-    }
-*/
+    signal processSingleTurn();
+    signal autoprocessTurns(bool bChecked);
+
     Rectangle
     {
         id: connectionStateRect
@@ -225,6 +189,48 @@ ApplicationWindow {
                 visible: m_iNumberOfPlayers >= 10
             }
         }
+        RowLayout {
+            Layout.preferredHeight: iRowHeight
+            visible: m_bEOSAISharedMemoryFileExists
+            Rectangle
+            {
+                width: 100
+                height: iRowHeight
+                color: "#00FFFFFF"
+                Label
+                {
+                    text: "Current Turn: " + m_strCurrentTurn
+                    anchors.fill: parent
+                    verticalAlignment: Text.AlignVCenter
+                }
+            }
+
+            Label
+            {
+                text: "Process Turn:";
+            }
+            Button
+            {
+                text: "Single Turn";
+                onClicked: processSingleTurn();
+            }
+            Button
+            {
+                text: "Autoprocess Turns";
+                checkable: true
+                //width: implicitWidth + 50
+                implicitWidth: 120
+                //implicitWidth: implicitWidth+120
+                //onClicked: autoprocessTurns( isChecked );
+                //onClicked: autoprocessTurns( isChecked() );
+                onClicked:
+                {
+                    console.log("checked=",checked);
+                    autoprocessTurns( checked );
+                }
+            }
+        }
+
 /*
 		RowLayout {
 			Layout.preferredHeight: iRowHeight //20

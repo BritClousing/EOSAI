@@ -29,7 +29,8 @@ class CUnitsubsetValue
 		CString m_strValue;
 };
 
-class DLLIMPEXP CGameRules
+//class DLLIMPEXP CGameRules
+class CGameRules
 {
 	public:
 		CGameRules(){}

@@ -5,6 +5,7 @@
 #include "EOSAICommonData.h"
 #include "EOSAIBrain.h"
 #include "EOSAIInterface.h"
+#include "EOSAIMain.h"
 /*
 float CEOSAIMultiRegionPlan::GetGroundSeaProximity()
 {
@@ -45,7 +46,7 @@ CEOSAIGeo* CEOSAIMultiRegionPlan::GetAIGeo()
 	ASSERT( iGeo > 0 );
 	if( iGeo == 0 ) return NULL;
 	//CEOSAIGeo* pAIGeo = m_pAIBrain->GetAIGeo( iGeo );
-	CEOSAIGeo* pAIGeo = g_pEOSAIInterface->GetAICommonData()->GetAIGeo( iGeo );
+	CEOSAIGeo* pAIGeo = g_pEOSAIMain->GetAICommonData()->GetAIGeo( iGeo );
 	ASSERT( pAIGeo );
 	return pAIGeo;
 }

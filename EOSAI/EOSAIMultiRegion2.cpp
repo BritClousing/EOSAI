@@ -147,7 +147,7 @@ CEOSAILocation CMultiRegion::GetLocation()
 */
 void  CEOSAIMultiRegion2::GrowRegion()
 {
-	long iNumberOfPlayers = g_pEOSAIInterface->GetNumberOfPlayers();
+	long iNumberOfPlayers = g_pEOSAIInterface->GetNumberOfGamePlayers();
 
 	// I use the spatial map for some distance calculations
 	CEOSAIMovementDescription  MovementDesc;

@@ -30,6 +30,7 @@
 
 //#include "Message2_DeclareWarMessage.h"
 
+#include "EOSAIMain.h"
 #include "EOSAICommonData.h"
 #include "City.h"
 //#include "BuildingDescription.h"
@@ -1113,7 +1114,7 @@ void CEOSAIStrategicAI::CalculateTechnologyStrategy()
 				}
 
 				//fTotalResearchSpending += GetCommonState()->GetActiveUnitset()->GetSpendingRequiredForXResearchPoints( ResearchPointsPerTurn[iPlayer] );
-				fTotalResearchSpending += g_pEOSAIInterface->GetAIGameRules()->GetSpendingRequiredForXResearchPoints( ResearchPointsPerTurn[iPlayer] );
+				fTotalResearchSpending += g_pEOSAIMain->GetAIGameRules()->GetSpendingRequiredForXResearchPoints( ResearchPointsPerTurn[iPlayer] );
 				iTotalResearchSpendingCount++;
 
 				float fPlayerResearchPointsPerTurn = ResearchPointsPerTurn[iPlayer];
@@ -1136,7 +1137,7 @@ void CEOSAIStrategicAI::CalculateTechnologyStrategy()
 		// Increase/Decrease RP based on AIPlayer's money shortage/excess
 		// How much money do I need to spend for this number of ResearchPoints?
 		//float fOtherPlayerBasedSpendingRequiredForRP = GetCommonState()->GetActiveUnitset()->GetSpendingRequiredForXResearchPoints( fNeededResearchPointsPerTurn1 );
-		float fOtherPlayerBasedSpendingRequiredForRP = (float) g_pEOSAIInterface->GetAIGameRules()->GetSpendingRequiredForXResearchPoints( fNeededResearchPointsPerTurn1 );
+		float fOtherPlayerBasedSpendingRequiredForRP = (float) g_pEOSAIMain->GetAIGameRules()->GetSpendingRequiredForXResearchPoints( fNeededResearchPointsPerTurn1 );
 
 		//float fSpendingRequiredForRP2 = GetCommonState()->GetActiveUnitset()->GetSpendingRequiredForXResearchPoints( 
 		float fIndependentSpendingRequiredForRP2 = 0.7f + 3.5f*m_pAIPlayer->GetPersonality_ProResearcherPos1_AntiResearcherNeg1();
@@ -1251,7 +1252,7 @@ void CEOSAIStrategicAI::AddTechnologyAndPrerequisitesToResearchQueue( CString st
 bool CEOSAIStrategicAI::GetTechnologyHasBeenDiscovered( CString strTech )
 {
 	long iPlayer = m_pAIPlayer->GetPlayerNumber();
-	CEOSAINationalSummary3* pNationalSummary = g_pEOSAIInterface->GetAICommonData()->GetAINationalSummary3( iPlayer );
+	CEOSAINationalSummary3* pNationalSummary = g_pEOSAIMain->GetAICommonData()->GetAINationalSummary3( iPlayer );
 	return pNationalSummary->GetTechnologyHasBeenDiscovered( strTech );
 }
 
@@ -1293,7 +1294,7 @@ float CEOSAIStrategicAI::GetResearchPointsUntilCompletion( CString strTechName )
 		}
 	}
 */
-	CEOSAITechnologyDesc* pTechDesc = g_pEOSAIInterface->GetAIGameRules()->GetTechnologyDesc( strTechName );
+	CEOSAITechnologyDesc* pTechDesc = g_pEOSAIMain->GetAIGameRules()->GetTechnologyDesc( strTechName );
 	if( pTechDesc )
 	{
 		return (float) pTechDesc->GetCost();
@@ -1313,7 +1314,7 @@ void CEOSAIStrategicAI::GetNearbyAppliedTechnologies( CList< CEOSAITechnologyDes
 	long iPlayer = m_pAIPlayer->GetPlayerNumber();
 	//long iPlayer = GetLocalPlayerNumber();
 	//CUnitset* pUnitset = GetCommonState()->GetActiveUnitset();
-	EOSAI::CGameRules* pGameRules = g_pEOSAIInterface->GetAIGameRules();
+	EOSAI::CGameRules* pGameRules = g_pEOSAIMain->GetAIGameRules();
 	POSITION pos = pGameRules->GetTechnologyDescsList()->GetHeadPosition();
 	while( pos )
 	{
@@ -1389,7 +1390,7 @@ float CEOSAIStrategicAI::GetTechValue( CEOSAITechnologyDesc* pTechDesc )
 	{
 		CString strEnableUnit = pTechDesc->GetEnableUnitList()->GetNext( pos );
 		//CEOSAIUnitTemplate* pEnableUnitTemplate = pUnitset->GetUnitTemplate( strEnableUnit );
-		CEOSAIUnitTemplate* pEnableUnitTemplate = g_pEOSAIInterface->GetAIGameRules()->GetAIUnitTemplate( strEnableUnit );
+		CEOSAIUnitTemplate* pEnableUnitTemplate = g_pEOSAIMain->GetAIGameRules()->GetAIUnitTemplate( strEnableUnit );
 		if( pEnableUnitTemplate )
 		{
 			CEOSAIUnitTemplate* pUpgradesFrom = pEnableUnitTemplate->GetUpgradesFrom();
@@ -1421,7 +1422,7 @@ float CEOSAIStrategicAI::GetTechValue( CEOSAITechnologyDesc* pTechDesc )
 		if( strEnableBuilding != _T("") )
 		{
 			//CBuildingDescription* pBuildingDescription = pUnitset->GetBuildingDescription( strEnableBuilding );
-			CEOSAIBuildingDescription* pBuildingDescription = g_pEOSAIInterface->GetAIGameRules()->GetAIBuildingDescription( strEnableBuilding );
+			CEOSAIBuildingDescription* pBuildingDescription = g_pEOSAIMain->GetAIGameRules()->GetAIBuildingDescription( strEnableBuilding );
 			if( pBuildingDescription )
 			{
 				POSITION pos2 = pAIThoughtDatabase->GetMyCities()->GetHeadPosition();
@@ -2238,7 +2239,7 @@ void CEOSAIStrategicAI::CalculateTradeValue( CEOSAITradeAgreement* pTradeAgreeme
 			}
 			else
 			{
-				CEOSAITechnologyDesc* pTechnologyDesc = g_pEOSAIInterface->GetAIGameRules()->GetTechnologyDesc( strTechnology );
+				CEOSAITechnologyDesc* pTechnologyDesc = g_pEOSAIMain->GetAIGameRules()->GetTechnologyDesc( strTechnology );
 				if( g_pEOSAICommonData->GetAINationalSummary3( iOtherPlayer )->GetTechnologyHasBeenDiscovered( strTechnology ) == false )
 				{
 					fResearchCost += pTechnologyDesc->GetCost();

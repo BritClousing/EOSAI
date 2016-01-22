@@ -394,6 +394,7 @@
     <ClCompile Include="EOSAILocation.cpp" />
     <ClCompile Include="EOSAILogFile.cpp" />
     <ClCompile Include="EOSAILongSet.cpp" />
+    <ClCompile Include="EOSAIMain.cpp" />
     <ClCompile Include="EOSAIMath.cpp" />
     <ClCompile Include="EOSAIMathFunction.cpp" />
     <ClCompile Include="EOSAIMovementDescription.cpp" />
@@ -532,6 +533,7 @@
     <ClInclude Include="EOSAIDesireBuildAirfield.h" />
     <ClInclude Include="EOSAIDesireCaptureAirfield.h" />
     <ClInclude Include="EOSAIDesireCaptureCitRes.h" />
+    <ClInclude Include="EOSAIMain.h" />
     <ClInclude Include="Interproc.h" />
     <ClInclude Include="SharedMemory.h" />
     <CustomBuild Include="EOSAIDesireCaptureMultiRegion.h">

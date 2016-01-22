@@ -1113,7 +1113,9 @@ void  AIPlayer::Process()
 	//if( GetWorldDescPlayer()->EntireGameIsOver() ){ return; }
 	//if( GetPlayer()->GetPlayerHasBeenEliminated() ){ return; }
 	//if( GetCommonState()->GetAIPlayerManager()->WaitForAutosaveAndLocalPlayerTurnReplay() ){ return; }
-	if( g_pAIPlayerManager->WaitForAutosave() ){ return; }
+	//if (g_pAIPlayerManager->GetThreadShouldBePaused_ForSaveGame()){ return; }
+	if (g_pAIPlayerManager->GetThreadShouldBePaused()){ return; }
+	//if( g_pAIPlayerManager->WaitForAutosave() ){ return; }
 	if( m_eProcessingState == enumWaitingForServerToPlayerUpdate){ return; }
 	//if( m_eProcessingState == enumWaitingForAutosaveAndLocalPlayerTurnReplayEnd ){ return; }
 
@@ -1646,7 +1648,7 @@ void  AIPlayer::Process()
 	{
 		if( this->GetFlag_ShutdownAIPlayer() ){ return; }
 		if( g_pAIPlayerManager->ThreadIsPaused() ||
-			g_pAIPlayerManager->ThreadShouldBePaused() )
+			g_pAIPlayerManager->GetThreadShouldBePaused() )
 		{
 			return;
 		}
@@ -1697,8 +1699,8 @@ void  AIPlayer::Process()
 		long iNumberOfHumanPlayers = g_pEOSAIInterface->GetNumberOfHumanPlayers();
 		long iServerIsWaitingForTurn = g_pEOSAIInterface->GetCurrentTurn();
 		//bool bAllHumanPlayersHaveSubmittedTurn = g_pEOSAICommonData->AllActiveHumanPlayersHaveSubmittedTurn( iServerIsWaitingForTurn );
-		bool bAllHumanPlayersHaveSubmittedTurn = g_pEOSAIInterface->AllActiveHumanPlayersHaveSubmittedTurn( iServerIsWaitingForTurn );
-		bool bAllAIPlayersAreReadyToSendTurnOrHaveSentTurn = g_pAIPlayerManager->AllAIPlayersAreReadyToSendTurnOrHaveSentTurn();
+		bool bAllHumanPlayersHaveSubmittedTurn = g_pEOSAIInterface->GetAllActiveHumanPlayersHaveSubmittedTurn( iServerIsWaitingForTurn );
+		bool bAllAIPlayersAreReadyToSendTurnOrHaveSentTurn = g_pAIPlayerManager->GetAllAIPlayersAreReadyToSendTurnOrHaveSentTurn();
 
 		//DWORD dwTime = timeGetTime();
 		/*
@@ -1839,7 +1841,7 @@ void AIPlayer::SendOrders()
 
 	long iCurrentTurn = g_pEOSAIInterface->GetCurrentTurn();
 	//m_pWorldDescPlayerProxy->SetLastPlayerToServerTurnReceivedByServer( iCurrentTurn );
-	g_pEOSAIInterface->SetAIPlayerHasProcessedTurn( m_iPlayerNumber, iCurrentTurn );
+	g_pEOSAIInterface->Notification_AIPlayerHasProcessedTurn(m_iPlayerNumber, iCurrentTurn);
 
 	// Before we send orders, record the money/oil/food/iron amounts and deltas
 	//   (I want to track how much of each resource I'm using after giving orders.)

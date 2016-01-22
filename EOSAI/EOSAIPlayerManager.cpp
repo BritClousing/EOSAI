@@ -103,12 +103,12 @@ CEOSAIPlayerManager::CEOSAIPlayerManager()
 	}
 */
 
-	m_pEOSAIInterface = NULL;
+	//m_pEOSAIInterface = NULL;
 
 	//m_eCurrentState = enumWaitingForServerToPlayerUpdate;
 	//m_bAutosaveAndLocalPlayerTurnReplayEnded = true;
 	//m_bWaitForAutosaveAndLocalPlayerTurnReplay = false;
-	m_bWaitForAutosave = false;
+	//m_bWaitForAutosave = false;
 
 	m_bDebugPause = false;
 
@@ -131,13 +131,14 @@ CEOSAIPlayerManager::~CEOSAIPlayerManager()
 {
 	DeleteAIPlayers();
 }
-
+/*
 void CEOSAIPlayerManager::SetEOSAIInterface( EOSAI::CInterface* pInterface )
 {
 	m_pEOSAIInterface = pInterface;
 	//g_pEOSAIInterface = m_pEOSAIInterface;
 }
-
+*/
+/*
 void CEOSAIPlayerManager::InitializeInterprocessCommunication()
 {
 	Interproc::Initialize();
@@ -147,6 +148,7 @@ void CEOSAIPlayerManager::ShutdownInterprocessCommunication()
 {
 	Interproc::Shutdown();
 }
+*/
 /*
 void CEOSAIPlayerManager::ShowUI(bool b)
 {
@@ -278,7 +280,7 @@ long  CEOSAIPlayerManager::GetNumberOfAIPlayersWhoAreReadyToSendTurn()
 	return iCount;
 }
 
-bool  CEOSAIPlayerManager::AllAIPlayersAreReadyToSendTurn()
+bool  CEOSAIPlayerManager::GetAllAIPlayersAreReadyToSendTurn()
 {
 	for( long iPlayer=1; iPlayer<m_AIPlayersArray.m_iSize; iPlayer++ )
 	{
@@ -294,7 +296,7 @@ bool  CEOSAIPlayerManager::AllAIPlayersAreReadyToSendTurn()
 	return true;
 }
 
-bool  CEOSAIPlayerManager::AllAIPlayersAreReadyToSendTurnOrHaveSentTurn()
+bool  CEOSAIPlayerManager::GetAllAIPlayersAreReadyToSendTurnOrHaveSentTurn()
 {
 	for( long iPlayer=1; iPlayer<m_AIPlayersArray.m_iSize; iPlayer++ )
 	{
@@ -413,7 +415,6 @@ void  CEOSAIPlayerManager::Loop()
 	m_bThreadShouldBePaused_ForSaveGame = false;
 	m_bThreadIsPaused = true;
 	*/
-	ASSERT( m_pEOSAIInterface != NULL );
 	ASSERT( g_pEOSAIInterface != NULL );
 	//g_pEOSAIInterface = m_pEOSAIInterface;
 	while( true )
@@ -442,11 +443,13 @@ void  CEOSAIPlayerManager::Loop()
 			Sleep( 100 );
 			continue;
 		}
+		/*
 		if( m_bWaitForAutosave )//m_bWaitForAutosaveAndLocalPlayerTurnReplay )//m_bAutosaveAndLocalPlayerTurnReplayEnded == false )
 		{
 			Sleep( 100 );
 			continue;
 		}
+		*/
 		//if( g_pGameAppState == NULL ){ break; }
 		//if( g_pCommonState->GetWorldDescServer()->GetGameHasEnded() ){ break; }
 		//if( g_pGameAppState->GetEntireGameIsOver() ){ break; }
@@ -458,7 +461,7 @@ void  CEOSAIPlayerManager::Loop()
 		long iNumberOfPlayers = 0;
 		for( long iPlayer=1; iPlayer<EOSAI_MAX_NUMBER_OF_PLAYERS; iPlayer++ )
 		{
-			EOSAI::AIPlayerDesc* pAIPlayerDesc = m_pEOSAIInterface->GetAIPlayerDesc( iPlayer );
+			EOSAI::AIPlayerDesc* pAIPlayerDesc = g_pEOSAIInterface->GetAIPlayerDesc( iPlayer );
 			if( pAIPlayerDesc )
 			{
 				iNumberOfPlayers = iPlayer;
@@ -468,7 +471,7 @@ void  CEOSAIPlayerManager::Loop()
 		// Look over the AIPlayerDesc objects, create AIPlayer2 objects if they don't exist
 		for( long iPlayer=1; iPlayer<EOSAI_MAX_NUMBER_OF_PLAYERS; iPlayer++ )
 		{
-			EOSAI::AIPlayerDesc* pAIPlayerDesc = m_pEOSAIInterface->GetAIPlayerDesc( iPlayer );
+			EOSAI::AIPlayerDesc* pAIPlayerDesc = g_pEOSAIInterface->GetAIPlayerDesc( iPlayer );
 			if( pAIPlayerDesc )
 			{
 				ASSERT( pAIPlayerDesc->GetPlayerNumber() == iPlayer );
@@ -477,7 +480,7 @@ void  CEOSAIPlayerManager::Loop()
 				EOSAI::AIPlayer* pAIPlayer = m_AIPlayersArray[iPlayer];
 				if( pAIPlayer == NULL )
 				{
-					EOSAI::CGamePlayer* pGamePlayer = m_pEOSAIInterface->GetGamePlayer(iPlayer);
+					EOSAI::CGamePlayer* pGamePlayer = g_pEOSAIInterface->GetGamePlayer(iPlayer);
 					ASSERT( pGamePlayer );
 
 					EOSAI::AIPlayer* pAIPlayer = new EOSAI::AIPlayer( iNumberOfPlayers, pGamePlayer, pAIPlayerDesc );
@@ -490,7 +493,7 @@ void  CEOSAIPlayerManager::Loop()
 		if( g_pEOSAICommonData->GetNeedToRebuildData() )
 		{
 			// Make sure the AIData is up to date
-			g_pEOSAICommonData->SetNeedToRebuildData( false ); //m_bCommonAIObjectsHaveBeenCreated = true;
+			g_pEOSAICommonData->SetNeedToRebuildData( false );
 			g_pEOSAIInterface->CreateGameRules();
 			g_pEOSAIInterface->CreateTechTree();
 			g_pEOSAIInterface->CreateAIRegionsAndMultiRegions();
@@ -502,9 +505,9 @@ void  CEOSAIPlayerManager::Loop()
 		g_pEOSAICommonData->ProcessPlayerInteractionsIfNecessary();
 
 		// Process any global messages
-		while (m_pEOSAIInterface && 
-				m_pEOSAIInterface->GetMessagesToAI() &&
-				m_pEOSAIInterface->GetMessagesToAI()->IsEmpty() == FALSE)
+		while (g_pEOSAIInterface &&
+			g_pEOSAIInterface->GetMessagesToAI() &&
+			g_pEOSAIInterface->GetMessagesToAI()->IsEmpty() == FALSE)
 		{
 			EOSAI::MessageToAI* pMessageToAI = g_pEOSAIInterface->GetMessagesToAI()->RemoveHead();
 			ProcessMessage(pMessageToAI);

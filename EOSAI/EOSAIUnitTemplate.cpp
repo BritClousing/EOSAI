@@ -4064,7 +4064,7 @@ void  CEOSAIUnitTemplate::CalculateAIJobCapability( CEOSAIJobCapability* pAIJobC
 CEOSAIUnitCombatCapability* CEOSAIUnitTemplate::GetAIUnitCombatCapability()
 {
 	ASSERT( g_pEOSAICommonData );
-	ASSERT( m_AIUnitCombatCapability.GetCombatSignificance() > 0.0f);
+	//ASSERT( m_AIUnitCombatCapability.GetCombatSignificance() > 0.0f); - we might not have calculated this yet, so it's okay if it's not calculated.
 	return &m_AIUnitCombatCapability;
 }
 

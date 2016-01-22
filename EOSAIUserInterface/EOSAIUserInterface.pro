@@ -12,8 +12,7 @@ TARGET = EOSAIUserInterface
 INCLUDEPATH += C:/Programming/boost_1_59_0/
 
 OTHER_FILES += \
-    main.qml \
-    ScrollBar.qml
+    main.qml
 
 RESOURCES += \
     resources.qrc

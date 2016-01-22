@@ -61,7 +61,7 @@ class DLLIMPEXP CEOSAIBuildingValue
 			float m_fRadarRange;
 
 			// Enables Units
-			CList< CEOSAIUnitTemplate* >  m_EnablesUnits;
+			CList< CEOSAIUnitTemplate* >  m_EnablesUnits; // TODO: I should probably change this to a CString and use a map.
 };
 
 class DLLIMPEXP CEOSAIBuildingDescription

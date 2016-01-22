@@ -34,6 +34,7 @@
 #endif
 //#include "BCMathFloat01.h"
 //#include "TWDx.h"
+#include "EOSAIMain.h"
 #include "EOSAIInterface.h"
 
 using namespace EOSAI;
@@ -590,7 +591,7 @@ void CAIBuildManager::CreateBuildOrders_Final()
 		long iAdjacentWaterSize = 0;
 		//
 
-		long iGeo = g_pEOSAIInterface->GetAICommonData()->GetGeoId( CEOSAILocation( CEOSAILocation::Pixel,10,10 ) );
+		long iGeo = g_pEOSAIMain->GetAICommonData()->GetGeoId( CEOSAILocation( CEOSAILocation::Pixel,10,10 ) );
 		int g=0;
 
 		CEOSAILongSet WaterGeos;
@@ -662,7 +663,7 @@ void CCity::GetAdjacentWaterGeos( CLongSet* pGeoSet )
 	{
 		CEOSAIBuildOption* pAIBuildOption = pBuildOptionsList->GetNext( pos );
 		//if( g_pEOSAICommonData->GetAIGameRules()->CanBuild( iAIPlayer, pAIBuildOption, false ) )
-		if( g_pEOSAIInterface->GetAIGameRules()->CanBuild( iAIPlayer, pAIBuildOption, false ) )
+		if( g_pEOSAIMain->GetAIGameRules()->CanBuild( iAIPlayer, pAIBuildOption, false ) )
 		{
 			MyBuildOptions.AddTail( pAIBuildOption );
 		}
@@ -798,7 +799,11 @@ this is actually a bad way to handle things
 		SortedBuildOptions.SetSortFunction( SortByFloat );
 		#endif DEBUG
 
-		if( pAICity->GetObjectId() == 13 )
+		if (pAICity->GetObjectId() == 1)
+		{
+			int g = 0;
+		}
+		if (pAICity->GetObjectId() == 5)
 		{
 			int g=0;
 		}
@@ -857,6 +862,16 @@ this is actually a bad way to handle things
 		while( pos2 )
 		{
 			CEOSAIBuildOption* pAIBuildOption = MyBuildOptions.GetNext( pos2 );
+
+			if (pAICity->GetObjectId() == 1)
+			{
+				int g = 0;
+			}
+			if (pAICity->GetObjectId() == 5)
+			{
+				int g = 0;
+			}
+
 			//if( pAICity->GetServerCity()->CanBuild( pBuildOption, CCity::eGoal_AddAnotherBuildItem, false ) == false ) continue;
 			if( pAICity->CanBuild( pAIBuildOption, CEOSAICity::eGoal_AddAnotherBuildItem, false ) == false ) continue;
 			//if( pAICity->GetServerCity()->CanBuild( pBuildOption, false, &TextualReasonsForFailure, &bRequiresBetterTechnology ) == false ) continue;

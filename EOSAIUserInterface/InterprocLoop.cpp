@@ -63,7 +63,9 @@ void InterprocLoop::BeginListening()
 
     QObject* pTopLevel = g_pQmlApplicationEngine->rootObjects().value(0);
     QQuickWindow* pWindow = qobject_cast<QQuickWindow *>(pTopLevel);
-    QObject::connect( pWindow, SIGNAL(playerComboBoxChanged(int)), this, SLOT(onPlayerComboBoxChanged(int)));
+    //QObject::connect( pWindow, SIGNAL(playerComboBoxChanged(int)), this, SLOT(onPlayerComboBoxChanged(int)));
+    QObject::connect( pWindow, SIGNAL(processSingleTurn()), this, SLOT(onProcessSingleTurn()));
+    QObject::connect( pWindow, SIGNAL(autoprocessTurns(bool)), this, SLOT(onAutoprocessTurns(bool)));
 
     ProcessTimer();
 
@@ -72,11 +74,32 @@ void InterprocLoop::BeginListening()
     m_Timer.start();
 }
 
+void InterprocLoop::onProcessSingleTurn()
+{
+    qDebug() << "InterprocLoop::onProcessTurn()";
+    g_pSharedMemoryBuffer->m_iGameShouldPauseAtTheEndOfTurn = g_pSharedMemoryBuffer->m_iCurrentTurn;
+}
+
+void InterprocLoop::onAutoprocessTurns(bool bChecked)
+{
+    //qDebug() << "InterprocLoop::onAutoprocessTurns() - MAXINT32=" << MAXINT32;
+    //if( bChecked.toBool() )
+    if( bChecked )
+    {
+        g_pSharedMemoryBuffer->m_iGameShouldPauseAtTheEndOfTurn = MAXINT32;
+    }
+    else
+    {
+        g_pSharedMemoryBuffer->m_iGameShouldPauseAtTheEndOfTurn = 0;
+    }
+    qDebug() << "InterprocLoop::onAutoprocessTurns() - g_pSharedMemoryBuffer->m_iGameShouldPauseAtTheEndOfTurn=" << g_pSharedMemoryBuffer->m_iGameShouldPauseAtTheEndOfTurn;
+}
+/*
 void InterprocLoop::onPlayerComboBoxChanged(int iPlayer)
 {
     //qDebug() << "InterprocLoop::onPlayerComboBoxChanged() " << iPlayer;
     // Change the values
-    /*
+    /-*
     if( iPlayer == 0 ) // Common Data
     {
         g_pQmlApplicationEngine->rootContext()->setContextProperty("m_bDisplayCommonData", true );
@@ -114,9 +137,9 @@ void InterprocLoop::onPlayerComboBoxChanged(int iPlayer)
         g_pQmlApplicationEngine->rootContext()->setContextProperty("m_bPlayerXIsAI", bPlayerXIsAI );
         g_pQmlApplicationEngine->rootContext()->setContextProperty("m_strPlayerXProcessingStateColor", strProcessingStateColor );
     }
-    */
+    *-/
 }
-
+*/
 void InterprocLoop::ProcessTimer()
 {
     try
@@ -216,7 +239,7 @@ void InterprocLoop::ProcessTimer()
             // Output: "286  Original Value:  63   Brit3     0x564c8a8 / 0x34c0278"
             //qDebug() << i << " Original Value: " << data->value << " " << data->str << " " << " " << str2.c_str() << "/" << testStr2.c_str();
 
-            g_pQmlApplicationEngine->rootContext()->setContextProperty("m_strCurrentTurn", QString("%1").arg(g_pSharedMemoryBuffer->m_iTurn) );
+            g_pQmlApplicationEngine->rootContext()->setContextProperty("m_strCurrentTurn", QString("%1").arg(g_pSharedMemoryBuffer->m_iCurrentTurn) );
             g_pQmlApplicationEngine->rootContext()->setContextProperty("m_iNumberOfPlayers", g_pSharedMemoryBuffer->m_iNumberOfPlayers );
             //g_pQmlApplicationEngine->rootContext()->setContextProperty("m_iNumberOfPlayers", QString("%1").arg(g_pSharedMemoryBuffer->m_iNumberOfPlayers) );
             g_pGameData->m_iNumberOfPlayers = g_pSharedMemoryBuffer->m_iNumberOfPlayers;
@@ -241,24 +264,33 @@ void InterprocLoop::ProcessTimer()
             //         << " m_iTurn: " << g_pSharedMemoryBuffer->m_iTurn
             //         << " m_iNumberOfPlayers: " << g_pSharedMemoryBuffer->m_iNumberOfPlayers;
 
-            // Parse the status
-            QString strStatus = QString::fromLocal8Bit( g_pSharedMemoryBuffer->m_czCommonData_Status.m_szText );
-            //g_pQmlApplicationEngine->rootContext()->setContextProperty("m_szCommonData_Status", g_pSharedMemoryBuffer->m_szCommonData_Status );
 
             //
             //StatusLineModel statusLineModel;
-            QStringList statusList = strStatus.split("\n");
-            int iStatusListSize = statusList.count();
-            for( int i=0; i<iStatusListSize; i++ )
+            if( m_bReadAllData || g_pSharedMemoryBuffer->m_bStatusListUpdated )
             {
-                //if( statusList[i] != "" ) statusLineModel.m_StatusLineList.append( StatusLine(statusList[i]) );
-                StatusLine statusLine(statusList[i]);
-                g_pGameData->m_StatusListModel.m_StatusLineList.append( statusLine );
-                //PoiLine poiLine;
-                //if( iPlayer == 0 ){ poiLine.m_strName = QString("Unowned"); }
-                //else{               poiLine.m_strName = QString("Player %1 \"%2\"").arg(iPlayer).arg( g_pGameData->m_strPlayerName[iPlayer] ); }
-                //m_PoiLineList.append(poiLine);
-                //if( i == 0 ){ qDebug() << "statusLine=" << statusLine.m_strIcon << statusLine.m_strText; }
+                g_pSharedMemoryBuffer->m_bStatusListUpdated = false;
+                //qDebug() << "g_pSharedMemoryBuffer->m_bStatusListUpdated";
+
+                // Parse the status
+                QString strStatus = QString::fromLocal8Bit( g_pSharedMemoryBuffer->m_czCommonData_Status.m_szText );
+                //g_pQmlApplicationEngine->rootContext()->setContextProperty("m_szCommonData_Status", g_pSharedMemoryBuffer->m_szCommonData_Status );
+                //qDebug() << "g_pSharedMemoryBuffer->m_bStatusListUpdated, strStatus=" << strStatus;
+
+                //g_pGameData->m_StatusListModel.m_StatusLineList.clear();
+                QStringList statusList = strStatus.split("\n");
+                int iStatusListSize = statusList.count();
+                for( int i=0; i<iStatusListSize; i++ )
+                {
+                    //if( statusList[i] != "" ) statusLineModel.m_StatusLineList.append( StatusLine(statusList[i]) );
+                    StatusLine statusLine(statusList[i]);
+                    g_pGameData->m_StatusListModel.m_StatusLineList.append( statusLine );
+                    //PoiLine poiLine;
+                    //if( iPlayer == 0 ){ poiLine.m_strName = QString("Unowned"); }
+                    //else{               poiLine.m_strName = QString("Player %1 \"%2\"").arg(iPlayer).arg( g_pGameData->m_strPlayerName[iPlayer] ); }
+                    //m_PoiLineList.append(poiLine);
+                    //if( i == 0 ){ qDebug() << "statusLine=" << statusLine.m_strIcon << statusLine.m_strText; }
+                }
             }
             g_pGameData->m_StatusListModel.recreateList();
             g_pQmlApplicationEngine->rootContext()->setContextProperty( "statusListModel", &g_pGameData->m_StatusListModel );
@@ -370,6 +402,7 @@ void InterprocLoop::ProcessTimer()
             // Increment the "writer" value. The other process will handle the data if "writer" is set to 1.
             //data->writer.post();
             // Increment the "lock" value. The other process will handle the data if "lock" is set to 1.
+            m_bReadAllData = false;
             g_pSharedMemoryBuffer->lock.post();
         }
     }

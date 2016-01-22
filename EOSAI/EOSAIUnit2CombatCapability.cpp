@@ -8,7 +8,7 @@
 #include "EOSAIQuickCombatCalculation.h"
 #include "EOSAICommonData.h"
 #include <math.h>
-
+#include "EOSAIMain.h"
 #include "EOSAIInterface.h"
 extern EOSAI::CInterface* g_pEOSAIInterface;
 
@@ -97,7 +97,7 @@ float CEOSAIUnitCombatCapability::GetAverageVisibleRange()
 
 float CEOSAIUnitCombatCapability::GetCombatSignificance()
 {
-	I Need to calculate this. I might need to get the combat calculator working.
+	// TODO: I Need to calculate this. I might need to get the combat calculator working.
 	ASSERT( m_fCombatAttritionSignificance01 >= 0.0f );
 	return m_pMyAIUnitTemplate->GetProductionAndIronCost1() * m_fCombatAttritionSignificance01;
 }
@@ -204,7 +204,7 @@ void CEOSAIUnitCombatCapability::InvokeArray()
 	if( m_CombatValueArray.m_iSize == 0 )
 	{
 		//long iUnitTemplates = GetCommonState()->GetActiveUnitset()->GetUnitTemplateList()->GetCount();
-		long iUnitTemplates = g_pEOSAIInterface->GetAIGameRules()->GetAIUnitTemplates()->GetCount();
+		long iUnitTemplates = g_pEOSAIMain->GetAIGameRules()->GetAIUnitTemplates()->GetCount();
 		m_CombatValueArray.SetSize( iUnitTemplates+1 );
 
 		for( long i=0; i<iUnitTemplates+1; i++ ){ m_CombatValueArray[i] = NULL; }

@@ -9,9 +9,9 @@ CEOSAIBuildingValue::CEOSAIBuildingValue( CEOSAICity* pCity, CEOSAIBuildingDescr
 	m_pAICity = pCity;
 	m_pBuildingDescription = pBuildingDesc;
 	//
-	m_strInternalName = pBuildingDesc->m_strInternalName;
+	//m_strInternalName = pBuildingDesc->m_strInternalName;
 
-	g_pEOSAIInterface->GetBuildingValue( this );
+	g_pEOSAIInterface->GetBuildingValue( pCity, pBuildingDesc, this);
 	//g_pEOSAIInterface->GetBuildingValue( &BuildingValue );
 }
 

@@ -1,11 +1,13 @@
 
 #include "stdafx.h"
+#include "EOSAIMain.h"
 #include "EOSAIInterface.h"
 #include "EOSAIGamePlayer.h"
 #include "AIPlayerDesc.h"
 #include "AIPlayer.h"
 #include "UserInterface.h"
 #include "MessageFromAI_ForeignRelationsFeelings.h"
+#include "Interproc.h"
 //#include "EOSAILogFile.h"
 
 // This will actually be pointing to the application's derived class
@@ -18,17 +20,19 @@ using namespace EOSAI;
 
 CInterface::CInterface()
 {
+	g_pEOSAIInterface = this;
 	//g_LogFile.Initialize( _T("AILogFile.txt") );
+	//if( g_pEOSAIMain == NULL ){ new EOSAI::Main(); }
 
 	g_pEOSAIInterface = this;
-	m_AICommonData.SetEOSAIInterface( this );
+	//m_AICommonData.SetEOSAIInterface( this );
 	m_pAIWorldDistanceTool = NULL;
 
 	m_iNumberOfGamePlayers = 0;
 	m_bAllActiveHumanPlayersHaveSubmittedTurn = false;
 	//m_bNeedToRebuildData = true;
 	//m_bAIObjectsHaveBeenCreated = false;
-
+	
 	m_iCurrentTurn = 0;
 	m_bGameHasEnded = false;
 
@@ -38,33 +42,52 @@ CInterface::CInterface()
 	m_bAIObjectsHaveBeenCreated = false;
 
 	m_bProcessingIsDone = false;
-	m_bPauseTheAI = false;
-	m_bShutdownTheAI = false;
+	//m_bPauseEOSAI = false;
+	m_bShutdownEOSAI = false;
 
-	m_AIPlayerManager.SetEOSAIInterface( this );
+	//m_AIPlayerManager.SetEOSAIInterface( this );
 	for( long i=0; i<EOSAI_MAX_NUMBER_OF_PLAYERS; i++ )
 	{
 		m_GamePlayers[i] = NULL;
 		m_AIPlayerDesc[i] = NULL;
 	}
 
+
 	//m_bCommonAIObjectsHaveBeenCreated = false;
 }
 
-void CInterface::InitializeEOSAI()
+void CInterface::CreateEOSAI()
+{
+	if (g_pEOSAIMain == NULL){ new EOSAI::Main(); }
+	ASSERT(g_pEOSAIMain);
+	g_pEOSAIMain->InitializeInterprocessCommunication();
+	g_pEOSAIMain->GetAIPlayerManager()->InstanciateThreadAndPauseIt();
+}
+
+/*
+void CInterface::InitializeEOSAIUserInterface()
 {
 	m_AIPlayerManager.InitializeInterprocessCommunication();
 }
-
+*/
+/*
 void CInterface::ShutdownEOSAI()
 {
 	//m_AIPlayerManager.ShutdownInterprocessCommunication();
 }
-
-void CInterface::SetAIWorldDistanceTool( EOSAI::CWorldDistanceTool* p )
+*/
+/*
+EOSAI::Main* CInterface::GetEOSAIMain()
 {
-	m_pAIWorldDistanceTool = p;
-	m_AICommonData.SetEOSAIWorldDistanceTool( p );
+	return g_pEOSAIMain;
+	//GetEOSAIMain();
+}
+*/
+void CInterface::SetAIWorldDistanceTool( EOSAI::CWorldDistanceTool* pTool )
+{
+	m_pAIWorldDistanceTool = pTool;
+	EOSAI::Main::p()->GetAICommonData()->SetEOSAIWorldDistanceTool(pTool);
+	g_pEOSAIMain->GetAICommonData()->SetEOSAIWorldDistanceTool(pTool);
 }
 
 void CInterface::SetNumberOfPlayers( long iNumberOfPlayers )
@@ -86,15 +109,20 @@ void CInterface::SetNumberOfPlayers( long iNumberOfPlayers )
 	}
 	*/
 }
-
+/*
 void CInterface::InstanciateAIPlayers()
 {
 	ASSERT( false );
 }
-
-void CInterface::ActivateAIPlayers()
+*/
+void CInterface::PauseTheAI_GameDataIsBeingUpdated() //ActivateAIPlayers()
 {
-	GetAIPlayerManager()->ThreadShouldBePaused( false );
+	g_pEOSAIMain->GetAIPlayerManager()->SetThreadShouldBePaused(true);
+}
+
+void CInterface::UnPauseTheAI_GameDataWasUpdated() //ActivateAIPlayers()
+{
+	g_pEOSAIMain->GetAIPlayerManager()->SetThreadShouldBePaused(false);
 }
 
 void CInterface::AddGamePlayer( EOSAI::CGamePlayer* pGamePlayer )
@@ -110,6 +138,16 @@ void CInterface::AddAIPlayerDesc( EOSAI::AIPlayerDesc* pAIPlayerDesc )
 	ASSERT( m_AIPlayerDesc != NULL );
 	ASSERT( pAIPlayerDesc->m_iPlayer > 0 );
 	m_AIPlayerDesc[pAIPlayerDesc->m_iPlayer] = pAIPlayerDesc;
+}
+
+void CInterface::DeleteAIPlayer(int iCurrentPlayer)
+{
+	g_pEOSAIMain->GetAIPlayerManager()->DeleteAIPlayer(iCurrentPlayer);
+}
+
+void CInterface::WaitUntilAIPlayerIsRemoved(int iCurrentPlayer)
+{
+	g_pEOSAIMain->GetAIPlayerManager()->WaitUntilAIPlayerIsRemoved(iCurrentPlayer);
 }
 /*
 void CInterface::CreateAICommonData()
@@ -132,7 +170,7 @@ EOSAI::CGamePlayer* CInterface::GetGamePlayer( long iPlayer )
 
 EOSAI::AIPlayer* CInterface::GetAIPlayer( long iPlayer )
 {
-	return m_AIPlayerManager.GetAIPlayer( iPlayer );
+	return g_pEOSAIMain->GetAIPlayerManager()->GetAIPlayer( iPlayer );
 }
 
 EOSAI::AIPlayerDesc* CInterface::GetAIPlayerDesc( long iPlayer )
@@ -145,10 +183,9 @@ EOSAI::AIPlayerDesc* CInterface::GetAIPlayerDesc( long iPlayer )
 	return NULL;
 }
 
-
 //
 
-long CInterface::GetNumberOfPlayers() // Dead or Alive
+long CInterface::GetNumberOfGamePlayers() // Dead or Alive
 {
 	long iPlayers = 0;
 	for( long iPlayer=1; iPlayer<EOSAI_MAX_NUMBER_OF_PLAYERS; iPlayer++ )
@@ -192,58 +229,232 @@ long CInterface::GetNumberOfActiveAIPlayers()
 	return iPlayers;
 }
 
+int  CInterface::GetNumberOfTechnologyDescs(){ return g_pEOSAIMain->GetAIGameRules()->GetTechnologyDescsList()->GetCount(); }
+void CInterface::AddTechnologyDesc(CEOSAITechnologyDesc* pAITechnologyDesc){ g_pEOSAIMain->GetAIGameRules()->AddTechnologyDesc(pAITechnologyDesc); }
+
+//
+void CInterface::CalculateAIUnitCombatCapabilities()
+{
+	//ASSERT( m_iUnitCombatCapabilities_LastTurnCalculated != iCurrentTurn );
+	//if( m_iUnitCombatCapabilities_LastTurnCalculated != iCurrentTurn )
+	{
+		//m_iUnitCombatCapabilities_LastTurnCalculated = iCurrentTurn;
+
+		//CWorldDesc* pWorldDesc = g_pCommonState->GetWorldDescServer();//m_pWorldDescServer;
+		/*
+		if( pWorldDesc == NULL )
+		{
+		POSITION pos = g_pCommonState->GetLocalPlayerWorldDescList()->GetHeadPosition();
+		while( pos )
+		{
+		CWorldDescPlayer* pWorldDescPlayer = g_pCommonState->GetLocalPlayerWorldDescList()->GetNext( pos );
+		if( pWorldDescPlayer->GetCurrentTurn() == iCurrentTurn )
+		{
+		pWorldDesc = pWorldDescPlayer;
+		break;
+		}
+		}
+		}
+		*/
+		//ASSERT( pWorldDesc );
+		//if( pWorldDesc == NULL ) return;
+
+		//CWorldDescServer* pWorldDescServer = GetCommonState()->GetWorldDescServer();
+		//CWorldBuildDesc*  pWorldBuildDesc = pWorldDescServer->GetWorldBuildDesc();
+		//CWorldBuildDesc* pWorldBuildDesc = pWorldDesc->GetWorldBuildDesc();
+
+		// Compile a list of all UnitTemplates in the game
+		/*
+		CEOSAIUnitTemplateSet  AllUnitsInTheGame;
+		POSITION pos = pWorldDesc->GetPoiList()->GetHeadPosition();
+		while( pos )
+		{
+		CPoi* pPoi = pWorldDesc->GetPoiList()->GetNext( pos )->GetPtr();
+		CUnit* pUnit = dynamic_cast< CUnit* >( pPoi );
+		if( pUnit )
+		{
+		//AllUnitsInTheGame.AddUnitTemplate( pUnit->GetUnitTemplate() );
+		AllUnitsInTheGame.AddUnitTemplate( pUnit->GetUnitTemplate() );
+		}
+		}
+		*/
+		CEOSAIUnitTemplateSet  AllUnitsInTheGame;
+		/*
+		POSITION pos = GetCommonState()->GetActiveUnitset()->GetUnitTemplateList()->GetHeadPosition();
+		while( pos )
+		{
+		CUnitTemplate* pUnitTemplate = GetCommonState()->GetActiveUnitset()->GetUnitTemplateList()->GetNext( pos );
+		//CEOSAIUnitTemplate* pEOSAIUnitTemplate = new CEOSAIUnitTemplate( &m_AIGameRules );
+		//ConvertToEOSAIUnitTemplate( pUnitTemplate, pEOSAIUnitTemplate );
+		CEOSAIUnitTemplate* pEOSAIUnitTemplate = g_pEOSAIMain->GetAIGameRules()->GetAIUnitTemplate( pUnitTemplate->GetInternalName() );
+		AllUnitsInTheGame.AddUnitTemplate( pEOSAIUnitTemplate );
+		}
+		*/
+		POSITION pos = g_pEOSAIMain->GetAIGameRules()->GetAIUnitTemplates()->GetHeadPosition();
+		while (pos)
+		{
+			//CUnitTemplate* pUnitTemplate = GetCommonState()->GetActiveUnitset()->GetUnitTemplateList()->GetNext( pos );
+			//CEOSAIUnitTemplate* pEOSAIUnitTemplate = new CEOSAIUnitTemplate( &m_AIGameRules );
+			//ConvertToEOSAIUnitTemplate( pUnitTemplate, pEOSAIUnitTemplate );
+			//CEOSAIUnitTemplate* pEOSAIUnitTemplate = g_pEOSAIMain->GetAIGameRules()->GetAIUnitTemplate( pUnitTemplate->GetInternalName() );
+
+#ifdef THINGS_TO_COMPILE_EVENTUALLY
+			This should include only units in the game, right ?
+				I should also include all the buildable units in the game(like the code 10 lines down)
+#endif THINGS_TO_COMPILE_EVENTUALLY
+
+				CEOSAIUnitTemplate* pEOSAIUnitTemplate = g_pEOSAIMain->GetAIGameRules()->GetAIUnitTemplates()->GetNext(pos);
+			AllUnitsInTheGame.AddUnitTemplate(pEOSAIUnitTemplate);
+		}
+
+		// Compile all the buildable units in the game
+		/*
+		long iNumberOfBuildableUnits = 0;
+		long iNumberOfPlayers = pWorldBuildDesc->GetNumberOfPlayers();
+		pos = GetCommonState()->GetActiveUnitset()->GetBuildOptionsList()->GetHeadPosition();
+		while( pos )
+		{
+		CBuildOption* pBuildOption = GetCommonState()->GetActiveUnitset()->GetBuildOptionsList()->GetNext( pos );
+		if( pBuildOption->IsAUnit() == false ) continue;
+		//
+		bool bCanBuild = false;
+		for( long iPlayer=1; iPlayer<=iNumberOfPlayers; iPlayer++ )
+		{
+		if( GetCommonState()->GetActiveUnitset()->CanBuild( iPlayer, pBuildOption, false ) )
+		{
+		bCanBuild = true;
+		break;
+		}
+		}
+		if( bCanBuild )
+		{
+		iNumberOfBuildableUnits++;
+		AllUnitsInTheGame.AddUnitTemplate( pBuildOption->GetUnitTemplate() );
+		//ASSERT( false );
+		}
+		}
+		ASSERT( iNumberOfBuildableUnits > 0 );
+		*/
+
+		// Invoke all the CombatAttrition values between MyUnits and PotentialEnemy units
+		ASSERT(AllUnitsInTheGame.m_List.IsEmpty() == FALSE);
+		pos = AllUnitsInTheGame.m_List.GetHeadPosition();
+		while (pos)
+		{
+			//CUnitTemplate* pMyUnit = AllUnitsInTheGame.m_List.GetNext( pos );
+			CEOSAIUnitTemplate* pMyUnitTemplate = AllUnitsInTheGame.m_List.GetNext(pos);
+			pMyUnitTemplate->GetAIUnitCombatCapability()->CalculateAverageVisibleRange(&AllUnitsInTheGame);
+			int g = 0;
+		}
+		pos = AllUnitsInTheGame.m_List.GetHeadPosition();
+		while (pos)
+		{
+			//CUnitTemplate* pMyUnit = AllUnitsInTheGame.m_List.GetNext( pos );
+			CEOSAIUnitTemplate* pMyUnitTemplate = AllUnitsInTheGame.m_List.GetNext(pos);
+			pMyUnitTemplate->GetAIUnitCombatCapability()->CalculateRelativeValue(&AllUnitsInTheGame, &AllUnitsInTheGame);
+		}
+	}
+}
+
 void CInterface::CalculateNationwidePathways()
 {
-	m_AICommonData.CalculateNationwidePathways();
+	g_pEOSAIMain->GetAICommonData()->CalculateNationwidePathways();
 }
 
 void CInterface::AddObjectIdsToAIRegionsAndMultiRegions()
 {
-	m_AICommonData.AddObjectIdsToAIRegionsAndMultiRegions();
+	g_pEOSAIMain->GetAICommonData()->AddObjectIdsToAIRegionsAndMultiRegions();
 }
+
+void                          CInterface::AddAIUnitTemplate(CEOSAIUnitTemplate* pAIUnitTemplate){ g_pEOSAIMain->GetAIGameRules()->AddAIUnitTemplate(pAIUnitTemplate); }
+CEOSAIUnitTemplate*           CInterface::GetAIUnitTemplate(CString strUnitTemplate){ return g_pEOSAIMain->GetAIGameRules()->GetAIUnitTemplate(strUnitTemplate); }
+CList< CEOSAIUnitTemplate* >* CInterface::GetAIUnitTemplates(){ return g_pEOSAIMain->GetAIGameRules()->GetAIUnitTemplates(); }
+CEOSAIBuildingDescription*    CInterface::GetAIBuildingDescription(CString strBuildingDesc){ return g_pEOSAIMain->GetAIGameRules()->GetAIBuildingDescription(strBuildingDesc); }
+
+void                     CInterface::AddCombatUnitType(CEOSAICombatUnitType* p){ g_pEOSAIMain->GetAIGameRules()->AddCombatUnitType(p); }
+CEOSAICombatUnitType*    CInterface::GetCombatUnitType(long iCombatUnitType){ return g_pEOSAIMain->GetAIGameRules()->GetCombatUnitType(iCombatUnitType); }
+
+void                     CInterface::AddMovementUnitType(CEOSAIMovementUnitType* pAIMovementUnitType){ g_pEOSAIMain->GetAIGameRules()->AddMovementUnitType(pAIMovementUnitType); }
+CEOSAIMovementUnitType*  CInterface::GetMovementUnitType(long iMovementUnitType){ return g_pEOSAIMain->GetAIGameRules()->GetMovementUnitType(iMovementUnitType); }
+
+void  CInterface::AddBuildingDescription(CEOSAIBuildingDescription* pAIBuildingDescription){ g_pEOSAIMain->GetAIGameRules()->AddBuildingDescription(pAIBuildingDescription); }
+
+void  CInterface::SetInitialCanBuildUnit(CString strUnitsubset, CString strInternalUnitName){ g_pEOSAIMain->GetAIGameRules()->SetInitialCanBuildUnit(strUnitsubset, strInternalUnitName); }
+void  CInterface::SetInitialCanBuildBuilding(CString strUnitsubset, CString strInternalBuildingName){ g_pEOSAIMain->GetAIGameRules()->SetInitialCanBuildBuilding(strUnitsubset,strInternalBuildingName); }
+
+
+CEOSAIRegionManager2* CInterface::GetAIRegionManager() { return g_pEOSAIMain->GetAIRegionManager(); } // TODO: This is temporary, because we highlight pathways
+EOSAI::CCommonData*   CInterface::GetAICommonData(){ return g_pEOSAIMain->GetAICommonData(); }
+EOSAI::CGameRules*    CInterface::GetAIGameRules(){ return g_pEOSAIMain->GetAIGameRules(); }
+
+void  CInterface::SetCurrentTurn(long iTurn)
+{
+	ASSERT(iTurn > 0);
+	if (m_iCurrentTurn != iTurn)
+	{
+		m_iCurrentTurn = iTurn;
+		//
+		CString str; str.Format(_T("Beginning Turn %d"), iTurn);
+		Interproc::AddStatusLine(str);
+	}
+}
+
+
 
 // AIPoiObjects
 //
 CEOSAIPoiObject* CInterface::GetAIPoiObject( long iAIPoiObject )
 {
-	return m_AICommonData.GetAIPoiObject( iAIPoiObject );
-	//CEOSAIPoiObject* pAIPoiObject2 = m_AICommonData.GetAIPoiObject( iAIPoiObject );
-	//return pAIPoiObject2;
-	//m_AICommonData.
+	return g_pEOSAIMain->GetAICommonData()->GetAIPoiObject(iAIPoiObject);
 }
 
 // Regions
 //
+/*
 CEOSAIRegionManager2* CInterface::GetAIRegionManager()
 {
-	return m_AICommonData.GetAIRegionManager();
+	return g_pEOSAIMain->GetAICommonData()->GetAIRegionManager();
 }
+*/
 /*
 void CInterface::ShowUI(bool b)
 {
 	m_AIPlayerManager.ShowUI(b);
 }
 */
+
+void CInterface::SetAllPlayersPermanentlyAtWar(bool b)
+{
+	g_pEOSAIMain->GetAICommonData()->SetAllPlayersPermanentlyAtWar(b);
+}
+
 //
 long CInterface::GetProcessingAIPlayer() // The player that's being processed
 {
-	return m_AIPlayerManager.GetProcessingAIPlayer();
+	return g_pEOSAIMain->GetAIPlayerManager()->GetProcessingAIPlayer();
 }
 
 void CInterface::SetNeedToRebuildData( bool b )
 {
-	m_AICommonData.SetNeedToRebuildData(b);
+	g_pEOSAIMain->GetAICommonData()->SetNeedToRebuildData(b);
 }
 
-void CInterface::KillTheAIPlayerThreads()
-{
-	m_AIPlayerManager.ShutdownThread();
-}
+bool CInterface::GetAllAIPlayersAreReadyToSendTurn(){ return g_pEOSAIMain->GetAIPlayerManager()->GetAllAIPlayersAreReadyToSendTurn(); }
 
-void CInterface::DeleteAIPlayers()
-{
-	m_AIPlayerManager.DeleteAIPlayers();
-}
+void CInterface::ShutdownThread(){ g_pEOSAIMain->GetAIPlayerManager()->ShutdownThread(); }
+void CInterface::DeleteAIPlayers(){ g_pEOSAIMain->GetAIPlayerManager()->DeleteAIPlayers(); }
+
+void CInterface::SetDebugPause(bool bPause){ return g_pEOSAIMain->GetAIPlayerManager()->SetDebugPause(bPause); }
+bool CInterface::GetDebugPause(){ return g_pEOSAIMain->GetAIPlayerManager()->GetDebugPause(); }
+
+long CInterface::GetGameShouldPauseAtTheEndOfTurn(){ return g_pEOSAIMain->GetGameShouldPauseAtTheEndOfTurn(); } // Set by the EOSAIDebugger
+
+void CInterface::SetThreadShouldBePaused_ForSaveGame(bool b){ g_pEOSAIMain->GetAIPlayerManager()->SetThreadShouldBePaused_ForSaveGame(b); }
+bool CInterface::ThreadIsRunning(){ return g_pEOSAIMain->GetAIPlayerManager()->ThreadIsRunning(); }
+bool CInterface::ThreadIsPaused(){ return g_pEOSAIMain->GetAIPlayerManager()->ThreadIsPaused(); }
+
+bool CInterface::GetThreadShouldBePaused(){ return g_pEOSAIMain->GetAIPlayerManager()->GetThreadShouldBePaused(); }
+void CInterface::SetThreadShouldBePaused(bool b){ g_pEOSAIMain->GetAIPlayerManager()->SetThreadShouldBePaused(b); }
 
 long CInterface::GetNumberOfAIPlayersWhoHaveFinishedProcessing()
 {
@@ -289,7 +500,7 @@ void CInterface::SendMessageResponseToAI(long iToAIPlayer, long iFromPlayer, lon
 void CInterface::AddPlayerInteractionEvent(CEOSAIPlayerInteraction* pPlayerInteraction)
 {
 	//ASSERT(false); // Test that I hit this
-	m_AICommonData.AddPlayerInteraction(pPlayerInteraction);
+	g_pEOSAIMain->GetAICommonData()->AddPlayerInteraction(pPlayerInteraction);
 }
 
 void CInterface::SendMessageToAI(EOSAI::MessageToAI* pMessageToAI)
@@ -308,7 +519,8 @@ void CInterface::SendMessageToAI(EOSAI::MessageToAI* pMessageToAI)
 	{
 		int iPlayer = pMessageToAI->SendToPlayers()->GetList()->GetNext(pos);
 
-		EOSAI::AIPlayer* pAIPlayer = m_AIPlayerManager.GetAIPlayer(iPlayer);
+		//EOSAI::AIPlayer* pAIPlayer = m_AIPlayerManager.GetAIPlayer(iPlayer);
+		EOSAI::AIPlayer* pAIPlayer = g_pEOSAIMain->GetAIPlayerManager()->GetAIPlayer(iPlayer);
 		if (pAIPlayer)
 		{
 			pAIPlayer->Incoming_MessageToAI(pMessageToAI);
@@ -329,9 +541,19 @@ CEOSAIGlobalForeignRelations CInterface::GetCurrentForeignRelationsFeelingsBased
 	//p->Set(m_AICommonData.GetGlobalForeignRelations());
 }
 */
-void CInterface::UpdateForeignRelationsState(int iCurrentTurn)
+void CInterface::UpdateForeignRelationsState2(int iCurrentTurn)
 {
-	m_AICommonData.CalculateForeignRelationsFeelingsBasedOnPlayerInteractionHistoryAndSendFeelingsUpdate(iCurrentTurn);
+	g_pEOSAIMain->GetAICommonData()->CalculateForeignRelationsFeelingsBasedOnPlayerInteractionHistoryAndSendFeelingsUpdate(iCurrentTurn);
+}
+
+void CInterface::SendMessageFromAI(EOSAI::MessageFromAI* pAIMessage)
+{
+	m_MessagesFromAI.AddTail(pAIMessage); Notification_NewMessageFromAI();
+}
+
+CList< EOSAI::MessageToAI* >* CInterface::GetMessagesToAI()
+{
+	return &m_MessagesToAI;
 }
 
 

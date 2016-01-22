@@ -45,6 +45,7 @@
 #include "EOSAIWarzoneLocation.h"
 #include "EOSAIUnitPathwayFinder.h"
 #include "EOSAIMultiRegionPlan.h"
+#include "EOSAIMain.h"
 class CBuildCompletion;
 #include "EOSAIInterface.h"
 extern EOSAI::CInterface* g_pEOSAIInterface;
@@ -2778,7 +2779,7 @@ void CEOSAIThoughtDatabase::CalculateUnitsICanBuildOrHave()
 		if( pBuildOption->IsAUnit() )
 		{
 			//if( pUnitset->CanBuild( strMyUnitsubset, pBuildOption, false ) )
-			if( g_pEOSAIInterface->GetAIGameRules()->CanBuild( m_pAIBrain->GetAIPlayerNumber(), pBuildOption, false ) )
+			if( g_pEOSAIMain->GetAIGameRules()->CanBuild( m_pAIBrain->GetAIPlayerNumber(), pBuildOption, false ) )
 			{
 				CEOSAIUnitTemplate* pUnitTemplate = pBuildOption->GetAIUnitTemplate();
 				ASSERT( pUnitTemplate );

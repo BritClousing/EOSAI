@@ -36,65 +36,25 @@
 
 #define ThisIsADLL
 #include "DllExports.h"
+#include "EOSAIMain.h"
 #include "EOSAIInterface.h"
 #include "EOSAIWorldDistanceTool.h"
 
 int WINAPI DllEntryPoint(HINSTANCE hinst, unsigned long reason, void*)
 {
+	// This function never gets called.
+	long* p = 0;
+	*p = 987;
+
+
+	//if( g_pEOSAIMain == NULL ){ new EOSAI::Main(); }
+	//ASSERT(g_pEOSAIMain);
+	//g_pEOSAIMain->InitializeInterprocessCommunication();
+
 	return 1;
 }
 
 
-/*
-void EXPORT SetEOSAI( CInterface* pEOSAIInterface, CEOSAIWorldDistanceTool* pEOSAIWorldDistanceTool )
-{
-	g_pEOSAIInterface = pEOSAIInterface;
-	g_pWorldDistanceTool = pEOSAIWorldDistanceTool;
-}
-*/
-//void* IMPEXP CreateFooClassInstance()
-/*
-void* EXPORT CreateAIPlayerManager2()
-{
-	return static_cast< void* >( new CEOSAIPlayerManager );
-}
-*/
-/*
-void  EXPORT SetEOSAI( CInterface* pEOSAIInterface )
-{
-	g_pEOSAIInterface = pEOSAIInterface;
-	//g_pAIWorldDistanceTool = g_pEOSAIInterface->pAIWorldDistanceTool;
-}
-*/
-
-// CEOSAIApp
-/*
-BEGIN_MESSAGE_MAP(CEOSAIApp, CWinApp)
-END_MESSAGE_MAP()
-
-// CEOSAIApp construction
-
-CEOSAIApp::CEOSAIApp()
-{
-	// TODO: add construction code here,
-	// Place all significant initialization in InitInstance
-}
-
-
-// The one and only CEOSAIApp object
-
-CEOSAIApp theApp;
-
-
-// CEOSAIApp initialization
-
-BOOL CEOSAIApp::InitInstance()
-{
-	CWinApp::InitInstance();
-
-	return TRUE;
-}
-*/
 
 
 

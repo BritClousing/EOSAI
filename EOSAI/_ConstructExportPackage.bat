@@ -45,6 +45,7 @@ cpin .\EOSAIBuildingDescription.h %ExportDirectory%\Include\
 cpin .\EOSAIBuildManager.h %ExportDirectory%\Include\
 cpin .\EOSAIBuildOption.h %ExportDirectory%\Include\
 cpin .\EOSAIBuildOrder.h %ExportDirectory%\Include\
+cpin .\EOSAIMain.h %ExportDirectory%\Include\
 
 cpin .\City.h %ExportDirectory%\Include\
 cpin .\EOSAICitResSummary.h %ExportDirectory%\Include\

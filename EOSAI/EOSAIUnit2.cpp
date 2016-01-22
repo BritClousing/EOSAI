@@ -39,6 +39,7 @@
 
 #include "EOSAILimitedList.h"
 
+#include "EOSAIMain.h"
 #include "EOSAIInterface.h"
 extern EOSAI::CInterface* g_pEOSAIInterface;
 
@@ -481,12 +482,12 @@ bool CEOSAIUnit::GetNeedsToBeUpgraded()
 		if( strUpgrade != _T("") )
 		{
 			//CUnitTemplate* pUpgradeUnitTemplate = GetCommonState()->GetActiveUnitset()->GetUnitTemplate( strUpgrade );
-			CEOSAIUnitTemplate* pUpgradeUnitTemplate = g_pEOSAIInterface->GetAIGameRules()->GetAIUnitTemplate( strUpgrade );
+			CEOSAIUnitTemplate* pUpgradeUnitTemplate = g_pEOSAIMain->GetAIGameRules()->GetAIUnitTemplate( strUpgrade );
 			if( pUpgradeUnitTemplate )
 			{
 				//long iPlayer = GetCommonState()->GetPlayer( this->GetOwner() )->GetPlayerNumber();
 				//if( GetCommonState()->GetActiveUnitset()->CanBuildUnit( iPlayer, strUpgrade ) )
-				if( g_pEOSAIInterface->GetAIGameRules()->CanBuildUnit( GetOwner(), strUpgrade ) )
+				if( g_pEOSAIMain->GetAIGameRules()->CanBuildUnit( GetOwner(), strUpgrade ) )
 				{
 					return true;
 				}
@@ -570,7 +571,7 @@ bool  CEOSAIUnit::IsAirUnitCarrier(){ return m_pAIUnitTemplate->IsAirUnitCarrier
 
 void  CEOSAIUnit::SetAIUnitTemplateByInternalName( CString strInternalName )
 {
-	CEOSAIUnitTemplate* pEOSAIUnitTemplate = g_pEOSAIInterface->GetAIGameRules()->GetAIUnitTemplate( strInternalName );
+	CEOSAIUnitTemplate* pEOSAIUnitTemplate = g_pEOSAIMain->GetAIGameRules()->GetAIUnitTemplate( strInternalName );
 	ASSERT( pEOSAIUnitTemplate );
 	SetAIUnitTemplate( pEOSAIUnitTemplate );
 }
@@ -856,10 +857,10 @@ bool CEOSAIUnit::HasARange()
 float CEOSAIUnit::GetMaxAttackRange()
 {
 	float fMaxRange = 0.0f; // count the largest value twice (specialized units can sometimes be extra-dangerous)
-	POSITION pos = g_pEOSAIInterface->GetAIGameRules()->GetCombatUnitTypes()->GetHeadPosition();
+	POSITION pos = g_pEOSAIMain->GetAIGameRules()->GetCombatUnitTypes()->GetHeadPosition();
 	while( pos )
 	{
-		CEOSAICombatUnitType* pCombatUnitType = g_pEOSAIInterface->GetAIGameRules()->GetCombatUnitTypes()->GetNext( pos );
+		CEOSAICombatUnitType* pCombatUnitType = g_pEOSAIMain->GetAIGameRules()->GetCombatUnitTypes()->GetNext( pos );
 		//CEOSAIAttackVs2* pAttackVs = GetAttackVs( pCombatUnitType->m_strName );
 		CEOSAIAttackVs2* pAttackVs = GetAttackVs( pCombatUnitType->m_iCombatUnitType );
 
@@ -933,11 +934,11 @@ long CEOSAIUnit::GetNumberOfAvailableUpgrades()
 		CString strUpgrade = pCurrentUnitTemplate->GetUnitsubsetUpgradeTo( strUnitsubset );
 		if( strUpgrade != _T("") )
 		{
-			CEOSAIUnitTemplate* pUpgradeUnitTemplate = g_pEOSAIInterface->GetAIGameRules()->GetAIUnitTemplate( strUpgrade );
+			CEOSAIUnitTemplate* pUpgradeUnitTemplate = g_pEOSAIMain->GetAIGameRules()->GetAIUnitTemplate( strUpgrade );
 			if( pUpgradeUnitTemplate )
 			{
 				//long iPlayer = GetCommonState()->GetPlayer( this->GetOwner() )->GetPlayerNumber();
-				if( g_pEOSAIInterface->GetAIGameRules()->CanBuildUnit( this->GetOwner(), strUpgrade ) )
+				if( g_pEOSAIMain->GetAIGameRules()->CanBuildUnit( this->GetOwner(), strUpgrade ) )
 				{
 					pCurrentUnitTemplate = pUpgradeUnitTemplate;
 					iAvailableUpgrades++;

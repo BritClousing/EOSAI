@@ -203,10 +203,10 @@ class DLLIMPEXP CEOSAIUnitPathwayPredefinedStep
 
 			// Imaginary Transport
 			//
-				void  SetImaginaryTransport_PickupGroundAIRegion( long i ){ m_iImaginaryTransport_PickupGroundAIRegion = i; }
-				void  SetImaginaryTransport_PickupWaterAIRegion( long i ){ m_iImaginaryTransport_PickupWaterAIRegion = i; }
-				void  SetImaginaryTransport_DropoffGroundAIRegion( long i ){ m_iImaginaryTransport_DropoffGroundAIRegion = i; }
-				void  SetImaginaryTransport_DropoffWaterAIRegion( long i ){ m_iImaginaryTransport_DropoffWaterAIRegion = i; }
+			void  SetImaginaryTransport_PickupGroundAIRegion(long i){ m_iImaginaryTransport_PickupGroundAIRegion = i; }
+			void  SetImaginaryTransport_PickupWaterAIRegion(long i){ m_iImaginaryTransport_PickupWaterAIRegion = i; ASSERT(i > 0); }
+			void  SetImaginaryTransport_DropoffGroundAIRegion(long i){ m_iImaginaryTransport_DropoffGroundAIRegion = i; ASSERT(i > 0); }
+			void  SetImaginaryTransport_DropoffWaterAIRegion(long i){ m_iImaginaryTransport_DropoffWaterAIRegion = i; ASSERT(i > 0); }
 				CEOSAILocation  GetImaginaryTransportPickupLocation();
 				CEOSAILocation  GetImaginaryTransportDropoffLocation();
 				//float GetImaginaryTransport_StartToPickupDistance();

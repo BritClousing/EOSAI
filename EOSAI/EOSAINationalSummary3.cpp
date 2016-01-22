@@ -8,6 +8,7 @@
 #include "EOSAIUnit2.h"
 #include "EOSAIInterface.h"
 #include "EOSAITechnologyDesc.h"
+#include "EOSAIMain.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE
@@ -222,7 +223,7 @@ void CEOSAINationalSummary3::CalculateResourceDeltas()
 
 bool CEOSAINationalSummary3::AllTechnologiesHaveBeenDiscovered()
 {
-	EOSAI::CGameRules* pGameRules = g_pEOSAIInterface->GetAIGameRules();
+	EOSAI::CGameRules* pGameRules = g_pEOSAIMain->GetAIGameRules();
 	EOSAI::CGamePlayer* pGamePlayer = g_pEOSAIInterface->GetGamePlayer( m_iPlayer );
 
 	CString strUnitsubset = pGamePlayer->GetUnitsubset();
@@ -246,7 +247,7 @@ bool CEOSAINationalSummary3::AllTechnologiesHaveBeenDiscovered()
 float CEOSAINationalSummary3::GetDiscoveredTechnologyResearchPoints()
 {
 	float fResearchPoints = 0.0f;
-	EOSAI::CGameRules* pGameRules = g_pEOSAIInterface->GetAIGameRules();
+	EOSAI::CGameRules* pGameRules = g_pEOSAIMain->GetAIGameRules();
 
 	//EOSAI::CGamePlayer* pGamePlayer = g_pEOSAIInterface->GetGamePlayer( m_iPlayer );
 	POSITION pos = m_ResearchCompletedList.GetHeadPosition();

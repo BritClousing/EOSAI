@@ -191,7 +191,7 @@ class SharedMemoryBuffer
 		int     m_iPlayerNamesUpdate = 0;
 
 		int     m_iGameState = 1; // 0 = no game, 1 = game happening AI processing, 2 = game happening AI not processing
-		int     m_iTurn = 1;
+		int     m_iCurrentTurn = 1;
 		EnumAIOverallProcessingState  m_eAIOverallProcessingState = EnumAIOverallProcessingState_Undefined;
 
 		int     m_iNumberOfPlayers = 0;
@@ -199,6 +199,7 @@ class SharedMemoryBuffer
 
 		// Common Data
 		//
+			bool     m_bStatusListUpdated = false;
 			char2000 m_czCommonData_Status;
 			//char    m_szCommonData_Status[COMMONDATA_STATUS_SIZE];
 			int      m_iNumberOfPoi = 0;
@@ -213,8 +214,12 @@ class SharedMemoryBuffer
 			int      m_iCommonData_MapHeight = 0;
 			RGBPixel m_GameMap[GAME_MAP_IMAGE_WIDTH][GAME_MAP_IMAGE_HEIGHT];
 
-		// Processing Text
-		//char    m_str
+		// Commands from the UI
+		//
+			// Turn Processing
+			int  m_iGameShouldPauseAtTheEndOfTurn = 0;
+			//bool m_bAutoprocessTurns = false;
+			
 };
 
 #endif SHARED_MEMORY_H

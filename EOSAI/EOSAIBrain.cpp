@@ -69,6 +69,7 @@
 #include "EOSAIDesireSpatial.h"
 #include "EOSAIBuildOption.h"
 #include "EOSAINationalSummary3.h"
+#include "EOSAIMain.h"
 
 #include <iostream>
 
@@ -391,14 +392,14 @@ void CEOSAIBrain::CreateAIProductionOptions()
 	EOSAI::CGamePlayer* pGamePlayer = g_pEOSAIInterface->GetGamePlayer( GetAIPlayerNumber() );//m_pAIPlayer->GetPlayerNumber() );
 	CString strUnitsubset = pGamePlayer->GetUnitsubset();
 	//POSITION pos = GetCommonState()->GetBuildOptionList()->GetHeadPosition();
-	POSITION pos = g_pEOSAIInterface->GetAICommonData()->GetAIBuildOptionList()->GetHeadPosition();
+	POSITION pos = g_pEOSAIMain->GetAICommonData()->GetAIBuildOptionList()->GetHeadPosition();
 	while( pos )
 	{
 		//CBuildOption* pBuildOption = GetCommonState()->GetBuildOptionList()->GetNext( pos );
-		CEOSAIBuildOption* pBuildOption = g_pEOSAIInterface->GetAICommonData()->GetAIBuildOptionList()->GetNext( pos );
+		CEOSAIBuildOption* pBuildOption = g_pEOSAIMain->GetAICommonData()->GetAIBuildOptionList()->GetNext( pos );
 
 		//if( GetCommonState()->GetActiveUnitset()->CanBuild( GetAIPlayerNumber(), pBuildOption, false ) )
-		if( g_pEOSAIInterface->GetAIGameRules()->CanBuild( GetAIPlayerNumber(), pBuildOption, false ) )
+		if( g_pEOSAIMain->GetAIGameRules()->CanBuild( GetAIPlayerNumber(), pBuildOption, false ) )
 		{
 			CEOSAIProductionOption* pProdOption = new CEOSAIProductionOption();
 			pProdOption->m_pBuildOption = pBuildOption;
@@ -1296,10 +1297,10 @@ void CEOSAIBrain::SortAIGeosByDistance()
 		}
 	}
 */
-	long iHighestGeoNumber = g_pEOSAIInterface->GetAICommonData()->GetAIGeoArray()->m_iSize;
+	long iHighestGeoNumber = g_pEOSAIMain->GetAICommonData()->GetAIGeoArray()->m_iSize;
 	for( long iGeo=1; iGeo<iHighestGeoNumber; iGeo++ )
 	{
-		CEOSAIGeo* pAIGeo = g_pEOSAIInterface->GetAICommonData()->GetAIGeo( iGeo );
+		CEOSAIGeo* pAIGeo = g_pEOSAIMain->GetAICommonData()->GetAIGeo( iGeo );
 		CEOSAIGeoView* pAIGeoView = pAIGeo->GetView( GetAIPlayerNumber() );
 		pAIGeoView->CalculateGeoDistanceCitResScore();
 	}
@@ -1308,7 +1309,7 @@ void CEOSAIBrain::SortAIGeosByDistance()
 	{
 		//CEOSAIGeo* pAIGeo = m_AIGeoArray[iGeo];
 		//pAIGeo->CalculateGeoDistanceCitResScore();
-		CEOSAIGeo* pAIGeo = g_pEOSAIInterface->GetAICommonData()->GetAIGeo( iGeo );
+		CEOSAIGeo* pAIGeo = g_pEOSAIMain->GetAICommonData()->GetAIGeo( iGeo );
 		CEOSAIGeoView* pAIGeoView = pAIGeo->GetView( GetAIPlayerNumber() );
 		pAIGeoView->CalculateGeoDistanceCitResScore();
 	}
@@ -1320,10 +1321,10 @@ void CEOSAIBrain::SortAIGeosByDistance()
 	m_LandGeosSortedByDistanceCitResScore.SetSortFunction( SortByDistanceCitResScore );
 	for( long iGeo=1; iGeo<iHighestGeoNumber; iGeo++ )
 	{
-		CEOSAIGeo* pAIGeo = g_pEOSAIInterface->GetAICommonData()->GetAIGeo( iGeo );
+		CEOSAIGeo* pAIGeo = g_pEOSAIMain->GetAICommonData()->GetAIGeo( iGeo );
 	//for( long iGeo=1; iGeo<iHighestGeoNumber+1; iGeo++ )
 	//{
-	//	CEOSAIGeo* pAIGeo = g_pEOSAIInterface->GetAICommonData()->GetAIGeo( iGeo ); //m_AIGeoArray[iGeo];
+	//	CEOSAIGeo* pAIGeo = g_pEOSAIMain->GetAICommonData()->GetAIGeo( iGeo ); //m_AIGeoArray[iGeo];
 		if( pAIGeo->GetGeoType() == CEOSAIGeo::Land )
 		{
 			//m_LandGeosSortedByDistanceCitResScore.InsertSorted( pAIGeo );
@@ -1346,10 +1347,10 @@ void CEOSAIBrain::SortAIGeosByDistance()
 
 void CEOSAIBrain::CalculateAIGeoViewValues()
 {
-	long iGeoArraySize = g_pEOSAIInterface->GetAICommonData()->GetAIGeoArray()->m_iSize;
+	long iGeoArraySize = g_pEOSAIMain->GetAICommonData()->GetAIGeoArray()->m_iSize;
 	for( long iGeo=1; iGeo<iGeoArraySize; iGeo++ )
 	{
-		CEOSAIGeo* pAIGeo = g_pEOSAIInterface->GetAICommonData()->GetAIGeo( iGeo );
+		CEOSAIGeo* pAIGeo = g_pEOSAIMain->GetAICommonData()->GetAIGeo( iGeo );
 		CEOSAIGeoView* pAIGeoView = pAIGeo->CreateView( GetAIPlayerNumber() );
 
 		pAIGeoView->CalculateAIGeoViewValues();
@@ -1368,7 +1369,7 @@ void CEOSAIBrain::CreateAIGeoPlans()
 	CEOSAIMultiRegionNationwidePathways* pNationwidePathway = g_pEOSAICommonData->GetNationwidePathways( iAIPlayer );
 
 	// Look over the geos, look at their distance from my nation, start making some strategies
-	CEOSAIBCDumbArray1D<CEOSAIGeo*>* pAIGeoArray = g_pEOSAIInterface->GetAICommonData()->GetAIGeoArray();
+	CEOSAIBCDumbArray1D<CEOSAIGeo*>* pAIGeoArray = g_pEOSAIMain->GetAICommonData()->GetAIGeoArray();
 	//for( long iGeo=1; iGeo<m_AIGeoArray.m_iSize; iGeo++ )
 	for( long iGeo=1; iGeo<pAIGeoArray->m_iSize; iGeo++ )
 	{
@@ -2231,7 +2232,7 @@ void CEOSAIBrain::CreateMultiRegionPlans()
 		pMultiRegionPlan->m_fDistanceFromMyCitResUnits = pMyCitResUnitsPathwayItem->m_fDistance;
 
 		long iGeo = pMultiRegion->GetGeoId();
-		CEOSAIGeo* pAIGeo = g_pEOSAIInterface->GetAICommonData()->GetAIGeo( iGeo );
+		CEOSAIGeo* pAIGeo = g_pEOSAIMain->GetAICommonData()->GetAIGeo( iGeo );
 		CEOSAIGeoView* pAIGeoView = pAIGeo->GetView( iAIPlayer );
 		ASSERT( pAIGeo );
 

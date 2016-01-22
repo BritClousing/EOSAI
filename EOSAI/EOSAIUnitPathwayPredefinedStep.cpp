@@ -706,9 +706,13 @@ void  CEOSAIUnitPathwayPredefinedStep::Pickup( CEOSAIUnitPathwayPredefinedStep* 
 		}
 		else
 		{
-			if( EOSAISettings::m_bAssertWhenAIPathwayFails )
+			if (pTransporteeStep->m_iImaginaryTransport_PickupGroundAIRegion > 0)
 			{
-				ASSERT( false );
+				if (EOSAISettings::m_bAssertWhenAIPathwayFails)
+				{
+					// Only assert if the m_iImaginaryTransport_PickupGroundAIRegion is 0, because it means that the ground-unit hasn't been picked up.
+					ASSERT(false);
+				}
 			}
 		}
 	}

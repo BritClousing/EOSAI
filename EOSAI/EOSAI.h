@@ -9,27 +9,3 @@
 
 #include "resource.h"		// main symbols
 
-
-// CEOSAIApp
-// See EOSAI.cpp for the implementation of this class
-//
-/*
-extern "C" BOOL PASCAL EXPORT ExportedFunction()
-{
-	AFX_MANAGE_STATE(AfxGetStaticModuleState());
-	// normal function body here
-}
-*/
-/*
-class CEOSAIApp : public CWinApp
-{
-public:
-	CEOSAIApp();
-
-// Overrides
-public:
-	virtual BOOL InitInstance();
-
-	DECLARE_MESSAGE_MAP()
-};
-*/

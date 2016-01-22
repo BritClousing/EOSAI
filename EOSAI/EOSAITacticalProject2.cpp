@@ -15,6 +15,7 @@
 #include "EOSAIUnitActionIdea.h"
 #include "EOSAIDesireConnection.h"
 #include "EOSAIUnitPathwayResultStep.h"
+#include "EOSAIMain.h"
 #include "EOSAIInterface.h"
 
 CEOSAITacticalProject2::CEOSAITacticalProject2( CEOSAIBrain* pAIBrain )
@@ -949,7 +950,7 @@ void  CEOSAITacticalProject2::CalculateInitialEvaluation()
 
 	// Calculate whether this is a secret invasion
 	//CEOSAIGeo* pAIGeo = m_pAIBrain->GetAIGeo( m_iTargetGeo );
-	CEOSAIGeo* pAIGeo = g_pEOSAIInterface->GetAICommonData()->GetAIGeo( m_iTargetGeo );
+	CEOSAIGeo* pAIGeo = g_pEOSAIMain->GetAICommonData()->GetAIGeo( m_iTargetGeo );
 	if( pAIGeo &&
 		pAIGeo->GetGeoType() == CEOSAIGeo::Land )
 	{

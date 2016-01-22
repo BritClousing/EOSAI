@@ -13,12 +13,16 @@ class InterprocLoop : public QObject
 
     public slots:
         void ProcessTimer();
-        void onPlayerComboBoxChanged(int iPlayer);
+
+        void onProcessSingleTurn();
+        void onAutoprocessTurns(bool bChecked);
+        //void onPlayerComboBoxChanged(int iPlayer);
 
     private:
         QString GetPlayerProcessingStateColor( int iPlayer );
 
         QTimer m_Timer;
+        bool   m_bReadAllData = true; // On startup, read all the data
 };
 
 #endif // INTERPROCLOOP_H

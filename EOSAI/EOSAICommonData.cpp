@@ -25,6 +25,7 @@
 #include "MessageFromAI_ForeignRelationsFeelings.h"
 #include "AIPlayer.h"
 extern CEOSAILogFile g_LogFile;
+#include "EOSAIMain.h"
 #include "EOSAIInterface.h"
 extern EOSAI::CInterface* g_pEOSAIInterface;
 
@@ -72,7 +73,7 @@ CCommonData::~CCommonData()
 }
 
 // This sets the globals
-void CCommonData::SetEOSAIInterface( EOSAI::CInterface* pEOSAIInterface ){ g_pEOSAIInterface = pEOSAIInterface; }
+//void CCommonData::SetEOSAIInterface( EOSAI::CInterface* pEOSAIInterface ){ g_pEOSAIInterface = pEOSAIInterface; }
 void CCommonData::SetEOSAIWorldDistanceTool( EOSAI::CWorldDistanceTool* pWorldDistanceTool ){ g_pWorldDistanceTool = pWorldDistanceTool; }
 
 void CCommonData::DeleteData()
@@ -132,7 +133,7 @@ void CCommonData::SetNeedToRebuildData( bool bNeedToRebuildData )
 
 long CCommonData::GetNumberOfPlayers()
 {
-	return g_pEOSAIInterface->GetNumberOfPlayers();
+	return g_pEOSAIInterface->GetNumberOfGamePlayers();
 }
 
 void CCommonData::RebuildDataIfNecessary()
@@ -1028,7 +1029,7 @@ void CCommonData::CalculateAIUnitCombatCapabilities( long iCurrentTurn )
 			bool bCanBuild = false;
 			for( long iPlayer=1; iPlayer<=iNumberOfPlayers; iPlayer++ )
 			{
-				if( g_pEOSAIInterface->GetAIGameRules()->CanBuild( iPlayer, pAIBuildOption, false ) )
+				if( g_pEOSAIMain->GetAIGameRules()->CanBuild( iPlayer, pAIBuildOption, false ) )
 				{
 					bCanBuild = true;
 					break;

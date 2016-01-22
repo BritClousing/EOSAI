@@ -36,6 +36,7 @@
 #include "EOSAINationalSummary3.h"
 #include "EOSAIInterface.h"
 #include "EOSAICommonData.h"
+#include "EOSAIMain.h"
 #include <math.h>
 extern EOSAI::CInterface* g_pEOSAIInterface;
 extern EOSAI::CCommonData* g_pEOSAICommonData;
@@ -704,7 +705,8 @@ float CEOSAICity::GetHPRepairPerTurn( CUnitTemplate* pUnitTemplate )
 float CEOSAICity::GetBuildingValue( CEOSAIBuildingDescription* pBuildingDesc )
 {
 	CEOSAIBuildingValue BuildingValue( this, pBuildingDesc );
-	g_pEOSAIInterface->GetBuildingValue( &BuildingValue );
+	//g_pEOSAIInterface->GetBuildingValue(&BuildingValue);
+	g_pEOSAIInterface->GetBuildingValue(this, pBuildingDesc, &BuildingValue);
 
 	// If this building already exists and the building count < max count, then the value is 0
 	long iBuildingCount = this->GetBuildingCount( pBuildingDesc );
@@ -1707,7 +1709,7 @@ bool CEOSAICity::CanBuild( CEOSAIBuildOption* pBuildOption, EnumGoal eGoal, bool
 	//CString strNationName = GetCommonState()->GetPlayer( GetOwner() )->GetNationName();
 	//long iPlayer = GetCommonState()->GetPlayer( GetOwner() )->GetPlayerNumber();
 	long iPlayer = GetOwner();
-	if( g_pEOSAIInterface->GetAIGameRules()->CanBuild( iPlayer, pBuildOption, bAllowOldTechnologies ) == false )
+	if( g_pEOSAIMain->GetAIGameRules()->CanBuild( iPlayer, pBuildOption, bAllowOldTechnologies ) == false )
 	{
 		if( pbRequiresBetterTechnology != NULL ){ *pbRequiresBetterTechnology = true; }
 		return false;
@@ -1771,10 +1773,10 @@ bool CEOSAICity::CanBuild( CEOSAIBuildOption* pBuildOption, EnumGoal eGoal, bool
 			{
 				// Can't build this because it's already built
 				// Only show this if there isn't an upgrade available
-				CEOSAIBuildingDescription* pUpgradedBuilding = g_pEOSAIInterface->GetAIGameRules()->GetAIBuildingDescriptionFromUpgradeLineAndLevel( pBuildingDesc->m_strUpgradeLine, pBuildingDesc->m_iUpgradeLevel+1 );
+				CEOSAIBuildingDescription* pUpgradedBuilding = g_pEOSAIMain->GetAIGameRules()->GetAIBuildingDescriptionFromUpgradeLineAndLevel( pBuildingDesc->m_strUpgradeLine, pBuildingDesc->m_iUpgradeLevel+1 );
 				if( pUpgradedBuilding )
 				{
-					if( g_pEOSAIInterface->GetAIGameRules()->CanBuildBuilding( iPlayer, pUpgradedBuilding->GetInternalName() ) )
+					if( g_pEOSAIMain->GetAIGameRules()->CanBuildBuilding( iPlayer, pUpgradedBuilding->GetInternalName() ) )
 					{
 						if( bpShowInBuildList ){ *bpShowInBuildList = false; }
 					}
@@ -1797,7 +1799,7 @@ bool CEOSAICity::CanBuild( CEOSAIBuildOption* pBuildOption, EnumGoal eGoal, bool
 				return bCanBuild;
 			}
 			// This building is an upgrade, make sure the immediate prerequisite exists
-			CEOSAIBuildingDescription* pUpgradesFromBuildingDesc = g_pEOSAIInterface->GetAIGameRules()->GetAIBuildingDescriptionFromUpgradeLineAndLevel( pBuildingDesc->m_strUpgradeLine, pBuildingDesc->m_iUpgradeLevel-1 );
+			CEOSAIBuildingDescription* pUpgradesFromBuildingDesc = g_pEOSAIMain->GetAIGameRules()->GetAIBuildingDescriptionFromUpgradeLineAndLevel( pBuildingDesc->m_strUpgradeLine, pBuildingDesc->m_iUpgradeLevel-1 );
 			if( pUpgradesFromBuildingDesc )
 			{
 				if( GetBuildingCount( pUpgradesFromBuildingDesc ) == 0 )
@@ -1879,8 +1881,8 @@ bool CEOSAICity::CanBuild( CEOSAIBuildOption* pBuildOption, EnumGoal eGoal, bool
 			//ASSERT( pWorldDesc );
 			//if( pWorldDesc )
 			{
-				long iExistingBuildings = g_pEOSAIInterface->GetAICommonData()->GetNumberOfBuildingsOwnedByPlayer( iPlayer, pBuildingDesc );
-				long iInProductionBuildings = g_pEOSAIInterface->GetAICommonData()->GetNumberOfBuildingsInProductionByPlayer( iPlayer, pBuildingDesc );
+				long iExistingBuildings = g_pEOSAIMain->GetAICommonData()->GetNumberOfBuildingsOwnedByPlayer( iPlayer, pBuildingDesc );
+				long iInProductionBuildings = g_pEOSAIMain->GetAICommonData()->GetNumberOfBuildingsInProductionByPlayer( iPlayer, pBuildingDesc );
 				if( eGoal == eGoal_BuildThis &&
 					m_AIBuildOrders.IsEmpty() == FALSE )
 				{

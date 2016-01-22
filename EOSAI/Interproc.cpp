@@ -12,6 +12,7 @@
 //#include <boost/interprocess/containers/string.hpp>
 //#include <boost/interprocess/allocators/allocator.hpp>
 
+#include "EOSAIMain.h"
 #include "EOSAIInterface.h"
 #include "EOSAITechnologyDesc.h"
 //#include "EOSAI/City.h"
@@ -23,6 +24,9 @@ DWORD m_dwLastUpdateTime = 0;
 
 bool m_bIsProcessing = false;
 DWORD m_dwLastIsProcessingMessage = 0;
+
+bool    Interproc::m_bStatusUpdated = false;
+CString Interproc::m_strFullStatus;
 
 using namespace boost::interprocess;
 
@@ -70,6 +74,9 @@ void ConvertUnicodeToChar(CString strSource, char2000& czDest){ ConvertUnicodeTo
 // Create the shared memory file
 void Interproc::Initialize()
 {
+	AddStatusLine(_T("EOSAI Initializing Interprocess Communication"));
+	AddStatusLine(_T("EOSAI Initializing Interprocess Communication-2"));
+
 	//ASSERT(g_pInterprocSharedMemoryObject == NULL);
 	//ASSERT(g_pInterprocMappedRegion == NULL);
 	//pShm = NULL;// (create_only, "EOSAISharedMemory", read_write);
@@ -148,12 +155,13 @@ void Interproc::Initialize()
 			//string_copy(g_pSharedMemoryBuffer->m_strEOSAIVersion, "0.1.333", 20);
 			//string_copy(g_pSharedMemoryBuffer->m_strEOSAIBuildDate, __DATE__, 20);
 			CopyString("0.1.333", g_pSharedMemoryBuffer->m_strEOSAIVersion, 20);
-			CopyString(__DATE__, g_pSharedMemoryBuffer->m_strEOSAIBuildDate, 20);
+			CopyString(__DATE__, g_pSharedMemoryBuffer->m_strEOSAIBuildDate, 20); // I should probably read the created date of the DLL. 
 
 			g_pSharedMemoryBuffer->m_iPlayerNamesUpdate = 10;
 			g_pSharedMemoryBuffer->m_iGameState = 0;
-			g_pSharedMemoryBuffer->m_iTurn = 1;
+			g_pSharedMemoryBuffer->m_iCurrentTurn = 0;
 			g_pSharedMemoryBuffer->m_qwTimestamp = 0;
+			g_pSharedMemoryBuffer->m_iGameShouldPauseAtTheEndOfTurn = 0;
 
 			//create the original value
 			//g_pSharedMemoryBuffer->m_iValue = 22;// rand() % 100 + 1;
@@ -211,6 +219,20 @@ void Interproc::IsProcessing(bool b)
 	}
 }
 
+void Interproc::AddStatusLine(CString str)
+{
+	m_bStatusUpdated = true;
+
+	CTime Time = CTime::GetCurrentTime();
+//	_ftprintf(fpCheckpoint, _T("%d/%d/%d %d:%02d:%02d\n"),
+//		Time.GetYear(), Time.GetMonth(), Time.GetDay(),
+//		Time.GetHour(), Time.GetMinute(), Time.GetSecond());
+
+	CString strFullLine;
+	strFullLine.Format(_T("%d/%d %d:%02d:%02d | %s\n"), Time.GetMonth(), Time.GetDay(), Time.GetHour(), Time.GetMinute(), Time.GetSecond(), str );
+	m_strFullStatus = strFullLine + m_strFullStatus;
+}
+
 void Interproc::UpdateSharedMemory()
 {
 	using namespace boost::interprocess;
@@ -240,8 +262,12 @@ void Interproc::UpdateSharedMemory()
 	{
 		if (g_pEOSAIInterface)
 		{
+			// First, read data written by the EOSAIDebugger
+			g_pEOSAIMain->SetGameShouldPauseAtTheEndOfTurn(g_pSharedMemoryBuffer->m_iGameShouldPauseAtTheEndOfTurn);
+
 			// Update current turn
-			g_pSharedMemoryBuffer->m_iTurn = g_pEOSAIInterface->GetCurrentTurn();
+			g_pSharedMemoryBuffer->m_iCurrentTurn = g_pEOSAIInterface->GetCurrentTurn();
+
 			
 			CTime currentTime = CTime::GetCurrentTime();  //CTime::GetAsSystemTime();
 			g_pSharedMemoryBuffer->m_qwTimestamp = (unsigned long long) currentTime.GetTime();
@@ -251,34 +277,41 @@ void Interproc::UpdateSharedMemory()
 
 			CString strTemp;
 			// Update CommonData
+			if (m_bStatusUpdated)
 			{
+				/*
 				CString strStatus;
 				for (int i = 0; i < 4; i++)
 				{
 					strTemp.Format(_T("Turn x%d\n"), g_pEOSAIInterface->GetCurrentTurn()); strStatus += strTemp;
-					strTemp.Format(_T("Loaded %d Poi\n"), g_pEOSAIInterface->GetAICommonData()->GetAIPoiObjects()->GetCount()); strStatus += strTemp;
-					strTemp.Format(_T("  %d Cities\n"), g_pEOSAIInterface->GetAICommonData()->GetNumberOfCities()); strStatus += strTemp;
-					strTemp.Format(_T("  %d Resources\n"), g_pEOSAIInterface->GetAICommonData()->GetNumberOfResources()); strStatus += strTemp;
-					strTemp.Format(_T("  %d Airfields\n"), g_pEOSAIInterface->GetAICommonData()->GetNumberOfAirfields()); strStatus += strTemp;
-					strTemp.Format(_T("  %d Units\n"), g_pEOSAIInterface->GetAICommonData()->GetNumberOfUnits()); strStatus += strTemp;
+					strTemp.Format(_T("Loaded %d Poi\n"), g_pEOSAIMain->GetAICommonData()->GetAIPoiObjects()->GetCount()); strStatus += strTemp;
+					strTemp.Format(_T("  %d Cities\n"), g_pEOSAIMain->GetAICommonData()->GetNumberOfCities()); strStatus += strTemp;
+					strTemp.Format(_T("  %d Resources\n"), g_pEOSAIMain->GetAICommonData()->GetNumberOfResources()); strStatus += strTemp;
+					strTemp.Format(_T("  %d Airfields\n"), g_pEOSAIMain->GetAICommonData()->GetNumberOfAirfields()); strStatus += strTemp;
+					strTemp.Format(_T("  %d Units\n"), g_pEOSAIMain->GetAICommonData()->GetNumberOfUnits()); strStatus += strTemp;
 					//
-					strTemp.Format(_T("%d Unit Templates\n"), g_pEOSAIInterface->GetAIGameRules()->GetAIUnitTemplates()->GetCount()); strStatus += strTemp;
-					strTemp.Format(_T("Warning: %d Building Descriptions\n"), g_pEOSAIInterface->GetAIGameRules()->GetBuildingDescriptionList()->GetCount()); strStatus += strTemp;
-					strTemp.Format(_T("Error: %d Technology Descriptions\n"), g_pEOSAIInterface->GetAIGameRules()->GetTechnologyDescsList()->GetCount()); strStatus += strTemp;
+					strTemp.Format(_T("%d Unit Templates\n"), g_pEOSAIMain->GetAIGameRules()->GetAIUnitTemplates()->GetCount()); strStatus += strTemp;
+					strTemp.Format(_T("Warning: %d Building Descriptions\n"), g_pEOSAIMain->GetAIGameRules()->GetBuildingDescriptionList()->GetCount()); strStatus += strTemp;
+					strTemp.Format(_T("Error: %d Technology Descriptions\n"), g_pEOSAIMain->GetAIGameRules()->GetTechnologyDescsList()->GetCount()); strStatus += strTemp;
 				}
-				ConvertUnicodeToChar(strStatus, g_pSharedMemoryBuffer->m_czCommonData_Status);
+				*/
+				
+				m_bStatusUpdated = false;
+				ConvertUnicodeToChar(m_strFullStatus, g_pSharedMemoryBuffer->m_czCommonData_Status);
+				//ConvertUnicodeToChar(strStatus, g_pSharedMemoryBuffer->m_czCommonData_Status);
+				g_pSharedMemoryBuffer->m_bStatusListUpdated = true;
 			}
 			{
 				CString strStatus;
-				g_pSharedMemoryBuffer->m_iNumberOfPoi = g_pEOSAIInterface->GetAICommonData()->GetNumberOfPoi();
-				int iNumberOfPlayers = g_pEOSAIInterface->GetNumberOfPlayers();
+				g_pSharedMemoryBuffer->m_iNumberOfPoi = g_pEOSAIMain->GetAICommonData()->GetNumberOfPoi();
+				int iNumberOfPlayers = g_pEOSAIInterface->GetNumberOfGamePlayers();
 
 				//SharedMemory_Poi  m_CommonData_Poi[MAX_NUMBER_OF_POI_IN_LIST];
 				int iCurrentSharedMemoryPoi = 0;
-				POSITION pos = g_pEOSAIInterface->GetAICommonData()->GetAIPoiObjects()->GetHeadPosition();
+				POSITION pos = g_pEOSAIMain->GetAICommonData()->GetAIPoiObjects()->GetHeadPosition();
 				while (pos)
 				{
-					CEOSAIPoiObject* pPoiObject = g_pEOSAIInterface->GetAICommonData()->GetAIPoiObjects()->GetNext(pos);
+					CEOSAIPoiObject* pPoiObject = g_pEOSAIMain->GetAICommonData()->GetAIPoiObjects()->GetNext(pos);
 					if (iCurrentSharedMemoryPoi < MAX_NUMBER_OF_POI_IN_LIST)
 					{
 						g_pSharedMemoryBuffer->m_CommonData_Poi[iCurrentSharedMemoryPoi].m_fPosX = pPoiObject->GetLocation().GetRealX();
@@ -335,15 +368,16 @@ void Interproc::UpdateSharedMemory()
 					iCurrentSharedMemoryPoi++;
 				}
 
-				int iNumberOfCities = g_pEOSAIInterface->GetAICommonData()->GetNumberOfCities();
+				int iNumberOfCities = g_pEOSAIMain->GetAICommonData()->GetNumberOfCities();
 				strTemp.Format(_T("Cities (%d)\n"), iNumberOfCities); strStatus += strTemp;
-				for (int iPlayer = 0; iPlayer <= g_pEOSAIInterface->GetNumberOfPlayers(); iPlayer++)
+				int iNumberOfGamePlayers = g_pEOSAIInterface->GetNumberOfGamePlayers();
+				for (int iPlayer = 0; iPlayer <= iNumberOfGamePlayers; iPlayer++)
 				{
 					strTemp.Format(_T("  Player %d\n"), iPlayer); strStatus += strTemp;
-					POSITION pos = g_pEOSAIInterface->GetAICommonData()->GetAIPoiObjects()->GetHeadPosition();
+					POSITION pos = g_pEOSAIMain->GetAICommonData()->GetAIPoiObjects()->GetHeadPosition();
 					while (pos)
 					{
-						CEOSAIPoiObject* pPoiObject = g_pEOSAIInterface->GetAICommonData()->GetAIPoiObjects()->GetNext(pos);
+						CEOSAIPoiObject* pPoiObject = g_pEOSAIMain->GetAICommonData()->GetAIPoiObjects()->GetNext(pos);
 						if (pPoiObject->GetOwner() == iPlayer)
 						{
 							CEOSAICity* pCity = dynamic_cast<CEOSAICity*>(pPoiObject);
@@ -356,15 +390,15 @@ void Interproc::UpdateSharedMemory()
 				}
 				strStatus += "\n";
 
-				int iNumberOfResources = g_pEOSAIInterface->GetAICommonData()->GetNumberOfResources();
+				int iNumberOfResources = g_pEOSAIMain->GetAICommonData()->GetNumberOfResources();
 				strTemp.Format(_T("Resources (%d)\n"), iNumberOfResources); strStatus += strTemp;
-				for (int iPlayer = 0; iPlayer <= g_pEOSAIInterface->GetNumberOfPlayers(); iPlayer++)
+				for (int iPlayer = 0; iPlayer <= iNumberOfGamePlayers; iPlayer++)
 				{
 					strTemp.Format(_T("  Player %d\n"), iPlayer); strStatus += strTemp;
-					POSITION pos = g_pEOSAIInterface->GetAICommonData()->GetAIPoiObjects()->GetHeadPosition();
+					POSITION pos = g_pEOSAIMain->GetAICommonData()->GetAIPoiObjects()->GetHeadPosition();
 					while (pos)
 					{
-						CEOSAIPoiObject* pPoiObject = g_pEOSAIInterface->GetAICommonData()->GetAIPoiObjects()->GetNext(pos);
+						CEOSAIPoiObject* pPoiObject = g_pEOSAIMain->GetAICommonData()->GetAIPoiObjects()->GetNext(pos);
 						if (pPoiObject->GetOwner() == iPlayer)
 						{
 							CEOSAIResource* pRes = dynamic_cast<CEOSAIResource*>(pPoiObject);
@@ -377,18 +411,18 @@ void Interproc::UpdateSharedMemory()
 				}
 				strStatus += "\n";
 
-				strTemp.Format(_T("Airfields (%d)\n"), g_pEOSAIInterface->GetAICommonData()->GetNumberOfAirfields()); strStatus += strTemp;
+				strTemp.Format(_T("Airfields (%d)\n"), g_pEOSAIMain->GetAICommonData()->GetNumberOfAirfields()); strStatus += strTemp;
 				strStatus += "\n";
 
-				int iNumberOfUnits = g_pEOSAIInterface->GetAICommonData()->GetNumberOfResources();
+				int iNumberOfUnits = g_pEOSAIMain->GetAICommonData()->GetNumberOfResources();
 				strTemp.Format(_T("Units (%d)\n"), iNumberOfUnits); strStatus += strTemp;
-				for (int iPlayer = 0; iPlayer <= g_pEOSAIInterface->GetNumberOfPlayers(); iPlayer++)
+				for (int iPlayer = 0; iPlayer <= iNumberOfGamePlayers; iPlayer++)
 				{
 					strTemp.Format(_T("  Player %d\n"), iPlayer); strStatus += strTemp;
-					POSITION pos = g_pEOSAIInterface->GetAICommonData()->GetAIPoiObjects()->GetHeadPosition();
+					POSITION pos = g_pEOSAIMain->GetAICommonData()->GetAIPoiObjects()->GetHeadPosition();
 					while (pos)
 					{
-						CEOSAIPoiObject* pPoiObject = g_pEOSAIInterface->GetAICommonData()->GetAIPoiObjects()->GetNext(pos);
+						CEOSAIPoiObject* pPoiObject = g_pEOSAIMain->GetAICommonData()->GetAIPoiObjects()->GetNext(pos);
 						if (pPoiObject->GetOwner() == iPlayer)
 						{
 							CEOSAIUnit* pUnit = dynamic_cast<CEOSAIUnit*>(pPoiObject);
@@ -406,13 +440,13 @@ void Interproc::UpdateSharedMemory()
 			}
 			{
 				CString strStatus;
-				int iNumberOfUnitTemplates = g_pEOSAIInterface->GetAIGameRules()->GetAIUnitTemplates()->GetCount();
+				int iNumberOfUnitTemplates = g_pEOSAIMain->GetAIGameRules()->GetAIUnitTemplates()->GetCount();
 				//strTemp.Format(_T("%d Unit Templates\n"), iNumberOfUnits); strStatus += strTemp;
 				strTemp.Format(_T("Unit Templates (%d)\n"), iNumberOfUnitTemplates); strStatus += strTemp;
-				POSITION pos = g_pEOSAIInterface->GetAIGameRules()->GetAIUnitTemplates()->GetHeadPosition();
+				POSITION pos = g_pEOSAIMain->GetAIGameRules()->GetAIUnitTemplates()->GetHeadPosition();
 				while ( pos )
 				{
-					CEOSAIUnitTemplate* pUnitTemplate = g_pEOSAIInterface->GetAIGameRules()->GetAIUnitTemplates()->GetNext(pos);
+					CEOSAIUnitTemplate* pUnitTemplate = g_pEOSAIMain->GetAIGameRules()->GetAIUnitTemplates()->GetNext(pos);
 					if (pUnitTemplate)
 					{
 						strTemp.Format(_T("    %s - Cost:%1.0f\n"), pUnitTemplate->GetInternalName(), pUnitTemplate->GetProductionCost() ); strStatus += strTemp;
@@ -426,13 +460,13 @@ void Interproc::UpdateSharedMemory()
 			}
 			{
 				CString strStatus;
-				int iNumberOfTechnologies = g_pEOSAIInterface->GetAIGameRules()->GetTechnologyDescsList()->GetCount();
+				int iNumberOfTechnologies = g_pEOSAIMain->GetAIGameRules()->GetTechnologyDescsList()->GetCount();
 				//strTemp.Format(_T("%d Unit Templates\n"), iNumberOfUnits); strStatus += strTemp;
 				strTemp.Format(_T("Technologies (%d)\n"), iNumberOfTechnologies); strStatus += strTemp;
-				POSITION pos = g_pEOSAIInterface->GetAIGameRules()->GetTechnologyDescsList()->GetHeadPosition();
+				POSITION pos = g_pEOSAIMain->GetAIGameRules()->GetTechnologyDescsList()->GetHeadPosition();
 				while (pos)
 				{
-					CEOSAITechnologyDesc* pTechnologyDesc = g_pEOSAIInterface->GetAIGameRules()->GetTechnologyDescsList()->GetNext(pos);
+					CEOSAITechnologyDesc* pTechnologyDesc = g_pEOSAIMain->GetAIGameRules()->GetTechnologyDescsList()->GetNext(pos);
 					if (pTechnologyDesc)
 					{
 						strTemp.Format(_T("    %s - Cost:%d\n"), pTechnologyDesc->GetInternalName(), pTechnologyDesc->GetCost() ); strStatus += strTemp;
@@ -515,11 +549,10 @@ void Interproc::UpdateSharedMemory()
 				}
 			}
 
-
 			// Update players
-			int iNumberOfPlayers = g_pEOSAIInterface->GetNumberOfPlayers();
-			g_pSharedMemoryBuffer->m_iNumberOfPlayers = iNumberOfPlayers;
-			for (int iPlayer = 1; iPlayer <= iNumberOfPlayers; iPlayer++)
+			int iNumberOfGamePlayers = g_pEOSAIInterface->GetNumberOfGamePlayers();
+			g_pSharedMemoryBuffer->m_iNumberOfPlayers = iNumberOfGamePlayers;
+			for (int iPlayer = 1; iPlayer <= iNumberOfGamePlayers; iPlayer++)
 			{
 				if (g_pEOSAIInterface->GetGamePlayer(iPlayer) == NULL) continue;
 

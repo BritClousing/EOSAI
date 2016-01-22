@@ -9,6 +9,7 @@
 #include "EOSAITechTreeNode.h"
 #include "EOSAINationalSummary3.h"
 #include "EOSAIBuildOption.h"
+#include "EOSAIMain.h"
 
 using namespace EOSAI;
 #include "EOSAIInterface.h"
@@ -34,13 +35,17 @@ bool  CGameRules::CanBuild( long iPlayer, CEOSAIBuildOption* pBuildOption, bool 
 		CString strUnit = pBuildOption->GetAIUnitTemplate()->GetInternalName();
 		CString strUpgradedUnit = pBuildOption->GetAIUnitTemplate()->GetUnitsubsetUpgradeTo( strUnitsubset );
 
-		if( bAllowOldTechnologies || strUpgradedUnit == _T("") )
+		bool bCanBuildThisUnit = CanBuildUnit(iPlayer, strUnit);
+		if (bAllowOldTechnologies || strUpgradedUnit == _T(""))
 		{
-			return CanBuildUnit( iPlayer, strUnit );
+			return bCanBuildThisUnit; // CanBuildUnit(iPlayer, strUnit);
 		}
 		else
 		{
-			return CanBuildUnit( iPlayer, strUnit ) && !CanBuildUnit( iPlayer, strUpgradedUnit );
+			if (bCanBuildThisUnit == false) return false;
+
+			bool bCanBuildupgradedUnit = CanBuildUnit(iPlayer, strUpgradedUnit);
+			return bCanBuildThisUnit && !bCanBuildupgradedUnit;
 		}
 	}
 	ASSERT( false );
@@ -400,7 +405,7 @@ bool CGameRules::CanBuildBuilding( long iPlayer, CString strBuilding )
 		}
 	}
 
-	CEOSAINationalSummary3* pNationalSummary = g_pEOSAIInterface->GetAICommonData()->GetAINationalSummary3( iPlayer );
+	CEOSAINationalSummary3* pNationalSummary = g_pEOSAIMain->GetAICommonData()->GetAINationalSummary3( iPlayer );
 	pos = m_TechnologyDescs.GetHeadPosition();
 	while( pos )
 	{
@@ -494,6 +499,7 @@ bool  CGameRules::CanBuildUnit( long iPlayer, CString strUnit )
 
 	// Can I *initially* build the unit?
 	bool bCanBuild = false;
+	ASSERT(m_InitialCanBuildUnitList.IsEmpty() == false);
 	POSITION pos = m_InitialCanBuildUnitList.GetHeadPosition();
 	while( pos )
 	{
@@ -530,7 +536,7 @@ bool  CGameRules::CanBuildUnit( long iPlayer, CString strUnit )
 		bool bEnablesUnit = pTechNode->EnablesUnit( strUnit );
 		if( bEnablesUnit )
 		{
-			CEOSAINationalSummary3* pNationalSummary = g_pEOSAIInterface->GetAICommonData()->m_AINationalSummaries[iPlayer];
+			CEOSAINationalSummary3* pNationalSummary = g_pEOSAIMain->GetAICommonData()->m_AINationalSummaries[iPlayer];
 			if( pNationalSummary->GetTechnologyHasBeenDiscovered( pTechNode->GetInternalName() ) )
 			{
 				return true;
