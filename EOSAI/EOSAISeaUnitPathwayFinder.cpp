@@ -1572,6 +1572,8 @@ bool CEOSAISeaUnitPathwayFinder::UpdateEndLocation( CEOSAIUnitPathwayPredefinedS
 		}
 		if( EOSAISettings::m_bAssertWhenAIPathwayFails )
 		{
+			// The ai needs to record the fact that the infantry is already inside the transport, and check it before complaining.
+			//   Example: Hansa 124 (Transport)pickup 6th Infantry(125)
 			ASSERT( iBestPickupWaterRegion > 0 );
 		}
 		if( iBestPickupWaterRegion == 0 ) 

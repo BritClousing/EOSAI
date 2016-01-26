@@ -114,6 +114,20 @@ long EOSAI::PoiObjectState::GetGeo()
 	return m_pMultiRegion->GetGeoId();
 }
 
+void EOSAI::PoiObjectState::SetContainer(CEOSAIPoiObject* pContainer)
+{
+	if (pContainer == NULL)
+	{
+		int g = 0;
+	}
+	else
+	{
+		int h = 0;
+	}
+	m_pContainer = pContainer;
+}
+
+
 bool EOSAI::PoiObjectState::IsInsideATransport()
 {
 	CEOSAIPoiObject* pCurrObject = GetContainer();

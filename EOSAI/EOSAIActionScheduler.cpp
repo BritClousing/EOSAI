@@ -270,7 +270,7 @@ void CActionScheduler::AllocateTacticalProjects2()
 	int h=0;
 
 	int iTacticalProjects = pAIThoughtDatabase->GetTacticalProjects2()->GetCount();
-	ASSERT( iTacticalProjects < 30 );
+	ASSERT( iTacticalProjects < 60 );
 	int iDesires = pAIThoughtDatabase->GetDesires()->GetCount();
 	ASSERT( iDesires < 100 );
 	//int iCurrentTurn = g_pEOSAIInterface->GetCurrentTurn();

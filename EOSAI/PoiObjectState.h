@@ -61,7 +61,7 @@ public:
 	//
 	// Container
 	//
-	void           SetContainer(CEOSAIPoiObject* pAirbase) { m_pContainer = pAirbase; }
+	void           SetContainer(CEOSAIPoiObject* pContainer);
 	CEOSAIPoiObject* GetContainer() { return m_pContainer; }
 	bool           IsInsideATransport();
 	bool           IAmContainedInside(CEOSAIPoiObject* pAIPoiObject);

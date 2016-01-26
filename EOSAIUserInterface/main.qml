@@ -216,6 +216,8 @@ ApplicationWindow {
             }
             Button
             {
+                // "||"
+
                 text: "Autoprocess Turns";
                 checkable: true
                 //width: implicitWidth + 50
@@ -223,6 +225,17 @@ ApplicationWindow {
                 //implicitWidth: implicitWidth+120
                 //onClicked: autoprocessTurns( isChecked );
                 //onClicked: autoprocessTurns( isChecked() );
+                onClicked:
+                {
+                    console.log("checked=",checked);
+                    autoprocessTurns( checked );
+                }
+            }
+            Button
+            {
+                text: "Automatically Advance to the Next Turn";
+                checkable: true
+                implicitWidth: 120
                 onClicked:
                 {
                     console.log("checked=",checked);
@@ -844,7 +857,7 @@ ApplicationWindow {
 
                             implicitWidth: 150
                             currentIndex: 0
-                            model: [ "Poi", "National Pathways", "Desires", "Tactical Projects" ]
+                            model: [ "Poi", "Regions", "National Pathways", "Desires", "Tactical Projects" ]
                             //model: m_PlayerDropdownList
                             //onCurrentIndexChanged: playerComboBoxChanged(currentIndex);
                         }

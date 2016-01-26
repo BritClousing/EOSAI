@@ -358,25 +358,28 @@ void CEOSAIUnit::CreatePersonalDesires()
 			float fClosestRepairLocationDistance = 0.0f;
 			//m_pAIBrain->GetAIThoughtDatabase()->GetClosestRepairLocation( this, &pClosestRepairLocation, &fClosestRepairLocationDistance );
 			long iUnitOwner = GetOwner();
-			g_pEOSAICommonData->GetAIThoughtDatabase( iUnitOwner )->GetClosestRepairLocation( this, &pClosestRepairLocation, &fClosestRepairLocationDistance );
-			if( pClosestRepairLocation )
+			if (iUnitOwner > 0)
 			{
-				float fTimeToCity = fClosestRepairLocationDistance / this->GetAIUnitTemplate()->GetMovementRate();
-				CEOSAIMathFunction TimeToCityFunc;
-				TimeToCityFunc.SetInputOutput(  0.0f,4.0f );
-				TimeToCityFunc.SetInputOutput(  0.5f,2.0f );
-				TimeToCityFunc.SetInputOutput(  2.0f,1.0f );
-				TimeToCityFunc.SetInputOutput( 10.0f,0.2f );
-				float fTimeToCityMult = TimeToCityFunc.GetOutput( fTimeToCity );
+				g_pEOSAICommonData->GetAIThoughtDatabase(iUnitOwner)->GetClosestRepairLocation(this, &pClosestRepairLocation, &fClosestRepairLocationDistance);
+				if (pClosestRepairLocation)
+				{
+					float fTimeToCity = fClosestRepairLocationDistance / this->GetAIUnitTemplate()->GetMovementRate();
+					CEOSAIMathFunction TimeToCityFunc;
+					TimeToCityFunc.SetInputOutput(0.0f, 4.0f);
+					TimeToCityFunc.SetInputOutput(0.5f, 2.0f);
+					TimeToCityFunc.SetInputOutput(2.0f, 1.0f);
+					TimeToCityFunc.SetInputOutput(10.0f, 0.2f);
+					float fTimeToCityMult = TimeToCityFunc.GetOutput(fTimeToCity);
 
-				CEOSAIMathFunction CurrentHP01ToRepairDesire;
-				CurrentHP01ToRepairDesire.SetInputOutput( 0.0f,5.0f );
-				CurrentHP01ToRepairDesire.SetInputOutput( 0.5f,1.0f );
-				CurrentHP01ToRepairDesire.SetInputOutput( 0.7f,0.4f );
-				CurrentHP01ToRepairDesire.SetInputOutput( 1.0f,0.0f );
-				float fCurrentHP01ToRepair = CurrentHP01ToRepairDesire.GetOutput( fCurrentHP01 );
+					CEOSAIMathFunction CurrentHP01ToRepairDesire;
+					CurrentHP01ToRepairDesire.SetInputOutput(0.0f, 5.0f);
+					CurrentHP01ToRepairDesire.SetInputOutput(0.5f, 1.0f);
+					CurrentHP01ToRepairDesire.SetInputOutput(0.7f, 0.4f);
+					CurrentHP01ToRepairDesire.SetInputOutput(1.0f, 0.0f);
+					float fCurrentHP01ToRepair = CurrentHP01ToRepairDesire.GetOutput(fCurrentHP01);
 
-				m_fNeedForRepair01BasedOnDistanceAndDamage = min( 1.0f, fCurrentHP01ToRepair * fTimeToCityMult );
+					m_fNeedForRepair01BasedOnDistanceAndDamage = min(1.0f, fCurrentHP01ToRepair * fTimeToCityMult);
+				}
 			}
 		}
 	}

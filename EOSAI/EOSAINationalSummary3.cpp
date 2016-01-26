@@ -199,10 +199,11 @@ void CEOSAINationalSummary3::CalculateResourceDeltas()
 	// Include city-production of wealth as a separate line so that we can ask for either one (depending on the sitaution)
 
 	// Resources
-	std::map<CString, float> m_ResourcesProducedAssumingNoOrders;
-	std::map<CString, float> m_ResourcesProducedByCurrentOrders;
-	std::map<CString, float> m_ResourcesConsumedAssumingNoOrders;
-	std::map<CString, float> m_ResourcesConsumedByCurrentOrders;
+	EOSAI::PlayerResourceSummary* pResourceSummary = this->GetResourceSummary();
+	//std::map<CString, float> m_ResourcesProducedAssumingNoOrders;
+	//std::map<CString, float> m_ResourcesProducedByCurrentOrders;
+	//std::map<CString, float> m_ResourcesConsumedAssumingNoOrders;
+	//std::map<CString, float> m_ResourcesConsumedByCurrentOrders;
 
 	CList< CEOSAIPoiObject* >* pAIPoiObjects = g_pEOSAICommonData->GetAIPoiObjects();
 	POSITION pos = pAIPoiObjects->GetHeadPosition();
@@ -211,10 +212,18 @@ void CEOSAINationalSummary3::CalculateResourceDeltas()
 		CEOSAIPoiObject* pPoiObject = pAIPoiObjects->GetNext(pos);
 		if (pPoiObject->GetOwner() == m_iPlayer )
 		{
-			pPoiObject->GetResourcesProducedPerTurn(m_ResourcesProducedAssumingNoOrders, m_ResourcesProducedByCurrentOrders);
-			pPoiObject->GetResourcesConsumedPerTurn(m_ResourcesConsumedAssumingNoOrders, m_ResourcesConsumedByCurrentOrders);
+			//pPoiObject->GetResourcesProducedPerTurn(m_ResourcesProducedAssumingNoOrders, m_ResourcesProducedByCurrentOrders);
+			//pPoiObject->GetResourcesConsumedPerTurn(m_ResourcesConsumedAssumingNoOrders, m_ResourcesConsumedByCurrentOrders);
+			pPoiObject->GetResourcesProducedPerTurn(pResourceSummary->m_ResourceProductionAssumingNoOrders.m_Resource, pResourceSummary->m_ResourceProductionByCurrentOrders.m_Resource);
+			pPoiObject->GetResourcesConsumedPerTurn(pResourceSummary->m_ResourceConsumptionAssumingNoOrders.m_Resource, pResourceSummary->m_ResourceConsumptionByCurrentOrders.m_Resource);
 		}
 	}
+
+	//pResourceSummary->m_ResourceProductionAssumingNoOrders = m_ResourcesProducedAssumingNoOrders;
+	//pResourceSummary->m_ResourceProductionByCurrentOrders = m_ResourcesProducedByCurrentOrders;
+	//pResourceSummary->m_ResourceConsumptionAssumingNoOrders = m_ResourcesConsumedAssumingNoOrders;
+	//pResourceSummary->m_ResourceConsumptionByCurrentOrders = m_ResourcesConsumedByCurrentOrders;
+
 	//#ifdef THINGS_TO_COMPILE_EVENTUALLY
 	//put some code in here. The values calculated here are used in a calculation to figure out if the AI is going into a resource shortage.
 	//#endif

@@ -34,7 +34,7 @@ class DLLIMPEXP CEOSAIBuildOption
 		CEOSAIBuildOption()
 		{
 			m_eType = Undefined;
-			m_pAIGameRules = NULL;
+			//m_pAIGameRules = NULL;
 			//m_fProductionCost = 0.0f;
 			m_pAIUnitTemplate = NULL;
 			m_pAIBuildingDescription = NULL;
@@ -50,7 +50,7 @@ class DLLIMPEXP CEOSAIBuildOption
 		bool   IsAUnit(){ return m_eType == Unit; }//m_strBuildTarget.Find( "<" ) == -1; }
 		bool   IsABuilding(){ return m_eType == Building; }
 
-		void   SetGameRules( EOSAI::CGameRules* pAIGameRules ){ m_pAIGameRules = pAIGameRules; }
+		//void   SetGameRules(EOSAI::CGameRules* pAIGameRules){}// m_pAIGameRules = pAIGameRules;
 
 	//	void   SetBuildTargetToMoney(){ m_eType = Money; m_strBuildTarget = "<Money>"; }
 	//	void   SetBuildTargetToUnit( CEOSAIUnitTemplate* pAIUnitTemplate );
@@ -109,7 +109,7 @@ class DLLIMPEXP CEOSAIBuildOption
 	//	CGLTexture*      m_pGLTexture;
 
 		// Global information
-		EOSAI::CGameRules*  m_pAIGameRules;
+//		EOSAI::CGameRules*  m_pAIGameRules;
 		//CUnitset*  m_pUnitset;
 		//CString      m_strBuildTarget;
 

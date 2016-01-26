@@ -3,6 +3,7 @@
 #include "EOSAIMain.h"
 #include "EOSAIInterface.h"
 #include "EOSAIGamePlayer.h"
+#include "EOSAIBuildOption.h"
 #include "AIPlayerDesc.h"
 #include "AIPlayer.h"
 #include "UserInterface.h"
@@ -369,15 +370,20 @@ void CInterface::AddObjectIdsToAIRegionsAndMultiRegions()
 void                          CInterface::AddAIUnitTemplate(CEOSAIUnitTemplate* pAIUnitTemplate){ g_pEOSAIMain->GetAIGameRules()->AddAIUnitTemplate(pAIUnitTemplate); }
 CEOSAIUnitTemplate*           CInterface::GetAIUnitTemplate(CString strUnitTemplate){ return g_pEOSAIMain->GetAIGameRules()->GetAIUnitTemplate(strUnitTemplate); }
 CList< CEOSAIUnitTemplate* >* CInterface::GetAIUnitTemplates(){ return g_pEOSAIMain->GetAIGameRules()->GetAIUnitTemplates(); }
-CEOSAIBuildingDescription*    CInterface::GetAIBuildingDescription(CString strBuildingDesc){ return g_pEOSAIMain->GetAIGameRules()->GetAIBuildingDescription(strBuildingDesc); }
+
+//void CInterface::AddAIBuildOption(CEOSAIBuildOption* pEOSAIBuildOption){ pEOSAIBuildOption->SetGameRules(g_pEOSAIMain->GetAIGameRules());  this->GetAICommonData()->GetAIBuildOptionList()->AddTail(pEOSAIBuildOption); }
+void CInterface::AddAIBuildOption(CEOSAIBuildOption* pEOSAIBuildOption){ this->GetAICommonData()->GetAIBuildOptionList()->AddTail(pEOSAIBuildOption); }
+void CInterface::DeleteAllBuildOptions(){ while (this->GetAICommonData()->GetAIBuildOptionList()->IsEmpty() == false){ delete this->GetAICommonData()->GetAIBuildOptionList()->RemoveHead(); } }
+
+void  CInterface::AddBuildingDescription(CEOSAIBuildingDescription* pAIBuildingDescription){ g_pEOSAIMain->GetAIGameRules()->AddBuildingDescription(pAIBuildingDescription); }
+CEOSAIBuildingDescription*           CInterface::GetAIBuildingDescription(CString strBuildingDesc){ return g_pEOSAIMain->GetAIGameRules()->GetAIBuildingDescription(strBuildingDesc); }
+CList< CEOSAIBuildingDescription* >* CInterface::GetBuildingDescriptionList(){ return g_pEOSAIMain->GetAIGameRules()->GetBuildingDescriptionList(); }
 
 void                     CInterface::AddCombatUnitType(CEOSAICombatUnitType* p){ g_pEOSAIMain->GetAIGameRules()->AddCombatUnitType(p); }
 CEOSAICombatUnitType*    CInterface::GetCombatUnitType(long iCombatUnitType){ return g_pEOSAIMain->GetAIGameRules()->GetCombatUnitType(iCombatUnitType); }
 
 void                     CInterface::AddMovementUnitType(CEOSAIMovementUnitType* pAIMovementUnitType){ g_pEOSAIMain->GetAIGameRules()->AddMovementUnitType(pAIMovementUnitType); }
 CEOSAIMovementUnitType*  CInterface::GetMovementUnitType(long iMovementUnitType){ return g_pEOSAIMain->GetAIGameRules()->GetMovementUnitType(iMovementUnitType); }
-
-void  CInterface::AddBuildingDescription(CEOSAIBuildingDescription* pAIBuildingDescription){ g_pEOSAIMain->GetAIGameRules()->AddBuildingDescription(pAIBuildingDescription); }
 
 void  CInterface::SetInitialCanBuildUnit(CString strUnitsubset, CString strInternalUnitName){ g_pEOSAIMain->GetAIGameRules()->SetInitialCanBuildUnit(strUnitsubset, strInternalUnitName); }
 void  CInterface::SetInitialCanBuildBuilding(CString strUnitsubset, CString strInternalBuildingName){ g_pEOSAIMain->GetAIGameRules()->SetInitialCanBuildBuilding(strUnitsubset,strInternalBuildingName); }

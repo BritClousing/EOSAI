@@ -923,17 +923,8 @@ void CEOSAIStrategicAI::MakeWarDeclarationsAndPeace()
 				#endif _DEBUG
 				*/
 				if (iTimeSinceLastMessage >= 3 + (iRand % 3) &&
-					iWarDuration >= 3 + (iRand % 3)) // every 3-5 turns
+					iWarDuration          >= 3 + (iRand % 3)) // every 3-5 turns
 				{
-					// Declare war (I could also do a sneak attack)
-					/*
-					CMessage2_DeclareWarMessage  DeclarationMessage;
-					DeclarationMessage.SendToAll();
-					DeclarationMessage.SetSenderId( m_pAIPlayer->GetPlayer()->GetMessageTargetId() );
-					DeclarationMessage.m_iTargetPlayer = iOtherPlayer;
-					g_pMessageManager->Send( DeclarationMessage );
-					*/
-					ASSERT(false);
 #ifdef GAME_CODE
 					CString strMessage;
 					if (iWarDuration <= 10)

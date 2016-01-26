@@ -527,6 +527,8 @@ void  AIPlayer::DeleteAIData()
 	while( m_TacticalProjects2.IsEmpty() == FALSE ){ delete m_TacticalProjects2.RemoveHead(); }
 	#endif _DEBUG
 
+	int iPlayerNumber = this->GetPlayerNumber();
+
 	//Beep( 200,200 );
 	Sleep(1);
 	//long iCount = 0;
@@ -2419,11 +2421,17 @@ void AIPlayer::CalculateExperiencingResourceShortage01() // CalculateResourceCon
 {
 	//m_pWorldDescPlayerProxy->CalculateCurrentResourceDeltas();
 	//g_pEOSAICommonData->GetAINationalSummary3(GetPlayerNumber())->AICalculateResourceConsumptionAndDeltas(false);
-	g_pEOSAICommonData->GetAINationalSummary3(GetPlayerNumber())->CalculateResourceDeltas(); //AICalculateResourceConsumptionAndDeltas(false);
+	CEOSAINationalSummary3* pNationalSummary = g_pEOSAICommonData->GetAINationalSummary3(GetPlayerNumber());
+	pNationalSummary->CalculateResourceDeltas();
+	//g_pEOSAICommonData->GetAINationalSummary3(GetPlayerNumber())->CalculateResourceDeltas(); //AICalculateResourceConsumptionAndDeltas(false);
+	//This isn't working - resource consumption isn't be calcalulated or copied?
 
+	EOSAI::PlayerResourceSummary* pResourceSummary = pNationalSummary->GetResourceSummary();
 	EOSAI::ResourceAmounts ResourceConsumption =
-		g_pEOSAICommonData->GetAINationalSummary3(GetPlayerNumber())->GetResourceSummary()->m_ResourceConsumptionAssumingNoOrders +
-		g_pEOSAICommonData->GetAINationalSummary3(GetPlayerNumber())->GetResourceSummary()->m_ResourceConsumptionByCurrentOrders;
+		pResourceSummary->m_ResourceConsumptionAssumingNoOrders +
+		pResourceSummary->m_ResourceConsumptionByCurrentOrders;
+		//g_pEOSAICommonData->GetAINationalSummary3(GetPlayerNumber())->GetResourceSummary()->m_ResourceConsumptionAssumingNoOrders +
+		//g_pEOSAICommonData->GetAINationalSummary3(GetPlayerNumber())->GetResourceSummary()->m_ResourceConsumptionByCurrentOrders;
 
 	float fResourceConsumption =
 		ResourceConsumption.Get(_T("Money")) +

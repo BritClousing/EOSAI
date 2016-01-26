@@ -177,18 +177,24 @@ class DLLIMPEXP CInterface
 
 		//
 			CEOSAIPoiObject*    GetAIPoiObject(long iAIPoiObject);
-			void                AddAIUnitTemplate(CEOSAIUnitTemplate* pAIUnitTemplate);
-			CEOSAIUnitTemplate* GetAIUnitTemplate(CString strUnitTemplate);
+			//
+			void                           AddAIUnitTemplate(CEOSAIUnitTemplate* pAIUnitTemplate);
+			CEOSAIUnitTemplate*            GetAIUnitTemplate(CString strUnitTemplate);
 			CList< CEOSAIUnitTemplate* >*  GetAIUnitTemplates();
+			//
+			//this->GetAICommonData()->GetAIBuildOptionList()->AddTail(pEOSAIBuildOption);
+			void AddAIBuildOption(CEOSAIBuildOption* pEOSAIBuildOption);
+			void DeleteAllBuildOptions();
+			//
+			void                       AddBuildingDescription(CEOSAIBuildingDescription* pAIBuildingDescription);
 			CEOSAIBuildingDescription* GetAIBuildingDescription(CString strBuildingDesc);
+			CList< CEOSAIBuildingDescription* >*  GetBuildingDescriptionList();
 			//
 			void                     AddCombatUnitType(CEOSAICombatUnitType* p);
 			CEOSAICombatUnitType*    GetCombatUnitType(long iCombatUnitType);
 
 			void                     AddMovementUnitType(CEOSAIMovementUnitType* pAIMovementUnitType);
 			CEOSAIMovementUnitType*  GetMovementUnitType(long iMovementUnitType);
-
-			void  AddBuildingDescription(CEOSAIBuildingDescription* pAIBuildingDescription);
 
 			void  SetInitialCanBuildUnit(CString strUnitsubset, CString strInternalUnitName);
 			void  SetInitialCanBuildBuilding(CString strUnitsubset, CString strInternalBuildingName);

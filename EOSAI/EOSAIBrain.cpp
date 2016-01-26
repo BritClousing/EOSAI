@@ -3545,7 +3545,9 @@ void CEOSAIBrain::BuyNeededResourcesFromOpenMarket()
 		BuySellPlan.m_Iron.m_fCurrent  = g_pEOSAICommonData->GetAINationalSummary3(iAIPlayer)->m_ResourceSummary.m_TotalResources.Get(_T("Iron")); //this->GetTotalIron();
 		BuySellPlan.m_Oil.m_fCurrent   = g_pEOSAICommonData->GetAINationalSummary3(iAIPlayer)->m_ResourceSummary.m_TotalResources.Get(_T("Oil")); //this->GetTotalOil();
 
-		EOSAI::ResourceAmounts ResourceDelta = g_pEOSAICommonData->GetAINationalSummary3(iAIPlayer)->GetResourceSummary()->GetResourceDelta();
+		EOSAI::PlayerResourceSummary* pResSummary = g_pEOSAICommonData->GetAINationalSummary3(iAIPlayer)->GetResourceSummary();
+		EOSAI::ResourceAmounts ResourceDelta = pResSummary->GetResourceDelta();
+		//EOSAI::ResourceAmounts ResourceDelta = g_pEOSAICommonData->GetAINationalSummary3(iAIPlayer)->GetResourceSummary()->GetResourceDelta();
 		//BuySellPlan.m_Money.m_fDelta = GetWorldDescPlayerProxy()->GetDeltaMoney();
 		//BuySellPlan.m_Money.m_fDelta = g_pEOSAICommonData->GetAINationalSummary3(iAIPlayer)->m_ResourceSummary.m_ResourceDelta.Get(_T("Money"));
 		//BuySellPlan.m_Food.m_fDelta = g_pEOSAICommonData->GetAINationalSummary3(iAIPlayer)->m_ResourceSummary.m_ResourceDelta.Get(_T("Food"));//m_AIResourceEffectsSummary.m_ResourceDelta.Get( _T("Food") );//GetDeltaFood();
@@ -3555,8 +3557,11 @@ void CEOSAIBrain::BuyNeededResourcesFromOpenMarket()
 		BuySellPlan.m_Food.m_fDelta = ResourceDelta.Get(_T("Food"));//m_AIResourceEffectsSummary.m_ResourceDelta.Get( _T("Food") );//GetDeltaFood();
 		BuySellPlan.m_Iron.m_fDelta = ResourceDelta.Get(_T("Iron"));//m_AIResourceEffectsSummary.m_ResourceDelta.Get( _T("Iron") );//GetDeltaIron();
 		BuySellPlan.m_Oil.m_fDelta = ResourceDelta.Get(_T("Oil"));//m_AIResourceEffectsSummary.m_ResourceDelta.Get( _T("Oil") );//GetDeltaOil();
+		ASSERT(BuySellPlan.m_Food.m_fDelta != 0.0f);
+		ASSERT(BuySellPlan.m_Iron.m_fDelta != 0.0f);
+		ASSERT(BuySellPlan.m_Oil.m_fDelta != 0.0f);
 
-		// Run the cheats first
+		// Run the cheats first - TODO - Need to remove the cheats. It's too game specific.
 		{
 			if( m_pAIPlayer->AICheat_BonusMoneyAndResourcesEachTurn() )
 			{

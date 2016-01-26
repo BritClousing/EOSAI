@@ -102,12 +102,12 @@ void CEOSAIPoiObject::ResetAIPlayerData()
 
 void CEOSAIPoiObject::ResetAIPlayerData_AIPoiObject()
 {
-	this->GetInitialState()->SetTime(0.0f);
+//	this->GetInitialState()->SetTime(0.0f);
 	// Container
-	this->SetInitialContainer(NULL);
-	this->GetInitialState()->SetAirbase(NULL);
-	this->GetInitialState()->SetContainer(NULL);
-	this->GetInitialState()->GetContaineesList()->RemoveAll();
+//	this->SetInitialContainer(NULL);
+//	this->GetInitialState()->SetAirbase(NULL);
+//	this->GetInitialState()->SetContainer(NULL);
+//	this->GetInitialState()->GetContaineesList()->RemoveAll();
 	/*
 	CEOSAIObjectActionProgression2* pProgression = pExistingAIPoiObject->GetAIObjectActionProgression();
 	ASSERT( pProgression->GetAIActions()->IsEmpty() );
