@@ -109,7 +109,8 @@ float CEOSAIUnitVsUnitValue::GetCombatSignificance()
 
 bool CEOSAIUnitVsUnitValue::IsUsefulInCombat()
 {
-	long iMyPlayerNumber = g_pAIPlayerManager->CurrentlyProcessingAIPlayer();
+	long iMyPlayerNumber = g_pAIPlayerManager->GetFlag_CurrentlyProcessingAIPlayer();
+	ASSERT(iMyPlayerNumber > 0);
 
 	// An infantry vs. Infantry will have an AverageAttrition01 of 0.5
 	//   The AverageAttrition01 tends not to get too much over 0.5 against enemy combat units

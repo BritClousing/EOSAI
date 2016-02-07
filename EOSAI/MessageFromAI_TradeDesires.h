@@ -1,6 +1,6 @@
 #pragma once
 
-#include "MessageFromAI.h"
+#include "Message.h"
 #include <map>
 
 #ifdef CREATE_EOSAI_DLL
@@ -11,7 +11,7 @@
 
 namespace EOSAI
 {
-	class DLLIMPEXP MessageFromAI_TradeDesires : public MessageFromAI
+	class DLLIMPEXP MessageFromAI_TradeDesires : public Message
 	{
 	public:
 		int m_iFromAIPlayer;

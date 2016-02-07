@@ -192,6 +192,11 @@ void  CAIFutureBuildIdeas::AddTacticalProjectStrategy( CAITacticalProjectStrateg
 // - Calculate the gap between the 'desired' unit balance and the current(+build) units
 void CAIBuildManager::CreateBuildOrders_Final()
 {
+	if (m_pAIPlayer->GetPlayerNumber() == 1)
+	{
+		int g = 0;
+	}
+
 	ASSERT( m_pAIPlayer );
 	EOSAI::AIPlayer* pAIPlayer = m_pAIPlayer;
 	CEOSAIBrain* pAIBrain = m_pAIPlayer->GetAIBrain();
@@ -493,6 +498,15 @@ void CAIBuildManager::CreateBuildOrders_Final()
 			}
 		}
 	}
+	pos = pAIThoughtDatabase->GetMyActors()->GetHeadPosition();
+	while (pos)
+	{
+		CEOSAIPoiObject* pAIPoiObject = pAIThoughtDatabase->GetMyActors()->GetNext(pos);
+		CEOSAIUnit* pAIUnit = dynamic_cast<CEOSAIUnit*>(pAIPoiObject);
+		if (pAIUnit == NULL) continue;
+
+		AIJobCapability.Add(pAIUnit->GetAIUnitTemplate());
+	}
 
 	// Now that I have an "In Production" list, I need to figure out what to build
 	// Factors:
@@ -512,6 +526,7 @@ void CAIBuildManager::CreateBuildOrders_Final()
 	while( pos )
 	{
 		CEOSAICity* pAICity = pAIThoughtDatabase->GetMyCities()->GetNext( pos );
+
 		if( pAICity->GetTimeUntilCompletionOfBuildQueue() > 1.0f ) continue;
 
 		//CMultiRegion* pMultiRegion = pWorldDescServer->GetAICommonData()->GetMultiRegionManager()->GetMultiRegion( pAICity->GetServerCity()->GetLocation() );
@@ -902,6 +917,10 @@ this is actually a bad way to handle things
 				{
 					int h=0;
 				}
+				if (pAIUnitTemplate->IsGroundUnit())
+				{
+					int h = 0;
+				}
 				#endif
 
 			//
@@ -920,10 +939,13 @@ this is actually a bad way to handle things
 					if( fPercentCompletion > 0.5f ){ fValue += 1.0f; }
 				}
 
-				if( pAIUnitTemplate->IsGroundUnit() &&
-					pAICity->GetNumberOfGroundUnitsInside() >= 5 )
+				if( pAIUnitTemplate->IsGroundUnit() && pAICity->GetNumberOfGroundUnitsInside() >= 4 )
 				{
-					fValue -= 2.0f;
+					fValue -= 1.0f;
+				}
+				if (pAIUnitTemplate->IsGroundUnit() && pAICity->GetNumberOfUnitsInsideOfType(pAIUnitTemplate) >= 3)
+				{
+					fValue -= 1.0f;
 				}
 
 			//
@@ -1130,6 +1152,11 @@ this is actually a bad way to handle things
 			Zeppelin = 0.57,
 			<Money> = 0.00,
 */
+		int iCity = pAICity->GetObjectId();
+		if (m_pAIPlayer->GetPlayerNumber() == 1)
+		{
+			int g = 0;
+		}
 		int g=0;
 		while( SortedBuildOptions.IsEmpty() == FALSE ){ delete SortedBuildOptions.RemoveHead(); }
 		// Personality information
@@ -1162,7 +1189,10 @@ this is actually a bad way to handle things
 		CString strBuild = Debug_AllBuildItems.GetNext( pos );
 		AllBuildItems.Add( strBuild, +1 );
 	}
-	int j=0;
+	if (m_pAIPlayer->GetPlayerNumber() == 1)
+	{
+		int g = 0;
+	}
 }
 
 

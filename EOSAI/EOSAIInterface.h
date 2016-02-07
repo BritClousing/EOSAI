@@ -48,8 +48,8 @@
 #include "EOSAIGameRules.h"
 #include "EOSAICommonData.h"
 #include "EOSAIPlayerManager.h"
-#include "MessageFromAI.h"
-#include "MessageToAI.h"
+//#include "MessageFromAI.h"
+//#include "MessageToAI.h"
 //#include "EOSAIRegionManager2.h"
 //#include "EOSAIPlayerManager.h"
 class CEOSAIBuildingValue;
@@ -149,6 +149,7 @@ class DLLIMPEXP CInterface
 		// Overrides (must be overridden by the game)
 		//
 			virtual void CreateGamePlayers(){ ASSERT(false); }
+			void            PostCreateGamePlayers();
 			virtual void CreateGameRules() { ASSERT(false); }
 			virtual void CreateTechTree() { ASSERT(false); }
 			int             GetNumberOfTechnologyDescs();
@@ -223,7 +224,7 @@ class DLLIMPEXP CInterface
 			//
 				// Messages from AI to the game
 				virtual void Notification_NewMessageFromAI() {}
-				CList< EOSAI::MessageFromAI* >* GetMessagesFromAI() { return &m_MessagesFromAI; }
+				CList< EOSAI::Message* >* GetMessagesFromAI() { return &m_MessagesFromAI; }
 				//
 				virtual void Notification_AIPlayerHasProcessedTurn(long iAIPlayer, long iCurrentTurn) { ASSERT(false); }; // Called by the AI
 
@@ -233,7 +234,7 @@ class DLLIMPEXP CInterface
 			//
 				void SendTradeAgreementResponseToAI(long iToAIPlayer, CString strTradeAgreementId, long iPlayerWhoInitiatedChange, EOSAIEnumTradeAgreementResponse eResponse, EOSAIEnumTradeAgreementState eNewState);
 				void SendMessageResponseToAI(long iToAIPlayer, long iFromPlayer, long iAIMessageUID, EOSAI::EnumAIMailResponse eResponse);
-				void SendMessageToAI(EOSAI::MessageToAI* pMessageToAI);
+				void SendMessageToAI(EOSAI::Message* pMessageToAI);
 				// NOTE: This call happens within the Game's thread. It's the only function where that happens.
 				//       I'm not sure if I like that. Maybe I could send a message and have another message respond, although I want it to happen quickly.
 				void GetAIPlayersOpinionOnTradeAgreement(int iHumanPlayerNumber, int iAIPlayer, CEOSAITradeAgreement* pTradeAgreement, CString* pstrOpinionText, long* piOpinionSum);
@@ -260,16 +261,16 @@ class DLLIMPEXP CInterface
 #else
 	private:
 #endif USE_EOSAI_DLL
-		void SendMessageFromAI(EOSAI::MessageFromAI* pAIMessage); // { m_MessagesFromAI.AddTail(pAIMessage); Notification_NewMessageFromAI(); }
-		CList< EOSAI::MessageToAI* >* GetMessagesToAI();// { return &m_MessagesToAI; }
+		void SendMessageFromAI(EOSAI::Message* pAIMessage); // { m_MessagesFromAI.AddTail(pAIMessage); Notification_NewMessageFromAI(); }
+		CList< EOSAI::Message* >* GetMessagesToAI();// { return &m_MessagesToAI; }
 
 	protected:
 		EOSAI::CWorldDistanceTool* m_pAIWorldDistanceTool;
 
 		bool  m_bAllActiveHumanPlayersHaveSubmittedTurn;
 
-		CList< EOSAI::MessageFromAI* >  m_MessagesFromAI;
-		CList< EOSAI::MessageToAI* >    m_MessagesToAI; // used for global message (like declare war), not messages to individual AIs
+		CList< EOSAI::Message* >  m_MessagesFromAI;
+		CList< EOSAI::Message* >  m_MessagesToAI; // used for global message (like declare war), not messages to individual AIs
 
 		//
 		int m_iNumberOfGamePlayers;

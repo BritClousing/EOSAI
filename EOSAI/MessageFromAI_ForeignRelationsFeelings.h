@@ -1,13 +1,13 @@
 #pragma once
 
 #include <assert.h>
-#include "MessageFromAI.h"
+#include "Message.h"
 #include "EOSAIGlobalForeignRelations.h"
 #include "EOSAIBCDumbArray2D.h"
 
 namespace EOSAI
 {
-	class MessageFromAI_ForeignRelationsFeelings : public MessageFromAI
+	class MessageFromAI_ForeignRelationsFeelings : public Message
 	{
 		public:
 			void Set(CEOSAIGlobalForeignRelations* pRel)

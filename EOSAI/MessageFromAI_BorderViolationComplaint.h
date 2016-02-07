@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include "MessageFromAI.h"
+#include "Message.h"
 #include "EOSAILongSet.h"
 
 #ifdef CREATE_EOSAI_DLL
@@ -12,7 +12,7 @@
 
 namespace EOSAI
 {
-	class DLLIMPEXP MessageFromAI_BorderViolationComplaint : public MessageFromAI
+	class DLLIMPEXP MessageFromAI_BorderViolationComplaint : public Message
 	{
 		public:
 			void SetSender(int iAIPlayer) { m_iAIPlayer = iAIPlayer; }

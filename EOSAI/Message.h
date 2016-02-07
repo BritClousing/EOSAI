@@ -9,30 +9,36 @@
 
 #include "EOSAIIntSet.h"
 
-// Messages to AI might be stuff like trade offers.
+// Messages to/from the AI. This can be iMessages, TradeOffers, DeclarationsOfWar, etc.
 
 namespace EOSAI
 {
-class DLLIMPEXP MessageToAI
-{
+	class DLLIMPEXP Message
+	{
 	public:
-		MessageToAI(){}
+		Message(){}
 
-		bool SendToAllPlayers() { return m_bSendToAllPlayers; }
-		void SendToAllPlayers(bool b) { m_bSendToAllPlayers = b; } // send to all AIs?
+		// Sent From
+		void SetFrom(int iPlayer){ m_iSentFromPlayer = iPlayer; }
+		int  GetFrom(){ return m_iSentFromPlayer; }
 
-		void SendToPlayer(int iPlayer) { m_SendToPlayers.Add(iPlayer); }
-		CEOSAIIntSet* SendToPlayers() { return &m_SendToPlayers; }
+		// Send To
+		void SetSendToAllPlayers(bool b) { m_bSendToAllPlayers = b; } // send to all AIs?
+		void SetSendToPlayer(int iPlayer) { m_SendToPlayers.Add(iPlayer); }
+		bool GetSendToAllPlayers() { return m_bSendToAllPlayers; }
+		CEOSAIIntSet* GetSendToPlayers() { return &m_SendToPlayers; }
 
 		//virtual bool SendToAllAIs() { return false; } // send to all AIs?
 		//bool m_bSendToAllAIs = false;
 		//int  m_iSendToAIPlayer = 0; // Used if this is send to one specific player
 
 	private:
+		int  m_iSentFromPlayer = 0;
 		bool m_bSendToAllPlayers = false;
 		CEOSAIIntSet m_SendToPlayers; // Example: a set of player numbers - e.g. player 1, player 4
+
 		virtual void PolymorphicType(){}
 		//int m_iSendToAIPlayer = 0;
-};
+	};
 }
 

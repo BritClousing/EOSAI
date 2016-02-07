@@ -230,6 +230,11 @@ long CInterface::GetNumberOfActiveAIPlayers()
 	return iPlayers;
 }
 
+void CInterface::PostCreateGamePlayers()
+{
+	g_pEOSAIMain->GetAICommonData()->InvokeNationalSummariesObjects();
+}
+
 int  CInterface::GetNumberOfTechnologyDescs(){ return g_pEOSAIMain->GetAIGameRules()->GetTechnologyDescsList()->GetCount(); }
 void CInterface::AddTechnologyDesc(CEOSAITechnologyDesc* pAITechnologyDesc){ g_pEOSAIMain->GetAIGameRules()->AddTechnologyDesc(pAITechnologyDesc); }
 
@@ -509,21 +514,21 @@ void CInterface::AddPlayerInteractionEvent(CEOSAIPlayerInteraction* pPlayerInter
 	g_pEOSAIMain->GetAICommonData()->AddPlayerInteraction(pPlayerInteraction);
 }
 
-void CInterface::SendMessageToAI(EOSAI::MessageToAI* pMessageToAI)
+void CInterface::SendMessageToAI(EOSAI::Message* pMessageToAI)
 {
 	//if (dynamic_cast<EOSAI::MessageToAI_WarWasDeclared*>(pMessageToAI))
-	if ( pMessageToAI->SendToAllPlayers() )
+	if ( pMessageToAI->GetSendToAllPlayers() )
 	{
 		// What thread processes this message?
 		m_MessagesToAI.AddTail(pMessageToAI);
 		return;
 	}
 
-	ASSERT(pMessageToAI->SendToAllPlayers() == false);
-	POSITION pos = pMessageToAI->SendToPlayers()->GetList()->GetHeadPosition();
+	ASSERT(pMessageToAI->GetSendToAllPlayers() == false);
+	POSITION pos = pMessageToAI->GetSendToPlayers()->GetList()->GetHeadPosition();
 	while (pos)
 	{
-		int iPlayer = pMessageToAI->SendToPlayers()->GetList()->GetNext(pos);
+		int iPlayer = pMessageToAI->GetSendToPlayers()->GetList()->GetNext(pos);
 
 		//EOSAI::AIPlayer* pAIPlayer = m_AIPlayerManager.GetAIPlayer(iPlayer);
 		EOSAI::AIPlayer* pAIPlayer = g_pEOSAIMain->GetAIPlayerManager()->GetAIPlayer(iPlayer);
@@ -552,12 +557,12 @@ void CInterface::UpdateForeignRelationsState2(int iCurrentTurn)
 	g_pEOSAIMain->GetAICommonData()->CalculateForeignRelationsFeelingsBasedOnPlayerInteractionHistoryAndSendFeelingsUpdate(iCurrentTurn);
 }
 
-void CInterface::SendMessageFromAI(EOSAI::MessageFromAI* pAIMessage)
+void CInterface::SendMessageFromAI(EOSAI::Message* pAIMessage)
 {
 	m_MessagesFromAI.AddTail(pAIMessage); Notification_NewMessageFromAI();
 }
 
-CList< EOSAI::MessageToAI* >* CInterface::GetMessagesToAI()
+CList< EOSAI::Message* >* CInterface::GetMessagesToAI()
 {
 	return &m_MessagesToAI;
 }

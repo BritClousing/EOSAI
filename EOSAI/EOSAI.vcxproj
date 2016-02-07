@@ -535,6 +535,7 @@
     <ClInclude Include="EOSAIDesireCaptureCitRes.h" />
     <ClInclude Include="EOSAIMain.h" />
     <ClInclude Include="Interproc.h" />
+    <ClInclude Include="Message.h" />
     <ClInclude Include="SharedMemory.h" />
     <CustomBuild Include="EOSAIDesireCaptureMultiRegion.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
@@ -722,12 +723,10 @@
     <ClInclude Include="EOSAIVersion.h" />
     <ClInclude Include="EOSAIWarzoneLocation.h" />
     <CustomBuild Include="EOSAIWorldDistanceTool.h" />
-    <ClInclude Include="MessageFromAI.h" />
     <ClInclude Include="MessageFromAI_AIOffersToResign.h" />
     <ClInclude Include="MessageFromAI_DeclareWar.h" />
     <ClInclude Include="MessageFromAI_ResignGame.h" />
     <ClInclude Include="MessageFromAI_TradeOffer.h" />
-    <ClInclude Include="MessageToAI.h" />
     <ClInclude Include="MessageToAI_MessageResponse.h" />
     <ClInclude Include="MessageToAI_RequestTradeDesires.h" />
     <ClInclude Include="MessageToAI_TeamFormed.h" />

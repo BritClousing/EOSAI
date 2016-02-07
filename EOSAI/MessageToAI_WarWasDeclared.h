@@ -7,7 +7,7 @@
 #define DLLIMPEXP __declspec(dllimport)
 #endif
 
-#include "MessageToAI.h"
+#include "Message.h"
 
 // This is a global message, no need to send it to one particular AI.
 /*

@@ -61,7 +61,7 @@ class DLLIMPEXP CCommonData
 		void  SetNeedToRebuildData( bool b );
 		bool  GetNeedToRebuildData(){ return m_bNeedToRebuildData; }
 		bool  GetDataIsValid(){ return m_bDataIsValid; }
-		void  RebuildDataIfNecessary();
+		//void  RebuildDataIfNecessary();
 
 		// Players
 		//
@@ -97,8 +97,7 @@ class DLLIMPEXP CCommonData
 			//CList< CEOSAIGeo* >*    GetAIGeoList(){ return &m_AIGeoList; }
 
 			CEOSAIRegionMapToEverywhere*  GetAIRegionMapToEverywhere() { return &m_AIRegionMapToEverywhere; }
-
-			CEOSAIMultiRegionNationwidePathways*  GetNationwidePathways(long iPlayer) { return m_NationwidePlayerPathways.Value(iPlayer); }
+			CEOSAIMultiRegionNationwidePathways*  GetNationwidePathways(long iPlayer); // { CEOSAIMultiRegionNationwidePathways* pPathways = m_NationwidePlayerPathways.Value(iPlayer); ASSERT(pPathways); ASSERT(pPathways->GetPlayer() == iPlayer); return pPathways; }
 
 			long                       m_OwnershipMapLastUpdatedTurn = -1;
 			CEOSAIPlayerOwnershipMap*  GetCurrentOwnershipPlayerMap8() { return &m_CurrentOwnershipPlayerMap8; }
@@ -146,8 +145,9 @@ class DLLIMPEXP CCommonData
 			void   AddAdjacentLandGeos( CEOSAIIntSet& Geos );
 
 		//
-		// Do we still use the BuildOptions list?
+		// BuildOptions
 		//
+			CEOSAIBuildOption*           GetAIBuildOption(CString strName);
 			CList< CEOSAIBuildOption* >* GetAIBuildOptionList(){ return &m_AIBuildOptionList; }
 
 		//
@@ -181,8 +181,9 @@ class DLLIMPEXP CCommonData
 			CList< CEOSAIPoiObject* >*  GetAIPoiObjects(){ return &m_AIPoiObjects; }
 			void              AddAIPoiObject( CEOSAIPoiObject* pAIPoiObject );
 			void              AddHypotheticalAIPoiObject( CEOSAIPoiObject* pAIPoiObject ); // Used by AIBrains
+			void              DeleteAIPoiObject(long iObjectId);
 			CEOSAIPoiObject*  GetAIPoiObject( long iObjectId );
-			CEOSAIUnit*      GetAIUnit( long iObjectId );
+			CEOSAIUnit*       GetAIUnit( long iObjectId );
 			long   GetLastAIUnitCombatCapabilitiesCalculatedTurn() { return m_iUnitCombatCapabilities_LastTurnCalculated; }
 
 			int   GetNumberOfPoi();
@@ -227,6 +228,8 @@ class DLLIMPEXP CCommonData
 		bool  m_bAllPlayersPermanentlyAtWar;
 
 	public:
+
+		void InvokeNationalSummariesObjects();
 
 		// PoiObjects -> MultiRegions + AIRegions
 		void  AddObjectIdsToAIRegionsAndMultiRegions();

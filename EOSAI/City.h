@@ -129,6 +129,7 @@ class DLLIMPEXP CEOSAICity : public CEOSAIPoiObject
 
 	//
 		long  GetNumberOfGroundUnitsInside();
+		long  GetNumberOfUnitsInsideOfType(CEOSAIUnitTemplate* pAIUnitTemplate);
 
 		//virtual float GetUnexploredPercent( float fRange );
 		void          ActionScheduler_CreateBuildOrder( CEOSAIBuildOption* pAIBuildOption );
@@ -148,11 +149,17 @@ class DLLIMPEXP CEOSAICity : public CEOSAIPoiObject
 
 	// Production
 	//
+		void  AppendBuildOrder(CString strBuildTarget);
 		void  AppendBuildOrder(CEOSAIBuildOption* pEOSAIBuildOption);
 		long  GetNumberOfBuildOrders(){ return m_AIBuildOrders.GetCount(); }
 		void  RemoveAllItemsFromBuildQueue();
+		void  RemoveZeroInvestmentItemsFromBuildQueue();
 		//CList< CEOSAIBuildOrder*      >*  GetAIBuildOrders() { return &m_AIBuildOrders; }
 		CList< CEOSAIBuildOption*     >*  GetAIBuildOrders() { return &m_AIBuildOrders; }
+
+		//CEOSAIBuildCompletion*  GetPartiallyCompletedItem(CEOSAIBuildOption* pEOSAIBuildOption);
+		void  RemoveAllItemsFromPartiallyCompletedList();
+		void  AddPartiallyCompletedItem(CString strBuildTarget, float fInvested);
 		CList< CEOSAIBuildCompletion* >*  GetAIBuildCompletionList(){ return &m_PartiallyCompletedList; }
 
 		float GetTimeUntilCompletionOfBuildQueue();

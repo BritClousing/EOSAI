@@ -1,6 +1,6 @@
 #pragma once
 
-#include "MessageFromAI.h"
+#include "Message.h"
 
 #ifdef CREATE_EOSAI_DLL
 #define DLLIMPEXP __declspec(dllexport)
@@ -14,7 +14,7 @@
 
 namespace EOSAI
 {
-	class DLLIMPEXP MessageFromAI_TradeOfferResponse : public MessageFromAI
+	class DLLIMPEXP MessageFromAI_TradeOfferResponse : public Message
 	{
 	public:
 		MessageFromAI_TradeOfferResponse()

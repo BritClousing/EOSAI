@@ -192,21 +192,9 @@ CEOSAIThoughtDatabase::~CEOSAIThoughtDatabase()
 
 void CEOSAIThoughtDatabase::Clear()
 {
-	m_DesiresSortedByScore.RemoveAll();
-	while( m_Desires.IsEmpty() == FALSE ){ delete m_Desires.RemoveHead(); }
-	//while( m_TacticalProjects.IsEmpty() == FALSE ){ delete m_TacticalProjects.RemoveHead(); }
-	while( m_TacticalProjects2.IsEmpty() == FALSE ){ delete m_TacticalProjects2.RemoveHead(); }
-
-	m_TacticalProjects2ByInitialEvaluation_NearbyScore.RemoveAll();
-	m_TacticalProjects2ByInitialEvaluation_ValueScore.RemoveAll();
-	m_TacticalProjects2ByInitialEvaluation_BasicScore.RemoveAll();
-	m_TacticalProjects2ByInitialEvaluation_EasyTargets.RemoveAll();
-	m_TacticalProjects2ByInitialEvaluation_NoResistance.RemoveAll();
-
-	//while( m_SortedBestCaseTacticalProjectStrategies.IsEmpty() == FALSE ){ delete m_SortedBestCaseTacticalProjectStrategies.RemoveHead(); }
-	//m_SortedBestCaseTacticalProjectStrategies.RemoveAll();
-	m_TacticalProject2StrategiesSortedByBestCaseValue.RemoveAll();
-
+	// Units
+	//
+	m_AllUnitsInTheGameOrBuildableByMe.Clear();
 	m_PotentialEnemyUnits.Clear();
 	m_UnitsICanBuild.Clear();
 	m_UnitsIHave.Clear();
@@ -218,6 +206,24 @@ void CEOSAIThoughtDatabase::Clear()
 	m_MyAirTransports.RemoveAll(); // (not-owned)
 	m_MyAirUnits.RemoveAll();
 	m_MyAircraftCarriers.RemoveAll(); // (not-owned)
+
+	// AI Desires, TacticalProjects, Strategies
+	//
+	m_DesiresSortedByScore.RemoveAll();
+	while (m_Desires.IsEmpty() == FALSE){ delete m_Desires.RemoveHead(); }
+	//while( m_TacticalProjects.IsEmpty() == FALSE ){ delete m_TacticalProjects.RemoveHead(); }
+	while (m_TacticalProjects2.IsEmpty() == FALSE){ delete m_TacticalProjects2.RemoveHead(); }
+
+	m_TacticalProjects2ByInitialEvaluation_NearbyScore.RemoveAll();
+	m_TacticalProjects2ByInitialEvaluation_ValueScore.RemoveAll();
+	m_TacticalProjects2ByInitialEvaluation_BasicScore.RemoveAll();
+	m_TacticalProjects2ByInitialEvaluation_EasyTargets.RemoveAll();
+	m_TacticalProjects2ByInitialEvaluation_NoResistance.RemoveAll();
+	m_TacticalProject2StrategiesSortedByBestCaseValue.RemoveAll();
+
+	while (m_WarzoneLocations.IsEmpty() == FALSE){ delete m_WarzoneLocations.RemoveHead(); }
+	//CList< CEOSAITransportCombinedMap* >  m_TransportCombinedMultiRegionMaps_old;
+
 
 	long iSize = g_pEOSAICommonData->GetAIRegionManager()->GetAIRegionArray()->GetSize();
 	for( long i=0; i<iSize; i++ )
@@ -3128,6 +3134,51 @@ long CEOSAIThoughtDatabase::GetNumberOfCitiesWithImprovement( CString strCityImp
 	}
 	return iCitiesWithImprovement;
 }
+
+// Resources
+
+float CEOSAIThoughtDatabase::GetMyLandFoodResources()
+{
+	float fAmount = 0.0f;
+	long iAIPlayer = GetAIBrain()->GetAIPlayerNumber();
+	POSITION pos = g_pEOSAICommonData->GetAIPoiObjects()->GetHeadPosition();
+	while (pos)
+	{
+		CEOSAIPoiObject* pAIPoiObject = g_pEOSAICommonData->GetAIPoiObjects()->GetNext(pos);
+		CEOSAIResource* pRes = dynamic_cast< CEOSAIResource* >(pAIPoiObject);
+		if (pRes &&
+			pRes->GetOwner() == iAIPlayer &&
+			pRes->GetResourceType() == _T("Food") &&
+			pRes->ResourceSource_IsOnLand())
+		{
+			fAmount += pRes->GetResourcePerTurn();
+			//pRes->RemoveAllItemsFromBuildQueue();
+		}
+	}
+	return fAmount;
+}
+
+float CEOSAIThoughtDatabase::GetMySeaFoodResources()
+{
+	float fAmount = 0.0f;
+	long iAIPlayer = GetAIBrain()->GetAIPlayerNumber();
+	POSITION pos = g_pEOSAICommonData->GetAIPoiObjects()->GetHeadPosition();
+	while (pos)
+	{
+		CEOSAIPoiObject* pAIPoiObject = g_pEOSAICommonData->GetAIPoiObjects()->GetNext(pos);
+		CEOSAIResource* pRes = dynamic_cast< CEOSAIResource* >(pAIPoiObject);
+		if (pRes &&
+			pRes->GetOwner() == iAIPlayer &&
+			pRes->GetResourceType() == _T("Food") &&
+			pRes->ResourceSource_IsOnLand() == false)
+		{
+			fAmount += pRes->GetResourcePerTurn();
+			//pRes->RemoveAllItemsFromBuildQueue();
+		}
+	}
+	return fAmount;
+}
+
 
 // Airbases
 //

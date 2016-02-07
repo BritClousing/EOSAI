@@ -12,15 +12,12 @@
 #include "EOSAIPlayerInteraction_DeclaredWar.h"
 #include "EOSAIInterface.h"
 //#include "UserInterface.h"
-#include "MessageToAI.h"
+//#include "MessageToAI.h"
 #include "Interproc.h"
 
-//#include "WorldDescServer.h"
 extern EOSAI::CInterface* g_pEOSAIInterface;
 CEOSAIPlayerManager* g_pAIPlayerManager = NULL;
 CEOSAILogFile g_LogFile;
-
-//#include "UserInterface.h"
 
 //
 //Create a shared memory object.
@@ -509,7 +506,7 @@ void  CEOSAIPlayerManager::Loop()
 			g_pEOSAIInterface->GetMessagesToAI() &&
 			g_pEOSAIInterface->GetMessagesToAI()->IsEmpty() == FALSE)
 		{
-			EOSAI::MessageToAI* pMessageToAI = g_pEOSAIInterface->GetMessagesToAI()->RemoveHead();
+			EOSAI::Message* pMessageToAI = g_pEOSAIInterface->GetMessagesToAI()->RemoveHead();
 			ProcessMessage(pMessageToAI);
 		}
 
@@ -603,7 +600,7 @@ void  CEOSAIPlayerManager::Loop()
 	m_bThreadIsRunning = false;
 }
 
-void  CEOSAIPlayerManager::ProcessMessage(EOSAI::MessageToAI* pMessageToAI)
+void  CEOSAIPlayerManager::ProcessMessage(EOSAI::Message* pMessageToAI)
 {
 	/*
 	if (dynamic_cast<EOSAI::MessageToAI_WarWasDeclared*>(pMessageToAI))

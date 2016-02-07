@@ -204,6 +204,9 @@ AIPlayer::AIPlayer()
 
 	m_eProcessingState = enumBeginProcessingTurn;//enumWaitingForServerToPlayerUpdate;
 	m_bTrigger_NeedToRecalculateEntireTurn = false;
+	m_bFlag_ShutdownAIPlayer = false;
+
+	m_iNextAIMessageUID = 1;
 
 //	m_iNextAIMailId = 0;
 	m_iDebugTempCounter = 0;
@@ -333,6 +336,17 @@ void  AIPlayer::Serialize( CEOSAISerial* pSerial )
 {
 	char iVersion = 4;
 	pSerial->Serialize( iVersion ); // Version
+
+	pSerial->Serialize( m_iNextAIMessageUID );
+
+	/* TODO: Need to save these values.
+	CList< CEOSAIMail* >                    m_UnprocessedIncomingMail;
+	CList< CEOSAIMailResponse* >            m_UnprocessedIncomingMailResponses;
+	CList< CEOSAITradeAgreement* >          m_UnprocessedIncomingTradeOffers;
+	CList< CEOSAITradeAgreementResponse* >  m_UnprocessedIncomingTradeAgreementResponses;
+	CList< EOSAI::Message* >                m_UnprocessedIncomingMessages;
+	*/
+
 /*
 	pSerial->Serialize( m_iNextAIMailId );
 	pSerial->Serialize( m_iAIBrainIntelligence );
@@ -375,7 +389,9 @@ void  AIPlayer::Deserialize( CEOSAISerial* pSerial )
 	//   If we are loading a game, then restart the processing
 	//m_eProcessingState = enumWaitingForAutosaveAndLocalPlayerTurnReplayEnd;
 	m_eProcessingState = enumBeginProcessingTurn;
-/*
+
+	pSerial->Deserialize(m_iNextAIMessageUID);
+	/*
 	pSerial->Deserialize( m_iNextAIMailId );
 	pSerial->Deserialize( m_iAIBrainIntelligence );
 
@@ -634,51 +650,10 @@ void AIPlayer::ClearCityOrders()
 		if( pAICity &&
 			pAICity->GetOwner() == iAIPlayer )
 		{
-			pAICity->RemoveAllItemsFromBuildQueue();
+			//pAICity->RemoveZeroInvestmentItemsFromBuildQueue();
+			pAICity->RemoveAllItemsFromBuildQueue(); // BRIT-X
 		}
 	}
-}
-
-float AIPlayer::GetMyLandFoodResources()
-{
-	float fAmount = 0.0f;
-	long iAIPlayer = GetAIBrain()->GetAIPlayerNumber();
-	POSITION pos = g_pEOSAICommonData->GetAIPoiObjects()->GetHeadPosition();
-	while( pos )
-	{
-		CEOSAIPoiObject* pAIPoiObject = g_pEOSAICommonData->GetAIPoiObjects()->GetNext( pos );
-		CEOSAIResource* pRes = dynamic_cast< CEOSAIResource* >( pAIPoiObject );
-		if( pRes &&
-			pRes->GetOwner() == iAIPlayer &&
-			pRes->GetResourceType() == _T("Food") &&
-			pRes->ResourceSource_IsOnLand() )
-		{
-			fAmount += pRes->GetResourcePerTurn();
-			//pRes->RemoveAllItemsFromBuildQueue();
-		}
-	}
-	return fAmount;
-}
-
-float AIPlayer::GetMySeaFoodResources()
-{
-	float fAmount = 0.0f;
-	long iAIPlayer = GetAIBrain()->GetAIPlayerNumber();
-	POSITION pos = g_pEOSAICommonData->GetAIPoiObjects()->GetHeadPosition();
-	while( pos )
-	{
-		CEOSAIPoiObject* pAIPoiObject = g_pEOSAICommonData->GetAIPoiObjects()->GetNext( pos );
-		CEOSAIResource* pRes = dynamic_cast< CEOSAIResource* >( pAIPoiObject );
-		if( pRes &&
-			pRes->GetOwner() == iAIPlayer &&
-			pRes->GetResourceType() == _T("Food") &&
-			pRes->ResourceSource_IsOnLand() == false )
-		{
-			fAmount += pRes->GetResourcePerTurn();
-			//pRes->RemoveAllItemsFromBuildQueue();
-		}
-	}
-	return fAmount;
 }
 
 //
@@ -701,394 +676,19 @@ void  CAIPlayer::StartThread()
 	}
 }
 */
-
+/*
 CEOSAIMultiRegionNationwidePathways*  AIPlayer::GetMyNationwidePathway()
 {
 	CEOSAIMultiRegionNationwidePathways* pPathways = g_pEOSAICommonData->GetNationwidePathways( GetPlayerNumber() );
 	ASSERT( pPathways );
 	ASSERT( pPathways->GetPlayer() == this->GetPlayerNumber() );
 	return pPathways;
-	//return GetNationwidePathway( GetPlayer()->GetPlayerNumber() );
 }
-
+*/
+/*
 CEOSAIMultiRegionNationwidePathways*  AIPlayer::GetNationwidePathway( long iPlayer )
 {
 	return g_pEOSAICommonData->GetNationwidePathways( iPlayer );
-	/*
-	POSITION pos = m_NationwidePathways.GetHeadPosition();
-	while( pos )
-	{
-		CEOSAIMultiRegionNationwidePathways* pPathways = m_NationwidePathways.GetNext( pos );
-		if( pPathways->GetPlayer() == iPlayer ){ return pPathways; }
-		//CList< CEOSAIMultiRegionNationwidePathways* >  m_NationwidePathways;
-	}
-	return NULL;
-	*/
-}
-
-/*
-void  CAIPlayer::Loop_old()
-{
-	ASSERT( false );
-
-	m_bThreadIsRunning = true;
-	// Do an infinite loop - until told to stop by the main thread.
-	while( true )
-	{
-		//if( m_bThreadShouldBeKilled ){ break; }
-		if( GetPlayer()->GetPlayerNumber() == 2 )
-		{
-			int x1=0;
-		}
-		if( GetPlayer()->GetPlayerNumber() == 3 )
-		{
-			int x2=0;
-		}
-
-		if( m_bThreadShouldBePaused != m_bThreadIsPaused )
-		{
-			m_bThreadIsPaused = m_bThreadShouldBePaused;
-		}
-		if( m_bThreadIsPaused )
-		{
-			Sleep( 100 );
-			continue;
-		}
-
-		// Update the common MultiRegion data
-		/*
-		if( m_bUpdateCommonAIData )
-		{
-			/*
-			m_bUpdateCommonAIData = false;
-			long iTurn = GetWorldDescPlayer()->GetCurrentTurn();
-			//while( GetCommonState()->GetCommonAIData()->GetTurn() < GetWorldDescPlayer()->GetCurrentTurn() )
-			//{
-				GetCommonState()->GetCommonAIData()->UpdateTurnData( iTurn );
-				//Sleep( 500 );
-			//}
-			*-/
-		}
-		*-/
-
-		if( g_pGameAppState == NULL ){ break; }
-		if( g_pGameAppState->GetEntireGameIsOver() ){ break; }
-		if( GetPlayer()->GetPlayerHasBeenEliminated() ){ break; }
-		if( m_bThreadShouldBeKilled ){ break; }
-
-		if( m_eProcessingState == enumWaitingForServerToPlayerUpdate )
-		{
-			Sleep( 100 );
-			continue;
-		}
-		if( m_eProcessingState == enumWaitingForAutosaveAndLocalPlayerTurnReplayEnd )
-		{
-			// Don't process the AI until after the autosave happens and the TurnReply ended
-			Sleep( 100 );
-			continue;
-		}
-
-		/*
-		if( GetWorldDescPlayer()->GetPoiList()->IsEmpty() )
-		{
-			// This is the first turn, but the ServerToPlayerUpdate hasn't come through yet
-			Sleep( 100 );
-			continue;
-		}
-		*-/
-
-		//if( m_bNeedToUpdateTurnInformation )
-		if( m_eProcessingState == enumBeginProcessingTurn )
-		{
-			/*
-			while( m_StrategicAI.GetCurrentOrders()->IsEmpty() == FALSE )
-			{
-				CEOSAIStrategicAIOrder* pOrder = m_StrategicAI.GetCurrentOrders()->RemoveHead();
-				m_StrategicAIOrders.AddTail( pOrder );
-			}
-			*-/
-			//
-
-			/*
-			if( GetWorldDescPlayer()->GetCurrentTurn() == 1 )
-			//if( GetWorldDescPlayer()->GetCurrentTurn() == 1 &&
-			//	Public::m_bDoingTesting )
-			{
-				CInternalMail* pMail = new CInternalMail();
-				long iSendTo = 1;
-				if( GetPlayer()->GetPlayerNumber() == 1 ){ iSendTo = 2; }
-				pMail->InitializeWithPlayerNumbers(
-					GetPlayer()->GetPlayerNumber(), 
-					iSendTo, 
-					"Trade?", 
-					"[This is a test message]\r\nDo you want to make a trade?\r\n[This is a test message]" );
-
-				CTradeAgreement* pTradeAgreement = new CTradeAgreement();
-				pTradeAgreement->InitializeWithPlayerNumbers( 
-					GetPlayer()->GetPlayerNumber(),
-					iSendTo,
-					GetWorldDescPlayer()->GetNextTradeAgreementId() );
-				//pTradeAgreement->m_iPlayerWhoMadeTheOffer = 1;
-				//pTradeAgreement->m_iPlayer[0] = GetPlayer()->GetPlayerNumber(); // player number
-				//pTradeAgreement->m_iPlayer[1] = iSendTo; // player number
-				//pTradeAgreement->m_TradeAgreementState = EOSAIEnumTradeAgreementState_BrandNew;
-				//pTradeAgreement->m_iTradeAgreementId = GetWorldDescPlayer()->GetNextTradeAgreementId();
-				pTradeAgreement->m_iPlayerMoneyLumpSum[0] = 3;
-				pTradeAgreement->m_iPlayerMoneyPerTurn[0] = 3;
-				//pTradeAgreement->m_ePlayerResponse[0] = CTradeAgreement::enum_Accept;
-
-				pMail->m_pTradeAgreement = pTradeAgreement;
-				GetWorldDescPlayer()->AddTradeAgreement( pTradeAgreement );
-
-				// Send it - Note: all InternalMail goes through the server.
-				//    This is because the server needs to assign TradeIds and process Trade "accept"s
-				CMessage2_InternalMail InternalMailMessage;
-				//InternalMailMessage.InitializeWithMessageIds(
-				//	GetPlayer()->GetMessageTargetId(), g_pMessageTargetManager->GetMessageTarget_ServerId(), pMail );
-				//InternalMailMessage.SetSentBy( GetPlayer()->GetMessageTargetName() );
-				InternalMailMessage.SetSenderId( GetPlayer()->GetMessageTargetId() );
-				InternalMailMessage.AddSendTo( g_pMessageTargetManager->GetMessageTarget_ServerId() );
-				InternalMailMessage.SetInternalMail( pMail );
-				//InternalMailMessage.SetSenderId( pMail->m_iFromMessageId );
-				//InternalMailMessage.AddReceiverId( g_pMessageTargetManager->GetMessageTarget_ServerId() ); //&pMail->m_ToMessageIds );
-				//InternalMailMessage.SetInternalMail( pMail );
-				g_pMessageManager->Send( InternalMailMessage );
-			}
-			*-/
-
-
-		}
-
-		if( Public::ActiveAIPlayers() == false )
-		{
-			if( m_eProcessingState == enumBeginProcessingTurn )
-			{
-				m_eProcessingState = enumProcessingTurn;
-
-				long iPlayer = GetPlayer()->GetPlayerNumber();
-				if( g_pGameAppState )
-				{
-					g_pMessageManager->CreateIM_AIPlayerIsInactive( iPlayer );
-				}
-
-				//m_pAIBrain->GetSpatialMap()->
-				m_pAIBrain->Clear();
-
-				//m_bNeedToUpdateTurnInformation = false;
-				//m_bReadyToSendOrdersToServer = true;
-				//
-				m_eProcessingState = enumReadyToSendOrdersToServer;
-			}
-		}
-		if( Public::ActiveAIPlayers() )
-		{
-			if( m_eProcessingState == enumBeginProcessingTurn )
-			{
-				m_eProcessingState = enumProcessingTurn;
-
-				// Wait until the turn-replay is done (usually about 5 seconds)
-				Sleep( 1000 );
-				while( g_pGameAppState->GetWorldDescPlayer()->GetReplayLastTurn() )
-				{
-					Sleep( 1000 );
-				}
-
-				ProcessUnprocessedEvents();
-
-				//
-				m_StrategicAI.SetAIPlayer( this );
-				//m_StrategicAI.SetPlayer( GetPlayer()->GetPlayerNumber() );
-				//m_StrategicAI.SetCurrentTurn( GetWorldDescPlayer()->GetCurrentTurn() );
-				m_StrategicAI.InvokePlayers( GetCommonState()->GetNumberOfPlayers() );
-				//m_StrategicAI.SetupNationalPowerValues();
-				//m_StrategicAI.SetupInputValues();
-				//m_StrategicAI.CalculateForeignRelationFeelingsBasedOnPlayerInteractionHistory();
-				m_StrategicAI.RunCalculationsCreateOrdersAndStances();
-				//m_StrategicAI.CalculateTechnologyStrategy();
-
-				float fPercent = m_StrategicAI.GetPercentageOfCapturedCitRes();
-
-				// debug
-				CString strCurrentState = m_StrategicAI.GetAIForeignRelationsState()->OutputDebugString();
-
-				//m_bNeedToUpdateTurnInformation = false;
-				if( GetWorldDescPlayer()->GetPoiList()->IsEmpty() )
-				{
-					continue;
-				}
-				//m_bAllHumanPlayersHaveSubmittedOrders = false;
-				//m_AIBrain.DeletePlan(); // Delete the plan here (instead of later) so we can look at the completed plan later
-				//delete m_pAIBrain;
-				//m_pAIBrain = NULL;
-				m_pAIBrain->Clear();
-
-				// Check for memory leaks
-				#ifdef _DEBUG
-				CMemoryState MemoryState1;
-				MemoryState1.Checkpoint();
-				#endif
-
-				CEOSAIStopwatch2 AITimer;
-				AITimer.Start();
-
-				m_pWorldDescPlayer->ApplyAllEvents();
-
-				if( m_bThreadShouldBeKilled ){ break; }
-
-				//CPoi* pPoi = m_pWorldDescPlayer->GetPoi( 21 );
-				//int x=0;
-
-				//m_AIBrain.Process();
-				//delete m_pPlan;
-				//m_pAIBrain = new CEOSAIBrain();
-				//m_pAIBrain->Initialize( this );
-
-				//this->InstanciateSightings(); // DEBUG
-
-				m_pAIBrain->ResetProcessingFlags();
-				m_pAIBrain->Process();
-
-				// Tell the server I am ready to send my orders, but I need to wait and listen
-				//   for player-responses and player-offers.  I don't want to end my turn before they
-				//   send me an offer which could affect this turn's orders (like a peace offer).
-
-				if( m_bThreadShouldBeKilled ){ break; }
-
-				//EvaluateGameSituation();
-				//UpdateBuildOrders();
-
-				if( m_bThreadShouldBeKilled ){ break; }
-
-				//SendServerNotificationThatImReadyToSubmitOrders();
-				//m_bReadyToSendOrdersToServer = true;
-				ASSERT( m_eProcessingState == enumProcessingTurn );
-				if( m_eProcessingState == enumProcessingTurn )
-				{
-					m_eProcessingState = enumReadyToSendOrdersToServer;
-				}
-
-				// Check for memory leaks
-				#ifdef _DEBUG
-				CMemoryState MemoryState2;
-				MemoryState2.Checkpoint();
-
-				CMemoryState DiffState;
-				DiffState.Difference( MemoryState1, MemoryState2 );
-
-				// 2735413 bytes in 18897 Normal Blocks ( + m_AIBrain.Process() - m_AIBrain.DeletePlan() )
-				// 2164312 bytes in 13631 Normal Blocks ( + m_AIBrain.Process() + m_AIBrain.DeletePlan() )
-				// 2102371 bytes in 11986 Normal Blocks ( + m_AIBrain.Process() - InstanciateOrders() + m_AIBrain.DeletePlan() )
-				// 2161810 bytes in 13475 Normal Blocks ( + m_AIBrain.Process() + m_AIBrain.DeletePlan() )
-				// 2161369 bytes in 13467 Normal Blocks ( + m_AIBrain.Process() + m_AIBrain.DeletePlan() )
-				//    2423 bytes in    47 Normal Blocks ( - m_AIBrain.Process() + m_AIBrain.DeletePlan() )
-
-				// Latest:
-				// 3839552 bytes in 23361 Normal Blocks.
-				//    5621 bytes in    -3 Normal Blocks.
-				//    1331 bytes in   -19 Normal Blocks.
-				DiffState.DumpStatistics();
-				//MemoryState1.DumpAllObjectsSince();
-				#endif
-				int z=0;
-
-				AITimer.Stop();
-				CString strText;
-				strText.Format( "CAIPlayer::Loop() - AITimer, player: %d, turn %d, time: %f", 
-					GetPlayer()->GetPlayerNumber(), GetWorldDescPlayer()->GetCurrentTurn(), AITimer.GetDeltaSeconds() );
-				Checkpoint::Write( strText );
-
-				#ifdef _DEBUG
-				strText.Format( "AIPlayer %d ready to send turn.", GetPlayer()->GetPlayerNumber() );
-				g_pMessageManager->CreateInstantMessageLineForEachLocalPlayer( GetPlayer()->GetPlayerNumber(), enum_IconClock, strText );
-				#endif
-
-				// We'll assume that ProcessTurn takes enough time that
-				//   we should check for the paused flag rather than continue.
-				continue;
-			}
-		}
-		//if( m_bReadyToSendOrdersToServer )
-		if( m_eProcessingState == enumReadyToSendOrdersToServer )
-		{
-			Sleep( 50 );
-			if( ProcessUnprocessedEvents() )
-			{
-				m_eProcessingState = enumBeginProcessingTurn;
-				return; // this will switch to another player
-			}
-			/*
-			if( m_eProcessingState == enumBeginProcessingTurn )
-			{
-				continue; // go back to the beginning of the loop
-			}
-			*-/
-
-			long iNumberOfHumanPlayers = GetWorldDescPlayer()->GetWorldBuildDesc()->GetNumberOfHumanPlayers();
-			bool bSubmitTurn = false;
-
-			long iServerIsWaitingForTurn = GetCommonState()->GetWorldDescServer()->GetCurrentTurn();
-			bool bAllHumanPlayersHaveSubmittedTurn = GetCommonState()->GetWorldDescServer()->AllActiveHumanPlayersHaveSubmittedTurn( iServerIsWaitingForTurn );
-			/*
-			if( iNumberOfHumanPlayers > 0 && m_bAllHumanPlayersHaveSubmittedOrders )
-			{
-				bSubmitTurn = true;
-			}
-			if( iNumberOfHumanPlayers == 0 &&
-				GetWorldDescPlayer()->GetWorldBuildDesc()->GetAutoAdvanceTurn() )
-			{
-				bSubmitTurn = true;
-			}
-			if( bSubmitTurn )
-			{
-				SendOrders();
-			}
-			*-/
-			/*
-			Sleep( 10 );
-			if( GetWorldDescPlayer()->GetWorldBuildDesc()->GetNumberOfHumanPlayers() == 0 &&
-				GetWorldDescPlayer()->GetWorldBuildDesc()->GetAutoAdvanceTurn() )
-				m_bLocalHumanPlayerHasSubmittedTurn )
-			{
-				SendOrders();
-			}
-			*-/
-
-			// If there are no human players (AI-only game), either auto-advance or 
-			//   wait for the player to press the "turn" button
-			if( iNumberOfHumanPlayers == 0 )
-			{
-				if( GetWorldDescPlayer()->GetWorldBuildDesc()->GetAutoAdvanceTurn() ||
-					m_bAllHumanPlayersHaveSubmittedTurn )
-				{
-					bSubmitTurn = true;
-				}
-			}
-			else // this is a human-player game, wait for all humans to submit turns
-			{
-				//if( m_bAllHumanPlayersHaveSubmittedOrders )
-				if( bAllHumanPlayersHaveSubmittedTurn )
-				{
-					bSubmitTurn = true;
-					//m_bAllHumanPlayersHaveSubmittedOrders = false;
-				}
-			}
-			if( bSubmitTurn )
-			{
-				SendOrders();
-			}
-		}
-		/*
-		else
-		{
-			// Wait around for the human player (do nothing)
-			Sleep( 50 );
-		}
-		*-/
-
-		Sleep( 100 );
-	}
-	//m_AIBrain.DeletePlan();
-	m_bThreadIsRunning = false;
 }
 */
 void  AIPlayer::Process()
@@ -1229,7 +829,7 @@ void  AIPlayer::Process()
 
 			CEOSAIStopwatch2  Stopwatch1;
 			Stopwatch1.Start();
-			g_pEOSAICommonData->RebuildDataIfNecessary();//RebuildAICommonDataIfNecessary();
+			//g_pEOSAICommonData->RebuildDataIfNecessary(); - This is done inside the PlayerManager file now?
 			Stopwatch1.Stop();
 
 			#ifdef _DEBUG
@@ -1237,18 +837,7 @@ void  AIPlayer::Process()
 			//Beep( 250,200 );
 			#endif _DEBUG
 
-			/*
-			CWorldDescServer* pWorldDescServer = GetCommonState()->GetWorldDescServer();
-			if( pWorldDescServer )
-			{
-				// Rebuild the AICommonData
-				pWorldDescServer->GetAICommonData()->RebuildAICommonDataIfNecessary();
-			}
-			*/
-
-			//ASSERT( g_pEOSAICommonData->GetLastAIUnitCombatCapabilitiesCalculatedTurn() == GetWorldDescServer()->GetCurrentTurn() );
-			//GetCommonState()->CalculateUnitCombatCapabilities( GetWorldDescServer()->GetCurrentTurn() );
-			g_pAIPlayerManager->CurrentlyProcessingAIPlayer( GetPlayerNumber() );
+			g_pAIPlayerManager->SetFlag_CurrentlyProcessingAIPlayer(GetPlayerNumber());
 /*
 			while( m_pWorldDescPlayer->GetReplayLastTurn() )
 			{
@@ -1641,7 +1230,7 @@ void  AIPlayer::Process()
 			strText.Format( _T("        CreateTaskForcesAndPredefinedSteps Time: %f (%0.2f)"), m_pAIBrain->m_CreateTaskForcesAndPredefinedStepsTime.GetDeltaSeconds(), m_pAIBrain->m_CreateTaskForcesAndPredefinedStepsTime.GetDeltaSeconds()/fTotalDeltaTime ); Checkpoint::Write( strText );
 			Checkpoint::Write( _T("-----") );
 */
-			g_pAIPlayerManager->CurrentlyProcessingAIPlayer( 0 );
+			g_pAIPlayerManager->SetFlag_CurrentlyProcessingAIPlayer(0);
 			Interproc::IsProcessing(false);
 		}
 	}
@@ -2549,9 +2138,9 @@ bool AIPlayer::ProcessUnprocessedEvents()
 	}
 	while (m_UnprocessedIncomingMessages.IsEmpty() == FALSE)
 	{
-		EOSAI::MessageToAI* pMessage = m_UnprocessedIncomingMessages.RemoveHead();
+		EOSAI::Message* pMessage = m_UnprocessedIncomingMessages.RemoveHead();
 		Interproc::IsProcessing(true);
-		m_StrategicAI.ProcessMessage(pMessage, &bThisEventWasSignificantEnoughToRecalculateTheTurn);
+		m_StrategicAI.ProcessMessageToAI(pMessage, &bThisEventWasSignificantEnoughToRecalculateTheTurn);
 		Interproc::IsProcessing(false);
 	}
 

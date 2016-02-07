@@ -3557,9 +3557,9 @@ void CEOSAIBrain::BuyNeededResourcesFromOpenMarket()
 		BuySellPlan.m_Food.m_fDelta = ResourceDelta.Get(_T("Food"));//m_AIResourceEffectsSummary.m_ResourceDelta.Get( _T("Food") );//GetDeltaFood();
 		BuySellPlan.m_Iron.m_fDelta = ResourceDelta.Get(_T("Iron"));//m_AIResourceEffectsSummary.m_ResourceDelta.Get( _T("Iron") );//GetDeltaIron();
 		BuySellPlan.m_Oil.m_fDelta = ResourceDelta.Get(_T("Oil"));//m_AIResourceEffectsSummary.m_ResourceDelta.Get( _T("Oil") );//GetDeltaOil();
-		ASSERT(BuySellPlan.m_Food.m_fDelta != 0.0f);
-		ASSERT(BuySellPlan.m_Iron.m_fDelta != 0.0f);
-		ASSERT(BuySellPlan.m_Oil.m_fDelta != 0.0f);
+		//ASSERT(BuySellPlan.m_Food.m_fDelta != 0.0f);
+		//ASSERT(BuySellPlan.m_Iron.m_fDelta != 0.0f);
+		//ASSERT(BuySellPlan.m_Oil.m_fDelta != 0.0f);
 
 		// Run the cheats first - TODO - Need to remove the cheats. It's too game specific.
 		{

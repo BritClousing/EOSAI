@@ -1443,13 +1443,13 @@ float CEOSAIStrategicAI::GetTechValue( CEOSAITechnologyDesc* pTechDesc )
 	float fLandFoodBonus = pTechDesc->GetNationalLandFoodBonusMultiplier();
 	if( fLandFoodBonus > 0.0f )
 	{
-		float fLandFoodResources = m_pAIPlayer->GetMyLandFoodResources();
+		float fLandFoodResources = m_pAIPlayer->GetAIBrain()->GetAIThoughtDatabase()->GetMyLandFoodResources();
 		fValue += fLandFoodBonus * fLandFoodResources * m_pAIPlayer->GetCitResValue_FoodMultiplier();
 	}
 	float fSeaFoodBonus = pTechDesc->GetNationalSeaFoodBonusMultiplier();
 	if( fSeaFoodBonus > 0.0f )
 	{
-		float fSeaFoodResources = m_pAIPlayer->GetMySeaFoodResources();
+		float fSeaFoodResources = m_pAIPlayer->GetAIBrain()->GetAIThoughtDatabase()->GetMySeaFoodResources();
 		fValue += fSeaFoodBonus * fSeaFoodResources * m_pAIPlayer->GetCitResValue_FoodMultiplier();
 	}
 
@@ -2416,7 +2416,7 @@ void CEOSAIStrategicAI::ProcessTradeAgreementResponse( CEOSAITradeAgreementRespo
 
 //
 
-void  CEOSAIStrategicAI::ProcessMessage(EOSAI::MessageToAI* pMessage, bool* pbThisEventWasSignificantEnoughToRecalculateTheTurn)
+void  CEOSAIStrategicAI::ProcessMessageToAI(EOSAI::Message* pMessage, bool* pbThisEventWasSignificantEnoughToRecalculateTheTurn)
 {
 	/*
 	ASSERT(pMessage->SendToAllPlayers()==false);

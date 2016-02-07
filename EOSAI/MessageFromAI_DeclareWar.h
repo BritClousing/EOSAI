@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include "MessageFromAI.h"
+#include "Message.h"
 
 #ifdef CREATE_EOSAI_DLL
 #define DLLIMPEXP __declspec(dllexport)
@@ -11,7 +11,7 @@
 
 namespace EOSAI
 {
-class DLLIMPEXP MessageFromAI_DeclareWar : public MessageFromAI
+class DLLIMPEXP MessageFromAI_DeclareWar : public Message
 {
 	public:
 		int m_iAttackingPlayer;

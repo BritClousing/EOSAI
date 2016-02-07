@@ -151,6 +151,11 @@ class CEOSAIThoughtDatabase
 			long  GetNumberOfCitiesWithImprovement( CString strCityImprovement );
 			//float GetPercentageOfCitiesWithCityImprovement( CString strCityImprovement );
 
+		// Resources
+		//
+			float GetMyLandFoodResources();
+			float GetMySeaFoodResources();
+
 		// Airbases
 		//
 			void  GetAirbases( long iPlayer, CEOSAIAirbasesSet* pAirbasesSet );
@@ -219,7 +224,7 @@ class CEOSAIThoughtDatabase
 			//bool  DoIHaveAnyCityHuntersOrCitiesOnTheGeo( CEOSAILocation Location );
 
 			// There is one map per Transport AIUnitTemplate
-			CList< CEOSAITransportCombinedMap* >*  GetTransportCombinedMultiRegionMaps_old(){ return &m_TransportCombinedMultiRegionMaps_old; }
+			//CList< CEOSAITransportCombinedMap* >*  GetTransportCombinedMultiRegionMaps_old(){ return &m_TransportCombinedMultiRegionMaps_old; }
 
 		//
 		// Unit Classifications:
@@ -281,7 +286,7 @@ class CEOSAIThoughtDatabase
 		// Warzone
 		//
 			CList< CEOSAIWarzoneLocation* >  m_WarzoneLocations;
-			CList< CEOSAITransportCombinedMap* >  m_TransportCombinedMultiRegionMaps_old;
+			//CList< CEOSAITransportCombinedMap* >  m_TransportCombinedMultiRegionMaps_old;
 
 	//
 		//

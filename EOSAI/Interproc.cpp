@@ -562,7 +562,7 @@ void Interproc::UpdateSharedMemory()
 					if (g_pEOSAIInterface->GetAIPlayer(iPlayer))
 					{
 						EOSAI::AIPlayer* pAIPlayer = g_pEOSAIInterface->GetAIPlayer(iPlayer);
-						g_pSharedMemoryBuffer->m_Players[iPlayer].m_iIntelligence3 = g_pEOSAIInterface->GetAIPlayer(iPlayer)->GetAIBrainIntelligence();
+						g_pSharedMemoryBuffer->m_Players[iPlayer].m_iIntelligence3 = g_pEOSAIInterface->GetAIPlayer(iPlayer)->GetAIBrainIntelligence3();
 
 						// Processing State
 						if (g_pEOSAIInterface->GetAIPlayer(iPlayer)->m_eProcessingState == EOSAI::AIPlayer::enumWaitingForServerToPlayerUpdate)

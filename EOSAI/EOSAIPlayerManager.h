@@ -16,7 +16,7 @@ namespace EOSAI
 {
 	class CInterface;
 	class AIPlayer;
-	class MessageToAI;
+	class Message;
 };
 
 #ifdef CREATE_EOSAI_DLL
@@ -73,14 +73,14 @@ class CEOSAIPlayerManager
 		//
 			// After setting everything up, call "Process".  If anything changes in the game state after calling process, call "AddEvent".
 			// The "Process" call will start a new thread that will process the AI.
-			void  Process();
+			//void  Process();
 
 			// Current Processing State
 			long  GetNumberOfAIPlayersWhoAreReadyToSendTurn();
 			bool  GetAllAIPlayersAreReadyToSendTurn();
 			bool  GetAllAIPlayersAreReadyToSendTurnOrHaveSentTurn();
-			void  CurrentlyProcessingAIPlayer( long i ){ m_iCurrentlyProcessingAIPlayer = i; }
-			long  CurrentlyProcessingAIPlayer(){ return m_iCurrentlyProcessingAIPlayer; }
+			void  SetFlag_CurrentlyProcessingAIPlayer( long i ){ m_iCurrentlyProcessingAIPlayer = i; }
+			long  GetFlag_CurrentlyProcessingAIPlayer(){ return m_iCurrentlyProcessingAIPlayer; }
 
 			// If the game is being saved, the AI needs to go into a idle state.  Call "WaitForAutosave" to put the AI into idle.
 			//void  WaitForAutosave( bool bWait ){ m_bWaitForAutosave = bWait; }
@@ -115,7 +115,7 @@ class CEOSAIPlayerManager
 
 		// Data common to all AI players
 		//
-			void  ProcessMessage(EOSAI::MessageToAI* pMessageToAI);
+			void  ProcessMessage(EOSAI::Message* pMessageToAI);
 
 			// AICommonData is some information used by all the AIs (stuff like pathway maps)
 			// It gets calculated before any of the AIs handle their turn

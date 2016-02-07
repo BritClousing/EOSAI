@@ -12,10 +12,10 @@ AIPlayerDesc::AIPlayerDesc( long iPlayer, long iAIBrainIntelligence3 )
 	//ASSERT( false );
 
 	m_iPlayer = iPlayer;
-	m_iAIBrainIntelligence = iAIBrainIntelligence3;
-	m_bFlag_ShutdownAIPlayer = false;
+	m_iAIBrainIntelligence3 = iAIBrainIntelligence3;
+	//m_bFlag_ShutdownAIPlayer = false;
 
-	m_iNextAIMessageUID = 1;
+	//m_iNextAIMessageUID = 1;
 
 	/*
 	m_fPersonality_HoldsGrudges01 = 0.0f;
@@ -61,29 +61,29 @@ AIPlayerDesc::AIPlayerDesc( long iPlayer, long iAIBrainIntelligence3 )
 
 		// Setting up the default cheats.  These values can be changed after calling the constructor.
 		m_fAICheat_FreeResearchPoints = 0.0f;
-		if( m_iAIBrainIntelligence == 1 ) m_fAICheat_FreeResearchPoints = -2.0f; // this is a penalty
-		if( m_iAIBrainIntelligence == 2 ) m_fAICheat_FreeResearchPoints = +0.0f;
-		if( m_iAIBrainIntelligence == 3 ) m_fAICheat_FreeResearchPoints = +2.5f;
+		if (m_iAIBrainIntelligence3 == 1) m_fAICheat_FreeResearchPoints = -2.0f; // this is a penalty
+		if (m_iAIBrainIntelligence3 == 2) m_fAICheat_FreeResearchPoints = +0.0f;
+		if (m_iAIBrainIntelligence3 == 3) m_fAICheat_FreeResearchPoints = +2.5f;
 
 		m_fAICheat_CityProductionMultiplier = 1.0f;
-		if( m_iAIBrainIntelligence == 1 ){ m_fAICheat_CityProductionMultiplier = 0.7f; } // this is a penalty
-		if( m_iAIBrainIntelligence == 2 ){ m_fAICheat_CityProductionMultiplier = 1.0f; }
-		if( m_iAIBrainIntelligence == 3 ){ m_fAICheat_CityProductionMultiplier = 1.3f; }
+		if (m_iAIBrainIntelligence3 == 1){ m_fAICheat_CityProductionMultiplier = 0.7f; } // this is a penalty
+		if (m_iAIBrainIntelligence3 == 2){ m_fAICheat_CityProductionMultiplier = 1.0f; }
+		if (m_iAIBrainIntelligence3 == 3){ m_fAICheat_CityProductionMultiplier = 1.3f; }
 
 		m_fAICheat_LikesAIPlayers = 0.0f;
-		if( m_iAIBrainIntelligence == 1 ){ m_fAICheat_LikesAIPlayers = -0.03f; } // Novice AI tends to prefer attacking other AIs
-		if( m_iAIBrainIntelligence == 2 ){ m_fAICheat_LikesAIPlayers = 0.0f; }
-		if( m_iAIBrainIntelligence == 3 ){ m_fAICheat_LikesAIPlayers = 0.0f; }
+		if (m_iAIBrainIntelligence3 == 1){ m_fAICheat_LikesAIPlayers = -0.03f; } // Novice AI tends to prefer attacking other AIs
+		if (m_iAIBrainIntelligence3 == 2){ m_fAICheat_LikesAIPlayers = 0.0f; }
+		if (m_iAIBrainIntelligence3 == 3){ m_fAICheat_LikesAIPlayers = 0.0f; }
 
 		m_fAICheat_LikesHumanPlayers = 0.0f;
-		if( m_iAIBrainIntelligence == 1 ){ m_fAICheat_LikesHumanPlayers = 0.0f; }
-		if( m_iAIBrainIntelligence == 2 ){ m_fAICheat_LikesHumanPlayers = -0.03f; }
-		if( m_iAIBrainIntelligence == 3 ){ m_fAICheat_LikesHumanPlayers = -0.06f; } // Elite AI tends to prefer attacking humans
+		if (m_iAIBrainIntelligence3 == 1){ m_fAICheat_LikesHumanPlayers = 0.0f; }
+		if (m_iAIBrainIntelligence3 == 2){ m_fAICheat_LikesHumanPlayers = -0.03f; }
+		if (m_iAIBrainIntelligence3 == 3){ m_fAICheat_LikesHumanPlayers = -0.06f; } // Elite AI tends to prefer attacking humans
 
 		m_fAICheat_AttackMultiplierAgainstMilitia = 1.0f;
-		if( m_iAIBrainIntelligence == 1 ){ m_fAICheat_AttackMultiplierAgainstMilitia = 1.0f; }
-		if( m_iAIBrainIntelligence == 2 ){ m_fAICheat_AttackMultiplierAgainstMilitia = 1.4f; }
-		if( m_iAIBrainIntelligence == 3 ){ m_fAICheat_AttackMultiplierAgainstMilitia = 2.0f; } // Elite AI tends to prefer attacking humans
+		if (m_iAIBrainIntelligence3 == 1){ m_fAICheat_AttackMultiplierAgainstMilitia = 1.0f; }
+		if (m_iAIBrainIntelligence3 == 2){ m_fAICheat_AttackMultiplierAgainstMilitia = 1.4f; }
+		if (m_iAIBrainIntelligence3 == 3){ m_fAICheat_AttackMultiplierAgainstMilitia = 2.0f; } // Elite AI tends to prefer attacking humans
 
 }
 
@@ -93,8 +93,8 @@ void  AIPlayerDesc::Serialize( CEOSAISerial* pSerial )
 	char iVersion = 4;
 	pSerial->Serialize( iVersion ); // Version
 
-	pSerial->Serialize( m_iNextAIMessageUID );
-	pSerial->Serialize( m_iAIBrainIntelligence );
+	//pSerial->Serialize( m_iNextAIMessageUID );
+	pSerial->Serialize( m_iAIBrainIntelligence3 );
 
 	pSerial->Serialize( m_fPersonality_HoldsGrudges01 );
 	pSerial->Serialize( m_fPersonality_Aggressive01 );
@@ -132,10 +132,10 @@ void  AIPlayerDesc::Deserialize( CEOSAISerial* pSerial )
 	// If we are deserializing, then we are loading a game.
 	//   If we are loading a game, then restart the processing
 	//m_eProcessingState = enumWaitingForAutosaveAndLocalPlayerTurnReplayEnd;
-	m_eProcessingState = enumBeginProcessingTurn;
+	//m_eProcessingState = enumBeginProcessingTurn;
 
-	pSerial->Deserialize( m_iNextAIMessageUID );
-	pSerial->Deserialize( m_iAIBrainIntelligence );
+	//pSerial->Deserialize( m_iNextAIMessageUID );
+	pSerial->Deserialize( m_iAIBrainIntelligence3 );
 
 	if( iVersion == 3 )
 	{

@@ -112,13 +112,26 @@ void CCommonData::DeleteAIPoiObjects()
 
 void CCommonData::ResetAIPlayerDataInAIPoiObjects( int iPlayer )
 {
+	// Remove all the hypothetical units
 	POSITION pos = m_AIPoiObjects.GetHeadPosition();
+	while (pos)
+	{
+		POSITION prevPos = pos;
+		CEOSAIPoiObject* pAIPoiObject = m_AIPoiObjects.GetNext(pos);
+		if (pAIPoiObject->IsHypotheticalPoiObject())
+		{
+			m_AIPoiObjects.RemoveAt(prevPos);
+			delete pAIPoiObject;
+		}
+	}
+	// Reset all the player-specific data
+	pos = m_AIPoiObjects.GetHeadPosition();
 	while (pos)
 	{
 		CEOSAIPoiObject* pAIPoiObject = m_AIPoiObjects.GetNext(pos);
 		if (pAIPoiObject->GetOwner() == iPlayer)
 		{
-			ASSERT(pAIPoiObject->IsHypotheticalPoiObject() == false);
+			//ASSERT(pAIPoiObject->IsHypotheticalPoiObject() == false);
 			pAIPoiObject->ResetAIPlayerData();
 		}
 	}
@@ -135,179 +148,30 @@ long CCommonData::GetNumberOfPlayers()
 {
 	return g_pEOSAIInterface->GetNumberOfGamePlayers();
 }
-
+/*
 void CCommonData::RebuildDataIfNecessary()
 {
 	//
 	// The Common AI Data is being built inside the main application thread, so I no longer do this here.
 	// In the "official" version of EOS, the AI could rebuild this data on its own (the ServerWorldDesc is constant during a turn)
 	//
-	/*
+	/-*
 	if( m_bNeedToRebuildData )
 	{
 		Sleep( 1000 );
 		ASSERT( false ); //CreateData();
 	}
-	*/
-}
-/*
-void CCommonData::AddGamePlayer( long iPlayer, EOSAI::EnumGamePlayerType ePlayerType, bool bIsAlive )
-{
-	ASSERT( iPlayer <= 10 );
-	ASSERT( m_Players[iPlayer] == NULL );
-
-	EOSAI::CGamePlayer* pGPlayer = new EOSAI::CGamePlayer();
-	pGPlayer->m_iPlayer = iPlayer;
-	pGPlayer->m_ePlayerType = ePlayerType;
-	pGPlayer->m_bIsAlive = bIsAlive;
-	m_Players[iPlayer] = pGPlayer;
-}
-*/
-/*
-void CAICommonData::CreateData()
-{
-	CEOSAIStopwatch2  WatchTotal;
-	CEOSAIStopwatch2  WatchGenerateAIRegions;
-	CEOSAIStopwatch2  WatchGenerateMultiRegions;
-	CEOSAIStopwatch2  WatchCalculateUnitCombatCapabilities;
-	CEOSAIStopwatch2  WatchCalculateNationalSummaries;
-	CEOSAIStopwatch2  WatchAddObjectIdsToAIRegionsAndMultiRegions;
-	CEOSAIStopwatch2  WatchCalculateNationwidePathways;
-	CEOSAIStopwatch2  WatchCalculateAIRegionOwnership;
-
-	#ifdef _DEBUG
-	//Beep( 100,100 );
-	#endif _DEBUG
-
-	m_bNeedToRebuildData = false;
-
-	if( GetNumberOfActiveAIPlayers() == 0 ) return;
-	//#ifdef _DEBUG
-	//if( Public::ActiveAIPlayers() == false ) return;
-	//#endif
-	WatchTotal.Start();
-
-	CWorldDescServer* pWorldDescServer = GetCommonState()->GetWorldDescServer();
-	if( m_AIRegionManager.GetNumberOfGenericRegions() == 0 )
-	{
-		//pWorldDescServer->BuildGeoAndNodeMaps();
-
-		WatchGenerateAIRegions.Start();
-		m_AIRegionManager.ServerFunction_GenerateAIRegions( pWorldDescServer );
-		WatchGenerateAIRegions.Stop();
-		//
-		m_MultiRegionManager.SetAIRegionManager( &m_AIRegionManager );
-		m_MultiRegionManager.SetWorldDescServer( pWorldDescServer );
-
-		WatchGenerateMultiRegions.Start();
-		m_MultiRegionManager.GenerateMultiRegions( &m_AIRegionManager );
-		WatchGenerateMultiRegions.Stop();
-	}
-
-	WatchCalculateUnitCombatCapabilities.Start();
-	//GetCommonState()->CalculateUnitCombatCapabilities( pWorldDescServer->GetCurrentTurn() );
-	CalculateAIUnitCombatCapabilities( pWorldDescServer->GetCurrentTurn() );
-	WatchCalculateUnitCombatCapabilities.Stop();
-
-	WatchCalculateNationalSummaries.Start();
-	CalculateNationalSummaries();
-	WatchCalculateNationalSummaries.Stop();
-
-	WatchAddObjectIdsToAIRegionsAndMultiRegions.Start();
-	AddObjectIdsToAIRegionsAndMultiRegions();
-	WatchAddObjectIdsToAIRegionsAndMultiRegions.Stop();
-
-	WatchCalculateNationwidePathways.Start();
-	CalculateNationwidePathways();
-	WatchCalculateNationwidePathways.Stop();
-
-	WatchCalculateAIRegionOwnership.Start();
-	CalculateAIRegionOwnership();
-	CalculateMultiRegionOwnership();
-	WatchCalculateAIRegionOwnership.Stop();
-	WatchTotal.Stop();
-
-	float fWatchGenerateAIRegions = WatchGenerateAIRegions.GetDeltaSeconds();
-	float fWatchGenerateMultiRegions = WatchGenerateMultiRegions.GetDeltaSeconds();
-	float fWatchCalculateUnitCombatCapabilities = WatchCalculateUnitCombatCapabilities.GetDeltaSeconds();
-	float fWatchCalculateNationalSummaries = WatchCalculateNationalSummaries.GetDeltaSeconds();
-	float fWatchAddObjectIdsToAIRegionsAndMultiRegions = WatchAddObjectIdsToAIRegionsAndMultiRegions.GetDeltaSeconds();
-	float fWatchCalculateNationwidePathways = WatchCalculateNationwidePathways.GetDeltaSeconds();
-	float fWatchCalculateAIRegionOwnership = WatchCalculateAIRegionOwnership.GetDeltaSeconds();
-	float fWatchTotal = WatchTotal.GetDeltaSeconds();
-
-	CString strText;
-	strText.Format( _T("  WatchGenerateAIRegions = %0.2f Seconds"), WatchGenerateAIRegions.GetDeltaSeconds() ); g_LogFile.Write( strText );
-	strText.Format( _T("  WatchGenerateMultiRegions = %0.2f Seconds"), WatchGenerateMultiRegions.GetDeltaSeconds() ); g_LogFile.Write( strText );
-	strText.Format( _T("  WatchCalculateUnitCombatCapabilities = %0.2f Seconds"), WatchCalculateUnitCombatCapabilities.GetDeltaSeconds() ); g_LogFile.Write( strText );
-	strText.Format( _T("  WatchCalculateNationalSummaries = %0.2f Seconds"), WatchCalculateNationalSummaries.GetDeltaSeconds() ); g_LogFile.Write( strText );
-	strText.Format( _T("  WatchAddObjectIdsToAIRegionsAndMultiRegions = %0.2f Seconds"), WatchAddObjectIdsToAIRegionsAndMultiRegions.GetDeltaSeconds() ); g_LogFile.Write( strText );
-	strText.Format( _T("  WatchCalculateNationwidePathways = %0.2f Seconds"), WatchCalculateNationwidePathways.GetDeltaSeconds() ); g_LogFile.Write( strText );
-	strText.Format( _T("  WatchCalculateAIRegionOwnership = %0.2f Seconds"), WatchCalculateAIRegionOwnership.GetDeltaSeconds() ); g_LogFile.Write( strText );
-	strText.Format( _T("  WatchTotal = %0.2f Seconds"), WatchTotal.GetDeltaSeconds() ); g_LogFile.Write( strText );
-
-	m_bDataIsValid = true;
-	int g=0;
-}
-*/
-
-/*
-long CCommonData::GetNumberOfHumanPlayers()
-{
-	long iPlayers = 0;
-	for( long iPlayer=1; iPlayer<m_Players.m_iSize; iPlayer++ )
-	{
-		EOSAI::CGamePlayer* pPlayer = GetGamePlayer( iPlayer );
-		if( pPlayer->IsHuman() ) iPlayers++;
-	}
-	return iPlayers;
-}
-
-long CCommonData::GetNumberOfActivePlayers() // Players who are alive
-{
-//	ASSERT( false );
-//	return 0;
-
-	long iPlayers = 0;
-	for( long iPlayer=1; iPlayer<m_Players.m_iSize; iPlayer++ )
-	//POSITION pos = m_PlayerList.GetHeadPosition();
-	//while( pos )
-	{
-		//EOSAI::CGamePlayer* pPlayer = m_PlayerList.GetNext( pos );
-		EOSAI::CGamePlayer* pPlayer = GetGamePlayer( iPlayer );
-		if( pPlayer->IsAlive() ) iPlayers++;
-		//ASSERT( pPlayer->GetPlayerNumber() <= GetNumberOfPlayers() );
-	}
-	return iPlayers;
-}
-*/
-/*
-long CCommonData::GetNumberOfActiveAIPlayers()
-{
-	int iCount = 0;
-	/-*
-	POSITION pos = m_pWorldBuildDesc->GetPlayerList()->GetHeadPosition();
-	while( pos )
-	{
-		CPlayer* pPlayer = m_pWorldBuildDesc->GetPlayerList()->GetNext( pos );
-		if( pPlayer->IsHuman() == false )
-		{
-			if( pPlayer->GetPlayerHasBeenEliminated() == false )
-			{
-				iCount++;
-			}
-		}
-	}
-	return iCount;
 	*-/
-	for( long i=0; i<m_Players.m_iSize; i++ )
-	{
-		EOSAI::CGamePlayer* pPlayer = m_Players[i];
-		if( pPlayer && pPlayer->IsAI() ) iCount++;
-	}
-	return iCount;
 }
 */
+
+CEOSAIMultiRegionNationwidePathways*  CCommonData::GetNationwidePathways(long iPlayer)
+{
+	CEOSAIMultiRegionNationwidePathways* pPathways = m_NationwidePlayerPathways.Value(iPlayer);
+	ASSERT(pPathways);
+	ASSERT(pPathways->GetPlayer() == iPlayer);
+	return pPathways;
+}
 
 bool CCommonData::HasSetSneakAttack( long iAttacker, long iTarget )
 {
@@ -472,6 +336,22 @@ void  CCommonData::AddAdjacentLandGeos( CEOSAIIntSet& Geos )
 		}
 	}
 }
+
+CEOSAIBuildOption* CCommonData::GetAIBuildOption(CString strInternalName)
+{
+	POSITION pos = m_AIBuildOptionList.GetHeadPosition();
+	while (pos)
+	{
+		CEOSAIBuildOption* p = m_AIBuildOptionList.GetNext(pos);
+		if (p->GetInternalName() == strInternalName)
+		{
+			return p;
+		}
+	}
+	ASSERT(false);
+	return NULL;
+}
+
 
 void CCommonData::SetPlayerResources(int iPlayer, CString strResource, float fResourceAmount)
 {
@@ -656,6 +536,24 @@ void CCommonData::AddAIPoiObject( CEOSAIPoiObject* pAIPoiObject ) // Used by AIB
 
 	ASSERT( pAIPoiObject && pAIPoiObject->IsHypotheticalPoiObject() == false );
 	m_AIPoiObjects.AddTail( pAIPoiObject );
+}
+
+void CCommonData::DeleteAIPoiObject( long iObjectId )
+{
+	POSITION pos = m_AIPoiObjects.GetHeadPosition();
+	while (pos)
+	{
+		POSITION prevPos = pos;
+		CEOSAIPoiObject* pAIPoiObjectInList = m_AIPoiObjects.GetNext(pos);
+		if (pAIPoiObjectInList->GetObjectId() == iObjectId)
+		{
+			m_AIPoiObjects.RemoveAt(prevPos);
+			delete pAIPoiObjectInList;
+
+			ASSERT(GetAIPoiObject(iObjectId) == NULL);
+			return;
+		}
+	}
 }
 
 void CCommonData::AddHypotheticalAIPoiObject( CEOSAIPoiObject* pAIPoiObject ) // Used by AIBrains
@@ -877,6 +775,34 @@ void  CCommonData::CalculateNationwidePathways()
 }
 
 
+void CCommonData::InvokeNationalSummariesObjects()
+{
+	//long iNumberOfPlayers = pWorldBuildDesc->GetNumberOfPlayers();
+	long iNumberOfPlayers = g_pEOSAICommonData->GetNumberOfPlayers();
+	if (m_AINationalSummaries.m_iSize == 0)
+	{
+		m_AINationalSummaries.SetSize(iNumberOfPlayers + 1);
+		m_AINationalSummaries[0] = NULL;
+		for (long iPlayer = 1; iPlayer <= iNumberOfPlayers; iPlayer++)
+		{
+			m_AINationalSummaries[iPlayer] = new CEOSAINationalSummary3();
+			m_AINationalSummaries[iPlayer]->SetPlayer(iPlayer);
+		}
+	}
+	ASSERT(iNumberOfPlayers + 1 == m_AINationalSummaries.m_iSize);
+	for (long iPlayer = 1; iPlayer <= iNumberOfPlayers; iPlayer++)
+	{
+		if (m_AINationalSummaries[iPlayer] == NULL)
+		{
+			m_AINationalSummaries[iPlayer] = new CEOSAINationalSummary3();
+			m_AINationalSummaries[iPlayer]->SetPlayer(iPlayer);
+		}
+		m_AINationalSummaries[iPlayer]->CalculatePlayerPower();
+		m_AINationalSummaries[iPlayer]->CalculatePlayerToPlayerAccessibility();
+		m_AINationalSummaries[iPlayer]->CalculateResourceDeltas();
+	}
+}
+
 void CCommonData::CalculateNationalSummaries()
 {
 	// Totals
@@ -923,7 +849,7 @@ void CCommonData::CalculateNationalSummaries()
 		}
 	}
 	//
-
+	/*
 	//long iNumberOfPlayers = pWorldBuildDesc->GetNumberOfPlayers();
 	long iNumberOfPlayers = g_pEOSAICommonData->GetNumberOfPlayers();
 	if( m_AINationalSummaries.m_iSize == 0 )
@@ -948,6 +874,7 @@ void CCommonData::CalculateNationalSummaries()
 		m_AINationalSummaries[iPlayer]->CalculatePlayerToPlayerAccessibility();
 		m_AINationalSummaries[iPlayer]->CalculateResourceDeltas();
 	}
+	*/
 }
 
 /*

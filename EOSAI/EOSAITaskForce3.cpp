@@ -236,6 +236,11 @@ void CEOSAITaskForce3::ConstructTaskForce()
 	CEOSAIStopwatch2 watch0;
 	watch0.Start();
 
+	if (m_pTacticalProject2Strategy->GetTacticalProject2()->ProjectIncludesObjectIdAsPrimaryTask(16))
+	{
+		int h = 0;
+	}
+
 	ReleaseStackAllocations();
 
 	ASSERT( m_pTacticalProject2Strategy );

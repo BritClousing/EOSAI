@@ -310,7 +310,7 @@ void CEOSAIUnit::CreateHypotheticalUnit( CEOSAIUnitTemplate* pAIUnitTemplate, lo
 
 void CEOSAIUnit::CreateHypotheticalUnit( CEOSAICity* pBuiltByCity, CEOSAIUnitTemplate* pAIUnitTemplate, float fTimeToBuild )
 {
-	ASSERT( false ); // hypothetical units exist only in the minds of the AI - I need an AIBrain pointer
+	//ASSERT( false ); // hypothetical units exist only in the minds of the AI - I need an AIBrain pointer
 	ASSERT( m_bHypotheticalPoiObject == false );
 
 	m_pBuiltByCity = pBuiltByCity;

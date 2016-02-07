@@ -3,9 +3,11 @@
 #include "EOSAIStrategicAIOrder_OfferPeaceTreaty.h"
 //#include "Player.h"
 #include "AIPlayer.h"
+#include "MessageFromAI_TradeOffer.h"
 #include "EOSAIPlayerManager.h"
 #include "EOSAITradeAgreement.h"
 #include "EOSAICommonData.h"
+#include "EOSAIInterface.h"
 //#include "GameEvent_IMail.h"
 //#include "TradeAgreement.h"
 //#include "WorldDescServer.h"
@@ -33,8 +35,16 @@ void CEOSAIStrategicAIOrder_OfferPeaceTreaty::Execute( long iCurrentTurn )
 	long iAIPlayer = GetPlayerNumber();
 	EOSAI::AIPlayer* pAIPlayer = g_pAIPlayerManager->GetAIPlayer( iAIPlayer );
 	ASSERT( pAIPlayer );
-	m_PeaceTreatyIMail.m_iAIMessageUID = pAIPlayer->GetNextAIMessageUID();
-	ASSERT(false);
+	//m_PeaceTreatyIMail.m_iAIMessageUID = pAIPlayer->GetNextAIMessageUID();
+	//ASSERT(false);
+
+	// The AI needs to send an outgoing message to the player or server.
+	EOSAI::MessageFromAI_TradeOffer* pRequestPeaceTradeOffer = new EOSAI::MessageFromAI_TradeOffer();
+	pRequestPeaceTradeOffer->m_iFromPlayer = iAIPlayer;
+	pRequestPeaceTradeOffer->m_iToPlayer = m_iTargetPlayer;
+	pRequestPeaceTradeOffer->m_TradeAgreement.m_bPeaceTreaty = true;
+	g_pEOSAIInterface->SendMessageFromAI(pRequestPeaceTradeOffer);
+
 #ifdef GAME_CODE
 	//CGameEvent_IMail* pIMail = new CGameEvent_IMail();
 	CEOSAIMail* pIMail = new CEOSAIMail();

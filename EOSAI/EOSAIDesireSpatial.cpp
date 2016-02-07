@@ -109,7 +109,8 @@ void CEOSAIDesireSpatial::CalculateAccessibility01()
 	// 1. Get the distance from my nationwide pathway to the target
 	// 2. Get the best movement rate of units that can complete the action
 
-	CEOSAIMultiRegionNationwidePathways* pPathways = m_pAIBrain->GetAIPlayer()->GetMyNationwidePathway();
+	//CEOSAIMultiRegionNationwidePathways* pPathways = m_pAIBrain->GetAIPlayer()->GetMyNationwidePathway();
+	CEOSAIMultiRegionNationwidePathways* pPathways = g_pEOSAICommonData->GetNationwidePathways(iAIPlayer);
 	ASSERT( pPathways );
 	CEOSAIMultiRegion2* pMultiRegion = g_pEOSAICommonData->GetMultiRegionManager()->GetMultiRegion( GetLocation() );
 	CEOSAIRegionPathwayItem* pMultiRegionResult = pPathways->GetPlayerAttackPathwayBasedOnCitResUnits( pMultiRegion->m_iId );
@@ -307,7 +308,8 @@ void  CEOSAIDesireSpatial::CalculateExpectedPathwayResistance()
 	//if( eScoringLevel == EnumInitialScoring )
 	{
 		// Iterate over the nationwide pathway steps
-		CEOSAIMultiRegionNationwidePathways* pPathways = m_pAIBrain->GetAIPlayer()->GetMyNationwidePathway();
+		//CEOSAIMultiRegionNationwidePathways* pPathways = m_pAIBrain->GetAIPlayer()->GetMyNationwidePathway();
+		CEOSAIMultiRegionNationwidePathways* pPathways = g_pEOSAICommonData->GetNationwidePathways(iAIPlayer);
 		ASSERT( pPathways );
 		CEOSAIMultiRegion2* pMultiRegion = g_pEOSAICommonData->GetMultiRegionManager()->GetMultiRegion( GetLocation() );
 		CEOSAIRegionPathwayItem* pMultiRegionResult = pPathways->GetPlayerAttackPathwayBasedOnCitResUnits( pMultiRegion->m_iId );

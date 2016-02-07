@@ -43,6 +43,15 @@ void CEOSAIStrategicAIOrder_Trade::Execute( long iCurrentTurn )
 	EOSAI::MessageFromAI_TradeOffer* pTradeOfferMessage = new EOSAI::MessageFromAI_TradeOffer();
 	pTradeOfferMessage->m_iFromPlayer = iAIPlayer;
 	pTradeOfferMessage->m_iToPlayer = m_iToPlayer;
+	pTradeOfferMessage->m_TradeAgreement.m_iPlayerMoneyLumpSum[1] = (long)m_ResourcesToBuy[_T("Money")];
+	pTradeOfferMessage->m_TradeAgreement.m_iPlayerFoodLumpSum[1] = (long)m_ResourcesToBuy[_T("Food")];
+	pTradeOfferMessage->m_TradeAgreement.m_iPlayerIronLumpSum[1] = (long)m_ResourcesToBuy[_T("Iron")];
+	pTradeOfferMessage->m_TradeAgreement.m_iPlayerOilLumpSum[1] = (long)m_ResourcesToBuy[_T("Oil")];
+	pTradeOfferMessage->m_TradeAgreement.m_iPlayerMoneyLumpSum[0] = (long)m_ResourcesToSell[_T("Money")];
+	pTradeOfferMessage->m_TradeAgreement.m_iPlayerFoodLumpSum[0] = (long)m_ResourcesToSell[_T("Food")];
+	pTradeOfferMessage->m_TradeAgreement.m_iPlayerIronLumpSum[0] = (long)m_ResourcesToSell[_T("Iron")];
+	pTradeOfferMessage->m_TradeAgreement.m_iPlayerOilLumpSum[0] = (long)m_ResourcesToSell[_T("Oil")];
+	/*
 	pTradeOfferMessage->m_ResourcesToBuy[_T("Money")] = m_ResourcesToBuy[_T("Money")];
 	pTradeOfferMessage->m_ResourcesToBuy[_T("Food")] = m_ResourcesToBuy[_T("Food")];
 	pTradeOfferMessage->m_ResourcesToBuy[_T("Iron")] = m_ResourcesToBuy[_T("Iron")];
@@ -51,6 +60,7 @@ void CEOSAIStrategicAIOrder_Trade::Execute( long iCurrentTurn )
 	pTradeOfferMessage->m_ResourcesToSell[_T("Food")] = m_ResourcesToSell[_T("Food")];
 	pTradeOfferMessage->m_ResourcesToSell[_T("Iron")] = m_ResourcesToSell[_T("Iron")];
 	pTradeOfferMessage->m_ResourcesToSell[_T("Oil")] = m_ResourcesToSell[_T("Oil")];
+	*/
 	/*
 	pTradeOfferMessage->m_ResourcesToBuy[_T("Money")] = m_ResourcesToBuy.Get(_T("Money"));
 	pTradeOfferMessage->m_ResourcesToBuy[_T("Food")] = m_ResourcesToBuy.Get(_T("Food"));

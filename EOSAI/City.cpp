@@ -1599,6 +1599,27 @@ long CEOSAICity::GetNumberOfGroundUnitsInside()
 	return iNumberOfGroundUnitsInCity;
 }
 
+long CEOSAICity::GetNumberOfUnitsInsideOfType(CEOSAIUnitTemplate* pAIUnitTemplate)
+{
+	long iNumberOfUnitsInCity = 0;
+	//POSITION pos = GetServerCity()->GetUnitsInsideMe()->GetHeadPosition();
+	//POSITION pos = m_UnitsInsideMe.GetHeadPosition();
+	POSITION pos = m_InitialState.GetContaineesList()->GetHeadPosition();
+	while (pos)
+	{
+		//CEOSAIUnit* pAIUnit = m_UnitsInsideMe.GetNext( pos );
+		//CEOSAIUnit* pAIUnit = m_InitialState.GetContaineesList()->GetNext( pos );
+		EOSAI::PoiMobile* pAIPoiMobile = m_InitialState.GetContaineesList()->GetNext(pos);
+		//if( pAIPoiObject->GetAIPoiObjectType() == EnumPoiObjectType::enum_Unit )
+		CEOSAIUnit* pAIUnit = dynamic_cast<CEOSAIUnit*>(pAIPoiMobile);
+		if (pAIUnit)
+		{
+			if (pAIUnit->GetAIUnitTemplate() == pAIUnitTemplate ){ iNumberOfUnitsInCity++; }
+		}
+	}
+	return iNumberOfUnitsInCity;
+}
+
 void CEOSAICity::ActionScheduler_CreateBuildOrder( CEOSAIBuildOption* pEOSAIBuildOption )
 {
 	// I don't actually create build orders anymore, instead, the game looks at the AI values and changes them locally.
@@ -1936,6 +1957,16 @@ float CEOSAICity::GetTimeToBuild( CEOSAIUnitTemplate* pAIUnitTemplate, bool bUse
 	return fProductionCost / max( 0.1f, fCityProduction );
 }
 
+void  CEOSAICity::AppendBuildOrder(CString strBuildTarget)
+{
+	CEOSAIBuildOption* pEOSAIBuildOption = g_pEOSAIMain->GetAICommonData()->GetAIBuildOption(strBuildTarget);
+	ASSERT(pEOSAIBuildOption);
+	if (pEOSAIBuildOption )
+	{
+		AppendBuildOrder(pEOSAIBuildOption);
+	}
+}
+
 void  CEOSAICity::AppendBuildOrder(CEOSAIBuildOption* pEOSAIBuildOption)
 {
 	if (this->GetOwner() > 0)
@@ -1951,6 +1982,7 @@ void  CEOSAICity::AppendBuildOrder(CEOSAIBuildOption* pEOSAIBuildOption)
 
 void  CEOSAICity::RemoveAllItemsFromBuildQueue()
 {
+	//ASSERT(m_AIBuildOrders.IsEmpty()); // TEMPORARY - DEBUG
 	m_AIBuildOrders.RemoveAll();
 	/*
 	while( m_AIBuildOrders.IsEmpty() == FALSE )
@@ -1959,6 +1991,56 @@ void  CEOSAICity::RemoveAllItemsFromBuildQueue()
 	}
 	*/
 }
+
+void  CEOSAICity::RemoveZeroInvestmentItemsFromBuildQueue()
+{
+	POSITION pos = m_AIBuildOrders.GetHeadPosition();
+	while( pos )
+	{
+		POSITION prevPos = pos;
+		CEOSAIBuildOption* pEOSAIBuildOption = m_AIBuildOrders.GetNext( pos );
+
+		// Look for this item in the partial build list.
+		CEOSAIBuildCompletion* p = GetPartiallyCompletedItem(pEOSAIBuildOption);
+		if (p == NULL || p->m_fProductionInvested == 0.0f)
+		{
+			m_AIBuildOrders.RemoveAt(prevPos);
+			pos = m_AIBuildOrders.GetHeadPosition();
+		}
+	}
+}
+/*
+CEOSAIBuildCompletion*  CEOSAICity::GetPartiallyCompletedItem( CEOSAIBuildOption* pEOSAIBuildOption )
+{
+	POSITION pos = m_PartiallyCompletedList.GetHeadPosition();
+	while (pos)
+	{
+		CEOSAIBuildCompletion* p = m_PartiallyCompletedList.GetNext(pos);
+		if (p->m_pAIBuildOption == pEOSAIBuildOption) return p;
+	}
+	return NULL;
+}
+*/
+void  CEOSAICity::RemoveAllItemsFromPartiallyCompletedList()
+{
+	while (m_PartiallyCompletedList.IsEmpty() == false){ delete m_PartiallyCompletedList.RemoveHead(); }
+}
+
+void  CEOSAICity::AddPartiallyCompletedItem(CString strBuildTarget, float fInvested)
+{
+	CEOSAIBuildOption* p = g_pEOSAIMain->GetAICommonData()->GetAIBuildOption(strBuildTarget);
+	ASSERT(p);
+	if (p)
+	{
+		CEOSAIBuildCompletion* p2 = new CEOSAIBuildCompletion();
+		p2->m_pAIBuildOption = p;
+		p2->SetProductionInvested(fInvested);
+		p2->m_fPercentComplete01 = fInvested / p->GetProductionCost();
+		p2->m_fTimeUntilCompletion = (p->GetProductionCost() - fInvested) / this->GetProduction();
+		m_PartiallyCompletedList.AddTail(p2);
+	}
+}
+
 
 /*
 bool CEOSAICity::ActionScheduler_TurnTasksIntoOrders()

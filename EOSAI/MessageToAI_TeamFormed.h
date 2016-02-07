@@ -7,11 +7,11 @@
 #define DLLIMPEXP __declspec(dllimport)
 #endif
 
-#include "MessageToAI.h"
+#include "Message.h"
 
 namespace EOSAI
 {
-class DLLIMPEXP MessageToAI_TeamFormed : public MessageToAI
+class DLLIMPEXP MessageToAI_TeamFormed : public Message
 {
 	public:
 		MessageToAI_TeamFormed(){}
