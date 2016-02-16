@@ -34,15 +34,20 @@ class CEOSAIQuickCombatUnit
 		CEOSAIUnit* m_pAIUnit; // sometimes valid
 		CEOSAIUnitTemplate* m_pAIUnitTemplate; // always valid
 		//
-		CEOSAIQuickCombatUnit* m_pCurrentBestTarget;
+		CEOSAIQuickCombatUnit* m_pCurrentBestTarget = NULL;
+		bool                   m_bCombatRangeAdvantage = false; // Artillery attacking infantry has a range advantage
 		//
 		//bool   m_bIsDead;
 		float  m_fInitialHP;
 		float  m_fCurrentHP;
 		//
-		bool   m_bAggressive; // militia are not aggressive, but they will fight back
+		// Militia are not aggressive, but they will fight back. 
+		//   Aggressive units will find a "best target" and attack.
+		//   Non-Aggressive units will only counterattack when attacked (which can destroy the attacker).
+		bool   m_bAggressive; 
 		//
-		//float  m_fAbilityToDamageToEnemyForce;
+		//bool   m_bIsMobile; // Non-mobile units cannot attack units which have longer attack-range than they do. Non-mobile means can't move or Player0 units.
+		//int    m_iTerrain;  // I can use terrain in my attack/defense calculations. We don't know what the attacker terrain will be, but we know the defender terrain.
 };
 
 

@@ -75,17 +75,12 @@ class DLLIMPEXP AIPlayer // : public EOSAI::AIPlayerBase
 		void SetPlayerNumber( long i ){ m_iPlayerNumber = i; }
 		long GetPlayerNumber(){ return m_iPlayerNumber; }
 
-		// Functions inherited from CAIPlayer2Interface:
-		//   long GetPlayerNumber();
-
 		bool IsReadyToSendTurn(){ return m_eProcessingState == enumReadyToSendOrdersToServer; }
-
+		
 		EOSAI::CGamePlayer*  GetGamePlayer(){ return m_pGamePlayer; }
 		EOSAI::AIPlayerDesc* GetAIPlayerDesc(){ return m_pAIPlayerDesc; }
 		CEOSAIBrain*         GetAIBrain(){ return m_pAIBrain; }
 		CEOSAIStrategicAI*   GetStrategicAI(){ return &m_StrategicAI; }
-
-		//bool  IsReadyToSendTurn(){ return m_eProcessingState == enumReadyToSendOrdersToServer; }// && ThereAreUnprocessedEvents() == false; }
 
 		// Serialize/Deserialize
 		void  Serialize( CEOSAISerial* pSerial );
@@ -136,14 +131,13 @@ class DLLIMPEXP AIPlayer // : public EOSAI::AIPlayerBase
 
 		//
 		bool  FieldOrders_AutoAttackMilitia(){ return true; }
-		//bool  FieldOrders_AutoAttackMilitia(){ return m_pAIPlayerDesc->FieldOrders_AutoAttackMilitia(); }
 
 		//
 		bool  HasSetSneakAttackAgainst( int iTargetPlayer ){ return m_StrategicAI.HasSetSneakAttackAgainst( iTargetPlayer ); }
 
 		//
 		void  DeleteAIDebugData();
-		void  DeleteAIData();
+		void  DeletePlayerAIData();
 		void  ClearUnitOrders();
 		void  SetMyUnitsFieldOrders();
 		void  ClearCityOrders();
@@ -167,12 +161,6 @@ class DLLIMPEXP AIPlayer // : public EOSAI::AIPlayerBase
 			void  Process();
 			void  SendOrders();
 
-		// Nationwide Pathways - I might want to move this into the WorldDescServer
-		//
-			//void  CalculateMyNationwidePathways();
-			//CEOSAIMultiRegionNationwidePathways*  GetMyNationwidePathway();
-			//CEOSAIMultiRegionNationwidePathways*  GetNationwidePathway( long iPlayer );
-
 		// Resource Tracker
 		//
 			//CAIResourceTracker*  GetMoneyTracker(){ return &m_MoneyAmount; }
@@ -180,18 +168,12 @@ class DLLIMPEXP AIPlayer // : public EOSAI::AIPlayerBase
 			//CAIResourceTracker*  GetOilTracker(){ return &m_OilAmount; }
 			//CAIResourceTracker*  GetFoodTracker(){ return &m_FoodAmount; }
 
-		// Foreign Relations
-		//
-			void  SignedAPeaceAgreement( long iPlayer1, long iPlayer2 );
-
 		//
 		// Trade, IMail
 		//
 			//
 			// IMail
 			long GetNextAIMessageUID(){ m_iNextAIMessageUID++; return m_iNextAIMessageUID; }
-			//long GetNextAIMessageUID(){ return m_pAIPlayerDesc->GetNextAIMessageUID(); }
-		//	long GetNextAIMailId(){ m_iNextAIMailId++; return m_iNextAIMailId; }
 			//void Incoming_DeclarationOfWar( long iActor, long iTarget, long iTurn );
 		//	void Incoming_IMail( CEOSAIMail* pIMail );
 			void Incoming_IMailResponse( long iFromPlayer, long iAIMailId, EOSAI::EnumAIMailResponse eResponse );
@@ -216,7 +198,6 @@ class DLLIMPEXP AIPlayer // : public EOSAI::AIPlayerBase
 			void  CalculateCitResValues();
 			void  CalculateExperiencingResourceShortage01();
 			float GetExperiencingResourceShortage01(){ return m_fExperiencingResourceShortage01; }
-			//void AddedBuildItemToResourceConsumption( CBuildOption* pBuildOption );
 			//
 			bool ProcessUnprocessedEvents();
 
@@ -244,7 +225,7 @@ class DLLIMPEXP AIPlayer // : public EOSAI::AIPlayerBase
 	private:
 
 		long                  m_iPlayerNumber;
-		EOSAI::AIPlayerDesc*     m_pAIPlayerDesc;
+		EOSAI::AIPlayerDesc*  m_pAIPlayerDesc;
 		EOSAI::CGamePlayer*   m_pGamePlayer;  // Owned by the game
 		CEOSAIBrain*          m_pAIBrain; // Owned by AIPlayer
 

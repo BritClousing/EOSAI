@@ -15,6 +15,7 @@ static char THIS_FILE[]=__FILE__;
 #define new DEBUG_NEW
 #endif
 
+
 CEOSAIQuickCombatUnit::CEOSAIQuickCombatUnit( CEOSAIUnit* pAIUnit )
 {
 	m_pAIUnit = pAIUnit;
@@ -412,6 +413,10 @@ void CEOSAIQuickCombatCalculation::AddToDefenders( CEOSAIPoiObject* pPoiObject )
 		POSITION pos = pPoiObject->GetInitialState()->GetContaineesList()->GetHeadPosition();
 		while( pos )
 		{
+			// TODO: This calculation might be wrong - depending on the type of container and containees.
+			//       If this is a transport carrying infantry, tanks, and artillery, they can't attack a destroyer when out at sea.
+			// In other cases, they can attack (e.g. ground units in a city).
+
 			//CEOSAIPoiObject* pChild = pPoiObject->GetUnitsInsideMe()->GetNext( pos );
 			EOSAI::PoiMobile* pChild = pPoiObject->GetInitialState()->GetContaineesList()->GetNext( pos );
 			AddToDefenders( pChild );
@@ -419,14 +424,6 @@ void CEOSAIQuickCombatCalculation::AddToDefenders( CEOSAIPoiObject* pPoiObject )
 	}
 }
 
-/*
-void CEOSAIQuickCombatCalculation::AddToDefenders( CUnit* pUnit )
-{
-	ASSERT( pUnit );
-	CEOSAIQuickCombatUnit* pQUnit = new CEOSAIQuickCombatUnit(pUnit);
-	m_DefenderUnits.AddTail( pQUnit );
-}
-*/
 void CEOSAIQuickCombatCalculation::AddToDefenders( CEOSAIUnitTemplate* pUnit )
 {
 	ASSERT( pUnit );
@@ -501,8 +498,8 @@ void CEOSAIQuickCombatCalculation::RunCalculation()
 		{
 			CList< CEOSAIQuickCombatUnit* >* pList1;
 			CList< CEOSAIQuickCombatUnit* >* pList2;
-			if( iCycle==0 ){ pList1 = &m_AttackerUnits; pList2 = &m_DefenderUnits; }
-			if( iCycle==1 ){ pList1 = &m_DefenderUnits; pList2 = &m_AttackerUnits; }
+			if( iCycle==0 ){ pList1 = &m_AttackerUnits; pList2 = &m_DefenderUnits; } // Cycle=0, attacker->defender
+			if( iCycle==1 ){ pList1 = &m_DefenderUnits; pList2 = &m_AttackerUnits; } // Cycle=1, defender->attacker
 			if( iCycle==1 && m_bHandleDefenderCounterAttack == false ) continue;
 
 			pos = pList1->GetHeadPosition();
@@ -510,7 +507,9 @@ void CEOSAIQuickCombatCalculation::RunCalculation()
 			{
 				CEOSAIQuickCombatUnit* pUnit1 = pList1->GetNext( pos );
 				if( iCycle==1 && pUnit1->m_bAggressive == false ) continue; // non-agressive units don't fight
-				if( pUnit1->m_fCurrentHP <= 0.0f ) continue; // dead units don't fight
+
+				ASSERT(pUnit1->m_fCurrentHP >= 0.0f);
+				if (pUnit1->m_fCurrentHP <= 0.0f) continue; // dead units don't fight
 				//if( pUnit1->m_bIsDead ) continue; // dead units don't fight
 
 				float fHPDamage1 = 0.0f;
@@ -526,7 +525,7 @@ void CEOSAIQuickCombatCalculation::RunCalculation()
 					if( pUnit1->m_pCurrentBestTarget == NULL )
 					{
 						// Find a new target, calculate the HPDamage
-						pUnit1->m_pCurrentBestTarget = FindBestTarget( pUnit1, pList2, &fHPDamage1 );
+						pUnit1->m_pCurrentBestTarget = FindBestTarget(pUnit1, pList2, &fHPDamage1 );
 						pBestTarget = pUnit1->m_pCurrentBestTarget;
 					}
 					else
@@ -544,8 +543,11 @@ void CEOSAIQuickCombatCalculation::RunCalculation()
 						//   But, if the defense is bad (docked), then use the normal terrain because 
 						//   ships/aircraft will move rather than stay in their vulnerable state.
 						float fHPDamage2 = 0.0f;
-						if( pUnit1->m_pAIUnit ){ fHPDamage2 = pBestTarget->m_pAIUnitTemplate->GetExpectedHPDamage( pUnit1->m_pAIUnit, true ); }
-						else{                    fHPDamage2 = pBestTarget->m_pAIUnitTemplate->GetExpectedHPDamage( pUnit1->m_pAIUnitTemplate ); }
+						if (pUnit1->m_bCombatRangeAdvantage == false)
+						{
+							if (pUnit1->m_pAIUnit){ fHPDamage2 = pBestTarget->m_pAIUnitTemplate->GetExpectedHPDamage(pUnit1->m_pAIUnit, true); }
+							else{ fHPDamage2 = pBestTarget->m_pAIUnitTemplate->GetExpectedHPDamage(pUnit1->m_pAIUnitTemplate); }
+						}
 
 						fHPDamage1 *= fTime;
 						fHPDamage2 *= fTime;
@@ -716,49 +718,55 @@ void CEOSAIQuickCombatCalculation::CalculateAbilityToDamageForAllUnits()
 	}
 }
 */
-CEOSAIQuickCombatUnit* CEOSAIQuickCombatCalculation::FindBestTarget( CEOSAIQuickCombatUnit* pUnit1, CList< CEOSAIQuickCombatUnit* >* pList2, float* pfOutHPDamage )
+CEOSAIQuickCombatUnit* CEOSAIQuickCombatCalculation::FindBestTarget(CEOSAIQuickCombatUnit* pUnit1, CList< CEOSAIQuickCombatUnit* >* pList2, float* pfOutHPDamage)
 {
 	// Find the best target (I can cache this later)
 	float fBestTargetDamageToPower = 0.0f;
 	CEOSAIQuickCombatUnit* pBestTarget = NULL;
 	POSITION pos2 = pList2->GetHeadPosition();
-	while( pos2 )
+	while (pos2)
 	{
-		CEOSAIQuickCombatUnit* pUnit2 = pList2->GetNext( pos2 );
-		if( pUnit2->m_fCurrentHP <= 0.0f ) continue; // don't hit dead units
-		if( pUnit1->m_pAIUnitTemplate->GetViewRange( pUnit2->m_pAIUnitTemplate ) <= 0.0f ) continue; // can't hit units it can't see
+		CEOSAIQuickCombatUnit* pUnit2 = pList2->GetNext(pos2);
+		if (pUnit2->m_fCurrentHP <= 0.0f) continue; // don't hit dead units
+		if (pUnit1->m_pAIUnitTemplate->GetViewRange(pUnit2->m_pAIUnitTemplate) <= 0.0f) continue; // can't hit units it can't see
 
-		if( m_bLimitCombatByLandAndWaterBarriers )
+		if (m_bLimitCombatByLandAndWaterBarriers)
 		{
-			if( pUnit1->m_pAIUnitTemplate->IsGroundUnit() && pUnit2->m_pAIUnitTemplate->IsSeaUnit() ) continue;
-			if( pUnit1->m_pAIUnitTemplate->IsSeaUnit() && pUnit2->m_pAIUnitTemplate->IsGroundUnit() ) continue;
+			if (pUnit1->m_pAIUnitTemplate->IsGroundUnit() && pUnit2->m_pAIUnitTemplate->IsSeaUnit()) continue;
+			if (pUnit1->m_pAIUnitTemplate->IsSeaUnit() && pUnit2->m_pAIUnitTemplate->IsGroundUnit()) continue;
 		}
 
 		// Note: ExpectedHPDamage includes terrain, entrenched, etc multipliers
 		//   But, if the defense is bad (docked), then use the normal terrain because ships/aircraft
 		//   will move rather than stay in their vulnerable state.
 		float fHPDamage = 0.0f;
-		if( pUnit2->m_pAIUnit ){ fHPDamage = pUnit1->m_pAIUnitTemplate->GetExpectedHPDamage( pUnit2->m_pAIUnit, true ); }
-		else{                    fHPDamage = pUnit1->m_pAIUnitTemplate->GetExpectedHPDamage( pUnit2->m_pAIUnitTemplate ); }
-		float fDamageToPower =  (fHPDamage / pUnit2->m_pAIUnitTemplate->GetMaxHP()) * pUnit2->m_pAIUnitTemplate->GetAICombatSignificance();
-	/*
-		float fDamageToPower = (fHPDamage / pUnit2->m_pUnitTemplate->GetMaxHP()) * pUnit2->m_pUnitTemplate->GetAIPowerValue();
-		
-		float fHPDamage = pUnit1->m_pUnitTemplate->GetUnitCombatCapability()->GetCombatValue( pUnit2->m_pUnitTemplate )->GetCombatSignificance();
-		float fUnit1CombatSignificanceAgainstUnit2 = pUnit1->m_pUnitTemplate->GetUnitCombatCapability()->GetCombatValue( pUnit2->m_pUnitTemplate )->GetCombatSignificance();
-		float fDamageToPower = 
+		if (pUnit2->m_pAIUnit){ fHPDamage = pUnit1->m_pAIUnitTemplate->GetExpectedHPDamage(pUnit2->m_pAIUnit, true); }
+		else{ fHPDamage = pUnit1->m_pAIUnitTemplate->GetExpectedHPDamage(pUnit2->m_pAIUnitTemplate); }
+		float fDamageToPower = (fHPDamage / pUnit2->m_pAIUnitTemplate->GetMaxHP()) * pUnit2->m_pAIUnitTemplate->GetAICombatSignificance();
+		/*
+			float fDamageToPower = (fHPDamage / pUnit2->m_pUnitTemplate->GetMaxHP()) * pUnit2->m_pUnitTemplate->GetAIPowerValue();
+
+			float fHPDamage = pUnit1->m_pUnitTemplate->GetUnitCombatCapability()->GetCombatValue( pUnit2->m_pUnitTemplate )->GetCombatSignificance();
+			float fUnit1CombatSignificanceAgainstUnit2 = pUnit1->m_pUnitTemplate->GetUnitCombatCapability()->GetCombatValue( pUnit2->m_pUnitTemplate )->GetCombatSignificance();
+			float fDamageToPower =
 			( fUnit1CombatSignificanceAgainstUnit2 / pUnit2->m_pUnitTemplate->GetProductionAndIronCost1() ) *
-			  pUnit2->m_pUnitTemplate->GetCombatSignificance();
-	*/
+			pUnit2->m_pUnitTemplate->GetCombatSignificance();
+			*/
 		//float fDamageToPower = 
 		//	pUnit1->m_pUnitTemplate->GetUnitCombatCapability()->GetCombatValue( pUnit2->m_pUnitTemplate )->GetCombatSignificance() *
 		//	pUnit2->m_pUnitTemplate->GetCombatSignificance();
-		if( fDamageToPower > fBestTargetDamageToPower )
+		if (fDamageToPower > fBestTargetDamageToPower)
 		{
 			*pfOutHPDamage = fHPDamage;
 			fBestTargetDamageToPower = fDamageToPower;
 			pBestTarget = pUnit2;
 		}
+	}
+	if( pBestTarget )
+	{
+		float fUnit1AttackRange = pUnit1->m_pAIUnitTemplate->GetAttackRangeVs(pBestTarget->m_pAIUnitTemplate);
+		float fTargetAttackRange = pBestTarget->m_pAIUnitTemplate->GetAttackRangeVs(pUnit1->m_pAIUnitTemplate);
+		pUnit1->m_bCombatRangeAdvantage = (fUnit1AttackRange > fTargetAttackRange);
 	}
 	return pBestTarget;
 }

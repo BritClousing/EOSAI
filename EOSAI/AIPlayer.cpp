@@ -208,7 +208,6 @@ AIPlayer::AIPlayer()
 
 	m_iNextAIMessageUID = 1;
 
-//	m_iNextAIMailId = 0;
 	m_iDebugTempCounter = 0;
 
 	// Reset the Multiplier values
@@ -223,8 +222,6 @@ AIPlayer::AIPlayer()
 	m_StrategicAI.InvokePlayers( EOSAI_MAX_NUMBER_OF_PLAYERS );
 }
 
-//CAIPlayer::CAIPlayer( CWorldDescServer* pWorldDescServer, CWorldDescPlayer* pWorldDescPlayer, long iAIBrainIntelligence )
-//AIPlayer::AIPlayer( EOSAI::CGamePlayer* pPlayer, long iAIBrainIntelligence )
 AIPlayer::AIPlayer( long iNumberOfPlayers, EOSAI::CGamePlayer* pGamePlayer, EOSAI::AIPlayerDesc* pAIPlayerDesc )
 {
 	ASSERT(pGamePlayer);
@@ -232,57 +229,22 @@ AIPlayer::AIPlayer( long iNumberOfPlayers, EOSAI::CGamePlayer* pGamePlayer, EOSA
 
 	m_pGamePlayer = pGamePlayer;//pWorldDescPlayer->GetPlayerMe(); //pPlayer;
 	m_pAIPlayerDesc = pAIPlayerDesc;
-
 	m_iPlayerNumber = pGamePlayer->GetPlayerNumber();
 
-	//m_pWorldDescPlayer = pWorldDescPlayer;
-	//m_pWorldDescServer = pWorldDescServer;
-	//m_pWorldDescPlayerProxy = m_pWorldDescServer->GetWorldDescPlayerProxy( m_pPlayer->GetPlayerNumber() );
 	m_pAIBrain = new CEOSAIBrain();
 	m_pAIBrain->Initialize( this );
 
 	// State
 	m_fExperiencingResourceShortage01 = 0.0f;
-/*
-	// Personality
-	m_iAIBrainIntelligence = iAIBrainIntelligence; // 1 = WeakAI, 2 = ModerateAI, 3 = StrongAI
-	m_fPersonality_HoldsGrudges01 = CEOSAIMath::GetRandomFloat( 0.4f,0.6f ); // 0.5f;
-	m_fPersonality_Aggressive01 = CEOSAIMath::GetRandomFloat( 0.2f,0.3f )+CEOSAIMath::GetRandomFloat( 0.2f,0.4f ); // 0.4-0.7
-	m_fPersonality_Fortifier01 = CEOSAIMath::GetRandomFloat( 0.3f,0.5f );//0.5f;
-	m_fPersonality_Builder01 = CEOSAIMath::GetRandomFloat( 0.1f,0.4f )+CEOSAIMath::GetRandomFloat( 0.1f,0.4f ); // 0.5f;
-	m_fPersonality_ProResearcherPos1_AntiResearcherNeg1 = CEOSAIMath::GetRandomFloat( 0.0f,0.5f );//0.25f; + CEOSAIMath::GetRandomFloat( 0.0f,0.5f );
-	m_fPersonality_ProSubmarine01 = CEOSAIMath::GetRandomFloat( -0.1f,0.2f );
-	if( m_fPersonality_ProSubmarine01 < 0.0f ){ m_fPersonality_ProSubmarine01 = 0.0f; }
-	//m_fPersonality_ProAircraftPos1_ProGroundSeaNeg1 = -0.3f; // 0.0 = no influence
-	m_fPersonality_ProAirUnit11 = -0.3f;
-	m_fPersonality_ProGroundUnit11 = 0.2f;
-	m_fPersonality_ProSeaUnit11 = CEOSAIMath::GetRandomFloat( 0.3f,0.5f ); // 0.2 - 0.5
-
-	m_fPersonality_ProStrategicBombing01 = 0.0f;    // 0.0 = no influence
-	m_fPersonality_ProMissile01 = 0.0f;             // 0.0 = no influence
-	m_fPersonality_ProArtillery01 = 0.0f;           // 0.0 = no influence
-	m_fPersonality_ProExpensiveShipsPos1_CheapShipsNeg1 = CEOSAIMath::GetRandomFloat( -0.2f,+0.1f ); // 0.0 = no influence
-	m_fPersonality_ProUnitDiversity01 = CEOSAIMath::GetRandomFloat( 0.1f,0.3f );//0.2f;
-*/
-	/*
-	m_fAICheat_LikesAIPlayers = 0.0f;
-	m_fAICheat_LikesHumanPlayers = 0.0f;
-	if(  iAIBrainIntelligence == 0 ){}
-	eif( iAIBrainIntelligence == 1 ){ m_fAICheat_LikesAIPlayers =  0.0f; m_fAICheat_LikesHumanPlayers =  0.0f; }
-	eif( iAIBrainIntelligence == 2 ){ m_fAICheat_LikesAIPlayers = +0.1f; m_fAICheat_LikesHumanPlayers = -0.1f; }
-	eif( iAIBrainIntelligence == 3 ){ m_fAICheat_LikesAIPlayers = +0.2f; m_fAICheat_LikesHumanPlayers = -0.2f; }
-	else{ ASSERT( false ); }
-	*/
-
-//	m_bFlag_ShutdownAIPlayer = false;
 
 	m_iRand = rand();
-//	m_bAICheat_KnowsMapAndPoiInformation = true;//true;
 
 	m_eProcessingState = enumBeginProcessingTurn;//enumWaitingForServerToPlayerUpdate;
 	m_bTrigger_NeedToRecalculateEntireTurn = false;
+	m_bFlag_ShutdownAIPlayer = false;
 
-//	m_iNextAIMailId = 0;
+	m_iNextAIMessageUID = 1;
+
 	m_iDebugTempCounter = 0;
 
 	// Reset the Multiplier values
@@ -521,7 +483,7 @@ void  AIPlayer::DeleteAIDebugData()
 	#endif _DEBUG
 }
 
-void  AIPlayer::DeleteAIData()
+void  AIPlayer::DeletePlayerAIData()
 {
 /*
 	while( m_DesiresBySimpleInterest.IsEmpty() == FALSE ){ delete m_DesiresBySimpleInterest.RemoveHead(); }
@@ -817,7 +779,7 @@ void  AIPlayer::Process()
 			if( SingleLock.IsLocked() == FALSE ) return;
 			*/
 
-			DeleteAIData();
+			DeletePlayerAIData();
 
 			#ifdef _DEBUG
 			//bool bDebug34098214 = false;
@@ -827,10 +789,10 @@ void  AIPlayer::Process()
 			//}
 			#endif _DEBUG
 
-			CEOSAIStopwatch2  Stopwatch1;
-			Stopwatch1.Start();
+			//CEOSAIStopwatch2  Stopwatch1;
+			//Stopwatch1.Start();
 			//g_pEOSAICommonData->RebuildDataIfNecessary(); - This is done inside the PlayerManager file now?
-			Stopwatch1.Stop();
+			//Stopwatch1.Stop();
 
 			#ifdef _DEBUG
 			//Beep( 500,200 );
@@ -1151,7 +1113,7 @@ void  AIPlayer::Process()
 			*/
 			#ifndef DEBUG
 			// Delete the data if we are in Release mode, otherwise, I might want to look at it.
-			DeleteAIData();
+			DeletePlayerAIData();
 			#endif
 
 			#ifdef _DEBUG
@@ -1368,7 +1330,7 @@ void  AIPlayer::Process()
 				#endif
 				{
 					DeleteAIDebugData();
-					DeleteAIData();
+					DeletePlayerAIData();
 
 					if( g_pEOSAIInterface->GetNumberOfActivePlayers() <= 1 ){ return; }
 					//if( GetWorldDescPlayer()->YourGameIsOver() ){ return; }
@@ -1389,7 +1351,7 @@ void  AIPlayer::Process()
 				//Checkpoint::Write( strText );
 
 				DeleteAIDebugData();
-				DeleteAIData();
+				DeletePlayerAIData();
 
 				if( g_pEOSAIInterface->GetNumberOfActivePlayers() <= 1 ){ return; }
 				//if( GetWorldDescPlayer()->YourGameIsOver() ){ return; }
@@ -1475,53 +1437,6 @@ void  AIPlayer::Incoming_ServerToPlayerUpdateWasProcessed()
 	}
 }
 
-/*
-void  CAIPlayer::Incoming_AutosaveAndLocalPlayerTurnReplayEnded()
-{
-	// This might happen when a ServerToPlayerUpdate::TurnUpdate happens,
-	//   or ths might happen when a TradeAgreement goes through, or some other reason
-	if( m_eProcessingState == enumWaitingForServerToPlayerUpdate )
-	{
-		ASSERT( false ); // This might sometimes happen, I want to know if it does
-	}
-	if( m_eProcessingState == enumWaitingForAutosaveAndLocalPlayerTurnReplayEnd )
-	{
-		m_eProcessingState = enumBeginProcessingTurn;
-	}
-}
-*/
-/*
-void  CAIPlayer::Notify_NewTurn()
-{
-	//m_bUpdateCommonAIData = true;
-
-	// Don't resend the information if we've already sent it to the server
-	//   (This situation could happen if the AI submits a turn, the player saves, reloads game.)
-	// Correction: I now allow the AI to resubmit their turn in this case.
-	//if( m_pWorldDescPlayer->GetCurrentTurn() > m_pWorldDescPlayer->GetLastTurnSubmittedToServer() )
-	//{
-		//m_bNeedToUpdateTurnInformation = true;
-	//}
-	ASSERT( m_eProcessingState == enumWaitingForServerToPlayerUpdate );
-	if( m_eProcessingState == enumWaitingForServerToPlayerUpdate )
-	{
-		m_eProcessingState = enumBeginProcessingTurn;
-	}
-}
-*/
-
-// Foreign Relations
-//
-void  AIPlayer::SignedAPeaceAgreement( long iPlayer1, long iPlayer2 )
-{
-	//m_bUpdateForeignRelationsCalculations = true;
-
-	m_pAIBrain->SetFlag_ProcessTurnBasedOnForeignRelations( true );
-	//m_pAIBrain->Process();
-}
-
-//
-//
 
 
 void AIPlayer::FindUnitsWithinMyNationalBoundaries()
