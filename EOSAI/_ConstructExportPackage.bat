@@ -14,10 +14,14 @@ rem | This (_ConstructExportPackage.bat) should be called in Project->Build Even
 set ExportDirectory=.\Build\Export\
 
 echo Copying EOS Example Code to EOSAI (we just want a copy as an example; we don't compile it)
-cpin c:/programming/EOS/source/EOSAIInterface_EOS.cpp %ExportDirectory%\ExampleCode\.
-cpin c:/programming/EOS/source/EOSAIInterface_EOS.h %ExportDirectory%\ExampleCode\.
-cpin c:/programming/EOS/source/EOSAIWorldDistanceTool_EOS.cpp %ExportDirectory%\ExampleCode\.
-cpin c:/programming/EOS/source/EOSAIWorldDistanceTool_EOS.h %ExportDirectory%\ExampleCode\.
+rem cpin c:/programming/EOS/source/EOSAIInterface_EOS.cpp %ExportDirectory%\ExampleCode\.
+rem cpin c:/programming/EOS/source/EOSAIInterface_EOS.h %ExportDirectory%\ExampleCode\.
+rem cpin c:/programming/EOS/source/EOSAIWorldDistanceTool_EOS.cpp %ExportDirectory%\ExampleCode\.
+rem cpin c:/programming/EOS/source/EOSAIWorldDistanceTool_EOS.h %ExportDirectory%\ExampleCode\.
+cpin ../../EOS/source/EOSAIInterface_EOS.cpp %ExportDirectory%\ExampleCode\.
+cpin ../../EOS/source/EOSAIInterface_EOS.h %ExportDirectory%\ExampleCode\.
+cpin ../../EOS/source/EOSAIWorldDistanceTool_EOS.cpp %ExportDirectory%\ExampleCode\.
+cpin ../../EOS/source/EOSAIWorldDistanceTool_EOS.h %ExportDirectory%\ExampleCode\.
 
 echo Copying EOSAI Include files to the Export Directory (so EOS can access it)
 rem cpin -c Build\Debug\EOSAI-Debug.dll %ExportDirectory%\EOSAI-Debug.dll
@@ -113,7 +117,6 @@ cpin .\EOSAISerial.h %ExportDirectory%\Include\
 cpin .\EOSAIRegion2.h %ExportDirectory%\Include\
 cpin .\EOSAIRegionManager2.h %ExportDirectory%\Include\
 cpin .\EOSAIRegionPathfinder.h %ExportDirectory%\Include\
-cpin .\EOSAIRegionPathway.h %ExportDirectory%\Include\
 cpin .\EOSAIRegionPathwayMap.h %ExportDirectory%\Include\
 cpin .\EOSAIRegionMapToEverywhere.h %ExportDirectory%\Include\
 cpin .\EOSAIResource.h %ExportDirectory%\Include\
@@ -137,7 +140,7 @@ cpin .\EOSAIThoughtDatabase.h %ExportDirectory%\Include\
 cpin .\EOSAITradeAgreement.h %ExportDirectory%\Include\
 cpin .\EOSAITradeAgreementResponse.h %ExportDirectory%\Include\
 cpin .\EOSAITransportsSet.h %ExportDirectory%\Include\
-cpin .\EOSAIUnit2.h %ExportDirectory%\Include\
+cpin .\EOSAIUnit.h %ExportDirectory%\Include\
 cpin .\EOSAIUnit2CombatCapability.h %ExportDirectory%\Include\
 cpin .\EOSAIUnitPathwayFinder.h %ExportDirectory%\Include\
 cpin .\EOSAIUnitPathwayResultStep.h %ExportDirectory%\Include\
@@ -171,8 +174,10 @@ rem | If you want the files copied somewhere else, edit the line below:
 rem | cpin -r \Export\*.* [YOUR_DIRECTORY]
 rem |
 rem | cpin -r %ExportDirectory%\*.* c:\programming\EOS\Source\EOSAI\
-cpin -r %ExportDirectory%\*.* c:\programming\EOSAI-1.0\EOSAI\
-cpin -r %ExportDirectory%\*.dll C:\Programming\EOS\Build\
+rem cpin -r %ExportDirectory%\*.* c:\programming\EOSAI-1.0\EOSAI\
+rem cpin -r %ExportDirectory%\*.dll C:\Programming\EOS\Build\
+cpin -r %ExportDirectory%\*.* ..\..\EOSAI-1.0\EOSAI\
+cpin -r %ExportDirectory%\*.dll ..\..\EOS\Build\
 
 echo Done
 

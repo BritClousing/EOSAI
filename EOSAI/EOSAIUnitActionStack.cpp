@@ -6,7 +6,7 @@
 #include "EOSAITaskForce3.h"
 #include "EOSAIUnitActionIdea.h"
 #include "EOSAIJobCapability.h"
-#include "EOSAIUnit2.h"
+#include "EOSAIUnit.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE

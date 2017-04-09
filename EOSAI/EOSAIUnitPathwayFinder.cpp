@@ -9,7 +9,7 @@
 #include "EOSAIUnitPathwayResult.h"
 #include "EOSAIUnitPathwayResultStep.h"
 #include "PoiObject.h"
-#include "EOSAIUnit2.h"
+#include "EOSAIUnit.h"
 #include "City.h"
 #include "EOSAIAirfield.h"
 #include "PoiObject.h"

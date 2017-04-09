@@ -5,7 +5,7 @@
 class CEOSAIUnit;
 //class CAISymbolProcessor;
 class CAIObject;
-#include "EOSAIUnit2.h"
+#include "EOSAIUnit.h"
 #include "EOSAITask.h"
 //#include "AILogicalObject.h"
 #include "PoiObjectState.h"

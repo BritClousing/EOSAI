@@ -10,4 +10,42 @@
 /////////////////////////////////////////////////////////////////////////////
 // Add manually edited resources here...
 
+#include "..\\Version.h"
+
 /////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION MAJOR_VERSION,MINOR_VERSION,0,BUILD_ID
+ PRODUCTVERSION MAJOR_VERSION,MINOR_VERSION,0,BUILD_ID
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904e4"
+        BEGIN
+            VALUE "CompanyName", "Atomicboy Software"
+            VALUE "FileDescription", "EOS Artificial Intellgence Module"
+            VALUE "FileVersion", VERSION_STRING
+            VALUE "InternalName", "EOSAI"
+            VALUE "LegalCopyright", ""
+            VALUE "OriginalFilename", "EOSAI.dll"
+            VALUE "ProductName", "EOSAI"
+            VALUE "ProductVersion", VERSION_STRING
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1252
+    END
+END

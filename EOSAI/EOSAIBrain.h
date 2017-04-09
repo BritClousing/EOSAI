@@ -36,7 +36,7 @@ namespace EOSAI{ class AIPlayer; };
 //class CWorldDesc;
 
 #include "PoiObject.h"
-#include "EOSAIUnit2.h"
+#include "EOSAIUnit.h"
 //#include "AISpatialMap.h"
 #include "EOSAIRegionManager2.h"
 #include "EOSAIMultiRegionManager2.h"

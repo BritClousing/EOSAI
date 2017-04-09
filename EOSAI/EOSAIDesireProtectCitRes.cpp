@@ -6,7 +6,7 @@
 #include "City.h"
 #include "EOSAIResource.h"
 #include "AIPlayer.h"
-#include "EOSAIUnit2.h"
+#include "EOSAIUnit.h"
 #include "EOSAICommonData.h"
 
 #ifdef _DEBUG

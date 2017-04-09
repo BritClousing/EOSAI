@@ -5,7 +5,7 @@
 #include "EOSAIMultiRegionManager2.h" // class CEOSAIRegionPathwayItem, CEOSAIRegionPathwayMap;
 #include "City.h"
 #include "EOSAIAirfield.h"
-#include "EOSAIUnit2.h"
+#include "EOSAIUnit.h"
 #include "EOSAIRoad2.h"
 //#include "WorldDescServer.h"
 #include "EOSAIStopwatch2.h"

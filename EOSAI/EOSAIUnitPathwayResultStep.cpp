@@ -5,7 +5,7 @@
 #include "EOSAIUnitPathwayResult.h"
 #include "EOSAIUnitPathwayFinder.h"
 //#include "UnitTemplate.h"
-#include "EOSAIUnit2.h"
+#include "EOSAIUnit.h"
 #include "EOSAIMath.h"
 
 #ifdef _DEBUG

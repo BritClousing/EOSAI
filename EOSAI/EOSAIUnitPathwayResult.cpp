@@ -3,7 +3,7 @@
 #include "EOSAIUnitPathwayResult.h"
 #include "EOSAIUnitPathwayFinder.h"
 #include "EOSAIRegionManager2.h"
-#include "EOSAIUnit2.h"
+#include "EOSAIUnit.h"
 #include "EOSAIBrain.h"
 //#include "Unit.h"
 #include "EOSAIUnitPathwayPredefinedStep.h"

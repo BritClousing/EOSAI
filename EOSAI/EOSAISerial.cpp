@@ -1133,6 +1133,7 @@ bool CEOSAISerial::WriteFile2( CString strFullFilename )
 	if( File.Open( strFullFilename, CFile::modeCreate | CFile::modeWrite | CFile::shareDenyNone | CFile::typeBinary ) )
 	{
 		File.Write( this->m_pData, this->m_iUsedSize );
+		File.Flush();
 		return true;
 	}
 	return false;

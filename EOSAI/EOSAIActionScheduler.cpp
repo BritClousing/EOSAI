@@ -285,7 +285,11 @@ void CActionScheduler::AllocateTacticalProjects2()
 		while( pos )
 		{
 			CEOSAITacticalProject2* pTacticalProject2 = pAIThoughtDatabase->GetTacticalProjects2()->GetNext( pos );
-			if( iAIPlayer == 2 && pTacticalProject2->ProjectIncludesObjectIdAsPrimaryTask( 12 ) )
+			if( pTacticalProject2->ProjectIncludesObjectIdAsPrimaryTask(131))
+			{
+				int h = 0;
+			}
+			if( iAIPlayer == 2 && pTacticalProject2->ProjectIncludesObjectIdAsPrimaryTask(12) )
 			{
 				int h=0;
 			}
@@ -299,6 +303,7 @@ void CActionScheduler::AllocateTacticalProjects2()
 				ASSERT( pTacticalProject2->GetOrderOfProcessing() >  0.0f );
 				TacticalProjectsToEvaluate.InsertSorted( pTacticalProject2 );
 			}
+			// The scores for 131 are completely different than the original EOS. 23,32,23,0,0. New values are 15,12,16,8,2.
 			long iNearbyScoreIndex = pTacticalProject2->GetInitialEvaluation_NearbyScoreIndex();
 			long iValueScoreIndex = pTacticalProject2->GetInitialEvaluation_ValueScoreIndex();
 			long iBasicScoreIndex = pTacticalProject2->GetInitialEvaluation_BasicScoreIndex();

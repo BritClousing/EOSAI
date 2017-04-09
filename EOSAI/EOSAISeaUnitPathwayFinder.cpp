@@ -3,7 +3,7 @@
 #include "EOSAISeaUnitPathwayFinder.h"
 #include "EOSAIUnitPathwayPredefinedStep.h"
 #include "EOSAIUnitPathwayResultStep.h"
-#include "EOSAIUnit2.h"
+#include "EOSAIUnit.h"
 //#include "PoiObject.h"
 #include "EOSAIResource.h"
 //#include "ResourceSource.h"

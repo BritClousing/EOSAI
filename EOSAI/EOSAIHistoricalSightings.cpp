@@ -4,7 +4,7 @@
 #include "PoiObject.h"
 #include "City.h"
 #include "EOSAIResource.h"
-#include "EOSAIUnit2.h"
+#include "EOSAIUnit.h"
 //#include "AISpatialMap.h"
 //#include "EOSAIBrain.h"
 #include "AIPlayer.h"

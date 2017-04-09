@@ -2,7 +2,7 @@
 #include "stdafx.h"
 #include "EOSAITask.h"
 //#include "AIDesire.h"
-#include "EOSAIUnit2.h"
+#include "EOSAIUnit.h"
 //#include "AISpatialMap.h"
 #include "EOSAIUnitTask.h"
 //#include "AILogicalObject.h"

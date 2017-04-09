@@ -1,7 +1,7 @@
 
 #include <stdafx.h>
 #include "EOSAIPoiObjectProximity.h"
-#include "EOSAIUnit2.h"
+#include "EOSAIUnit.h"
 #include "City.h"
 //#include "AIPoiObjectsOrderedByFutureProximityToLocation.h"
 #include "EOSAIBrain.h"

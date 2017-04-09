@@ -27,7 +27,7 @@ class CEOSAIAttackVs2;
 #include "EOSAILocation.h"
 #include "EOSAIListUnowned.h"
 #include "PoiObjectState.h"
-#include "EOSAIRegionPathway.h"
+//#include "EOSAIRegionPathway.h"
 class CEOSAIUnitActionIdea;
 #include "EOSAIListSort.h"
 #include "EOSAIEnumForeignRelations.h"

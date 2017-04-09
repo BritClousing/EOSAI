@@ -1,6 +1,6 @@
 
 #include "stdafx.h"
-#include "EOSAIUnit2.h"
+#include "EOSAIUnit.h"
 //#include "Unit.h"
 #include "AIPlayer.h"
 //#include "AISpatialMap.h"

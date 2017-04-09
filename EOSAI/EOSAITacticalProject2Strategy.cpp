@@ -2,7 +2,7 @@
 #include "stdafx.h"
 #include "EOSAITacticalProject2Strategy.h"
 #include "EOSAITacticalProject2.h"
-#include "EOSAIUnit2.h"
+#include "EOSAIUnit.h"
 #include "EOSAIBrain.h"
 #include "EOSAIDesireSpatial.h"
 //#include "ResourceSource.h"

@@ -3,7 +3,7 @@
 #include "EOSAIUnitAction.h"
 //#include "AITacticalProject.h"
 //#include "AIActionDefinition_CaptureCitRes.h"
-#include "EOSAIUnit2.h"
+#include "EOSAIUnit.h"
 #include "PoiObjectState.h"
 //#include "AIActionOutline.h"
 #include "EOSAIMultiRegion2.h"

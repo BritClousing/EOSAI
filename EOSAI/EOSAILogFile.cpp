@@ -38,6 +38,7 @@ void CEOSAILogFile::Initialize( CString strFileLocation )
 	Write( strTime );
 
 	{
+		/*
 		// Grab some of the data that I need.
 		BOOL bHasOSInfo = FALSE;
 		OSVERSIONINFO g_OSVersion;
@@ -80,6 +81,7 @@ void CEOSAILogFile::Initialize( CString strFileLocation )
 			g_OSVersion.dwBuildNumber,
 			g_OSVersion.szCSDVersion );
 		Write( strOS );
+		*/
 
 		// Memory
 		MEMORYSTATUS g_sysMemoryStatus = {0};
@@ -128,6 +130,7 @@ void CEOSAILogFile::WriteTime()
 void CEOSAILogFile::Write( CString strText )
 {
 	if( m_fp == NULL ) return;
+	lkjljk
 
 	_ftprintf( m_fp, _T("%s\n"), strText );
 	fflush( m_fp );

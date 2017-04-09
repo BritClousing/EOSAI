@@ -3,7 +3,7 @@
 #include "EOSAICommonData.h"
 #include "EOSAIGenericRegion.h"
 //#include "PoiObject.h"
-#include "EOSAIUnit2.h"
+#include "EOSAIUnit.h"
 #include "City.h"
 #include "EOSAIResource.h"
 //#include "WorldDescServer.h"

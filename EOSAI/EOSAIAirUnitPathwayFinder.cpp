@@ -2,7 +2,7 @@
 #include "stdafx.h"
 #include "EOSAIAirUnitPathwayFinder.h"
 #include "PoiObject.h"
-#include "EOSAIUnit2.h"
+#include "EOSAIUnit.h"
 //#include "Unit.h"
 #include "EOSAIBrain.h"
 //#include "WorldBuildDesc.h"

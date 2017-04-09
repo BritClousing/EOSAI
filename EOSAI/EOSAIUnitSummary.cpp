@@ -4,7 +4,7 @@
 #include "AIPlayer.h"
 //#include "WorldDescPlayer.h"
 #include "City.h"
-#include "EOSAIUnit2.h"
+#include "EOSAIUnit.h"
 //#include "AINationalDesires.h"
 
 //#include "BuildOptionEvaluation.h"

@@ -1,14 +1,14 @@
 
 #include "stdafx.h"
 #include "City.h"
-#include "EOSAIUnit2.h"
+#include "EOSAIUnit.h"
 
 #include "AIPlayer.h"
 //#include "EOSAIBrain.h"
 //#include "City.h"
 #include "EOSAIBrain.h"
 #include "EOSAIGeo.h"
-#include "EOSAIRegionPathway.h"
+//#include "EOSAIRegionPathway.h"
 //#include "AICityDesireMatrix.h"
 //#include "EOSAIProductionOption.h"
 //#include "EOSAIProductionTask.h"

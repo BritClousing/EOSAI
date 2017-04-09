@@ -1,6 +1,6 @@
-#summary Describes the mapping system
+##The Map System##
 
-= Introduction =
+### Introduction ###
 
 The Maps system is used for pathfinding and also for figuring out which areas are vulnerable.
 
@@ -8,7 +8,7 @@ Below is an example of a map.  The left image is the 'normal view' of the map.  
 
 http://eosai.googlecode.com/files/Diagram-AIRegions.png
 
-== Creating the EOSAI Interface ==
+#### Creating the EOSAI Interface ####
 
 The EOSAI Interface must convert the game map into an AIRegion map.
 
@@ -18,7 +18,7 @@ The mapping system requires several things:
   * The AIRegions must be linked together so the AI knows what regions connect to which regions (i.e. Region A is adjacent to Region B).
   * Each AIRegion should have the same terrain.  In other words: a region might a "water" or "forest" or "plains".  An AIRegion can't contain both forest+water or even forest+plains.  This is important for figuring out pathways because the pathway calculated for a ground unit is different than a pathway calculated for ships.  If a tank can't move through forests, then it won't be allowed to move through any AIRegions designated as "forest".
 
-== Creating the EOSAI.dll ==
+#### Creating the EOSAI.dll ####
 
 The EOSAI code does several things with the map: pathfinding and evaluating the vulnerable regions.
 

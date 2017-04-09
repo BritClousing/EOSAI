@@ -5,7 +5,7 @@
 #include "EOSAIDesireDestroyUnit.h"
 #include "City.h"
 #include "EOSAIResource.h"
-#include "EOSAIUnit2.h"
+#include "EOSAIUnit.h"
 //#include "CombatManager.h"
 #include "EOSAICommonData.h"
 #include "EOSAIMultiRegionNationwidePathways.h"

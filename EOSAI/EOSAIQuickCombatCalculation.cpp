@@ -2,7 +2,7 @@
 #include "stdafx.h"
 #include "EOSAIQuickCombatCalculation.h"
 #include "EOSAIUnitTemplate.h"
-#include "EOSAIUnit2.h"
+#include "EOSAIUnit.h"
 #include "PoiObject.h"
 #include "EOSAIUnitTemplatesAndFloat.h"
 #include "EOSAIUnitVsUnitValue.h"

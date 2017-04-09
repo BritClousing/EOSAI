@@ -8,7 +8,7 @@
 #include "EOSAIUnitTemplate.h"
 #include "EOSAIBrain.h"
 #include "City.h"
-#include "EOSAIUnit2.h"
+#include "EOSAIUnit.h"
 #include "EOSAIUnitPathwayResult.h"
 //#include "WorldDescServer.h"
 #include "EOSAICommonData.h"

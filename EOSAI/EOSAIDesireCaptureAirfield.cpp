@@ -8,7 +8,7 @@
 //#include "Unit.h"
 #include "City.h"
 #include "EOSAIResource.h"
-#include "EOSAIUnit2.h"
+#include "EOSAIUnit.h"
 #include "EOSAIAirfield.h"
 #include "AIPlayer.h"
 #include "EOSAICommonData.h"

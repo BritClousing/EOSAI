@@ -193,3 +193,14 @@ EOSAIUserInterface/debug/EOSAIUserInterface.exe
 EOSAIUserInterface/debug/EOSAIUserInterface.ilk
 EOSAIUserInterface/debug/eosaiuserinterface.pdb
 EOSAIUserInterface/src.pri-old
+EOSAI/IntermediateFiles/
+EOSAI/.hg/
+EOSAI/ipch/
+build-EOSAIUserInterface-Desktop_Qt_5_5_1_MSVC2012_32bit-Debug/
+EOSAI/UpgradeLog.htm
+EOSAI/EOSAI.APS
+EOSAI/EOSAI.VC.VC.opendb
+EOSAI/EOSAI.VC.db
+EOSAI/EOSAI.vcproj.ICHASE.B.user
+EOSAI/EOSAI.vcproj.LAPTOP-HGQEVTN2.Brit.user
+EOSAI/.vs/EOSAI/v14/.suo

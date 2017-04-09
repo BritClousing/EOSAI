@@ -6,7 +6,7 @@
 //#include "UnitTemplate.h"
 #include "EOSAIThoughtDatabase.h"
 #include "City.h"
-#include "EOSAIUnit2.h"
+#include "EOSAIUnit.h"
 #include "EOSAIQuickCombatCalculation.h"
 #include "EOSAICitResValueMultiplier.h"
 //#include "AICombatPlanner.h"

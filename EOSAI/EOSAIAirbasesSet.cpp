@@ -7,7 +7,7 @@
 //#include "Unit.h"
 #include "EOSAICommonData.h"
 #include "PoiObject.h"
-#include "EOSAIUnit2.h"
+#include "EOSAIUnit.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE

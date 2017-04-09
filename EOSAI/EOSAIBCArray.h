@@ -1,6 +1,6 @@
 
 #pragma once
-
+#ifdef DO_NOT_COMPILE
 //
 // The TYPE value determines the object that will be in the array.
 //    e.g. CEOSAIBCArray< float > makes an array of floats (not float*, as some of my containers do).
@@ -108,4 +108,5 @@ template<class TYPE> class CEOSAIBCArray
 		TYPE*   m_pArray;  // pointer to the m_pArray
 		TYPE    m_StaticArray[BCARRAY_STATIC_SIZE];  // pointer to the m_pArray
 };
+#endif DO_NOT_COMPILE
 

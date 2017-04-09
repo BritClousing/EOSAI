@@ -98,7 +98,7 @@ Create a scheduling system -
 #include "AIPlayer.h"
 //#include "GameAppState.h"
 //#include "CommonState.h"
-#include "EOSAIUnit2.h"
+#include "EOSAIUnit.h"
 #include "City.h"
 #include "EOSAIResource.h"
 //#include "GeoLand.h"

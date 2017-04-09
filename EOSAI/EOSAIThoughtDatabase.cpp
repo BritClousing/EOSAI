@@ -14,7 +14,7 @@
 #include "City.h"
 #include "EOSAIAirfield.h"
 //#include "City.h"
-#include "EOSAIUnit2.h"
+#include "EOSAIUnit.h"
 //#include "WorldDescServer.h"
 //#include "AIThought_AIPoiObjectFilter.h"
 //#include "AIThought_WhatPlacesWouldILikeToExplore.h"

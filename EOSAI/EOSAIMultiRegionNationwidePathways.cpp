@@ -10,7 +10,7 @@
 #include "EOSAICommonData.h"
 #include "City.h"
 #include "EOSAIAirfield.h"
-#include "EOSAIUnit2.h"
+#include "EOSAIUnit.h"
 //#include "Checkpoint.h"
 
 #ifdef _DEBUG

@@ -3,7 +3,7 @@
 #include "EOSAIBrain.h"
 #include "EOSAIUnitTask_Pickup.h"
 //#include "UnitTemplate.h"
-#include "EOSAIUnit2.h"
+#include "EOSAIUnit.h"
 //#include "UnitOrder.h"
 //#include "AISuperTask.h"
 //#include "WorldDesc.h"

@@ -15,7 +15,7 @@
 #include "EOSAIPlayerInteraction_SneakAttack.h"
 #include "City.h"
 #include "EOSAIResource.h"
-#include "EOSAIUnit2.h"
+#include "EOSAIUnit.h"
 #include "EOSAIBuildOption.h"
 #include "EOSAIBuildingDescription.h"
 //#include "..\..\BCToolkit\LogFile.h"
