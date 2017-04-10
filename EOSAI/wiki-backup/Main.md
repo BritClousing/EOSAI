@@ -72,12 +72,13 @@ EOSAI is built for Windows. I would like to move away from the Windows-only depe
 
 ### What kinds of strategy games does EOSAI work for?
 
-EOSAI built for turn-based games where all units can move each turn. This is a common design for 4X games (e.g. Civilization, Masters of Orion, etc).
+EOSAI built for turn-based 4X games (e.g. Civilization, Masters of Orion, etc).
 
-EOSAI is *not* built for real-time strategy games. The AI takes some time to "think" about it's turn. It would be nice if EOSAI could (at some point in the future) handle RTS AI, but it can't handle it currently.
+EOSAI is *not* built for real-time strategy games (e.g. Starcraft). The AI takes some time to "think" about it's turn. It would be nice if EOSAI could (at some point in the future) handle RTS AI, but it can't handle it currently.
 
 EOSAI is also not built for games like chess where where one "unit" is moved per turn.
 
+EOSAI does not learn. It uses calculations to figure out what it's going to do and contains sub-systems that allow it to perform those actions (e.g. a system for considering hypothetical actions and scoring them so it can choose the best option, a pathfinding system that allows it to plan movement from point A to point B, a combat calculator to decide if it has enough military power to win a battle before committing troops to that plan, etc).
 
 ## Overview of EOSAI
 
@@ -202,12 +203,25 @@ Because the AI is composed of a few different sub-systems, it's easy to work on 
 Some areas:
 
 * **Map Traversal** (fastest route, avoiding enemies). The code for fast-route traversal is complete, but there are some tweaks that could be done with enemy avoidance. Enemy avoidance could take into account several factors: how valuable for the AI to move secretly (in some cases, it might not be necessary for the AI to move secretly - e.g. if he's bringing in a large, unstoppable fleet; in other cases, he might be outnumbered and he wants a few transports to move ground onto an island; there is also some work that could be done to avoid aircraft better)
+	* Classes involved in this: See the "Spatial Maps" folder.
+* **Tactical AI** - The AI plans it's attacks. Specifically, it considers a variety of options, comes up with a score for these options (including taking account of how quickly he can get units to the location, and whether he has enough military power to capture the target), and chooses the best option(s).
+	* Classes involved in this: See the "Tactical AI" folder.
 * **Trade** (Negotiation messages, counter-offers, etc). The AI needs to understand what it values, how valuable it is, how valuable things are to other players, and try to create/accept trade deals which favors itself. There's a variety of factors here which will influence his negotiation. For example, he'll give a better deal to an ally than an enemy. If the AI is in a three-player game, then giving good trade deals to one player might help him turn the player into an ally against the third player. The relative power of all players will also come into play (helping a weaker player become stronger is generally better than helping a strong player become stronger). The AI might also want to bully weaker players into paying a tribute. The AI's actions should also be dependent on his personality (some AI players might "play nice" with other players, others might be bullies, others might talkative and diplomatic while seeking out allies).
+	* Classes involved in this: See "Strategic AI/Messages" and "Foreign Relations/Trade" folders, EOSAIPlayerInteraction_Trade.h/cpp
 * **War/Peace Strategy** (deciding who/when to attack, who to make peace with, trying to get other players to join in war against a common enemy). The AI could do a lot better with trying to "seduce" players into alliances. For example, the AI could decide that he needs other players to form an alliance against the strongest player in the game. The AI needs to actually take steps to make that alliance happen.
+	* Classes involved in this: 
+	See the "Foreign Relations" and "Strategic AI" and "Tactical AI/Summary" folders
+	EOSAIGlobalForeignRelations.h/cpp
 * **Technology Research** - What technologies should the AI research, and how much should he spend, are there technologies that the AI should research based on countering other players technologies, what technologies should the AI favor based on his geographical situation - e.g. if the map requires a lot of island hopping, then maybe he should favor ship technology; if he's landlocked - like Russia in WW2 - then he should favor ground unit technology.
+	* Classes involved in this: See "Strategic AI/Technology" folder and CEOSAIStrategicAI.h/cpp
 * **Build Manager** - The AI needs to figure out what to build and where. Ships? Ground Units? Aircraft? This depends on a variety of factors - like the geography where the AI finds itself (if there's lots of unexplored land around the AI, then he should probably build ground units; if the map is a bunch of small islands, then he'll have to build some ships). The AI should also build more expensive units deeper in his territory and construct short-build defensive units closer to the front.
+	* Classes involved in this: See EOSAIBuildManager.h/cpp
+* **Foreign Relations** - The AI keeps track of historical interactions with other players. There is some additional work that could be done with this system. Right now, the AI keeps track of these historical interactions (past wars, trade agreements, etc) and uses those to adjust its foreign relations feelings towards players. The system is setup so that players feelings fade over time (e.g. a war that ended 5 turns ago produces larger negative feelings than a war 100 turns ago).
+	* Classes invovled in this: See "Historical Information" folder.
 * **Stationary Unit Placement** - The AI should distribute his units in a way that allows him to defend his territory (e.g. aircraft and ground units near the front). The AI should keep vulnerable units (e.g. transports) further away from the front, away from enemy submarines and aircraft. The AI might want to place some units in areas to attack incoming enemies (e.g. place destroyers in waterways where enemy submarines might try to move).
+	* Classes involved in this: See EOSAIWarzoneLocation.h
 * **Communication Personality** (writing messages to allow the AI to communicate with players in a way that displays some individual personality - e.g. "Nobody crosses the British Empire. We've put up with your insolence long enough.")  I think the communication personality should be customizable for each game. I'm not sure what the best way to accomplish this would be. Maybe create a class that holds various text messages. The game passes in this class to the AI. This would allow a third-party game to create customized leaders.
+	* Classes involved in this: See "Strategic AI" Folder
 * **EOSAIViewer** - The idea behind the Viewer is to allow developers to get a high-level view of what/why the AI is doing. This is important for debugging.
 
 ## EOSAI Concepts
