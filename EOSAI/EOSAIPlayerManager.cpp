@@ -491,7 +491,9 @@ void  CEOSAIPlayerManager::Loop()
 		{
 			// Make sure the AIData is up to date
 			g_pEOSAICommonData->SetNeedToRebuildData( false );
+			int h1 = 0;
 			g_pEOSAIInterface->CreateGameRules();
+			int h2 = 0;
 			g_pEOSAIInterface->CreateTechTree();
 			g_pEOSAIInterface->CreateAIRegionsAndMultiRegions();
 			g_pEOSAIInterface->CreateAIGeoMap();

@@ -1,0 +1,12 @@
+FileVersion=1
+ApplicationVersionRequired=0.92.0000
+
+ImageCenterX=32
+ImageCenterY=34
+DefaultRotation=0
+ImageBase=Missile-SRBM
+NumberOfImages=1
+
+Combat
+	"Attack"
+		AnimationAtTargetLocation = AtomicBlast

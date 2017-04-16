@@ -1,0 +1,7 @@
+FileVersion=1
+ApplicationVersionRequired=0.92.0000
+
+ImageBase=Vehicle-APC-M3
+
+OnSelectSound=%Sound%\Select-TankLight1.snd
+OnSelectSound=%Sound%\Select-TankLight2.snd

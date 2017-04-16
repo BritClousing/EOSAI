@@ -1,0 +1,6 @@
+FileVersion=1
+ApplicationVersionRequired=0.92.0000
+
+ImageBase=Carrier3
+
+OnSelectSound=%Sound%\Select-ShipB3.snd

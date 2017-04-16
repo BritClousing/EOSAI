@@ -1,0 +1,44 @@
+
+Having trouble getting the game to run?  We've got a list of problems and solutions listed below.
+
+1. Error: "EOS.exe - Application Error.  The application failed to initialize properly (0xc0150002)."
+2. Error: "EOS.exe - Application Error.  The application failed to initialize properly (0xc0000005)."
+3. You get an error message each turn saying that it can't save the game.
+
+-
+
+1. Error Message:
+	EOS.exe - Application Error
+	The application failed to initialize properly (0xc0150002).
+	Click on OK to terminate the application.
+
+	Solution:
+	This error happens if you don't have the latest Windows updates.  This can be resolved by 
+	updating the Microsoft .NET Framework to version 3.5 (or higher).  You can download it here:
+	http://www.microsoft.com/downloads/details.aspx?FamilyId=333325FD-AE52-4E35-B531-508D977D32A6
+
+
+2. Error Message:
+	EOS.exe - Application Error
+	The application failed to initialize properly (0xc0000005).
+	Click on OK to terminate the application.
+
+	Solution:
+	You need to install, and launch, the game with full admin rights under Vista. That includes 
+	right-clicking and setting the game to "Run as administrator". Or shut off UAC (User Access Control) under Vista.
+
+	This may be a DEP (data execution prevention) error. First, please check if you have the file 
+	runservice.exe in your C:/Windows folder. If so, please check out the instructions in the FAQ here:
+	http://www.battlefront.com/index.php?option=com_content&task=view&id=47&Itemid=30
+
+	Your anti-virus may be causing problems (some AV packages such as ZoneAlarm and others are known for
+	continuing to run in the background, and you may have to shut them down and make sure that you boot without them).
+
+
+3. You get an error message each turn saying that it can't save the game.
+	This appears to be a problem that happens on Windows Vista
+	Solution: You need to be running as 'administrator' to run the game.
+        That includes right-clicking and setting the game to "Run as administrator". Or shut off 
+        UAC (User Access Control) under Vista.
+
+

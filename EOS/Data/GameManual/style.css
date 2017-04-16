@@ -1,0 +1,42 @@
+/* CSS definition file containing sitestyle stylesheets */
+A:active { font-family: 'Microsoft Sans Serif', sans-serif; color: rgb(0,0,153);}
+A:link { font-family: 'Microsoft Sans Serif', sans-serif; color: rgb(0,0,153);}
+A:visited { font-family: 'Microsoft Sans Serif', sans-serif; color: rgb(0,0,153);}
+A:hover { font-family: 'Microsoft Sans Serif', sans-serif; color: rgb(0,0,153);}
+A { font-family: 'Microsoft Sans Serif', sans-serif; color: rgb(0,0,153);}
+
+H1 { font-family: 'Microsoft Sans Serif', sans-serif; font-size: 10pt; margin: 10px 10px 10px 10px; }
+H2 { font-family: 'Microsoft Sans Serif', sans-serif; font-size: 10pt; margin: 10px 10px 10px 10px; font-weight:normal; }
+H3 { font-family: 'Microsoft Sans Serif', sans-serif; font-size: 10pt;  margin: 4px 0px 0px 20px; font-weight:normal; }
+P { font-family: 'Microsoft Sans Serif',sans-serif; font-size: 8pt; margin: 0px 0px 0px 20px; line-height: 15px; }
+P.Zero { font-family: 'Microsoft Sans Serif', sans-serif; font-size: 8pt; margin: 0px 0px 0px 0px; line-height: 15px; }
+P.QuickTourH1 { font-family: 'Microsoft Sans Serif', sans-serif; font-size: 11pt; margin: 10px 10px 10px 65px; font-weight:bold; }
+P.AppFont { font-family: 'Microsoft Sans Serif', sans-serif; font-size: 8pt; }
+P.Indent1 { margin: 0px 0px 0px 38px; }
+P.Indent2 { margin: 0px 0px 0px 50px; }
+P.RelatedTopics { margin: 0px 0px 0px 0px; color: rgb(100,100,100); }
+P.Bullet {
+	margin: 3px 0px 3px 20px;
+	padding: 0px 0px 0px 25px;
+	background-image: url(Bullet.png);
+	background-repeat: no-repeat;
+	background-position: 10px 3px;
+}
+TABLE{ font-family: 'Microsoft Sans Serif',sans-serif; font-size: 8pt; margin: 0px 0px 0px 20px; line-height: 15px; }
+
+/* CSS definition file containing site wide stylesheets */
+BODY { font-family: 'Microsoft Sans Serif', sans-serif; font-size: 8pt; }
+/*A:active { font-size: 8pt;}*/
+/*A:link { font-size: 8pt;}*/
+/*A:visited { font-size: 8pt;}*/
+/*A:hover { font-size: 8pt;}*/
+
+UL { font-family: 'Microsoft Sans Serif', sans-serif; font-size: 8pt;}
+
+LI { font-family: 'Microsoft Sans Serif', sans-serif; font-size: 8pt; margin: 5px 0px 5px 40px; }
+.TextNavBar { font-family: Arial,Helvetica,Geneva,Sans-serif,sans-serif; font-size: 9pt; text-decoration: none ;}
+
+p.Line {
+	margin: 0px 10px 0px 10px;
+	border-top: 1px solid #e0e0e0;
+}

@@ -1,0 +1,23 @@
+FileVersion=1
+ApplicationVersionRequired=0.92.0000
+
+ImageCenterX=32
+ImageCenterY=40
+ImageBase=Artillery-German88
+DefaultRotation=12
+
+OnSelectSound=%Sound%\Select-Truck2.snd
+OnSelectSound=%Sound%\Select-Truck3.snd
+
+Movement
+	UnitAnimation =
+Combat
+	"Attack"
+		DefaultPauseBetweenAnimations = 0.1
+		UnitAnimation = Artillery-German88-Fire
+		UnitAnimationSound = Animation-CannonLight2.snd
+		IntermediateAnimation = GunBurstx1
+		AnimationAtTargetLocation = Flak1
+Die
+	//UnitAnimation = Infantry3-walk
+	//UnitSound = Infantry3-walk.snd

@@ -1,0 +1,6 @@
+FileVersion=1
+ApplicationVersionRequired=0.92.0000
+
+ImageBase=Freighter1
+
+OnSelectSound=%Sound%\Select-Ship1.snd

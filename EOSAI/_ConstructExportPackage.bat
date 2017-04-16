@@ -26,10 +26,13 @@ cpin ../../EOS/source/EOSAIWorldDistanceTool_EOS.h %ExportDirectory%\ExampleCode
 echo Copying EOSAI Include files to the Export Directory (so EOS can access it)
 rem cpin -c Build\Debug\EOSAI-Debug.dll %ExportDirectory%\EOSAI-Debug.dll
 rem cpin -c Build\Debug\EOSAI-Debug.lib %ExportDirectory%\EOSAI-Debug.lib
-cpin -c Build\Debug\EOSAI.dll %ExportDirectory%\EOSAI.dll
-cpin -c Build\Debug\EOSAI.lib %ExportDirectory%\EOSAI.lib
+cpin -c Build\Debug\EOSAI-Debug.dll %ExportDirectory%\EOSAI-Debug.dll
+cpin -c Build\Debug\EOSAI-Debug.lib %ExportDirectory%\EOSAI-Debug.lib
+cpin -c Build\Release\EOSAI.dll %ExportDirectory%\EOSAI.dll
+cpin -c Build\Release\EOSAI.lib %ExportDirectory%\EOSAI.lib
 rem cpin -c Build\Release\EOSAI.dll %ExportDirectory%\EOSAI.dll
 rem cpin -c Build\Release\EOSAI.lib %ExportDirectory%\EOSAI.lib
+cpin -r %ExportDirectory%\*.dll ..\EOS\
 
 
 echo %ExportDirectory%
@@ -176,8 +179,9 @@ rem |
 rem | cpin -r %ExportDirectory%\*.* c:\programming\EOS\Source\EOSAI\
 rem cpin -r %ExportDirectory%\*.* c:\programming\EOSAI-1.0\EOSAI\
 rem cpin -r %ExportDirectory%\*.dll C:\Programming\EOS\Build\
-cpin -r %ExportDirectory%\*.* ..\..\EOSAI-1.0\EOSAI\
-cpin -r %ExportDirectory%\*.dll ..\..\EOS\Build\
+rem cpin -r %ExportDirectory%\*.* ..\..\EOSAI-1.0\EOSAI\
+rem cpin -r %ExportDirectory%\*.dll ..\..\EOS\Build\
+rem cpin -r %ExportDirectory%\*.dll ..\EOS\
 
 echo Done
 

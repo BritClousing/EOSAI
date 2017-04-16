@@ -1,0 +1,21 @@
+FileVersion=1
+ApplicationVersionRequired=0.92.0000
+
+ImageBase=Artillery-Future1
+DefaultRotation=10
+ImageCenterY=34
+
+OnSelectSound=%Sound%\Select-Truck3.snd
+OnSelectSound=%Sound%\Select-Truck4.snd
+
+
+Movement
+	UnitAnimation =
+Combat
+	"Attack"
+		DefaultPauseBetweenAnimations = 0.3
+		UnitAnimation = Artillery-Future1-Fire
+		UnitAnimationSound = Animation-CannonLight2.snd
+Die
+	//UnitAnimation = Infantry3-walk
+	//UnitSound = Infantry3-walk.snd

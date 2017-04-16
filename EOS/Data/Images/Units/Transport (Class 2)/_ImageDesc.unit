@@ -1,0 +1,6 @@
+FileVersion=1
+ApplicationVersionRequired=0.92.0000
+
+ImageBase=Transport2
+
+OnSelectSound=%Sound%\Select-Ship3.snd

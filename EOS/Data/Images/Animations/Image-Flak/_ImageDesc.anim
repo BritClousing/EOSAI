@@ -1,0 +1,5 @@
+AnimationSequence=Flak1
+AnimationSequenceImageOffsetX=32
+AnimationSequenceImageOffsetY=24
+AnimationSequenceSound=%Sound%\Animation-Flak1.snd
+DrawOrder=1

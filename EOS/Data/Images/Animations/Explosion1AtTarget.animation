@@ -1,0 +1,6 @@
+<Compound>
+  <Name>Explosion1AtTarget</Name>
+  <AimAhead>0.000000</AimAhead>
+  <IfOnLand>Explosion1OnLand</IfOnLand>
+  <IfOnWater>Explosion1OnWater</IfOnWater>
+</Compound>

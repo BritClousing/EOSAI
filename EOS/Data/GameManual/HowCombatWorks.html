@@ -1,0 +1,30 @@
+<html>
+<TITLE>How to Play</TITLE>
+<LINK REL=STYLESHEET TYPE="text/css" HREF="style.css">
+<body>
+
+<H1>How Combat Works</H1>
+<p>All units have a Combat type.  For example, the combat type of Infantry is "Soft".  And the combat type of tanks is "Armor". 
+When units fight, their attack values are based on the enemy's combat type.  The defense value is constant with some modifiers for entrenchment and terrain. 
+<br><br>
+For example, if an infantry and a tank enter combat, the infantry has an to-hit of 4 against Armor, and a defense of 3.5. 
+The tank has an to-hit of 5.5 against Soft, and a defense of 2.5.  Using these numbers, we can see that, on average, the infantry 
+will hit the tank an average of 1.6 times each turn.  This is based on the infantry to-hit of 4 divided by the tanks defense of 2.5 
+(4.0 / 2.5) = 1.6.  The tank will hit the infantry an average of 1.57 times per turn.  This is based on the tank to-hit of 5.5 
+divided by the infantry's defense of 3.5.
+<br><br>
+Each turn of combat is broken up into 100 parts (called "tics").  So, when combat is calculated, it's calculated 100 times
+each turn using the formula 0.01 x to-hit / defense.  The number of successful hits can vary from turn to turn.
+<br><br>
+If units have high attack values and low defense values, combat will occur quickly because each will hit multiple times
+per turn.  If units have low attack values and high defense values, combat will occur slowly because it might take several turns
+to score a single hit.  
+<br><br>
+When units hit, they generally cause 1 point of damage to each other, although this might vary depending on the rules.
+<br><br>
+Related Topics:<br>
+<a href="WhatIsAttrition.html">What is Attrition</a><br>
+<a href="Contents.html">Table of Contents</a></p>
+
+</body>
+</html>

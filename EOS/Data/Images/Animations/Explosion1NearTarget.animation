@@ -1,0 +1,14 @@
+<Compound>
+  <Name>Explosion1NearTarget</Name>
+  <Offset>10,10</Offset>
+  <Offset>-10,10</Offset>
+  <Offset>10,-10</Offset>
+  <Offset>-10,-10</Offset>
+  <Offset>0,12</Offset>
+  <Offset>0,-12</Offset>
+  <Offset>15,0</Offset>
+  <Offset>-15,0</Offset>
+  <AimAhead>0.000000</AimAhead>
+  <IfOnLand>Explosion1OnLand</IfOnLand>
+  <IfOnWater>Explosion1OnWater</IfOnWater>
+</Compound>

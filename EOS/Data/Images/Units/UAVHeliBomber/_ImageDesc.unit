@@ -1,0 +1,6 @@
+FileVersion=1
+ApplicationVersionRequired=0.92.0000
+
+ImageBase=UAVHeliBomber
+
+OnSelectSound=%Sound%\Select-Jet-A10.snd

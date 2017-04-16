@@ -1,0 +1,12 @@
+FileVersion=1
+ApplicationVersionRequired=0.92.0000
+
+ImageCenterX=32
+ImageCenterY=32
+DefaultRotation=0
+ImageBase=Missile-V2
+NumberOfImages=1
+
+Combat
+	"Explode"
+		AnimationAtTargetLocation = Explosion1AtTarget

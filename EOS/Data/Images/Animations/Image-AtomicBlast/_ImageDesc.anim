@@ -1,0 +1,4 @@
+AnimationSequence=AtomicBlast1
+AnimationSequenceImageOffsetX=64
+AnimationSequenceImageOffsetY=90
+AnimationSequenceSound=%Sound%\Animation-AtomicExplosion.snd

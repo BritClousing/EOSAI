@@ -5,10 +5,6 @@
       <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Full - Release EOSAI|Win32">
-      <Configuration>Full - Release EOSAI</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
     <ProjectConfiguration Include="Release|Win32">
       <Configuration>Release</Configuration>
       <Platform>Win32</Platform>
@@ -28,13 +24,6 @@
     <CharacterSet>Unicode</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Full - Release EOSAI|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <PlatformToolset>v140</PlatformToolset>
-    <UseOfMfc>Dynamic</UseOfMfc>
-    <CharacterSet>Unicode</CharacterSet>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <PlatformToolset>v140</PlatformToolset>
@@ -45,9 +34,6 @@
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Full - Release EOSAI|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
@@ -61,13 +47,9 @@
     <OutDir>$(SolutionDir)\Build\$(Configuration)\</OutDir>
     <IntDir>IntermediateFiles\$(Configuration)\</IntDir>
     <LinkIncremental>true</LinkIncremental>
+    <TargetName>$(ProjectName)-Debug</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>$(SolutionDir)\Build\$(Configuration)\</OutDir>
-    <IntDir>IntermediateFiles\$(Configuration)\</IntDir>
-    <LinkIncremental>false</LinkIncremental>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Full - Release EOSAI|Win32'">
     <OutDir>$(SolutionDir)\Build\$(Configuration)\</OutDir>
     <IntDir>IntermediateFiles\$(Configuration)\</IntDir>
     <LinkIncremental>false</LinkIncremental>
@@ -95,8 +77,8 @@
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <OutputFile>$(ProjectDir)\Build\Debug\$(ProjectName).dll</OutputFile>
-      <ModuleDefinitionFile>.\EOSAI.def</ModuleDefinitionFile>
+      <OutputFile>$(SolutionDir)\Build\$(Configuration)\$(TargetName).dll</OutputFile>
+      <ModuleDefinitionFile>.\EOSAI-Debug.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
@@ -106,7 +88,8 @@
       <Command>_ConstructExportPackage.bat</Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>UpdateVersion.bat $(IntDir)</Command>
+      <Command>
+      </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -138,40 +121,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <TargetMachine>MachineX86</TargetMachine>
       <AdditionalDependencies>Winmm.lib</AdditionalDependencies>
-    </Link>
-    <PostBuildEvent>
-      <Command>_ConstructExportPackage.bat</Command>
-    </PostBuildEvent>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Full - Release EOSAI|Win32'">
-    <Midl>
-      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <MkTypLibCompatible>false</MkTypLibCompatible>
-    </Midl>
-    <ClCompile>
-      <Optimization>MaxSpeed</Optimization>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>.\External;.\;..\..\boost_1_63_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_USRDLL;CREATE_EOSAI_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-    </ClCompile>
-    <ResourceCompile>
-      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <Culture>0x0409</Culture>
-      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-    </ResourceCompile>
-    <Link>
-      <ModuleDefinitionFile>.\EOSAI.def</ModuleDefinitionFile>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Windows</SubSystem>
-      <OptimizeReferences>true</OptimizeReferences>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalDependencies>Winmm.lib</AdditionalDependencies>
+      <OutputFile>$(SolutionDir)\Build\$(Configuration)\$(ProjectName).dll</OutputFile>
     </Link>
     <PostBuildEvent>
       <Command>_ConstructExportPackage.bat</Command>
@@ -265,7 +215,6 @@
     <ClCompile Include="EOSAIPoiObjectState2.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Full - Release EOSAI|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="EOSAIQuickCombatCalculation.cpp" />
     <ClCompile Include="EOSAIRegion2.cpp" />
@@ -302,7 +251,6 @@
     <ClCompile Include="EOSAITaskForceDesc.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Full - Release EOSAI|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="EOSAITechnologyDesc.cpp" />
     <ClCompile Include="EOSAITechTreeNode.cpp" />
@@ -346,7 +294,6 @@
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Full - Release EOSAI|Win32'">Create</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -365,12 +312,10 @@
     <ClInclude Include="EOSAIAirUnitPathwayFinder.h" />
     <ClInclude Include="EOSAIAttackVs2.h" />
     <ClInclude Include="EOSAIBCArray.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Full - Release EOSAI|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="EOSAIBCArray2.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Full - Release EOSAI|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClInclude>
@@ -490,7 +435,6 @@
     <ClInclude Include="EOSAIPoiObjectState2.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Full - Release EOSAI|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="EOSAIPublic.h" />
     <ClInclude Include="EOSAIQuickCombatCalculation.h" />
@@ -532,7 +476,6 @@
     <CustomBuild Include="EOSAITaskForceDesc.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Full - Release EOSAI|Win32'">true</ExcludedFromBuild>
     </CustomBuild>
     <ClInclude Include="EOSAITechnologyDesc.h" />
     <ClInclude Include="EOSAITechTreeNode.h" />
@@ -607,7 +550,12 @@
     <ResourceCompile Include="EOSAI.rc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="EOSAI.def" />
+    <None Include="EOSAI-Debug.def">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </None>
+    <None Include="EOSAI.def">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </None>
     <None Include="res\EOSAI.rc2" />
     <None Include="UpdateVersion.bat" />
     <None Include="_ConstructExportPackage.bat" />

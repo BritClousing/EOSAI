@@ -1,0 +1,47 @@
+<html>
+<TITLE>How to Play</TITLE>
+<LINK REL=STYLESHEET TYPE="text/css" HREF="style.css">
+<body>
+
+<H1>What is Attrition?</H1>
+<p>Attrition is a high-level concept involving the combat balance between units. It combines the attack, defense, and build-cost of units together to figure out what units should be used against which units.
+<br><br>
+For example, let's say that an infantry has 1 HP and costs 10 production.  A tank has 2 HP and costs 20 production.  If, on average, 
+the infantry receives 1 HP of damage while causing 1 HP of damage to the tank, then each of them cause 10 production worth of 
+damage to each other in combat.  They are equally matched from an attrition standpoint.
+<br><br>
+Attrition can give players an idea how to spend their production when creating new units.  It's a measure of "how much bang for
+the buck" do players get by building particular units.  To put it another way, if one player spends 500 production building 
+unit A, and another player spends 500 production on unit B, attrition will tell you who will have units standing
+after combat is done.
+<br><br>
+The attrition rating does not take the possibility of repairs into account.  For example, if tanks can be repaired, while 
+infantry cannot, then tanks have an edge over infantry.  The attrition rating does not take repairs into account because 
+whether or not a player is capable of repairing his units will depend on the particular situation.  For example, if one 
+player has 20 infantry, and the second player has 3 tanks, then what will happen is that the tanks will be defeated in 
+combat without any chance to get repaired.
+<br><br>
+Attrition also doesn't tell you who will win the combat.  For example, using fictional combat numbers, if one player has a 
+destroyer (2HP, 20 production cost) and he sends it against an aircraft carrier (8HP, 200 production cost), the destroyer might
+cause 6 damage against the aircraft carrier before being sunk.  In this case, the player with the destroyer lost 20 production
+while the player with the carrier lost 150 production (i.e. 6/8 HP x 200 production).  From an attrition standpoint, this combat
+would strongly favor the destroyer, even though the combat will result in the aircraft carrier winning the battle.
+<br><br>
+How Attrition is calculated
+<br><br>
+Attrition is calculated by using the average amount of damage caused on each side.  If a unit has 8 HP, and it costs 80 production
+to build it, then each HP is "worth" 10 production points.  If combat causes an average of 2.5 damage, then it causes 25 production
+worth of damage.  If unit A receives 10 production damage when unit B receives 20 production damage, then the attrition value would
+be 66 for unit A, and 33 for unit B.  This is based on the forumla 10/(10+20) = 10/30 = 0.33.
+<br><br>
+Attrition can be difficult to calculate when units are involved in ranged combat.  If an infantry is entrenched in a location and
+never moves and an artillery starts attacking him, then the attrition rating of the artillery is 100.  It will never receive damage
+from the infantry because he is outside the combat range.  However, if the infantry moves within combat range to attack the artillery,
+he will defeat the artillery, which is weak in direct combat.  In that case, attrition strongly favors the infantry.
+<br><br>
+Related Topics:<br>
+<a href="HowCombatWorks.html">How Combat Works</a><br>
+<a href="Contents.html">Table of Contents</a></p>
+
+</body>
+</html>

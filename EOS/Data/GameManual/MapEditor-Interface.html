@@ -1,0 +1,109 @@
+<html>
+<TITLE>Map Editor</TITLE>
+<LINK REL=STYLESHEET TYPE="text/css" HREF="style.css">
+<body>
+
+<H1>Map Editor Interface</H1>
+<p>
+
+The Map Editor allows users to create maps and scenarios.<br><br>
+
+<b>Maps</b> contain geography, resources, and cities.  
+It does not contain units or assign ownership to the cities or resources. 
+Maps contain "Start Locations". Start Locations created by inside the map editor before a map can be played. 
+Players are randomly assigned to Start Locations when the game begins. 
+A game cannot contain more players than Start Locations.
+<br>
+<b>Scenarios</b> are similar to maps, except that units can be placed on the map 
+and nationalities can be assigned to cities, resources, and units.  
+Start Locations are not used in scenarios.
+<br><br>
+The Map Editor initially opens in 'map mode'.  To switch the editor between 'map mode' 
+and 'scenario mode', open the Map Settings window.<br><br><b>Map Editor Tools</b>
+<br><br>
+<img align="MIDDLE" HSPACE=5 src="%BaseDir%\Data\Skins\Default\File.bmp"> Save Map - Saves a map or scenario.
+<br>
+<img align="MIDDLE" HSPACE=5 src="%BaseDir%\Data\Skins\Default\Folder.bmp"> Load Map - Loads a map or scenario.
+<br>
+<img align="MIDDLE" HSPACE=5 src="%BaseDir%\Data\Skins\Default\Globe.bmp"> Map Settings - Opens the Map Settings window.  
+This allows the user to change attributes of the map, and allows the user to change between a "map" and a "scenario".
+<br>
+<img align="MIDDLE" HSPACE=5 src="%BaseDir%\Data\Images\Map-ClearWater.bmp"> Clear To Water - Clears the map of all cities, 
+resource, and units.  Changes all geography to water.
+<br>
+<img align="MIDDLE" HSPACE=5 src="%BaseDir%\Data\Images\Map-GenerateRandom.bmp"> Generate Random Map - Clears the map 
+and generates random terrain.
+<br>
+<img align="MIDDLE" HSPACE=5 src="%BaseDir%\Data\Images\Map-ClearLand.bmp"> Clear To Land - Clears the map and sets 
+all geography to land.<br><br>Terrain Tool - Allows the user to create geography and terrain.<ul>
+<img align="MIDDLE" HSPACE=5 src="%BaseDir%\Data\Images\Help-TerrainTool1.png"> Brush Size - The size of 
+the brush used to change the terrain elevation or type.
+<br>
+<img align="MIDDLE" HSPACE=5 src="%BaseDir%\Data\Images\Help-TerrainTool2.png"> Elevation Change - Allows the user 
+to increase or decrease the terrain elevation.
+<br>
+<img align="MIDDLE" HSPACE=5 src="%BaseDir%\Data\Images\Help-TerrainTool3.png"> Terrain Type - Allows the user to 
+change the terrain type (forest, plains, desert).</ul><p>
+<img align="MIDDLE" HSPACE=5 src="%BaseDir%\Data\Skins\Default\Cursor.bmp"> Select - Allows the user to select cities, 
+resources, and units already on the map.
+<br>
+<img align="MIDDLE" HSPACE=5 src="%BaseDir%\Data\Skins\Default\Drag.bmp"> Drag Tool - Allows the user to down-click on 
+a city, resource, or unit and then drag it to a new location.
+<br>
+<img align="MIDDLE" HSPACE=10 src="%BaseDir%\Data\Images\Flags\United States.bmp"> Nation (only available in scenario mode) - Sets 
+the nation that new cities, resources, and units will belong to.  If a city, resource, or unit is selected, the 
+"Change Nation" button changes the ownership of that item to the nation shown here.
+<br>
+<img align="MIDDLE" HSPACE=5 src="%BaseDir%\Data\Skins\Default\City.bmp"> City - Selecting this button allows the user 
+to place cities on the map.
+<br>
+<img align="MIDDLE" HSPACE=5 src="%BaseDir%\Data\Images\Airfield-White.bmp"> Airfield - Selecting this button allows the 
+user to place airfields on the map.
+<br>
+<img align="MIDDLE" HSPACE=5 src="%BaseDir%\Data\Skins\Default\Gold.bmp"> Gold Mine - Selecting this button allows the 
+user to place gold mines on the map.
+<br>
+<img align="MIDDLE" HSPACE=5 src="%BaseDir%\Data\Skins\Default\Iron.bmp"> Iron Mine - Selecting this button allows the 
+user to place iron mines on the map.
+<br>
+<img align="MIDDLE" HSPACE=5 src="%BaseDir%\Data\Skins\Default\Oil.bmp"> Oil Field - Selecting this button allows the 
+user to place oil fields on the map.
+<br>
+<img align="MIDDLE" HSPACE=5 src="%BaseDir%\Data\Skins\Default\Food.bmp"> Food - Selecting this button allows the 
+user to place food (grain or fish) on the map.
+<br><br>
+<img align="MIDDLE" HSPACE=5 src="%BaseDir%\Data\Images\Infantry1.png"> Place Unit (scenario mode only) - Selecting this 
+button allows the user to place a unit on the map.  Clicking on the name of the unit allows the user to change the 
+unit to be placed. This button is only available when the nation is set; if the nationality is "unowned" 
+units cannot be placed.
+<br><br>
+Number of Start Locations - At the beginning of a map game, players are randomly assigned to a Start Location.  
+There can only be as many players in a game as Start Locations on the map.  The user who creates the map must 
+assign these Start Locations inside the map editor.  To assign a Start Location, switch to the "Select" tool, 
+select a city, and click the "Start Location" button to toggle that city's status as a Start Location.
+<br><br>
+<img align="MIDDLE" HSPACE=5 src="%BaseDir%\Data\Images\StartLocation-Small.bmp"> Start Location (only available 
+when the user has selected a city) - This toggles the city's status as a Start Location.
+<br>
+<img align="MIDDLE" HSPACE=10 src="%BaseDir%\Data\Images\Flags\(Unowned).bmp"> Set Nation - This changes the nationality 
+of the selected city, resource, or unit.
+<br>
+<img align="MIDDLE" HSPACE=5 src="%BaseDir%\Data\Images\Entrench-Small.bmp"> Entrench (only available when the user 
+has selected a unit which is capable of being entrenched) - This toggles the unit's entrenched status.
+<br>
+<img align="MIDDLE" HSPACE=5 src="%BaseDir%\Data\Skins\Default\Properties.bmp"> Properties (only available when the 
+user has selected a city or resource) - This allows the user to change the name or production of a city or resource.
+<br>
+<img align="MIDDLE" HSPACE=5 src="%BaseDir%\Data\Skins\Default\Delete.bmp"> Delete (only available when the user has 
+selected a city, resource, or unit) - This deletes the city, resource, or unit from the map.
+<br>
+</p>
+
+
+<br>
+<p>Related Topics:<br>
+<a href="MapEditor.html">Map Editor</a>
+</p>
+
+</body>
+</html>

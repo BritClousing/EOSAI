@@ -1,0 +1,6 @@
+FileVersion=1
+ApplicationVersionRequired=0.92.0000
+
+ImageBase=UAVBomber1
+
+OnSelectSound=%Sound%\Select-Jet-B2.snd

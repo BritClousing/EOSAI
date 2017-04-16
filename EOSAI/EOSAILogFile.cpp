@@ -130,7 +130,6 @@ void CEOSAILogFile::WriteTime()
 void CEOSAILogFile::Write( CString strText )
 {
 	if( m_fp == NULL ) return;
-	lkjljk
 
 	_ftprintf( m_fp, _T("%s\n"), strText );
 	fflush( m_fp );

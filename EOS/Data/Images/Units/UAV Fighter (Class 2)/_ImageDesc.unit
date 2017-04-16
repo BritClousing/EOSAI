@@ -1,0 +1,6 @@
+FileVersion=1
+ApplicationVersionRequired=0.92.0000
+
+ImageBase=UAVFighter2
+
+OnSelectSound=%Sound%\Select-Jet-F18.snd

@@ -1,0 +1,15 @@
+FileVersion=1
+ApplicationVersionRequired=0.92.0000
+
+ImageBase=Bomber1
+
+OnSelectSound=%Sound%\Select-Bomber1.snd
+OnSelectSound=%Sound%\Select-Bomber2.snd
+
+Combat
+	"Bomb"
+		AnimationAtTargetLocation = Explosion1AtTarget
+Die
+	//UnitAnimation = Infantry3-walk
+	//UnitSound = Infantry3-walk.snd
+

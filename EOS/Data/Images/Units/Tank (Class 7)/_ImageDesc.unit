@@ -1,0 +1,19 @@
+FileVersion=1
+ApplicationVersionRequired=0.92.0000
+
+ImageBase=TankG7
+
+OnSelectSound=%Sound%\Select-TankHeavyC1.snd
+OnSelectSound=%Sound%\Select-TankHeavyC2.snd
+
+Movement
+	UnitAnimation =
+Combat
+	"Attack"
+		DefaultPauseBetweenAnimations = 0.3
+		UnitAnimation = TankG7-Fire
+		UnitAnimationSound = Animation-CannonMedium1.snd
+		AnimationAtTargetLocation = Explosion1
+Die
+	//UnitAnimation = Infantry3-walk
+	//UnitSound = Infantry3-walk.snd

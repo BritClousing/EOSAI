@@ -1,0 +1,7 @@
+<Compound>
+  <Name>AtomicBlast</Name>
+  <AimAhead>0.000000</AimAhead>
+  <ExtraViewRange>1000000.000000</ExtraViewRange>
+  <IfOnLand>AtomicBlastOnLand</IfOnLand>
+  <IfOnWater>AtomicBlastOnWater</IfOnWater>
+</Compound>

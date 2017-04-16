@@ -1,0 +1,46 @@
+
+<html>
+<title>Summary|Rules: %UnitsetTitle% </title>
+<LINK REL=STYLESHEET TYPE="text/css" HREF="%GameManualDir%/style.css">
+<body>
+
+<h1>Ruleset Summary: %UnitsetTitle%</h1>
+
+<p>%UnitsetDescription%</p>
+
+<p>
+<table>
+<tr>
+<td width=130>
+<a href="gen:UnitsetTerrainSummary?unitset=%UnitsetFileId%"><img src="%GameManualDir%\Terrain.bmp" BORDER=0 ALIGN="ABSMIDDLE">Terrain</a>
+</td>
+<td width=130>
+<a href="gen:BuildingList?unitset=%UnitsetFileId%"><img src="%GameManualDir%\%BuildingImage%" BORDER=0 ALIGN="ABSMIDDLE">Buildings</a>
+</td>
+<td width=180>
+<img src="%GameManualDir%\%TechnologyImage%" BORDER=0 ALIGN="LEFT"><a href="gen:TechnologyList?unitset=%UnitsetFileId%"><br>Technology List</a><br><a href="gen:TechnologyTree?unitset=%UnitsetFileId%">Technology Tree</a>
+</td>
+<td width=120>
+<a href="gen:UnitList?unitset=%UnitsetFileId%"><img src="%GameManualDir%\Unit-TankG3.bmp" BORDER=0 ALIGN="ABSMIDDLE">Units</a><br>
+</td>
+</tr>
+</table>
+
+<h2>Terrain Summary:</h2><p>
+%TerrainSummary%
+</p>
+
+<h2>Building Summary:</h2><p>
+%BuildingSummary%
+</p>
+
+<h2>Unit Summary:</h2><p>
+%UnitSummary%
+</p>
+
+<h2>Technology Summary:</h2><p>
+%TechSummary%
+</p>
+
+</body>
+</html>

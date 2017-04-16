@@ -1,0 +1,5 @@
+AnimationSequence=Flak1Smoke
+AnimationSequenceImageOffsetX=16
+AnimationSequenceImageOffsetY=12
+FramesPerSecond=10
+DrawOrder=1

@@ -1,0 +1,20 @@
+FileVersion=1
+ApplicationVersionRequired=0.92.0000
+
+ImageBase=TankG2
+
+OnSelectSound=%Sound%\Select-TankMedium1.snd
+OnSelectSound=%Sound%\Select-TankMedium2.snd
+
+Movement
+	//UnitAnimation = TankG1-Fire
+Combat
+	"Attack"
+		DefaultPauseBetweenAnimations = 0.3
+		UnitAnimation = TankG2-Fire
+		UnitAnimationSound = Animation-CannonLight3.snd
+		//IntermediateAnimation = MachineGun
+		AnimationAtTargetLocation = Explosion1
+Die
+	//UnitAnimation = TankG1-Fire
+	//UnitSound = GunBurst.snd

@@ -1,0 +1,179 @@
+<html>
+<TITLE>Terrain</TITLE>
+<LINK REL=STYLESHEET TYPE="text/css" HREF="style.css">
+<body>
+
+<H1><img src="UI-TankIcon.bmp" ALIGN="absMiddle"> Unit Description</H1>
+<p>
+<b>Upgrades From</b>
+<br>
+This is the unit that can upgrade to the current unit.
+<br><br>
+<b>Upgrades To</b>
+<br>
+With the right technology research, this unit can upgrade to this unit.  Upgrades have a cost associated
+with them, in terms of money, iron, and time.  Most units can upgrade within a single turn, but some large
+units (e.g. Battleships) require multiple turns to be upgraded.
+<br><br>
+<b>Movement Type</b>
+<br>
+All units have a movement type.  The movement type determines the unit's movement-rate multiplier
+when moving through terrain, as well as their maintenence cost in various types of terrain.
+<br><br>
+(The exact effects of terrain are determined by the current rules.  To view this information in 
+the game-manual, go to the <a href="page:Contents.html">Contents</a> page, pick a rulset under 
+"Rules" and click "Terrain".)
+<br><br>
+<b>Combat Type</b>
+<br>
+All units have a combat type.  The combat type determines the unit's defense multiplier
+when in different types of terrain.  It also determines which category enemy units use when attacking
+this unit.  For example, an anti-aircraft gun might have good attack values against the "Aircraft" combat
+category, but very bad attack values against the "Submarine" combat category.
+<br><br>
+(The exact effects of terrain are determined by the current rules.  To view this information in 
+the game-manual, go to the <a href="page:Contents.html">Contents</a> page, pick a rulset under 
+"Rules" and click "Terrain".)
+<br><br>
+<b>Tags</b>
+<br>
+Some units have "tags".  Units are allowed to have an unlimited number of tags.  Tags are used for 
+several different things in the game.
+<br><br>
+Tags are used by the rules-system to determine which units are allowed to travel
+inside other units.  For example, the "Transport (Class 1)" unit is allowed to carry units which have
+"Infantry", "LightVehicle", or "HeavyVehicle" tags.  Transport Aircraft, on the other hand, can only 
+carry units that have the "Paratrooper" tag.  (Paratroopers contain the "Infantry" and "Paratrooper" tags, 
+meaning that they can travel in both types of transports.)
+<br><br>
+Tags can also be used to determine sighting range.  Most aircraft have the "RadarVisible" tag.  A "SAM Vehicle
+(Class 2)" has a default view range of 60 pixels, but a "RadarVisible" view range of 120, allowing it to see
+aircraft that are farther away.  In other cases, the tags can reduce a unit's visibility.  Submarine units 
+have a "Submarine" tag, and their visibility is reduced below a unit's normal view range.  For example, 
+transports have a default view range of 60 pixels, but their Submarine view range is zero, meaning they 
+cannot see submarines at all.
+<br><br>
+<b>Cost / Production</b>
+<br>
+The production cost is the amount of production that must be spent to build a unit inside a city.
+<br><br>
+<b>Cost / Iron</b>
+<br>
+The iron cost is the amount of iron that must be spent to build a unit.
+<br><br>
+<b>Maintenence / Food (per turn)</b>
+<br>
+All units consume a certain amount of food each turn.
+<br><br>
+<b>Maintenence / Oil (per turn of movement)</b>
+<br>
+Most units consume oil when moving.  To avoid this cost, players can avoid moving their units.
+<br><br>
+<b>Building Prerequisites</b>
+<br>
+Some units require certain city improvements before they can be built.  For example, Battleships cannot
+be built inside a city unless there is a Shipyard in the city.
+<br><br>
+<b>View Range</b>
+<br>
+View Range describes the range that this unit can see other units.  For example, "Artillery (Class 1)" has
+a default view range of 60 pixels, and a "submarine" view range of 0, meaning that it can't see submarines.
+<br><br>
+<b>Movement</b>
+<br>
+Movement Rate: This is the base movement rate of the unit.  Terrain can increase or decrease this unit's actual movement rate.
+<br><br>
+Movement Limit: Air units have a movement-limit.  This is the maximum distance they can move before running out
+of fuel and crashing.
+<br><br>
+<b>Attack</b>
+<br>
+The attack values describe this unit's attack ability against each combat-category.  These values
+describe the chances of hitting the target during one turn of combat.  
+<br><br>
+For example, the "Battleship (Class 3)" has an attack value against "Submarine" is 10.0 to-hit.  This 
+determines the likelihood of hitting a submarine within one turn of combat; this value is not very useful 
+in itself because the submarine's defense value lowers the to-hit value.  A "Submarine (Class 3)" has
+a defense value of 1.4.  On average, a Battleship (Class 3) will hit a Submarine (Class 3) for 
+10.0 / 1.4 = 7.14 HP/turn.  A submarine (Class 4) has a higher defense value of 1.6, meaning that
+a Battleship (Class 3) will hit a Submarine (Class 4) for 10.0 / 1.6 = 6.25 HP/turn (on average).
+<br><br>
+Combat ranges determine the distance at which units can attack each other.  There are several types of ranges.
+<br><br>
+Range: Unit+50 - "Unit Range" is 40, so Unit+50 = the unit can attack units at a range of 90.<br>
+Range: 50 - The unit can attack units at a range of 50.<br>
+Range: AtTarget - The unit must be directly over the target to attack (aircraft and missiles must be directly over the target).
+<br><br>
+Attack vs City<br>
+<u>SubTargeting: Random</u> - Subtargeting is used to determine which city component gets attacked (population, city improvement, or in-production item).<br>
+<u>Population Killed: 0.80 / 0.1</u> - The first number is the chances of hitting the population (80%), and the second number is the number of population killed.
+For example, a nuclear ICBM has population killed value of "1.00 / 6.0" meaning that when a nuke explodes, there is a 100% chance that 
+the 6.0 population will be killed.<br>
+<u>Destroy Buildings: 0.80 / 1</u> - The first number is the chances of hitting a city improvement (80%), and the second number is the number of buildings destroyed (1).<br>
+<u>Damage Production: 0.80 / 30</u> - The first number is the chances of hitting the in-production item (80%), and the second number is the amount of damage done to the item (30).
+(A successful hit against production would set-back the city's current production item by 30 production.)
+<br><br>
+<b>Defense</b>
+<br>
+A unit's defense value affect how likely a unit is to be hit.  A value of 2.0 means a unit is half as likely
+to be hit as a unit with a defense of 1.0.  A unit's current terrain affects its defense value.  Aircraft and
+ships have a "Landed or Docked" defense value, which is much lower than its normal defense value.
+<br><br>
+<b>HP</b>
+<br>
+HP stands for "Hit Points".  This is the number of hits a unit can take before being destroyed.  Hit Points
+can be repaired if the unit is inside a city with the appropriate city improvements.  For example, a damaged
+tank can be repaired at a rate of 1HP / turn when it's inside a city with a Barracks.  Aircraft Carriers
+are also capable of repairing landed aircraft.
+<br><br>
+<b>Special Abilities</b>
+<br>
+Some units have special abilities.<br>
+Can Build Airfields - if a unit can build an airfield, the time-to-build is listed.  The cost to build airfields
+is determined by the ruleset.
+<br><br>
+<b>Containment</b>
+<br>
+Units have a certain size when inside a container.  Under the Official 1900-2030 rules, most units have a size
+of 1.  The "Transport (Class 2)" has a containment size of 3, meaning it can contain 3 units of size 1.
+If a unit is capable of containing units, there is also a list of unit-tags that can be inside this unit.
+<br><br>
+<b>Combat Value</b>
+<br>
+Because of the incomplete nature of the attack to-hit values, the combat value section was created to 
+display the combat usefulness against a variety of targets.
+<br><br>
+Attrition: The attrition value ranges from 0-100.  This value is calculated using a the production costs
+of the current unit, the production cost of the target unit, and the average combat results.  An attrition
+of 50 means that the units are equally matched.  An infantry attacking an identical infantry unit would have
+an attrition value of 50.  Higher attrition values are better; it means that this unit will, on average,
+inflict more damage (in terms of production cost) on the enemy than vice-versa.  
+<br><br>
+For example, if two units are equally matched in combat, but Unit 2 costs twice as much to build as Unit 1,
+then Unit 1 will have an attrition value of 67% against Unit 2, and Unit 2 will have an attrition cost of 33%
+against Unit 1.
+<br><br>
+There are some complications to the attrition value, however.
+<br><br>
+Attrition will not tell you who will win a fight.  For example, a small, cheap unit (say, 50 production) 
+might have a very good attrition value against a large, expensive unit (say, 500 production).  But, combat 
+might usually result in the small, cheap unit being destroyed (50 production lost) and the large unit being
+reduced to half-hitpoints (500 production/2 = 250 production damage).  However, if both sides have spent
+equal amounts of money on units (player 1 bought 10 cheap, high-attrition units; player 2 bought 1 expensive,
+low-attrition unit), then attrition values will give you an idea who will come out ahead after combat.
+<br><br>
+Attrition ignores the fact that certain units can be repaired.  If you cause 100 production damage to an
+enemy, but he goes home and get repaired, then it's not really "real" damage (although, it might cost him
+some repair time).
+<br><br>
+Attrition also can't fully take into account the advantages and disadvantages of ranged combat.  If an infantry
+unit is entrenched, and an enemy artillery bombards the infantry (from outside the infantry's counterattack
+range), then the artillery really has a 100 attrition value against infantry.  But, if that infantry goes
+after the artillery, the artillery's attrition value is much lower because, while it gets some free attacks 
+as the infantry moves in for the attack, it will be in trouble once the infantry reaches combat range.
+In a more complex example, a group of five artillery might always destroy an infantry as it moves in to attack,
+meaning that artillery effectively have a 100 attrition against a single infantry.
+<br><br>
+
+</body>
+</html>

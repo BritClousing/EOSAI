@@ -1,0 +1,28 @@
+FileVersion=1
+ApplicationVersionRequired=0.92.0000
+
+OnSelectSound=%Sound%\Select-Soldiers.snd
+
+ImageCenterX=32
+ImageCenterY=34
+DefaultRotation=8
+ImageBase=Infantry1
+
+Idle
+	FrequencyOfAnimation = 0.0001
+	UnitAnimation =
+Movement
+	UnitAnimation = Infantry3-walk
+Combat
+	StaticImage = Infantry3-fire
+	"Attack"
+		DefaultPauseBetweenAnimations = 0.15,0.2,0.25,0.3,0.33,0.36
+		UnitAnimation = Infantry3-fire
+		UnitAnimationSound = Animation-GunBurst-018304-x1.snd
+		//IntermediateAnimation = MachineGun
+		//AnimationAtTargetLocation = BulletHitx2
+		//AnimationSoundAtTargetLocation = BulletHitx2.snd
+Die
+	//UnitAnimation = Infantry3-walk
+	//UnitSound = Infantry3-walk.snd
+

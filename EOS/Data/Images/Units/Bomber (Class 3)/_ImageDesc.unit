@@ -1,0 +1,10 @@
+FileVersion=1
+ApplicationVersionRequired=0.92.0000
+
+ImageBase=Bomber-B1
+
+OnSelectSound=%Sound%\Select-Jet-B1.snd
+
+Combat
+	"Bomb"
+		AnimationAtTargetLocation = Explosion1

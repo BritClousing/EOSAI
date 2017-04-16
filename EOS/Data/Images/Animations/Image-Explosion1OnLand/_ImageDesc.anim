@@ -1,0 +1,4 @@
+AnimationSequence=Explosion1OnLand
+AnimationSequenceImageOffsetX=32
+AnimationSequenceImageOffsetY=42
+AnimationSequenceSound=%Sound%\Animation-Explosion1.snd

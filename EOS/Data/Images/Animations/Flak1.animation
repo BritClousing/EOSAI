@@ -1,0 +1,28 @@
+<Compound>
+  <Name>Flak1</Name>
+  <Offset>10,10</Offset>
+  <Offset>-10,10</Offset>
+  <Offset>10,-10</Offset>
+  <Offset>-10,-10</Offset>
+  <Offset>0,8</Offset>
+  <Offset>0,-8</Offset>
+  <Offset>8,0</Offset>
+  <Offset>-8,0</Offset>
+  <AimAhead>3.000000</AimAhead>
+  <SubAnim>
+    <Name>Image-Flak</Name>
+    <OffsetX>0.000000</OffsetX>
+    <OffsetY>0.000000</OffsetY>
+    <Size>0.000000</Size>
+    <StartTime>0.000000</StartTime>
+    <Duration>0.000000</Duration>
+  </SubAnim>
+  <SubAnim>
+    <Name>Image-FlakSmoke</Name>
+    <OffsetX>0.000000</OffsetX>
+    <OffsetY>-0.10000</OffsetY>
+    <Size>0.000000</Size>
+    <StartTime>0.000000</StartTime>
+    <Duration>0.000000</Duration>
+  </SubAnim>
+</Compound>

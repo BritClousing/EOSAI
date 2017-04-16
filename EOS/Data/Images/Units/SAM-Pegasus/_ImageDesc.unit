@@ -1,0 +1,26 @@
+FileVersion=1
+ApplicationVersionRequired=0.92.0000
+
+ImageBase=SAM-Pegasus
+
+OnSelectSound=%Sound%\Select-TankLight1.snd
+OnSelectSound=%Sound%\Select-TankLight2.snd
+
+Movement
+	//UnitAnimation = TankG1-Fire
+Combat
+	"Attack"
+		DefaultPauseBetweenAnimations = 0.2
+		//UnitAnimation = TankG1-Fire
+		//UnitAnimationSound = Animation-GunBurst-018304-x5.snd
+                // 1
+		IntermediateAnimation = Missile
+                // 2
+		//UnitAnimationSound = Animation-HeavyLaser.snd
+		//IntermediateAnimation = Laser
+                // 3
+		//IntermediateAnimationEnd = Explosion1
+		//AnimationAtTargetLocation = Flak1
+Die
+	//UnitAnimation = TankG1-Fire
+	//UnitSound = GunBurst.snd

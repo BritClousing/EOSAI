@@ -1,0 +1,22 @@
+/* CSS definition file containing sitestyle stylesheets */
+A:active { font-family: 'MS Sans Serif', sans-serif; font-size: xx-small; color: rgb(0,0,153);}
+A:link { font-family: 'MS Sans Serif', sans-serif; font-size: xx-small; color: rgb(0,0,153);}
+A:visited { font-family: 'MS Sans Serif', sans-serif; font-size: xx-small; color: rgb(0,0,153);}
+A:hover { font-family: 'MS Sans Serif', sans-serif; font-size: xx-small; color: rgb(0,0,153);}
+A { font-family: 'MS Sans Serif', sans-serif; font-size: xx-small; color: rgb(0,0,153);}
+
+/* CSS definition file containing site wide stylesheets */
+BODY { font-family: 'MS Sans Serif', sans-serif; font-size: xx-small; }
+A:active { font-size: xx-small;}
+A:link { font-size: xx-small;}
+A:visited { font-size: xx-small;}
+A:hover { font-size: xx-small;}
+
+/*P { font-family: 'MS Sans Serif', sans-serif; font-size: xx-small; margin: 0px 0px 0px 0px; line-height: 15px; }*/
+p
+{
+  color: #000000;
+  font: normal 11px verdana, arial, helvetica, sans-serif;
+  margin: 0px 0px 0px 0px;
+  padding: 0px 0px 0px 0px;
+}

@@ -1,0 +1,5 @@
+AnimationSequence=Explosion1Underwater
+AnimationSequenceImageOffsetX=32
+AnimationSequenceImageOffsetY=32
+AnimationSequenceSound=%Sound%\Animation-WaterExplosion1.snd
+DrawOrder=-1

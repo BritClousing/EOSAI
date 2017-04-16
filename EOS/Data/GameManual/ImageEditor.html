@@ -1,0 +1,62 @@
+<html>
+<TITLE>Image Editor</TITLE>
+<LINK REL=STYLESHEET TYPE="text/css" HREF="style.css">
+<body>
+
+<H1>Image Editor</H1>
+<p>The Image Editor allows users to add new unit images to the game.
+<br><br>
+To add a new unit image to the game, press "Add" in the lower left corner.  You will be asked to name the unit image.  
+The new image will appear at the bottom of the list (left column).
+<br><br>
+<b>Image Center</b> - this is used to align the unit image with the unit location.  Units should be aligned correctly inside the 
+zone-of-control circle shown.  The alignment of units depends on how the 
+unit-image is positioned within the png file.  For example, the "Bomber (Class 1)" unit is centered at location 32,24 of
+the png images.  On the other hand, the Infantry images are centered at location 32,34 of the png images.  (These images
+are stored inside "Data\Images\Units\Bomber (Class 1)\Bomber1-00**.png" and "Data\Images\Units\Infantry\Infantry1-00**.png".)
+All unit images should be centered around the same location in every file used by that image.
+<br><br>
+<b>View</b> - this is used to display the unit image in various situations.
+<br><br>
+If you are loading unit images into the system, select <b>"Add Base Images"</b>.  All units need a base image.  For example, the infantry's 
+base images are stored in the series of files "Data\Images\Units\Infantry\Infantry1-00**.png".  There are 16 rotations of the
+infantry image (numbered 0 through 15).  Select any image in the series (i.e. "Infantry1-0000.png" through "Infantry1-0015.png" and 
+the system will automatically find the other images).
+<br><br>
+To add unit-movement animations, select <b>"Add Movement Animation"</b>.  The game has one unit that has movement animations -
+the infantry unit.  The movement animation shows the infantry man walking in a loop, shown in 16 different rotations.  These
+animations can be viewed in the files "Data\Images\Units\Infantry\Infantry3-walk-r**-f00**.png".  The "r" value is the rotation
+and the "f" value is the frame.  The infantry walk has 16 rotations (numbered 0 through 15) and 31 frames (numbered 0-30). Selecting
+any of the images (example: "Infantry3-walk-r02-f0010.png") will load the entire series.  The game will automatically discover
+all the rotations and animation frames used in the animation.  There must be 16 rotations, and all rotations must have the same
+number of frames.
+<br><br>
+To add static combat animations, select <b>"Add Static Combat Image"</b>.  Static combat images are used when a unit is in combat, and
+the combat animation is not running.  In the normal game, only the infantry has a static combat image.  This is the image of the 
+infantryman holding his rifle and aiming.  The infantry also has a combat animation of the gun firing (see below).  When the animation
+of a shooting gun is not playing, the static image is displayed.  In contrast, tanks do not use a static combat animation.  Instead,
+they have combat animations, and when the combat animation is not playing, the base-image is displayed.  Example: The Infantry unit uses 
+the format "Infantry3-fire-r**.png".  Selecting any of these images will automatically load the series.
+<br><br>
+To add combat animations, select <b>"Add Combat Animation"</b>.  Combat animations are named, so you can add multiple combat animations
+for a single unit.  This makes it possible to use different combat animations for different enemies.  Example: The Infantry unit uses
+the format "Infantry3-fire-r**-f00**.png".  Selecting any of these images will automatically load the series.
+<br><br>
+<b>Current Rotation</b> - this is used to view the image from different rotations.  It can be useful for centering the image and verifying
+what the unit-image will look like inside the game.
+<br><br>
+<b>Default Rotation</b> - the default rotation is used to display the image on the interface.  For example, when units appear in the game's
+unit-bar or in the left column, all units appear with a particular rotation.  Most units have a rotation of 10 - which is facing down
+and to the left.  A few units appear in different directions - infantry appear straight forward (rotation 8), and artillery face up
+and to the left (rotation 12).
+<br><br>
+<b>Pause Between Combat Animations</b> - The pause between combat animations is used to determine how often a unit performs a combat animation.
+This can be a single value, or a series of values separated by commas (see the infantry for an example).  A pause of 0.2 means that
+the unit should pause 0.2 turns between performing a combat animation.  If a series of values is used, then a pause is randomly selected 
+from the list, which adds a little variety.  For example, infantry will pause betwen 0.15 and 0.36 turns between animations.
+</p>
+
+<br>
+
+</body>
+</html>

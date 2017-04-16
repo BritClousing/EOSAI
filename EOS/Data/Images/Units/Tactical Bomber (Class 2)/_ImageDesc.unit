@@ -1,0 +1,6 @@
+FileVersion=1
+ApplicationVersionRequired=0.92.0000
+
+ImageBase=TBomber-Stuka
+
+OnSelectSound=%Sound%\Select-TacticalBomber-Stuka.snd

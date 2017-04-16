@@ -1,0 +1,19 @@
+FileVersion=1
+ApplicationVersionRequired=0.92.0000
+
+ImageCenterX=32
+ImageCenterY=38
+DefaultRotation=0
+ImageBase=Satellite
+NumberOfImages=1
+
+OnSelectSound=%Sound%\Select-Computer.snd
+
+Combat
+	//"Explode"
+		//PauseBetweenAnimations = 1.0 turns
+		//UnitAnimation = TankG1-Fire
+		//UnitAnimationSound = Animation-GunBurst-018304-x5.snd
+		//IntermediateAnimation = Missile
+		//IntermediateAnimationEnd = Explosion1
+		//AnimationAtTargetLocation = Explosion1AtTarget

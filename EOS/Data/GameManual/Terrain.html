@@ -1,0 +1,34 @@
+<html>
+<TITLE>Terrain</TITLE>
+<LINK REL=STYLESHEET TYPE="text/css" HREF="style.css">
+<body>
+
+<H1><img src="Terrain.bmp" ALIGN="absMiddle">Terrain</H1>
+<p>
+Terrain affects movement, combat, and maintenence costs for ground units.  Each ruleset is allowed
+to define these values.  
+<br><br>
+When using the "Official 1900-2030" Ruleset, the types of terrain and their effects:
+<br><br>
+<img src="City.bmp" BORDER=0 ALIGN="absMiddle">Cities are good defensive locations for infantry (+50% Defense).<br>
+<img src="Fortification-c.png" BORDER=0 ALIGN="absMiddle">Fortifications are good defensive locations for all ground units (+50% defense).<br>
+<img src="Terrain-Road.png" BORDER=0 ALIGN="absMiddle">Roads provide a modest movement rate increase for infantry (+25%), and a large increase for vehicles (+100%).<br>
+<img src="Terrain-Mountain.bmp" BORDER=0 ALIGN="absMiddle">Mountains are impassible to armored units (except via roads).  Infantry in mountains have a +25% defensive bonus, Vehicles suffer a -25% defensive penalty.<br>
+<img src="Terrain-Forest.bmp" BORDER=0 ALIGN="absMiddle">Forest slows movement of vehicles (-50%) and causes a 25% defensive penalty.  Infantry get a +25% defensive bonus.<br>
+<img src="Terrain-Plains.bmp" BORDER=0 ALIGN="absMiddle">Plains have no effect on movement or combat capabilities of units.<br>
+<img src="Terrain-Desert.bmp" BORDER=0 ALIGN="absMiddle">Desert terrain decreases infantry defense (-25%) and increases maintenence costs on all ground units (+25%).<br>
+<img src="Terrain-Arctic.bmp" BORDER=0 ALIGN="absMiddle">Arctic slows movement of all units (-50%) and increases maintenence costs (+50%).<br>
+<br>
+Units inside Cities and Fortifications use City and Fortification values, rather than the values of the surrounding terrain.
+When units travel on roads, they use the movement rates of the "Road" terrain, but the combat
+and maintenence values of the surrounding terrain.  For example, Armored units cannot travel through
+the mountains, but they can travel on roads in those mountains.  When this occurs, Armored unit use 
+the movement rates associates with roads, but the maintenence and combat values associated with 
+mountains.
+<br><br>
+Related Topics:<br>
+<a href="Cities.html"><img src="City.bmp" BORDER=0 ALIGN="absMiddle">Cities</a><br>
+<a href="Fortifications.html"><img src="Fortification-c.png" BORDER=0 ALIGN="absMiddle">Fortifications</a>
+
+</body>
+</html>
