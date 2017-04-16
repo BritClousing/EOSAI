@@ -166,7 +166,7 @@ Each turn, the game needs to send information to the AI so that it can make deci
 
 - **Map Data:** The AI needs to know the layout of the map.  EOSAI sees the world as a bunch of connected territories.  This map information is used for a few different purposes: to find pathways and to figure out the vulnerability of different regions.  Below is a image of the regions.  Each different color represents a separate region.  (EOS doesn't use regions, everything moves continuously over the map, but the map is cut up into regions for the purpose of doing AI calculations.)  [Maps Click here to view more details on the map system.]
 
-	![](http://i.imgur.com/qfugwrq.png)
+	![](http://i.imgur.com/E4MBYXd.png)
 
 - **Poi (Points of Interest):** Cities, Resources, Airfields, Fortresses, and other points of interest - everything of value on the map should be described because the AI has to make decisions about capturing or destroying them.
 
