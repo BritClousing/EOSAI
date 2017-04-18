@@ -1,5 +1,3 @@
-# EOSAI #
-
 EOSAI is an artificial intelligence system for strategy games. 
 
 It was originally part of the game [*Empires of Steel* (EOS)](http://www.empiresofsteel.com), but the code is being generalized for use in other strategy games.
@@ -13,34 +11,33 @@ It was originally part of the game [*Empires of Steel* (EOS)](http://www.empires
 	* What can I use the EOSAI library for?
 	* What Platform does EOSAI work on?
 	* What kinds of strategy games does EOSAI work for?
-3. [Overview of EOSAI](#overview-of-eosai)
-	* Parts of the EOSAI library
-	* Compiling EOSAI
+3. [Parts of the EOSAI Project](#parts-of-the-eosai-project)
+	* EOSAI Source Code
+	* EOS.exe (copy of the game Empires of Steel for testing purposes)
+	* EOSAIInterface Sample (for Game Developers)
+	* EOSAIViewer (not completed)
+	* Unit Tests (not created)
 4. [Compiling EOSAI](#compiling-eosai)
 5. [Debugging EOSAI](#debugging-eosai)
 6. [For Game Developers / Using the Library in a Game](#for-game-developers--using-eosai-in-a-game)
 	* Communicating to/from the library
-7. For AI Developers / Improving the Library
-8. [EOSAI Concepts](#eosai-concepts)
-	* EOSAI Timeline (Pre, Post, Messaging)
-	* Map
-		* Pathfinding
-		* Heat Map for movement
-		* Movement maps for various move types
-		* Object Types (Poi, Units, Cities, Resources)
+7. [For AI Developers / Improving the Library](#for-ai-developers--improving-the-library)
+8. AI Components
+	* AI Timeline (Pre, Post, Messaging)
+	* Personality
+	* Strategic AI
+	* [Foreign Relations](foreign-relations)
+	* Tactical AI
+		* Stationary Unit Placement
+	* [Map System](map-system)
 	* Combat Calculations
 	* Build Management
-	* Tech Research
-	* Foreign Relations
-		* Historical Events and Opinion
-		* War, Peace, Alliances (current + planning)
-		* SATE score
-		* Resigning
-		* Trade and Negotiation
-		* Player Communication
+	* Technology Research
+	* Trade
+		* Communication Style
 9. [EOSAI Viewer Application](#eosai-viewer-application)
-	1. Building the Viewer
-	2. Using the Viewer
+	* Building the Viewer
+	* Using the Viewer
 10. [Glossary](#glossary)
 
 ## Legal
@@ -80,13 +77,9 @@ EOSAI is also not built for games like chess where where one "unit" is moved per
 
 EOSAI does not learn. It uses calculations to figure out what it's going to do and contains sub-systems that allow it to perform those actions (e.g. a system for considering hypothetical actions and scoring them so it can choose the best option, a pathfinding system that allows it to plan movement from point A to point B, a combat calculator to decide if it has enough military power to win a battle before committing troops to that plan, etc).
 
-## Overview of EOSAI
+## Parts of the EOSAI Project
 
-EOSAI gets compiled into a dll ("EOSAI.dll").  The dll is dynamically linked to the game.
-
-### Parts of the EOSAI Project
-
-* **EOSAI Source Code/Library (EOSAI.dll)** - The majority of source code in this project is used to create EOSAI, which is the AI.
+* **EOSAI Source Code/Library (EOSAI.dll)** - The majority of source code in this project is used to create EOSAI, which is the AI. EOSAI gets compiled into a dll ("EOSAI.dll"). The dll is dynamically linked to the game.
 
 * **EOS.exe** - The project includes a copy of the Empires of Steel game (binary code only). Developers can use the game as a test-bed for EOSAI changes. The EOS application dynamically links to EOSAI, so AI developers can change the AI and run Empires of Steel to test how it changes the AI behavior in the game. It's possible to run the debugger in the EOSAI project and step through the AI code during an EOS game.
 
@@ -200,18 +193,22 @@ If the game allowed for unique types of agreements (like "research agreements"),
 
 Because the AI is composed of a few different sub-systems, it's easy to work on one particular aspect of the AI without needing to understand all of it.
 
-Some areas:
+Components that are already well-developed (read: the system works pretty well, but there are optimizations which make the code more difficult to understand, there might be some bugs to fix):
 
-* **Map Traversal** (fastest route, avoiding enemies). The code for fast-route traversal is complete, but there are some tweaks that could be done with enemy avoidance. Enemy avoidance could take into account several factors: how valuable for the AI to move secretly (in some cases, it might not be necessary for the AI to move secretly - e.g. if he's bringing in a large, unstoppable fleet; in other cases, he might be outnumbered and he wants a few transports to move ground onto an island; there is also some work that could be done to avoid aircraft better)
+* **Map System** (fastest route, avoiding enemies). The code for pathfinding is complete, but there are some tweaks that could be done with enemy avoidance. Enemy avoidance could take into account several factors: how valuable for the AI to move secretly (in some cases, it might not be necessary for the AI to move secretly - e.g. if he's bringing in a large, unstoppable fleet; in other cases, he might be outnumbered and he wants a few transports to move ground onto an island; there is also some work that could be done to avoid aircraft better). 
+	* **[In-depth information on the Map System.](map-system)**
 	* Classes involved in this: See the "Spatial Maps" folder.
 * **Tactical AI** - The AI plans it's attacks. Specifically, it considers a variety of options, comes up with a score for these options (including taking account of how quickly he can get units to the location, and whether he has enough military power to capture the target), and chooses the best option(s).
 	* Classes involved in this: See the "Tactical AI" folder.
-* **Trade** (Negotiation messages, counter-offers, etc). The AI needs to understand what it values, how valuable it is, how valuable things are to other players, and try to create/accept trade deals which favors itself. There's a variety of factors here which will influence his negotiation. For example, he'll give a better deal to an ally than an enemy. If the AI is in a three-player game, then giving good trade deals to one player might help him turn the player into an ally against the third player. The relative power of all players will also come into play (helping a weaker player become stronger is generally better than helping a strong player become stronger). The AI might also want to bully weaker players into paying a tribute. The AI's actions should also be dependent on his personality (some AI players might "play nice" with other players, others might be bullies, others might talkative and diplomatic while seeking out allies).
-	* Classes involved in this: See "Strategic AI/Messages" and "Foreign Relations/Trade" folders, EOSAIPlayerInteraction_Trade.h/cpp
-* **War/Peace Strategy** (deciding who/when to attack, who to make peace with, trying to get other players to join in war against a common enemy). The AI could do a lot better with trying to "seduce" players into alliances. For example, the AI could decide that he needs other players to form an alliance against the strongest player in the game. The AI needs to actually take steps to make that alliance happen.
+* **Strategic AI** (War/Peace Strategy; deciding who/when to attack, who to make peace with, trying to get other players to join in war against a common enemy). The AI could do a lot better with trying to "seduce" players into alliances. For example, the AI could decide that he needs other players to form an alliance against the strongest player in the game. The AI needs to actually take steps to make that alliance happen.
 	* Classes involved in this: 
 	See the "Foreign Relations" and "Strategic AI" and "Tactical AI/Summary" folders
 	EOSAIGlobalForeignRelations.h/cpp
+
+Components that work, but there's plenty of room for improvement:
+
+* **Trade and Negotiation** (Negotiation messages, counter-offers, etc). The AI needs to understand what it values, how valuable it is, how valuable things are to other players, and try to create/accept trade deals which favors itself. There's a variety of factors here which will influence his negotiation. For example, he'll give a better deal to an ally than an enemy. If the AI is in a three-player game, then giving good trade deals to one player might help him turn the player into an ally against the third player. The relative power of all players will also come into play (helping a weaker player become stronger is generally better than helping a strong player become stronger). The AI might also want to bully weaker players into paying a tribute. The AI's actions should also be dependent on his personality (some AI players might "play nice" with other players, others might be bullies, others might talkative and diplomatic while seeking out allies).
+	* Classes involved in this: See "Strategic AI/Messages" and "Foreign Relations/Trade" folders, EOSAIPlayerInteraction_Trade.h/cpp
 * **Technology Research** - What technologies should the AI research, and how much should he spend, are there technologies that the AI should research based on countering other players technologies, what technologies should the AI favor based on his geographical situation - e.g. if the map requires a lot of island hopping, then maybe he should favor ship technology; if he's landlocked - like Russia in WW2 - then he should favor ground unit technology.
 	* Classes involved in this: See "Strategic AI/Technology" folder and CEOSAIStrategicAI.h/cpp
 * **Build Manager** - The AI needs to figure out what to build and where. Ships? Ground Units? Aircraft? This depends on a variety of factors - like the geography where the AI finds itself (if there's lots of unexplored land around the AI, then he should probably build ground units; if the map is a bunch of small islands, then he'll have to build some ships). The AI should also build more expensive units deeper in his territory and construct short-build defensive units closer to the front.
@@ -220,15 +217,16 @@ Some areas:
 	* Classes invovled in this: See "Historical Information" folder.
 * **Stationary Unit Placement** - The AI should distribute his units in a way that allows him to defend his territory (e.g. aircraft and ground units near the front). The AI should keep vulnerable units (e.g. transports) further away from the front, away from enemy submarines and aircraft. The AI might want to place some units in areas to attack incoming enemies (e.g. place destroyers in waterways where enemy submarines might try to move).
 	* Classes involved in this: See EOSAIWarzoneLocation.h
-* **Communication Personality** (writing messages to allow the AI to communicate with players in a way that displays some individual personality - e.g. "Nobody crosses the British Empire. We've put up with your insolence long enough.")  I think the communication personality should be customizable for each game. I'm not sure what the best way to accomplish this would be. Maybe create a class that holds various text messages. The game passes in this class to the AI. This would allow a third-party game to create customized leaders.
+* **Communication Style** (writing messages to allow the AI to communicate with players in a way that displays some individual personality - e.g. "Nobody crosses the British Empire. We've put up with your insolence long enough.")  I think the communication personality should be customizable by game-developers (i.e. there should be a way for the game to pass-in conversation information to EOSAI, rather than hard-coding it in the library). I'm not sure what the best way to accomplish this would be. Maybe create a class that holds various text messages. The game passes in this class to the AI. This would allow a third-party game to create customized leaders. Maybe there should be a way for modders to design AI personalities.
 	* Classes involved in this: See "Strategic AI" Folder
-* **EOSAIViewer** - The idea behind the Viewer is to allow developers to get a high-level view of what/why the AI is doing. This is important for debugging.
 
-## EOSAI Concepts
+Do not work on this right now:
+
+* **EOSAIViewer** - The idea behind the Viewer is to allow developers to get a high-level view of what/why the AI is doing. This is important for debugging. (I need to do some high-level design of this.)
 
 ## EOSAI Viewer Application
 
-The EOSAIViewer Application gives developers a good high-level view of what the AI is doing and why. It's at the beginning stages of development.
+The EOSAIViewer Application gives developers a good high-level view of what the AI is doing and why. It's at the beginning stages of development. This component is not very developed at all. It needs more design and mock-up work. I'll be looking into this.
 
 ### Building the Viewer
 
@@ -247,5 +245,3 @@ Nothing to see here yet.
 Poi - An acronym for point of interest. It's the base class for all objects on the map which have a defined place on the map. Examples: a mountain, a city, a military unit.
 
 SATE Score - An acronym for Self, Ally, Teammate, Enemy. It's a way of calculating a nation's situation. A powerful nation + lots of powerful allies + no enemies results in a high SATE score. A weak nation + no allies + powerful enemies results in a negative SATE score.
-
-[OtherPage](OtherPage)
